@@ -92,6 +92,9 @@
   .relative-center{
     @apply relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
   }
+  .relative-y-center{ 
+    @apply relative top-1/2 transform -translate-y-1/2
+  }
   .relative-x-center{ 
     @apply relative left-1/2 transform -translate-x-1/2
   }

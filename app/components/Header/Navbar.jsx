@@ -4,12 +4,12 @@ import Image from "next/image"
 import { useState } from "react"
 
 export default function Navbar() {
-    const [loggedIn, setLoggedIn] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(true)
     const [open, setOpen] = useState(false)
     const [subMenuOpen, setSubMenuOpen] = useState(false)
 
   return (
-    <div className="relative">
+    <div className="relative z-20">
     {
         open
             ? <X className="icon md:hidden" onClick={()=>setOpen(false)}/>

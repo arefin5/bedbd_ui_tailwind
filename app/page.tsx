@@ -15,18 +15,15 @@ export default function Home() {
   return (
     <main >
       <Header/>
-
       <Hero/>
-
       <PropertyGallery/>
-
       <PropertyGallery/>
-
       <Banner/>
       <PropertyGallery/>
       <Banner/>
       <Blogs/>
       <GuideInformation/>
+      
       <Footer/>
     </main>
   );

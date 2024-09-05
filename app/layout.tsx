@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Montserrat } from 'next/font/google'
 import "./globals.css";
+import ChatBox from '@/app/components/ChatBox'
 
 const montserrat = Montserrat({ 
   subsets: ['latin'] , 
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        {children}
+        <ChatBox/>
+      </body>
     </html>
   );
 }
