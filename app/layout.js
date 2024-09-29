@@ -3,7 +3,7 @@ import { Montserrat } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react'; // Import the SessionProvider
 
 import "./globals.css";
-// import ChatBox from '@/components/ChatBox';
+import ChatBox from '/components/ChatBox';
 
 const montserrat = Montserrat({ 
   subsets: ['latin'], 
@@ -22,7 +22,7 @@ export default function RootLayout({ children, session }) {
         <SessionProvider session={session}>
           {children}
         </SessionProvider>
-        {/* <ChatBox /> */}
+        <ChatBox />
       </body>
     </html>
   );

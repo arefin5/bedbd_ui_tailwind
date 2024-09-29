@@ -1,4 +1,4 @@
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 import Rule from './Rule'
 import getAllTimeSegments from './getAllTimeSegments'
 import OptionIcon from './OptionIcon'

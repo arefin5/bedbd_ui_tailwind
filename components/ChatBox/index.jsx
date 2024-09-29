@@ -1,9 +1,9 @@
 'use client'
 import Icon from "../Icon.jsx"
-import sampleProfilePhoto from '@/public/dummy/sample-profile-photo.jpg'
+import sampleProfilePhoto from '/public/dummy/sample-profile-photo.jpg'
 import Image from "next/image"
 import { Ellipsis, MoveDiagonal, X, MessageCircleMore, MapPin, Link, SmilePlus, SendHorizonal } from "lucide-react"
-import emojiIcon from '@/public/icons/emoji.svg'
+import emojiIcon from '/public/icons/emoji.svg'
 import { useState } from "react"
 
 

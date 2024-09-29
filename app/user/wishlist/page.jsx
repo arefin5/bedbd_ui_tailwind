@@ -1,4 +1,4 @@
-import PropertyGalleryItem from '@/components/PropertyGallery/PropertyGalleryItem'
+import PropertyGalleryItem from '/components/PropertyGallery/PropertyGalleryItem'
 
 export default function Wishlist() {
   return (

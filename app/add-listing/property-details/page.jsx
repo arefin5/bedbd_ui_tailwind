@@ -1,5 +1,5 @@
 
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 import Feature from './Feature'
 // import PropertyBookingTypes from './PropertyBookingTypes'
 

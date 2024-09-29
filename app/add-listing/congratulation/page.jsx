@@ -1,4 +1,4 @@
-import Icon from "@/components/Icon"
+import Icon from "/components/Icon"
 import CopyButton from './CopyButton'
 
 export default function page() {

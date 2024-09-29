@@ -1,6 +1,6 @@
 'use client'
 import { Copy } from "lucide-react"
-import copyToClipboard from '@/app/lib/copyToClipboard'
+import copyToClipboard from '/app/lib/copyToClipboard'
 
 export default function CopyButton({inputId}) {
 

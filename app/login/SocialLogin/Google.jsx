@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import googleIcon from '@/public/icons/google.png'
+import googleIcon from '/public/icons/google.png'
 import { signIn, signOut, useSession } from 'next-auth/react';
 import React, { useState, useEffect } from "react";
 

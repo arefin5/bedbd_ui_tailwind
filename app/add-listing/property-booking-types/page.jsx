@@ -1,5 +1,5 @@
 
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 // import PropertyBookingTypes from './PropertyBookingTypes'
 import BookingType from './BookingType'
 import { Plus } from 'lucide-react'

@@ -1,11 +1,11 @@
 import { Search, CalendarDays, Users, Filter, ArrowLeft } from "lucide-react"
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 import PropertyTypeSelect from './PropertyTypeSelect'
 import FilterSection from './FilterSection'
 import { Plus, Minus} from "lucide-react"
-import CheckBoxIcon from '@/components/InputCheckBox/CheckBoxIcon'
-import InputCheckBox from '@/components/InputCheckBox'
-import StarFilledIcon from '@/public/icons/star_filled.svg'
+import CheckBoxIcon from '/components/InputCheckBox/CheckBoxIcon'
+import InputCheckBox from '/components/InputCheckBox'
+import StarFilledIcon from '/public/icons/star_filled.svg'
 import Image from "next/image"
 
 

@@ -1,5 +1,6 @@
 
-import Icon from '@/components/Icon'
+'use client'
+import Icon from 'components/Icon'
 
 export default function page() {
   return (
@@ -12,7 +13,7 @@ export default function page() {
             <h3 className='text-neutral-500 font-semibold text-lg'>Request your data</h3>
             <button className='absolute top-1 right-12 '><Icon name='arrow-right' className='icon '  size={24}/></button>
 
-            <p className='text-sm pr-12  mt-4'>We’ll create a file for you to download your personal data</p>
+            <p className='text-sm pr-12  mt-4'>{`We’ll create a file for you to download your personal data`}</p>
         </div>
 
         <div className='relative'>

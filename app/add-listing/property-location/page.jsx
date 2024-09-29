@@ -1,5 +1,5 @@
 
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 import { Plus } from 'lucide-react'
 import dynamic from 'next/dynamic';
 // import Map from './map'

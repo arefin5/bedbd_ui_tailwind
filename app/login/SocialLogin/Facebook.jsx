@@ -1,5 +1,5 @@
 import Image from "next/image"
-import facebookIcon from '@/public/icons/facebook.png'
+import facebookIcon from '/public/icons/facebook.png'
 
 export default function Facebook() {
   return (

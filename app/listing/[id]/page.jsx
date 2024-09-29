@@ -1,11 +1,11 @@
-import Header from "@/components/Header"
-import Footer from "@/components/Footer";
+import Header from "/components/Header"
+import Footer from "/components/Footer";
 import Images from './Images'
 import dynamic from 'next/dynamic';
 import starFilledIcon from '/public/icons/star_filled.svg'
 import Image from "next/image";
 
-import Icon from "@/components/Icon";
+import Icon from "/components/Icon";
 
 import bedIcon from '/public/icons/bed.svg'
 import guestsIcon from '/public/icons/guests.svg'

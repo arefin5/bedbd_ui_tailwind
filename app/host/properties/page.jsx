@@ -1,4 +1,4 @@
-import Icon from "@/components/Icon"
+import Icon from "/components/Icon"
 import Image from "next/image"
 
 export default function page() {

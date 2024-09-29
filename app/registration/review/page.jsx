@@ -1,6 +1,6 @@
-import Icon from '@/components/Icon'
-import DropImage from '@/components/DropImage'
-import Dropdown from '@/components/Dropdown'
+import Icon from '/components/Icon'
+import DropImage from '/components/DropImage'
+import Dropdown from '/components/Dropdown'
 
 export default function page() {
 

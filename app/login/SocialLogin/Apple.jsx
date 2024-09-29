@@ -1,5 +1,5 @@
 import Image from "next/image"
-import appleIcon from '@/public/icons/apple.png'
+import appleIcon from '/public/icons/apple.png'
 
 export default function Apple() {
   return (

@@ -1,6 +1,6 @@
 
 import Image from "next/image"
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 // import sampleIcon from '@/public/icons'
 
 function getListingTypes() {

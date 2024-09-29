@@ -1,4 +1,4 @@
-import Icon from "@/components/Icon"
+import Icon from "/components/Icon"
 import Image from "next/image"
 import PropertyTypeItem from "./PropertyTypeItem"
 // import sampleIcon from '@/public/icons'

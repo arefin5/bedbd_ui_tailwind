@@ -1,8 +1,8 @@
 
 import SVGCercle from '../../../public/circle.svg'
 import Image from 'next/image'
-import Icon from '@/components/Icon'
-import ToggleButton from '@/components/ToggleButton'
+import Icon from '/components/Icon'
+import ToggleButton from '/components/ToggleButton'
 
 export default function page() {
   return (

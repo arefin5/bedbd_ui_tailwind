@@ -1,7 +1,7 @@
 
 import SVGCercle from '../../../public/circle.svg'
 import Image from 'next/image'
-import Icon from '@/components/Icon'
+import Icon from '/components/Icon'
 
 export default function page() {
   return (

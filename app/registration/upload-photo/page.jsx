@@ -1,5 +1,5 @@
-import Icon from '@/components/Icon'
-import DropImage from '@/components/DropImage'
+import Icon from '/components/Icon'
+import DropImage from '/components/DropImage'
 
 export default function page() {
 

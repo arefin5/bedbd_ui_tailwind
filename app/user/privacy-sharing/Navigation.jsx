@@ -1,16 +1,9 @@
 'use client'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 export default function Navigation() {
     const router = useRouter()
-
-
     const pathname = usePathname()
-    const searchParams = useSearchParams()
-    
-    console.log(pathname)
-    console.log(searchParams)
-
 
 
   return (
@@ -28,4 +21,4 @@ export default function Navigation() {
                 className='pr-2.5'>Sharing</button></li>
     </ul>
   )
-}   
+}

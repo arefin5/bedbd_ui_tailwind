@@ -1,5 +1,5 @@
 'use client'
-// import Icon from '@/components/Icon'
+// import Icon from '/components/Icon'
 import { useState, useEffect, useRef } from 'react'
 import { Circle, CircleCheckBig } from 'lucide-react';
 
