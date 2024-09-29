@@ -1,0 +1,9 @@
+<svg width="44" height="35" viewBox="0 0 44 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="bed">
+<path id="Vector" d="M5.5 5C5.5 4.20435 5.91981 3.56261 6.5 3C7.08019 2.43739 7.67949 2 8.5 2H35.5C36.3205 2 36.9198 2.43739 37.5 3C38.0802 3.56261 38.5 4.20435 38.5 5V16H5.5V5Z" stroke="#484848" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M3.5 29V33" stroke="#484848" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M39.5 29V33" stroke="#484848" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M26.5 11H16.5C15.7044 11 15.0626 11.4374 14.5 12C13.9374 12.5626 13.5 13.2044 13.5 14V16H29.5V14C29.5 13.2044 29.0626 12.5626 28.5 12C27.9374 11.4374 27.2956 11 26.5 11Z" stroke="#484848" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M1.5 19C1.5 18.2044 1.92333 17.5626 2.5 17C3.07667 16.4374 3.68446 16 4.5 16H39.5C40.3155 16 40.9233 16.4374 41.5 17C42.0767 17.5626 42.5 18.2044 42.5 19V28H1.5V19Z" stroke="#484848" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
