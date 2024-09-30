@@ -3,25 +3,237 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+/* Primary Colors */
+  --clr-primary-100:        hsl(18, 100%, 98.04%);
+  --clr-primary-300:        hsl(28.72, 100%, 54.12%);
+  --clr-primary-400:        hsl(29, 100%, 54%);
+  --clr-hero-background:    hsla(61, 53%, 79%, 0.25);
+  --clr-bg-hero:            hsla(61, 53%, 79%, 0.25);
+
+
+/* Secondary Colors */
+  --clr-secondary-50:       hsl(240, 100%, 99.02%);
+  --clr-secondary-400:      hsl(234, 86%, 61%);
+
+/* Neutral colors */
+   --clr-neutral-50: hsl(0, 0%, 92%);
+  --clr-neutral-100: hsl(0, 0%, 94.12%);
+  --clr-neutral-150: hsl(0, 0%, 87%);
+  --clr-neutral-200: hsl(0, 0%, 76.08%);
+  --clr-neutral-300: hsl(0, 0%, 63.92%);
+  --clr-neutral-400: hsl(0, 0%, 52.16%);
+  --clr-neutral-500: hsl(0, 0%, 40%);
+  --clr-neutral-600: hsl(0, 0%, 30.2%);
+  --clr-neutral-700: hsl(0, 0%, 20%);
+  --clr-neutral-800: hsl(0, 0%, 10.2%);
+  --clr-neutral-900: hsl(0, 0%, 3.92%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+
+@layer components {
+  /* Customize Default Behaviour */
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input:focus{
+    @apply outline-none
+  }
+  input[type='checkbox']:active{
+    @apply border-none
+  }
+  
+  select{
+    -webkit-appearance: none;
+    outline: none;
+  }
 
+  input[type='checkbox']:checked + span::before {
+    content: '';
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #2563eb; /* bg-blue-600 */
+    border-radius: 0.375rem; /* rounded */
+  }
+  input[type='checkbox']:checked + span svg {
+    display: block;
+  }
+  /* input[name="email"]:focus,
+  input[name="phone"]:focus,
+  input[name="password"]:focus,
+  select[name='countryCode']:focus {
+    @apply outline-none border-none;
+  } */
+
+
+
+/* Custom Utility class */
+  .absolute-center{
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+  }
+  .absolute-x-center{
+    @apply absolute left-1/2 transform -translate-x-1/2
+  }
+  .absolute-y-center{
+    @apply absolute top-1/2 transform -translate-y-1/2
+  }
+  .relative-center{
+    @apply relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+  }
+  .relative-y-center{ 
+    @apply relative top-1/2 transform -translate-y-1/2
+  }
+  .relative-x-center{ 
+    @apply relative left-1/2 transform -translate-x-1/2
+  }
+
+  .tag-filter-active{ 
+    @apply bg-primary-400 text-white
+  }
+
+  /* Create Order number Using css */
+  .numbered-items{
+    counter-reset: listCount;
+   }
+  .numbered-items li{
+  counter-increment: listCount;
+  position: relative;
+  }
+  .numbered-items li::before{
+  content: "0" counter( listCount) '.';
+  position: absolute;
+  right: calc(8px + 100%);
+  }
+
+
+
+
+/* ------------------------ */
+
+
+/* component class  */
+  .modal-background {
+    @apply fixed inset-0 bg-black bg-opacity-50
+  }
+  .signin-up-form-title{
+    @apply font-bold text-lg leading-6 text-neutral-600 mb-16 max-w-lg relative-x-center custom-btm-line-300
+  }
+
+  .form-input{
+    @apply text-base font-medium text-neutral-500 w-full py-3 px-6 border border-neutral-300 focus:border-neutral-500 rounded-md
+  }
+  .registration-form-title{
+    @apply text-primary-400 text-4xl font-medium text-center
+  }
+
+
+
+  /* Some outlines */
+  .custom-left-line-150::before {
+    content: '';
+    @apply absolute-y-center -left-4  h-[72%] w-px bg-neutral-150  
+  }
+  .custom-left-line-200::before {
+    content: '';
+    @apply absolute left-0 top-0 h-full w-px bg-neutral-200  
+  }
+  .custom-btm-line-200::after {
+    content: '';
+    @apply absolute-x-center top-full w-full h-px bg-neutral-200  
+  }
+  .custom-btm-line-300::after {
+    content: '';
+    @apply absolute-x-center top-12 w-full max-w-lg h-px bg-neutral-300  
+  }
+  .custom-btm-line-primary-400::after {
+    content: '';
+    @apply absolute-x-center top-6 w-full-plus-12 max-w-lg h-0.5 bg-primary-400  
+  }
+  .custom-underline-primary-400::after {
+    content: '';
+    @apply absolute-x-center bottom-0 w-full h-0.5 bg-primary-400  
+  }
+  .custom-bg-line-300::before{
+    content: '';
+    @apply absolute-y-center w-full h-px bg-neutral-300 -z-50
+  }
+
+
+  /* Button */
+  .btn{
+    @apply w-full text-center text-base font-medium py-3 rounded-md 
+  }
+  .btn-primary{
+    @apply bg-primary-400 text-white hover:shadow-btn-primary hover:border-primary-400
+  }
+  .btn-secondary{
+    @apply bg-transparent text-primary-400 text-base border border-primary-400 hover:border-primary-400 hover:shadow-btn-primary
+  }
+  .btn-tertiary{
+    @apply bg-transparent bg-white text-primary-400 text-base 
+  }
+  .btn-deactive{
+    @apply bg-transparent bg-white text-primary-400 text-base opacity-50
+  }
+
+  .banner-btn{
+    @apply text-center bg-white text-primary-400 font-semibold text-base py-6 rounded-full w-full max-w-64
+  }
+/* ------------------------ */
+
+
+  /* Icon */
+  .icon{
+    @apply min-h-6 min-w-6 opacity-70
+  }
+/* ------------------------ */
+
+
+
+
+/* temporary class for development no need to production */
+  .marker-class {
+    @apply border-2 border-rose-600;
+  }
+
+
+}
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .grid-cols-host-property {
+      grid-template-columns: 96px 224px 320px auto;
   }
 }
+.mapboxgl-popup-content {
+  padding: 0 !important;
+}
+.mapboxgl-user-location {
+  display: none !important;
+}
+.mapboxgl-user-location-accuracy-circle{
+  display: none !important;
+}
+
+.header-shadow{
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+}
+
+
+.hero-background{
+  background: var(--clr-hero-background);
+}
+
+
+
+
