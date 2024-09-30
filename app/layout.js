@@ -4,6 +4,7 @@ import { Montserrat } from 'next/font/google';
 
 import "./globals.css";
 import ChatBox from '/components/ChatBox';
+import { Providers } from "@/redux/provider";
 
 const montserrat = Montserrat({ 
   subsets: ['latin'], 
@@ -20,7 +21,10 @@ export default function RootLayout({ children, session }) {
     <html lang="en">
       <body className={montserrat.className}>
         {/* <SessionProvider session={session}> */}
+        <Providers>
           {children}
+        </Providers>
+         
         {/* </SessionProvider> */}
         <ChatBox />
       </body>
