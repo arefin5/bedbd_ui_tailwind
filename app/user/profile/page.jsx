@@ -1,6 +1,27 @@
+"use client"
 import Icon from "/components/Icon"
+import { useEffect } from 'react';
+
+// import { loadUserFromStorage } from '@/redux/authSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadUserFromStorage } from '@/redux/features/auth/authSlice';
+
 
 export default function page() {
+   // const { user, isLoading, error } = useSelector((state) => state.auth);
+        const dispatch = useDispatch();
+
+       const user = useSelector((state) => state.auth.user); // Access the user from Redux state
+  const email = useSelector((state) => state.auth.useemail);
+ console.log(user);
+   useEffect(() => {
+    if (!user) {
+      dispatch(loadUserFromStorage());
+    }
+  }, [dispatch, user]);
+  if (!user) {
+    return <div>Please log in to view your profile.</div>;
+  }
   return (
     <div className="grid grid-cols-2 gap-10 pt-20 px-16 ">
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">

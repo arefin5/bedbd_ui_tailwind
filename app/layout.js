@@ -1,11 +1,10 @@
 import { Inter } from "next/font/google";
 import { Montserrat } from 'next/font/google';
 // import { SessionProvider } from 'next-auth/react'; // Import the SessionProvider
-
-import "./globals.css";
+ import "./globals.css";
 import ChatBox from '/components/ChatBox';
-import { Providers } from "@/redux/provider";
-
+import { Providers, } from "@/redux/provider";
+import ClientProvider from "/components/ClientProvider"; // Import the client-side provider
 const montserrat = Montserrat({ 
   subsets: ['latin'], 
   weight: ['400', '500', '600', '700'],
@@ -22,7 +21,9 @@ export default function RootLayout({ children, session }) {
       <body className={montserrat.className}>
         {/* <SessionProvider session={session}> */}
         <Providers>
-          {children}
+        <ClientProvider>
+            {children}
+          </ClientProvider>
         </Providers>
          
         {/* </SessionProvider> */}

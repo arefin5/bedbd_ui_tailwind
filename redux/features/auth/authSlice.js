@@ -73,6 +73,27 @@ export const signupUser = createAsyncThunk(
       }
     }
   );
+//   export const loadUserFromStorage = () => (dispatch) => {
+//   const token = localStorage.getItem('token');
+//   const user = localStorage.getItem('user');
+  
+//   if (token && user) {
+//     dispatch(loginUserSuccess({ token, user: JSON.parse(user) }));
+//   }
+// };
+
+  export const loadUserFromStorage = () => (dispatch) => {
+  if (typeof window !== 'undefined') { // Ensure this only runs on the client
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+
+    if (token && user) {
+      dispatch(loginUser.fulfilled({ token, user: JSON.parse(user) })); // Populate Redux state with token and user
+    }
+  }
+};
+
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
