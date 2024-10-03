@@ -1,6 +1,7 @@
 
+import axiosInstance from '@/redux/services/axiosInstance';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+
 
 // Load token and user from localStorage if available
 const token =  null;
@@ -11,11 +12,19 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/login', { email, password });
+      
+      const response = await axiosInstance.post('/login', { email, password });
       // Return the token and user data
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      // console.log("error", error.response);
+
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
     }
   }
 );
@@ -23,11 +32,44 @@ export const signupUser = createAsyncThunk(
     'auth/signupUser',
     async ({ email, password }, { rejectWithValue }) => {
       try {
-        const response = await axios.post('/signup-user', { email, password });
-        // Return the token and user data
+        const response = await axiosInstance.post('/singup-user', { email, password });
+        // Return the token and user data/singup-user
+        console.log(response.data)
+
         return response.data;
+
       } catch (error) {
-        return rejectWithValue(error.response.data);
+           // console.log("error", error.response);
+
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+        
+      }
+    }
+  );
+  export const forgetpass = createAsyncThunk(
+    'auth/forgetPassword',
+    async ({ email, }, { rejectWithValue }) => {
+      try {
+        const response = await axiosInstance.post('/forget-password', { email});
+        // Return the token and user data/singup-user
+        console.log(response.data)
+
+        return response.data;
+
+      } catch (error) {
+        
+           console.log("error 3", error.response.data.error);
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
       }
     }
   );
@@ -38,6 +80,7 @@ const authSlice = createSlice({
     token: token,
     loading: false,
     error: null,
+    useemail:null,
   },
   reducers: {
     logout: (state) => {
@@ -45,6 +88,7 @@ const authSlice = createSlice({
       state.token = null;
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('email');
     },
   },
   extraReducers: (builder) => {
@@ -80,9 +124,28 @@ const authSlice = createSlice({
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      }).addCase(forgetpass.pending,(state)=>{
+        state.loading=true;
+        state.error=false;
+        localStorage.removeItem('token');
+      localStorage.removeItem('user');
       })
-
-    //   is this here use singup ?
+      .addCase(forgetpass.fulfilled, (state, action) => {
+  state.loading = false;
+  // Store email in localStorage
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem("useemail")
+  // Store email if available in action.payload
+  if (action.payload.email) {
+    localStorage.setItem('useemail', JSON.stringify(action.payload.email));
+    state.useemail = action.payload.email; // Store in state as well
+  }
+})
+      .addCase(forgetpass.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 

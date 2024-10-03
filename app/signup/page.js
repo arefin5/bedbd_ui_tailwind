@@ -2,15 +2,16 @@
 import { useState } from 'react'
 import Icon from '/components/Icon'
 import { useDispatch, useSelector } from 'react-redux';
-import { signupUser } from '@/redux/authSlice';
+import { signupUser } from '@/redux/features/auth/authSlice';
 
 export default function page() {
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
     const [conPass,setConPass]=useState("")
+    const { user, loading, error,token } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
-
+    
     const hadleRegister=async(e)=>{
         try{
             e.preventDefault();
@@ -21,7 +22,8 @@ export default function page() {
             // });
             // console.log("data",response.data);
             if (password !== conPass) return;
-        dispatch(signupUser({ email, password }))
+        dispatch(signupUser({ email, password }));
+      
         }catch(error){
             console.log(error)
         }
@@ -64,7 +66,9 @@ export default function page() {
                     </div>
                     <button className='btn btn-primary'>Continue</button>
                 </form >
-
+                                {loading && <p>Loading...</p>}
+                    {error && <p style={{ color: 'red' }}>{error.message || "Something went wrong"}</p>}
+                    {token && <p>Registration successful! Token: {token}</p>}
                 <p className='text-sm font-normal text-center text-neutral-500'>Already have an account? <span className='text-primary-400 font-medium'>Login</span></p>
 
                 <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>
