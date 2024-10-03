@@ -7,7 +7,7 @@ export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer,
         auth: authSliceReducer,
-        listSlice
+        listSlice,
     },
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddlewares) => 

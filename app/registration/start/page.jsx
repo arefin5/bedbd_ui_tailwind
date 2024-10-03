@@ -1,6 +1,13 @@
 import Icon from '/components/Icon'
 
 export default function page() {
+    // start registretion :
+
+
+
+
+
+    
     return (
         <div className='modal-background'>
             <div className='pt-14 pb-24 sm:px-24 px-16 bg-secondary-50 w-screen max-w-3.5xl | absolute-center rounded-2xl'>

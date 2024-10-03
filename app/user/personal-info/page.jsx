@@ -1,9 +1,14 @@
 
+"use client"
+
 import SVGCercle from '../../../public/circle.svg'
 import Image from 'next/image'
 import Icon from '/components/Icon'
+import { useDispatch, useSelector } from "react-redux";
 
 export default function page() {
+      const { user, isLoading, error } = useSelector((state) => state.auth);
+       console.log(user);
   return (
     <div className='w-full h-full pt-16 pl-20 pr-40'>
         <div className='relative'>
