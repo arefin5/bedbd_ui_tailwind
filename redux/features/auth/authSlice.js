@@ -4,9 +4,26 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 
 // Load token and user from localStorage if available
-const token =  null;
-const user = null;
 
+// Initialize user and token from localStorage
+let initialToken = null;
+let initialUser = null;
+let phone=null;
+if (typeof window !== 'undefined') { // Check if we are on the client-side
+    initialToken = localStorage.getItem('token');
+    initialUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+}
+let token = null;
+let user = null;
+
+if (typeof window !== 'undefined') {
+    token = localStorage.getItem('token') || null; // Get token from localStorage
+    user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null; // Get user from localStorage and parse JSON
+}
+
+
+// const token = localStorage.getItem('token') || null;
+//     const user = localStorage.getItem('user') || null;
 // Async thunk for login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
@@ -28,6 +45,28 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const loginUserPhone = createAsyncThunk(
+  'auth/loginUserphone',
+  async ({ phone }, { rejectWithValue }) => {
+    try {
+      console.log("start api callling .....",phone)
+      const response = await axiosInstance.post('/generate-otp-phone', { phone });
+      // Return the token and user data
+      console.log("finised")
+      return response.data;
+    } catch (error) {
+      // console.log("error", error.response);
+
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+    }
+  }
+);
+
 export const signupUser = createAsyncThunk(
     'auth/signupUser',
     async ({ email, password }, { rejectWithValue }) => {
@@ -57,7 +96,7 @@ export const signupUser = createAsyncThunk(
       try {
         const response = await axiosInstance.post('/forget-password', { email});
         // Return the token and user data/singup-user
-        console.log(response.data)
+        // console.log(response.data)
 
         return response.data;
 
@@ -73,14 +112,7 @@ export const signupUser = createAsyncThunk(
       }
     }
   );
-//   export const loadUserFromStorage = () => (dispatch) => {
-//   const token = localStorage.getItem('token');
-//   const user = localStorage.getItem('user');
-  
-//   if (token && user) {
-//     dispatch(loginUserSuccess({ token, user: JSON.parse(user) }));
-//   }
-// };
+
 
   export const loadUserFromStorage = () => (dispatch) => {
   if (typeof window !== 'undefined') { // Ensure this only runs on the client
@@ -102,6 +134,8 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     useemail:null,
+    userPhone:null,
+
   },
   reducers: {
     logout: (state) => {
@@ -129,7 +163,27 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      }).addCase(loginUserPhone.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
+      .addCase(loginUserPhone.rejected,(state,action)=>{
+        state.loading=false;
+        state.error=action.payloadl;
+      })
+      .addCase(loginUserPhone.fulfilled, (state, action) => {
+  state.loading = false;
+  // Store email in localStorage
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem("useemail");
+  localStorage.removeItem("userPhone")
+  // Store email if available in action.payload
+  if (action.payload.phone) {
+    localStorage.setItem('userPhone', JSON.stringify(action.payload.phone));
+    state.userPhone = action.payload.phone; // Store in state as well
+  }
+})
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;

@@ -1,6 +1,29 @@
+"use client"
 
+import { useState,useEffect } from 'react';
 
 export default function page() {
+    const [otp1,setOtp1]=useState("");
+    const [otp2,setOtp2]=useState("");
+    const [otp3,setOtp3]=useState("");
+    const [otp4,setOtp4]=useState("");
+    const [otp5,setOtp5]=useState("");
+    const [otp6,setOtp6]=useState("");
+
+    const handleLoginPhone=async(e)=>{
+        try{
+               e.preventDefault();
+                const phone = localStorage.getItem("userPhone");
+                console.log(phone);
+// phone use here 
+               const otp=`${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
+               console.log(otp);
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white max-w-lg | absolute-center rounded-10px'>
@@ -17,7 +40,9 @@ export default function page() {
                             maxLength="1" 
                             inputmode="numeric" 
                             pattern="[0-9]*" 
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1)"
+                           value={otp1}
+                          
+                            onChange={(e) => setOtp1(e.target.value)}
                         />
                         <input className="w-11 h-14 py-3.5 px-4 border border-neutral-500 rounded" 
                             type="text" 
@@ -25,7 +50,8 @@ export default function page() {
                             maxLength="1" 
                             inputmode="numeric" 
                             pattern="[0-9]*" 
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1)"
+                            value={otp2}
+                            onChange={(e) => setOtp2(e.target.value)}
                         />
                         <input className="w-11 h-14 py-3.5 px-4 border border-neutral-500 rounded" 
                             type="text" 
@@ -33,35 +59,36 @@ export default function page() {
                             maxLength="1" 
                             inputmode="numeric" 
                             pattern="[0-9]*" 
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1)"
+                                                        value={otp3}
+                            onChange={(e) => setOtp3(e.target.value)}
                         />
                         <input className="w-11 h-14 py-3.5 px-4 border border-neutral-500 rounded" 
                             type="text" 
                             name="otp-3" 
                             maxLength="1" 
-                            inputmode="numeric" 
-                            pattern="[0-9]*" 
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1)"
+                                                        value={otp4}
+                            onChange={(e) => setOtp4(e.target.value)}
                         />
                         <input className="w-11 h-14 py-3.5 px-4 border border-neutral-500 rounded" 
                             type="text" 
                             name="otp-4" 
                             maxLength="1" 
                             inputmode="numeric" 
-                            pattern="[0-9]*" 
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1)"
+                                                       value={otp5}
+                            onChange={(e) => setOtp5(e.target.value)}
                         />
                         <input className="w-11 h-14 py-3.5 px-4 border border-neutral-500 rounded" 
                             type="text" 
                             name="otp-5" 
                             maxLength="1" 
                             inputmode="numeric" 
-                            pattern="[0-9]*" 
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1)"
+                            pattern="[0-9]*"
+                                                        value={otp6}
+                            onChange={(e) => setOtp6(e.target.value)} 
                         />
                     </div>
 
-                    <button className=" btn max-w-48 btn-primary">Submit</button>
+                    <button className=" btn max-w-48 btn-primary" onClick={handleLoginPhone}>Submit</button>
 
                     <div className="text-sm font-normal text-center">
                         {`Didn't receive your code? `}<span className="text-primary-400 font-medium">resent</span>
