@@ -2,6 +2,10 @@
 
 import { useState,useEffect } from 'react';
 
+import { verifyOtp } from '@/redux/features/auth/authSlice';
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+
 export default function page() {
     const [otp1,setOtp1]=useState("");
     const [otp2,setOtp2]=useState("");
@@ -9,21 +13,29 @@ export default function page() {
     const [otp4,setOtp4]=useState("");
     const [otp5,setOtp5]=useState("");
     const [otp6,setOtp6]=useState("");
-
+    const dispatch=useDispatch();
+        const router = useRouter();
+        const { token, loading, error } = useSelector((state) => state.auth); // Access auth state from Redux
     const handleLoginPhone=async(e)=>{
         try{
                e.preventDefault();
                 const phone = localStorage.getItem("userPhone");
-                console.log(phone);
-// phone use here 
+                // console.log(phone);
                const otp=`${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
-               console.log(otp);
+               // console.log(otp);
+               dispatch(verifyOtp({ phone, otp }));
 
+              
         }
         catch(error){
             console.log(error)
         }
     }
+     useEffect(() => {
+        if (token) {
+            router.push('/user/profile'); 
+        }
+    }, [token, router]);
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white max-w-lg | absolute-center rounded-10px'>
