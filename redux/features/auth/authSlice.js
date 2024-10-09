@@ -12,6 +12,7 @@ let phone=null;
 if (typeof window !== 'undefined') { // Check if we are on the client-side
     initialToken = localStorage.getItem('token');
     initialUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+    
 }
 let token = null;
 let user = null;
@@ -52,7 +53,7 @@ export const loginUserPhone = createAsyncThunk(
       console.log("start api callling .....",phone)
       const response = await axiosInstance.post('/generate-otp-phone', { phone });
       // Return the token and user data
-      console.log("finised")
+      // console.log("finised")
       return response.data;
     } catch (error) {
       // console.log("error", error.response);
@@ -112,7 +113,29 @@ export const signupUser = createAsyncThunk(
       }
     }
   );
+export const verifyOtp = createAsyncThunk(
+  'auth/verify-otp-phone',
+  async ({ phone,otp }, { rejectWithValue }) => {
+    try {
+      console.log("start api callling .....",phone)
+      const response = await axiosInstance.post('/verify-otp-phone', { phone,otp });
+      // Return the token and user data
+      // console.log("finised")
+      // console.log(response.data);
+      
+      return response.data;
+    } catch (error) {
+      // console.log("error", error.response);
 
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+    }
+  }
+);
 
   export const loadUserFromStorage = () => (dispatch) => {
   if (typeof window !== 'undefined') { // Ensure this only runs on the client
@@ -124,6 +147,21 @@ export const signupUser = createAsyncThunk(
     }
   }
 };
+export const userEdit = createAsyncThunk(
+  'auth/user-edit',
+  async ({ phone,email,fname,lname,parmanentAddress}, { rejectWithValue }) => {
+    try {
+      console.log("start api callling .....",phone)
+      const response = await axiosInstance.put('/edit-profile', { phone,email,fname,lname,parmanentAddress });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+      return rejectWithValue('An unexpected error occurred.');
+    }
+  }
+);
 
 
 const authSlice = createSlice({
@@ -221,6 +259,44 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(verifyOtp.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+    localStorage.removeItem('token');
+})
+.addCase(verifyOtp.fulfilled, (state, action) => {
+    state.loading = false;
+    state.token = action.payload.token;
+    state.user = action.payload.user;
+    // Store token and user data in localStorage
+    localStorage.setItem('token', action.payload.token);
+    localStorage.setItem('user', JSON.stringify(action.payload.user));
+    localStorage.removeItem('phone'); // Corrected key
+})
+.addCase(verifyOtp.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+    console.error("OTP verification failed:", action.payload); // Log the actual error
+})
+
+
+
+      .addCase(userEdit.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+})
+.addCase(userEdit.fulfilled, (state, action) => {
+    state.loading = false;
+    state.user = action.payload.user;
+    // Store token and user data in localStorage
+    localStorage.setItem('user', JSON.stringify(action.payload.user));
+    localStorage.removeItem('phone'); // Corrected key
+})
+.addCase(userEdit.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+})
+
   },
 });
 
