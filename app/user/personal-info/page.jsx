@@ -101,7 +101,7 @@ export default function page() {
                   onChange={(e) =>setParmanent(e.target.value)}
                    />
             </div>
-
+            {error && <div className='error-message text-red-500'>{error}</div>}
             <button className='btn btn-primary'>Edit</button>
         </form>
     </div>

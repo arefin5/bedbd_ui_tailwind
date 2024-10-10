@@ -155,9 +155,17 @@ export const userEdit = createAsyncThunk(
       const response = await axiosInstance.put('/edit-profile', { phone,email,fname,lname,parmanentAddress });
       return response.data;
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
+      console.log(error.response.data.message)
+      if (error.response && error.response.data && error.response.data.error ) {
+        return rejectWithValue(error.response.data.message||error.response.data.error); // Return the actual error message
       }
+
+      if (error.response.data.message) {
+        // This ensures that a specific error like "email already exists" is shown to the user
+        return rejectWithValue(error.response.data.message); 
+      }
+
+      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
     }
   }
