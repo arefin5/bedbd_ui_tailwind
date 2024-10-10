@@ -2,22 +2,29 @@
 import { loginUser } from '@/redux/features/auth/authSlice';
 import SocialLogin from '../SocialLogin'
 import { Phone, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation'; 
 
 
 export default function EmailLogin() {
    
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error ,token,user} = useSelector((state) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
+     const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
-//  onClick={handleLogin}
+   useEffect(() => {
+        if (token) {
+            router.push('/user/profile'); 
+        }
+    }, [token, router,user]);
+
     return (
         <div className='modal-background'>
             <div className='pt-20 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>

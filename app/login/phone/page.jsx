@@ -3,17 +3,16 @@ import Icon from '/components/Icon'
 import { useDispatch, useSelector } from 'react-redux';
 
 import SocialLogin from '../SocialLogin'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { loginUserPhone } from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation'; 
 
 export default function Login() {
      const [phonee, setPhone] = useState("");
      const [countryCode, setCountryCode] = useState("+880");
-     const error = useSelector((state) => state.auth.error);
-     const router = useRouter(); 
      const dispatch = useDispatch();
-  const loading = useSelector((state) => state.auth.loading);
+     const { token, loading ,error,user} = useSelector((state) => state.auth); // Access auth state from Redux
+     const router = useRouter();
         const handleLogin = async(e) => {
             try{
             e.preventDefault();
@@ -36,7 +35,11 @@ export default function Login() {
            
         };
 
-
+   useEffect(() => {
+        if (token) {
+            router.push('/user/profile'); 
+        }
+    }, [token, router,user]);
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>

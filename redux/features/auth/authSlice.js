@@ -50,7 +50,7 @@ export const loginUserPhone = createAsyncThunk(
   'auth/loginUserphone',
   async ({ phone }, { rejectWithValue }) => {
     try {
-      console.log("start api callling .....",phone)
+      // console.log("start api callling .....",phone)
       const response = await axiosInstance.post('/generate-otp-phone', { phone });
       // Return the token and user data
       // console.log("finised")
@@ -74,7 +74,7 @@ export const signupUser = createAsyncThunk(
       try {
         const response = await axiosInstance.post('/singup-user', { email, password });
         // Return the token and user data/singup-user
-        console.log(response.data)
+        // console.log(response.data)
 
         return response.data;
 
@@ -151,7 +151,7 @@ export const userEdit = createAsyncThunk(
   'auth/user-edit',
   async ({ phone,email,fname,lname,parmanentAddress}, { rejectWithValue }) => {
     try {
-      console.log("start api callling .....",phone)
+      // console.log("start api callling .....",phone)
       const response = await axiosInstance.put('/edit-profile', { phone,email,fname,lname,parmanentAddress });
       return response.data;
     } catch (error) {
