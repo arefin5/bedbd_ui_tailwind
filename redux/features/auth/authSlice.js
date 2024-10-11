@@ -147,22 +147,52 @@ export const verifyOtp = createAsyncThunk(
     }
   }
 };
+// export const userEdit = createAsyncThunk(
+//   'auth/user-edit',
+//   async ({ phone,email,fname,lname,parmanentAddress}, { rejectWithValue }) => {
+//     try {
+//       // console.log("start api callling .....",phone)
+//       const response = await axiosInstance.put('/edit-profile', { phone,email,fname,lname,parmanentAddress });
+//       return response.data;
+//     } catch (error) {
+//       console.log(error.response.data.message)
+//       if (error.response && error.response.data && error.response.data.error ) {
+//         return rejectWithValue(error.response.data.message||error.response.data.error); // Return the actual error message
+//       }
+
+//       if (error.response.data.message) {
+//         // This ensures that a specific error like "email already exists" is shown to the user
+//         return rejectWithValue(error.response.data.message); 
+//       }
+
+//       // Fallback for other unexpected errors
+//       return rejectWithValue('An unexpected error occurred.');
+//     }
+//   }
+// );
 export const userEdit = createAsyncThunk(
   'auth/user-edit',
-  async ({ phone,email,fname,lname,parmanentAddress}, { rejectWithValue }) => {
+  async (userData, { rejectWithValue }) => {
     try {
-      // console.log("start api callling .....",phone)
-      const response = await axiosInstance.put('/edit-profile', { phone,email,fname,lname,parmanentAddress });
+      // Dynamically build the payload by removing undefined or null values
+      const payload = Object.fromEntries(
+        Object.entries(userData).filter(([_, value]) => value !== undefined && value !== null)
+      );
+
+      // Make the API call with the dynamic payload
+      const response = await axiosInstance.put('/edit-profile', payload);
       return response.data;
+
     } catch (error) {
-      console.log(error.response.data.message)
-      if (error.response && error.response.data && error.response.data.error ) {
-        return rejectWithValue(error.response.data.message||error.response.data.error); // Return the actual error message
+      console.log(error.response?.data?.message);
+
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
-      if (error.response.data.message) {
-        // This ensures that a specific error like "email already exists" is shown to the user
-        return rejectWithValue(error.response.data.message); 
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
       }
 
       // Fallback for other unexpected errors

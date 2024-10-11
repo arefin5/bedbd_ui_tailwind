@@ -35,8 +35,17 @@ export default function page() {
     const userUpdate=async(e)=>{
         try{
             e.preventDefault();
-            console.log("start User Editor ");
-              dispatch(userEdit({ fname, lname, email, phone, parmanentAddress }));
+            // console.log("start User Editor ");
+            const payload = {
+                fname: fname || undefined,
+                lname: lname || undefined,
+                email: email || undefined,
+                phone: phone || undefined,
+                parmanentAddress: parmanentAddress || undefined,
+                presentAddress:presentAddress || user.presentAddress || undefined
+              };
+              dispatch(userEdit(payload)); dispatch(userEdit(payload));
+             
         }catch(error){
             console.log(error)
         }
@@ -102,7 +111,9 @@ export default function page() {
                    />
             </div>
             {error && <div className='error-message text-red-500'>{error}</div>}
-            <button className='btn btn-primary'>Edit</button>
+            <button className='btn btn-primary'
+            type="submit"
+            >Edit</button>
         </form>
     </div>
   )
