@@ -10,13 +10,15 @@ export default function page() {
 
   return (
     <div className="grid grid-cols-2 gap-10 pt-20 px-16 ">
+     <Link href="/user/personal-info">
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
+      
         <Icon name="shield-check" className="icon mb-[10px]"/>
         <h3 className="text-neutral-600 font-semibold mb-[10px] text-xl ">Personal Info</h3>
         <p className="font-medium text-base text-neutral-600">Provide personal details and how we can reach you</p>
       </div>
 
-
+</Link>
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
        <Link href="/user/security">
         <Icon name="shield-check" className="icon mb-[10px]"/>
