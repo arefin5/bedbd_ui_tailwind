@@ -39,7 +39,7 @@ export default function PropertyGalleryItem({data}) {
 ])
 
 const [image, setImage] = useState(images[0])
-console.log(image)
+
 
   const imageContainerRef = useRef(null)
   const [buttonVisibility, setButtonVisibility] = useState({
