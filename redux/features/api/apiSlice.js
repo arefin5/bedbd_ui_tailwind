@@ -7,6 +7,10 @@ export const apiSlice = createApi({
     }),
     tagTypes:[],
     endpoints:(builder) => ({
-        
+        getListings: builder.query({
+            query: ()=> '/all-list'
+        })
     })
 });
+
+export const { useGetListingsQuery } = apiSlice;

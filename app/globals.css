@@ -236,4 +236,14 @@
 
 
 
+.no-horizontal-scrollbar {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-horizontal-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Edge */
+}
+
+
 
