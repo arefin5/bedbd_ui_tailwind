@@ -35,7 +35,7 @@ const {
                 ? (<> 
                     <PropertyLoadingSkeleton/><PropertyLoadingSkeleton/><PropertyLoadingSkeleton/><PropertyLoadingSkeleton/><PropertyLoadingSkeleton/><PropertyLoadingSkeleton/>
                   </>)
-                : listings.map(listing => <PropertyGalleryItem data={listing} />)                      
+                : listings.map(listing => <PropertyGalleryItem key={listing['_id']} data={listing} />)                      
           }
         </div>
     </div>

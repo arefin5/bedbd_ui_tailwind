@@ -71,7 +71,7 @@ export default function page() {
             <div className=" flex py-4 md:py-6 xl:py-10 xl:max-w-724px 2xl:max-w-978px justify-between items-center ">
                 <div className="flex items-center text-neutral-500">
                     <span className="font-semibold text-2xl">Apartment</span>
-                    <Image className="ml-6" src={starFilledIcon} height={24} width={24} />
+                    <Image className="ml-6" src={starFilledIcon} height={24} width={24} alt="..."/>
                     <span className=" text-primary-400 font-semibold text-lg ml-2">
                             4.3
                     </span>
@@ -100,27 +100,27 @@ export default function page() {
                     {/* Facilities */}
                     <div className='flex flex-wrap justify-center mt-6 gap-6 text-neutral-600 text-lg font-semibold '>
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
-                            <Image className='object-contain absolute-x-center bottom-16' src={bedIcon} height={42} width={42}/>
+                            <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bedIcon} height={42} width={42}/>
                             <span className='absolute-x-center w-max bottom-7'>3 Bedrooms </span>
                         </div>
                         
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
-                            <Image className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42}/>
+                            <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42}/>
                             <span className='absolute-x-center w-max bottom-7'>3 Bathrooms </span>
                         </div>
 
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
-                            <Image className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42}/>
+                            <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42}/>
                             <span className='absolute-x-center w-max bottom-7 '>6/8 Guests</span>
                         </div>
 
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
-                            <Image className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42}/>
+                            <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42}/>
                             <span className='absolute-x-center w-max bottom-7'>3 Bathrooms </span>
                         </div>
 
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
-                            <Image className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42}/>
+                            <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42}/>
                             <span className='absolute-x-center w-max bottom-7 '>6/8 Guests</span>
                         </div>
                     </div>
@@ -154,27 +154,27 @@ export default function page() {
                         <h3 className="text-2xl font-semibold ">Offered Amenities</h3>
                         <ul className="mb-8 space-y-6 mt-6 font-normal text-lg md:columns-2">
                             <li>
-                                <Image className='mr-6 inline' src={kitchenIcon} />
+                                <Image alt="icon" className='mr-6 inline' src={kitchenIcon} />
                                 Kitchen
                             </li>
                             <li>
-                                <Image className='mr-6 inline' src={ACIcon} />
+                                <Image alt="icon" className='mr-6 inline' src={ACIcon} />
                                 Air Conditioner
                             </li>
                             <li >
-                                <Image className='mr-6 inline' src={washingMechineIcon} />
+                                <Image alt="icon" className='mr-6 inline' src={washingMechineIcon} />
                                 Washer
                             </li>
                             <li>
-                                <Image className='mr-6 inline' src={tvIcon} />
+                                <Image alt="icon" className='mr-6 inline' src={tvIcon} />
                                 Television with Netflix
                             </li>
                             <li>
-                                <Image className='mr-6 inline' src={wifiIcon} />
+                                <Image alt="icon" className='mr-6 inline' src={wifiIcon} />
                                 Free Wireless Internet
                             </li>
                             <li>
-                                <Image className='mr-6 inline' src={balconyIcon} />
+                                <Image alt="icon" className='mr-6 inline' src={balconyIcon} />
                                 BalconyIcon or Patio
                             </li>
                         </ul>

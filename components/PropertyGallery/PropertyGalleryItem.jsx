@@ -143,7 +143,7 @@ return (
 
         <div ref={imageContainerRef} className=" relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar ">
           <div className="z-0 relative flex-none w-full h-auto aspect-[145/89]  min-h-178px  max-h-242px max-w-395px max-h-242px  object-cover items-center ">
-            <Image alt="property sample image" src={image.src} fill className="object-cover"/>
+            <Image alt="property image" src={image.src} fill className="object-cover"/>
           </div>
           {
             buttonVisibility['showLeftButton'] && 
@@ -172,7 +172,7 @@ return (
           <div className="pl-auto text-end | text-2xl text-primary-400 font-semibold">${price + serviceFee + tex}</div>
           <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on 25.12.2023</div>
           <div className="text-end flex float-right items-center content-center justify-center text-base font-medium">
-            <Image className="" src='/icons/star_gray.svg' height={24} width={24}/><span className="mt-auto text-neutral-600 "> 
+            <Image alt="rating icon" className="" src='/icons/star_gray.svg' height={24} width={24}/><span className="mt-auto text-neutral-600 "> 
               { avgRating } 
             </span><span className="mt-auto text-neutral-500">
             ( {reviews.length} )</span></div>
