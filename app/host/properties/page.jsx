@@ -42,7 +42,7 @@ export default function page() {
                   </>
                 : <div className="w-80 h-48 flex flex-nowrap overflow-x-scroll no-scrollbar rounded-xl mb-4">
                     <div className="relative h-full w-full">
-                          <Image className='object-cover' src={images[1]} fill />
+                          <Image alt="..." className='object-cover' src={images[1]} fill />
                         </div>
                   </div>
             }
@@ -91,7 +91,7 @@ export default function page() {
                   </>
                 : <div className="w-80 h-48 flex flex-nowrap overflow-x-scroll no-scrollbar rounded-xl mb-4">
                     <div className="relative h-full w-full">
-                          <Image className='object-cover' src={images[1]} fill />
+                          <Image alt="..." className='object-cover' src={images[1]} fill />
                         </div>
                   </div>
             }
@@ -140,7 +140,7 @@ export default function page() {
                   </>
                 : <div className="w-80 h-48 flex flex-nowrap overflow-x-scroll no-scrollbar rounded-xl mb-4">
                     <div className="relative h-full w-full">
-                          <Image className='object-cover' src={images[1]} fill />
+                          <Image alt="..." className='object-cover' src={images[1]} fill />
                         </div>
                   </div>
             }

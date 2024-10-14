@@ -65,6 +65,7 @@ export default function profile() {
           <div className="absolute min-w-64 h-64 rounded-full overflow-hidden absolute-x-center -top-40">
             <Image
               className="object-cover"
+              alt='...'
               src='https://s3-alpha-sig.figma.com/img/9426/3d80/328ad64aebfeeac45c8e75b49193f69f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WaQfc7QT9MhYNK0ELmuXw~FJbN7HW8rVoE4rOCerGzhpnehjFmZJX88vOZlQSOCVmAX44s5TsDubx-ukT8HY3tDxkXb1K-9CWvbOUgZ8oimP0XUF5Pj-xXChJ5NoqGa95zAlebxJK0K65m~y4bgwKNO3yu-l1v8t-DpXHzEp7mIUkHmCEL0PngV0ybFNEb1Lcl7d8kabmtDYCv2KYh7z5WJN0vgi1bYyEFa6SeDssQU1NwFfpdEEhw7N0wTsXTWOOPDVdKVieClpJpkJuwVAudcdsf12JkvykFFE8yfrYI1x-zBUWmFY8hYuBpoKuzxDHGoBbwmCcfrt3QuVuBf0JA__' fill />
           </div>
           <button className="border border-neutral-500 rounded-lg py-3 px-14 relative-x-center">

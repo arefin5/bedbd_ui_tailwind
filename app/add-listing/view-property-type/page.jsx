@@ -62,7 +62,7 @@ export default function page() {
 
             <div className="w-full max-w-2xl ml-auto mr-auto mt-28 px-8 ">
               <div className="w-44 h-32 object-contain relative  ml-auto mr-auto">
-                <Image src={`/icons/${data['icon']}`} fill/>
+                <Image src={`/icons/${data['icon']}`} alt="..." fill/>
               </div>
 
               <h3 className=" w-full max-w-xl text-base text-neutral-400 text-center font-medium mt-8 mb-12 ml-auto mr-auto ">
