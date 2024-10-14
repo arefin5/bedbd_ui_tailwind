@@ -3,7 +3,7 @@ import Image from "next/image"
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react"
 import PropertyLoadingSkeleton from "./PropertyLoadingSkeleton"
 import { useState, useRef, useEffect, useCallback } from "react"
-
+import Link from 'next/link';
 // import sampleImage_0 from '/dummy/aa7ce09cc4e2e086c0a441a2bc6c3a41.jpeg'
 function throttle(func, limit) {
   let inThrottle;
@@ -17,7 +17,7 @@ function throttle(func, limit) {
   };
 }
 export default function PropertyGalleryItem({data}) {
-
+console.log(data._id);
   const [images, setimages] = useState([
     {
       id:0,
@@ -139,6 +139,7 @@ const [image, setImage] = useState(images[0])
 
 
 return (
+  <Link href={`/listing/${data._id}`}>
     <div className="min-w-290px max-w-395px">
 
         <div ref={imageContainerRef} className=" relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar ">
@@ -178,6 +179,7 @@ return (
             ( {reviews.length} )</span></div>
         </div>
     </div>
+    </Link>
   )
 }
 

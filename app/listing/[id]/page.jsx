@@ -1,3 +1,5 @@
+"use client"
+
 import Header from "/components/Header"
 import Footer from "/components/Footer";
 import Images from './Images'
@@ -19,10 +21,29 @@ import balconyIcon from '/public/icons/balcony.svg'
 import awardIcon from '/public/icons/award.svg'
 import shieldCheckedIcon from '/public/icons/shield-check.svg'
 import starGrayIcon from '/public/icons/star_gray.svg'
+import React, { useEffect, useState, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
+import { useGetListingsQuery } from "@/redux/features/api/apiSlice"
+
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 export default function page() {
+    const [post, setPost] = useState({});
+  const pathname = usePathname();
+  const segments = pathname.split('/');
+  const id = segments[segments.length - 1];
+  const { 
+  data: listings , 
+  isLoading, 
+  isError, 
+} = useGetListingsQuery()
 
+const listingData = listings.find((listing) => listing._id === id);
+  console.log(listingData);
+if (!listingData) return <p>Listing not found or loading...</p>;
+
+
+console.log(id);
     const images  = [
         {
             id:0,
