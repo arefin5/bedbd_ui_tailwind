@@ -5,6 +5,7 @@ import { Phone, X } from 'lucide-react';
 import { useState ,useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation'; 
+import Link from 'next/link';
 
 
 export default function EmailLogin() {
@@ -56,8 +57,10 @@ export default function EmailLogin() {
 
                     <div className='text-xs leading-none text-neutral-400 font-medium  mt-3 mb-5 flex flex-wrap gap-2 sm:justify-between'>
                         <h3>{`Don’t have an account?`}<span className='text-primary-400'>Create new account.</span></h3>
-                        <h3 className='text-primary-400'>
-                            {` Forget Password? `}</h3>
+                       <Link href="/password/recover">
+                       <h3 className='text-primary-400'>
+                       {` Forget Password? `}</h3>
+                       </Link>
                     </div>
                     <div className='flex flex-col-reverse sm:flex-row gap-6 items-center'>
                         <button 

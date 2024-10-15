@@ -8,18 +8,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Initialize user and token from localStorage
 let initialToken = null;
 let initialUser = null;
-let phone=null;
+let phone = null;
 if (typeof window !== 'undefined') { // Check if we are on the client-side
-    initialToken = localStorage.getItem('token');
-    initialUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    
+  initialToken = localStorage.getItem('token');
+  initialUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+
 }
 let token = null;
 let user = null;
 
 if (typeof window !== 'undefined') {
-    token = localStorage.getItem('token') || null; // Get token from localStorage
-    user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null; // Get user from localStorage and parse JSON
+  token = localStorage.getItem('token') || null; // Get token from localStorage
+  user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null; // Get user from localStorage and parse JSON
 }
 
 
@@ -30,7 +30,7 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      
+
       const response = await axiosInstance.post('/login', { email, password });
       // Return the token and user data
       return response.data;
@@ -69,17 +69,17 @@ export const loginUserPhone = createAsyncThunk(
 );
 
 export const signupUser = createAsyncThunk(
-    'auth/signupUser',
-    async ({ email, password }, { rejectWithValue }) => {
-      try {
-        const response = await axiosInstance.post('/singup-user', { email, password });
-        // Return the token and user data/singup-user
-        // console.log(response.data)
+  'auth/signupUser',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('/singup-user', { email, password });
+      // Return the token and user data/singup-user
+      // console.log(response.data)
 
-        return response.data;
+      return response.data;
 
-      } catch (error) {
-           // console.log("error", error.response);
+    } catch (error) {
+      // console.log("error", error.response);
 
       if (error.response && error.response.data && error.response.data.error) {
         return rejectWithValue(error.response.data.error); // Return the actual error message
@@ -87,42 +87,42 @@ export const signupUser = createAsyncThunk(
 
       // Fallback for unexpected errors
       return rejectWithValue('An unexpected error occurred.');
-        
-      }
+
     }
-  );
-  export const forgetpass = createAsyncThunk(
-    'auth/forgetPassword',
-    async ({ email, }, { rejectWithValue }) => {
-      try {
-        const response = await axiosInstance.post('/forget-password', { email});
-        // Return the token and user data/singup-user
-        // console.log(response.data)
+  }
+);
+export const forgetpass = createAsyncThunk(
+  'auth/forgetPassword',
+  async ({ email, }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('/forget-password', { email });
+      // Return the token and user data/singup-user
+      // console.log(response.data)
 
-        return response.data;
+      return response.data;
 
-      } catch (error) {
-        
-           console.log("error 3", error.response.data.error);
+    } catch (error) {
+
+      console.log("error 3", error.response.data.error);
       if (error.response && error.response.data && error.response.data.error) {
         return rejectWithValue(error.response.data.error); // Return the actual error message
       }
 
       // Fallback for unexpected errors
       return rejectWithValue('An unexpected error occurred.');
-      }
     }
-  );
+  }
+);
 export const verifyOtp = createAsyncThunk(
   'auth/verify-otp-phone',
-  async ({ phone,otp }, { rejectWithValue }) => {
+  async ({ phone, otp }, { rejectWithValue }) => {
     try {
-      console.log("start api callling .....",phone)
-      const response = await axiosInstance.post('/verify-otp-phone', { phone,otp });
+      console.log("start api callling .....", phone)
+      const response = await axiosInstance.post('/verify-otp-phone', { phone, otp });
       // Return the token and user data
       // console.log("finised")
       // console.log(response.data);
-      
+
       return response.data;
     } catch (error) {
       // console.log("error", error.response);
@@ -136,8 +136,31 @@ export const verifyOtp = createAsyncThunk(
     }
   }
 );
+// 
+export const verifyOtpEmail = createAsyncThunk(
+  'auth/verify-otp-email',
+  async ({ email, otp }, { rejectWithValue }) => {
+    try {
+      console.log("start api callling .....", email)
+      const response = await axiosInstance.post('/verify-forget-pass', { email, otp });
+      // Return the token and user data
+      console.log("finised")
+      console.log(response.data);
 
-  export const loadUserFromStorage = () => (dispatch) => {
+      return response.data;
+    } catch (error) {
+      console.log("error", error.response);
+
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+    }
+  }
+);
+export const loadUserFromStorage = () => (dispatch) => {
   if (typeof window !== 'undefined') { // Ensure this only runs on the client
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
@@ -147,29 +170,7 @@ export const verifyOtp = createAsyncThunk(
     }
   }
 };
-// export const userEdit = createAsyncThunk(
-//   'auth/user-edit',
-//   async ({ phone,email,fname,lname,parmanentAddress}, { rejectWithValue }) => {
-//     try {
-//       // console.log("start api callling .....",phone)
-//       const response = await axiosInstance.put('/edit-profile', { phone,email,fname,lname,parmanentAddress });
-//       return response.data;
-//     } catch (error) {
-//       console.log(error.response.data.message)
-//       if (error.response && error.response.data && error.response.data.error ) {
-//         return rejectWithValue(error.response.data.message||error.response.data.error); // Return the actual error message
-//       }
 
-//       if (error.response.data.message) {
-//         // This ensures that a specific error like "email already exists" is shown to the user
-//         return rejectWithValue(error.response.data.message); 
-//       }
-
-//       // Fallback for other unexpected errors
-//       return rejectWithValue('An unexpected error occurred.');
-//     }
-//   }
-// );
 export const userEdit = createAsyncThunk(
   'auth/user-edit',
   async (userData, { rejectWithValue }) => {
@@ -201,7 +202,25 @@ export const userEdit = createAsyncThunk(
   }
 );
 
+export const resetPasseord = createAsyncThunk(
+  'auth/resetPassword',
+  async ({   password }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put('/reset-password', {  password });
+      return response.data;
 
+    } catch (error) {
+
+      console.log("error 3", error.response.data.error);
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.error); // Return the actual error message
+      }
+
+      // Fallback for unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+    }
+  }
+);
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -209,8 +228,8 @@ const authSlice = createSlice({
     token: token,
     loading: false,
     error: null,
-    useemail:null,
-    userPhone:null,
+    useemail: null,
+    userPhone: null,
 
   },
   reducers: {
@@ -243,23 +262,23 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUserPhone.rejected,(state,action)=>{
-        state.loading=false;
-        state.error=action.payloadl;
+      .addCase(loginUserPhone.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payloadl;
       })
       .addCase(loginUserPhone.fulfilled, (state, action) => {
-  state.loading = false;
-  // Store email in localStorage
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  localStorage.removeItem("useemail");
-  localStorage.removeItem("userPhone")
-  // Store email if available in action.payload
-  if (action.payload.phone) {
-    localStorage.setItem('userPhone', JSON.stringify(action.payload.phone));
-    state.userPhone = action.payload.phone; // Store in state as well
-  }
-})
+        state.loading = false;
+        // Store email in localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem("useemail");
+        localStorage.removeItem("userPhone")
+        // Store email if available in action.payload
+        if (action.payload.phone) {
+          localStorage.setItem('userPhone', JSON.stringify(action.payload.phone));
+          state.userPhone = action.payload.phone; // Store in state as well
+        }
+      })
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -275,66 +294,97 @@ const authSlice = createSlice({
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      }).addCase(forgetpass.pending,(state)=>{
-        state.loading=true;
-        state.error=false;
+      }).addCase(forgetpass.pending, (state) => {
+        state.loading = true;
+        state.error = false;
         localStorage.removeItem('token');
-      localStorage.removeItem('user');
+        localStorage.removeItem('user');
       })
       .addCase(forgetpass.fulfilled, (state, action) => {
-  state.loading = false;
-  // Store email in localStorage
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  localStorage.removeItem("useemail")
-  // Store email if available in action.payload
-  if (action.payload.email) {
-    localStorage.setItem('useemail', JSON.stringify(action.payload.email));
-    state.useemail = action.payload.email; // Store in state as well
-  }
-})
+        state.loading = false;
+        // Store email in localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem("useemail")
+        // Store email if available in action.payload
+        if (action.payload.email) {
+          localStorage.setItem('useemail', JSON.stringify(action.payload.email));
+          state.useemail = action.payload.email; // Store in state as well
+        }
+      })
       .addCase(forgetpass.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
       .addCase(verifyOtp.pending, (state) => {
-    state.loading = true;
-    state.error = null;
-    localStorage.removeItem('token');
-})
-.addCase(verifyOtp.fulfilled, (state, action) => {
-    state.loading = false;
-    state.token = action.payload.token;
-    state.user = action.payload.user;
-    // Store token and user data in localStorage
-    localStorage.setItem('token', action.payload.token);
-    localStorage.setItem('user', JSON.stringify(action.payload.user));
-    localStorage.removeItem('phone'); // Corrected key
-})
-.addCase(verifyOtp.rejected, (state, action) => {
-    state.loading = false;
-    state.error = action.payload;
-    console.error("OTP verification failed:", action.payload); // Log the actual error
-})
-
-
-
+        state.loading = true;
+        state.error = null;
+        localStorage.removeItem('token');
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+        // Store token and user data in localStorage
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.removeItem('phone'); // Corrected key
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        console.error("OTP verification failed:", action.payload); // Log the actual error
+      })
+      .addCase(verifyOtpEmail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        localStorage.removeItem('token');
+      })
+      .addCase(verifyOtpEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+        // Store token and user data in localStorage
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.removeItem('useemail'); // Corrected key
+      })
+      .addCase(verifyOtpEmail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        console.error("OTP verification failed:", action.payload); // Log the actual error
+      })
       .addCase(userEdit.pending, (state) => {
-    state.loading = true;
-    state.error = null;
-})
-.addCase(userEdit.fulfilled, (state, action) => {
-    state.loading = false;
-    state.user = action.payload.user;
-    // Store token and user data in localStorage
-    localStorage.setItem('user', JSON.stringify(action.payload.user));
-    localStorage.removeItem('phone'); // Corrected key
-})
-.addCase(userEdit.rejected, (state, action) => {
-    state.loading = false;
-    state.error = action.payload;
-})
-
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userEdit.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        // Store token and user data in localStorage
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.removeItem('phone'); // Corrected key
+      })
+      .addCase(userEdit.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(resetPasseord.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resetPasseord.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        // Store token and user data in localStorage
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+      })
+      .addCase(resetPasseord.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
