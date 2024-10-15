@@ -133,6 +133,8 @@ const [image, setImage] = useState(images[0])
     price, serviceFee, tex, 
     avgRating,
     reviews } = data
+
+    
   // console.log(data)
 
 // return <PropertyLoadingSkeleton/>

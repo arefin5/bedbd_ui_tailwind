@@ -1,10 +1,13 @@
 'use client'
 import Map , { Marker, GeolocateControl }  from 'react-map-gl'
 import { SearchBox } from '@mapbox/search-js-react'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-export default function PropertyMap() {
+export default function PropertyMap({data}) {
+  console.log(data)
+
+  const { coordinates } = data
   const mapRef = useRef();
   const [mapInfo, setMapInfo] = useState({
     center:{
@@ -19,6 +22,21 @@ export default function PropertyMap() {
     locationName:'',
     setMapPosition: false
   })
+  useEffect(()=>{
+    setMapInfo(info=>({...info, 
+                          center:{
+                            latitude: coordinates[1],
+                            longitude:coordinates[0],
+                          },
+                          marker:{
+                            latitude: coordinates[1],
+                            longitude:coordinates[0],
+                          },
+                          setMapPosition:true
+                      })
+                )
+  },[coordinates])
+
   function onMapMoveHandlar(e) {
     setMapInfo({
       ...mapInfo,
@@ -43,7 +61,7 @@ export default function PropertyMap() {
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 onMove={onMapMoveHandlar}
               //   onData={onMapDataHandlar}
-                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}>
+                mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'>
 
 
                 <Marker 
