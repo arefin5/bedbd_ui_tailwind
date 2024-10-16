@@ -5,9 +5,7 @@ import Images from './ImageGallery'
 import dynamic from 'next/dynamic';
 import starFilledIcon from '/public/icons/star_filled.svg'
 import Image from "next/image";
-
 import Icon from "/components/Icon";
-
 import bedIcon from '/public/icons/bed.svg'
 import guestsIcon from '/public/icons/guests.svg'
 import bathroomIcon from '/public/icons/bathroom.svg'
