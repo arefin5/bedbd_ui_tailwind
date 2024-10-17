@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
 
   return (
     <>
-      <Header />
+      <Header user={user}/>
       <div className="container ml-auto mr-auto flex z-10">
         <Sidebar />
         {children}
