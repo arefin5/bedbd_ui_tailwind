@@ -151,7 +151,7 @@ export default function Navbar() {
               )}
             </li>
             <li className="w-max min-w-full md:min-w-max py-4 px-6 md:p-0">
-              <Link href="/add-listing">
+              <Link href="/add-listing/property-type">
                 <button className="btn btn-secondary rounded-lg px-6 font-semibold">Add New Property</button>
               </Link>
             </li>
