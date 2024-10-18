@@ -75,7 +75,7 @@ import Image from "next/image";
 import PropertyTypeItem from "./PropertyTypeItem";
 import { updateFormData } from '@/redux/list/createListSlice';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 function getListingTypes() {
@@ -123,21 +123,29 @@ export default function Page() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [selectedType, setSelectedType] = useState(null);  // Track the selected property type
-
+  
+  useEffect(() => {
+    console.log("Selected Property Type Updated:", selectedType);
+  }, [selectedType]);
   const handleContinue = (e) => {
     e.preventDefault();
-    if (!selectedType) {
+    if (selectedType===null) {
       alert('Please select a property type before continuing.');
       return;
+    }else{
+      console.log(selectedType)
+        const payload = {
+        typeOfproperty: selectedType,
+       };
+       dispatch(updateFormData(payload)); 
+       router.push('/add-listing/property-state');
     }
 
-    const payload = {
-      typeOfproperty: selectedType,
-    };
+    
 
-    dispatch(updateFormData(payload));  // Dispatch the action
+   
 
-    router.push('/add-listing/property-state');  // Redirect to the next step
+   
   };
 
   const data = getListingTypes();
