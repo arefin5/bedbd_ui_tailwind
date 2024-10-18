@@ -1,14 +1,11 @@
-"use client"
-
+'use server'
 import Header from "/components/Header"
 import Footer from "/components/Footer";
-import Images from './Images'
+import Images from './ImageGallery'
 import dynamic from 'next/dynamic';
 import starFilledIcon from '/public/icons/star_filled.svg'
 import Image from "next/image";
-
 import Icon from "/components/Icon";
-
 import bedIcon from '/public/icons/bed.svg'
 import guestsIcon from '/public/icons/guests.svg'
 import bathroomIcon from '/public/icons/bathroom.svg'
@@ -21,50 +18,63 @@ import balconyIcon from '/public/icons/balcony.svg'
 import awardIcon from '/public/icons/award.svg'
 import shieldCheckedIcon from '/public/icons/shield-check.svg'
 import starGrayIcon from '/public/icons/star_gray.svg'
-import React, { useEffect, useState, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
+// import React, { useEffect, useState, useCallback } from 'react';
+// import { usePathname } from 'next/navigation';
 import { useGetListingsQuery } from "@/redux/features/api/apiSlice"
+import { cache } from "react";
+import { store } from "@/redux/store";
+import { apiSlice } from "@/redux/features/api/apiSlice";
+import Amenities from "./Amenities";
 
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
-export default function page() {
-    const [post, setPost] = useState({});
-  const pathname = usePathname();
-  const segments = pathname.split('/');
-  const id = segments[segments.length - 1];
-  const { 
-  data: listings , 
-  isLoading, 
-  isError, 
-} = useGetListingsQuery()
+const getListing = async (id) => {
+    await store.dispatch(apiSlice.endpoints.getListing.initiate(id));
+    const data = store.getState().api.queries[`getListing("${id}")`]?.data || [];
+    const img  = [
+                    {
+                        url: 'https://s3-alpha-sig.figma.com/img/fa82/04ba/aa7ce09cc4e2e086c0a441a2bc6c3a41?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=M8c4uLQFc7AfgQ04SbnOni~WQigOh22a69y8PqV3ln1vDTG8oEgcdko6cosl91byEuUratevvVzI-eiOU6cpskEz-T5UHVt55bqQ1po2qNGwojqnvSOZjKzLF3V5qlkK3PQDdnQeRpr5Bmi1iufCxf~FWF~VLcwaihzprTp~hAqWcEUGAuRZBowCa5AYQSErwjrnr6GL6CCrmm-XX1RvU5~pfFUzf8TUTNOIobNrpqBH1UNMZ4WKmooSt9T-zP0jXShNTyv0vRfhe3oplkCdQZc2sISRl51Renh~3WBwhq5pXbtfif3vR5bShSBpwNV-ZdPD2udqLFGayWRGhmT6fw__',
+                        public_id: '1',
+                        _id: 'a7573c04e61a281b5c232a73'
+                    },
+                    {
+                        url: 'https://s3-alpha-sig.figma.com/img/8c39/1934/dab98b8e77b48c65d7c3e2032f00af6c?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DXqNPJjksLkSL22ILvzoSr11clPS4V7XUrXcwLCITHOdMCgGUAd-OpW6ljQJs6XmOXsMBY9cx5tOXKjUw75JjhgR7UzSd8HNlkzalM2AxDGHSTUoFAU7e~ZTwao7U1zWZZBoaQdNuWCnTrCzjaq25GljhnI2zJnQDCCAsdGTXhjEkPCArvCA6nl-l7AX14roFMe99E0OKfhmRAjWne-lF5EfbGNVqeFXwC7yLlyrYcl~T1H-R4nZP9QDuWJvqo-RqzSlczkINhi2yYOmFDzr5-FJSLXBlTnJfq6MFvwPaQvLQcbLDHoSaPKPydcISPRVIQwokjxCNSdSdxU2WpnCRg__',
+                        public_id: '2',
+                        _id: 'cac5c36fd974d01016acaf4d'
+                    },
+                    {
+                        url: 'https://s3-alpha-sig.figma.com/img/8bd1/cbca/ff4537db926dfeb0067a37eecda96e8f?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UPVfuPcTEP9xkJlDWzPTu90~dT5WtP1mrQzrk7v6ldyv0LcqNr7IwozZtbd~y9pps7hGqnVJ9D3zdF3aWnFs3ckkSm7a98ty21xTX6JIW1jBOOFNx4Oh6BKmXXcl7UIt-BBZIadR6DcbvV8U-mBsfJ6RQMBm4syyDMgc5Nk3aMflwZ84qtM3htS8xCk4~s01Ndgoe4D~s0DlIWXb768y0X3cSdvheIR76b81tnvlsAALMAuqmCC2cwik~L0pm8jfdytNrLkAnGebKBhd~H4C2LCTjjg6bCZEOzcuNkJin0CeMO2siEhLclZEL~jdRFr47WT3LpDn6r9FNlpavxGAfA__',
+                        public_id: '3',
+                        _id: 'ad547aff2875e803e22c7710'
+                    },
+                    {
+                        url: 'https://s3-alpha-sig.figma.com/img/28de/5b2c/436c0b472b643abb58ba32973af9094b?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KK63n7r0yOVCnKt3HgeALpTtlER5WYm3IEU7gVyXOMx~OBsEMVK7qhmmtbaZ2CCFLhGBc3sq9H~9OKSzE6cTCXtRsi3U4Y0cg7f95kKtYv2UQ-uRJor~8uOup8c5Dn9TjMqEM61YIHUyWt8GkifXrAZn3zdk9yz0H3B45kR0qoW9PIifnOJ1vesF~mfqqOVSs3rNaspYhWY6~sI0a0jCY4IiETX94VTHhAzijrKbSFRsKY9VWNVlu1uEV06F7dW6eQLeCCmy1Qgu8hy6rVbiRP-pPSjemAvaOr0YMyIIi7MMe6ZOgrM9Yoig96QQ8ooORhJSfSU5~U-m0l8MbabL8Q__',
+                        public_id: '4',
+                        _id: '0fd3c2efbcd544b66a7b14ca'
+                    },
+                    {
+                        url: 'https://s3-alpha-sig.figma.com/img/47d6/8395/bebcd1e57e3c88ef2f4b4e2f2bfc47f1?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XHBOW53qWfhxK~Mh8cwv3CGb7yAVgY1UkBgdkoZH7Ne004Ci3kBc~DmtenyD7haNO~-sJP-2ec3agM2FYguUtBs9~peQvO~HiKyBb3loQJGbd6xKMycen6DS5wE5VSt6KTlqJImN6peU~1poG61mxXwdQGjZ9GHPqw3kVs12qcI0w~iW3LG4iEOkX~b4uRtNDusxdmUl9~TpTO7DvB9m7sjKnoUs1G~LwwHIq2fRxD41-tWjPKO9wa5XjVuhSxh~5pXWcof2q3JF-HQ9PBu8M8CII2zlkiarEmPcjre~awuihiAabAXbnZDPPeARDZzpZ8X1bohbOJAyVhxolfgUXA__',
+                        public_id: '5',
+                        _id: '0fd8c347104aae3f1c02705b'
+                    }
+                ]
+    return {...data, images: img}
+  };
 
-const listingData = listings.find((listing) => listing._id === id);
-  console.log(listingData);
-if (!listingData) return <p>Listing not found or loading...</p>;
 
+export default async function page({params}) {
+    const data = await getListing(params.id)
+    console.log(data)
+    const { 
+            reviews,
+            images, 
+            location,
+            typeOfproperty,
+            propertyTitle, 
+            avgRating, 
+            amenities
+        } = data 
 
-console.log(id);
-    const images  = [
-        {
-            id:0,
-            url:'https://s3-alpha-sig.figma.com/img/8c39/1934/dab98b8e77b48c65d7c3e2032f00af6c?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nVn5K0oUJbxNpzO~VAcpiZHA3aSRqxVWqLAgoyE55Sc3L9ADYdepp1ewBbc4LrUkmD7IQN2c-kkw8Kny8HC7sZRVu331ovEKnA5RhsPlzKEc6YtKT1YwQvH6bukmUVJ62gnTTPVWKDL0lNfGIA~ABS0qyPQlICEJF49t4pBo-b03f~dcLKaYBQ5fKBfBwOOvRw-oByy9cvQjL~JIKx3C-iQhyLGyrE2aEgMHcMPHjhjcVDfDTPaQdaMJTk-1WQ5zPlXE9im6bZ~oOrHuR-BHUex2PEpEqfVeqsj~yaEHCg2rdHZgqxj2P2dsBnQnOr8tuX8bOzmRE0SaecVHYQvFMA__',
-        },{
-            id:1,
-            url:'https://s3-alpha-sig.figma.com/img/fa82/04ba/aa7ce09cc4e2e086c0a441a2bc6c3a41?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qcws7pI5qGVJNbts84h1DQrPHduXqK93aBBPNkDPcoNwXV6W6Gw9dPdqmAzak8jU-2ATa4j~8rL7zWGKmaBnFpqrEvDtHA~3zOFqwbJKpmBqrp41nK8WpgS~8Woy1HIWX4-BcTeh8Wjgk2JApdTEiDeBd165Br81jFOjvGTpArtEJuT8Qlme0lq0JWxbQ24y792pxhta9bi7fV3ftdLLg9cwkaVb7pCc3m98uScurJsOxUoA0QLrB~XXx3O5EZZbplnDM4llrvab2BHrRLkayaUkFIgehWIA04lmUxV547CcI~LMT8b7w4cVVV5uS-9GrZvVh1G4kYs167bFIUO9Kg__',
-        },{
-            id:2,
-            url:'https://s3-alpha-sig.figma.com/img/1e99/4fc1/edd4ba000bdfa85be11654df3de4ccf3?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=F0IMFytilkI3norIKnTuW13JwP5mEb2bjPkZIfRRvGzDN3bRKgrPHH~MLHZudKqI~LKoKpwAirN4nBlH8ymUj-ghPe6Ry2t1ggeY2NDKQG8CgNnkqrMprEtYl~SPwaTCOKimsxKSW7HD36wdmgWMLU9hhVIkIKHKRyxfV944fpEeTHIQahjorN5TNSjY5sJn0U9dIT6h1zXMc2rYmZj5QgbxHdXu7hA7INS1U3lr2KXdnc42SRruJWpD4Z7CRmCY0WWpjfVep66zBHnMF5XcyQfbtIjq3hFVVlQqPA7WdaFstAseWda4IUIX3OzvJFwkB5ThtZSNKJDIEHHh74bmbQ__',
-        },{
-            id:3,
-            url:'https://s3-alpha-sig.figma.com/img/8bd1/cbca/ff4537db926dfeb0067a37eecda96e8f?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=o3r34r8s2FDQQoSYTXmo1DM5rZOoRIgQLCyw8EtAJ3ReIZCSdQVIHwbvSoHw~AzqvBb8yFPQ2vOURaKZgPtlYh1sk9TlYuGq3DCta7CdN7tNueqSYbySXhtIRoTm1s-UBRQnqCfBCVfOqfnH7TYnxwF2UiaPjdMOeJcuaPsWY49iIP8Qlzv-8V86sjnaIsulXoLLuHDQMdy1Ox9EMXjoJQry6v7o17u28U6o4dbttN0un1GY5g3un5o4QcAy5ynaJhG1iSpdqyfwCpUTwfI7X1CCAzbt93HDHJJoqFDHwUqd3HrS3oGTB1vAspKUpmvqRssLgDA1GPZmib9NsnAt9Q__',
-        },{
-            id:4,
-            url:'https://s3-alpha-sig.figma.com/img/28de/5b2c/436c0b472b643abb58ba32973af9094b?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nh4WSUEkQUQg3IS-UvXHdkKV64vAZ4XiEh6-VF467Q57wXsqymVjYBEq~I98tAIejr2X3IMXC-5r5BbqmVuQ6eC~zQlzLcSgd~DL4EItgPbCXEdjHMw5C2aFBrMSFXxIvW-LwvyK4JxLHRORLuFJGGk7x~K4p0Jv5HPao1lBKQ9Xla9fFLMJ0ZX6SYW1ESTgbmxwvffCOecHBSVkQRI4D0WU3ImsFWRrAfOBWwPgmwYz9LrLOmDD1enQStRshZNNB4QJbGbxfL39B0f6s4BOQuXpfWU6vebsqC8tYOnagRXBuaNn-8e6bJsEpmI97uVZDgV7y1XKOw~UdK-BdOr-Ug__',
-        },{
-            id:5,
-            url:'https://s3-alpha-sig.figma.com/img/47d6/8395/bebcd1e57e3c88ef2f4b4e2f2bfc47f1?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=hpcDMeDTeoms9Zd-5CvdCZ87OInBGUuJqtApaXSfKAq8IR3ameWEKiiRR0dwOSFp1jLTO1AmASo7vg4mXtHJiQP9K~vQd08EKboHDjDxTh6CUWtGvuTpzoHpoGnefHZ-34z7FZQrf4Iox1Hv0y62VE0avgLdP1mbjSmJmUsWcRXAQPEnmMfE3QYC0BSNh1iPO5SFrpDhLh77phliMpSSOltuZFgl5vRiLGb9gt738x1cChehCjBF1SLWQeW7RB0MvZmHq5EFeFhUmLC4MbflMgsbfJ2LVkE4Pm9T6cqM5Ha6TuPVhVEhhOvqen8lOL-VNBVzJLFy8NXaoLXgvO6LPQ__',
-        }
-    ]
 
   return (
     <>
@@ -72,7 +82,7 @@ console.log(id);
         <div className="container mx-auto px-6 mt-10  ">
             <div className="mt-10 flex flex-col xl:flex-row gap-4">
                 <Images data={images}/>
-                <Map/>
+                <Map data={location} />
             </div>
             {/* <div>
                 <h2>Apartment<span><Image src={starFilledIcon} height={24} width={24} /></span><span>(20)</span></h2>
@@ -91,12 +101,12 @@ console.log(id);
 
             <div className=" flex py-4 md:py-6 xl:py-10 xl:max-w-724px 2xl:max-w-978px justify-between items-center ">
                 <div className="flex items-center text-neutral-500">
-                    <span className="font-semibold text-2xl">Apartment</span>
+                    <span className="font-semibold text-2xl">{typeOfproperty}</span>
                     <Image className="ml-6" src={starFilledIcon} height={24} width={24} alt="..."/>
                     <span className=" text-primary-400 font-semibold text-lg ml-2">
-                            4.3
+                            {avgRating}
                     </span>
-                    <span className="text-base ml-1">(20)</span>
+                    <span className="text-base ml-1">{`(${reviews.length})`}</span>
                 </div>
                 <div className="text-neutral-500 text-lg font-semibold | flex gap-x-8">
                     <div className="flex">
@@ -114,8 +124,15 @@ console.log(id);
                 <div className="">
                     {/* Title */}
                     <div>
-                        <h2 className="font-semibold text-3xl text-neutral-600">Ocean Blue, Labonno point, Cox bazar</h2>
-                        <h4 className="font-normal text-lg text-neutral-400">467 Stutler Lane, Altoona, PA 16602</h4>
+                        <h2 className="font-semibold text-3xl text-neutral-600">{propertyTitle}</h2>
+                        <h4 className="font-normal text-lg text-neutral-400">
+                            {
+                                location.streetAddress+', '+
+                                location.address+', '+
+                                location.postcode+', '+
+                                location.country
+                            }
+                        </h4>
                     </div>
 
                     {/* Facilities */}
@@ -171,36 +188,7 @@ console.log(id);
                     </div>
 
                     {/* Amenities */}
-                    <div className="my-14 text-neutral-700">
-                        <h3 className="text-2xl font-semibold ">Offered Amenities</h3>
-                        <ul className="mb-8 space-y-6 mt-6 font-normal text-lg md:columns-2">
-                            <li>
-                                <Image alt="icon" className='mr-6 inline' src={kitchenIcon} />
-                                Kitchen
-                            </li>
-                            <li>
-                                <Image alt="icon" className='mr-6 inline' src={ACIcon} />
-                                Air Conditioner
-                            </li>
-                            <li >
-                                <Image alt="icon" className='mr-6 inline' src={washingMechineIcon} />
-                                Washer
-                            </li>
-                            <li>
-                                <Image alt="icon" className='mr-6 inline' src={tvIcon} />
-                                Television with Netflix
-                            </li>
-                            <li>
-                                <Image alt="icon" className='mr-6 inline' src={wifiIcon} />
-                                Free Wireless Internet
-                            </li>
-                            <li>
-                                <Image alt="icon" className='mr-6 inline' src={balconyIcon} />
-                                BalconyIcon or Patio
-                            </li>
-                        </ul>
-                        <button className="w-full max-w-64 py-3 rounded-md bg-transparent border border-neutral-400 text-neutral-400 text-lg font-normal ">Show All 10 Amenities</button>
-                    </div>
+                    <Amenities data={amenities}/>
 
                     {/* Home rules */}
                     <div className="my-14 text-neutral-700">

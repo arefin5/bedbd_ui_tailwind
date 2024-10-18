@@ -14,5 +14,7 @@ export const store = configureStore({
     },
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddlewares) => 
-        getDefaultMiddlewares().concat(apiSlice.middleware)
+        getDefaultMiddlewares()
+            .concat(apiSlice.middleware)
+
 })
