@@ -1,11 +1,16 @@
-
+"use client"
 import Icon from '/components/Icon'
 // import PropertyBookingTypes from './PropertyBookingTypes'
 import BookingType from './BookingType'
 import { Plus } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useDispatch ,useSelector} from 'react-redux'
+import { updateFormData } from '@/redux/list/createListSlice';
 
+import { useRouter } from 'next/navigation';
 
 function getPropertyBookingType() {
+  
   return [{
     "_id":  "663389106a89b8b09c9afcca",
     "title": "A private room",
@@ -21,7 +26,33 @@ function getPropertyBookingType() {
  
 export default function page() {
   const data = getPropertyBookingType()
+    const [bookingtype,setBookingType]=useState("");
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const formData = useSelector((state) => state.form);
+    useEffect(()=>{
+       console.log(bookingtype);
+    },[bookingtype])
+  
+    const handleContinue = async (e) => {
+      e.preventDefault();
+      if (!bookingtype) {
+        alert('Please select a booking type before continuing.');
+        return;
+      }
+    try{
+      const payload = { bookingtype };
+      
+      // Using async/await to ensure the state update is processed
+      await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
+      
+      // console.log('Current Redux state:', formData); // Redux state should be updated
+      router.push('/add-listing/amenities'); // Navigate to the next pag
+    }catch(error){
 
+    }
+     
+    };
     return (
         <div className=" min-h-screen py-20">
           <div className="">
@@ -34,6 +65,7 @@ export default function page() {
                   data.map(item=>
                             <BookingType 
                               data={item}
+                              setBookingType={setBookingType}
                             />) 
                 }
               </div>
@@ -45,7 +77,7 @@ export default function page() {
                 <button className="btn btn-secondary max-w-36 relative">
                   <Icon name='chevron-left' className="icon absolute-y-center left-4 "/> 
                   Back</button>
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={handleContinue}>
                   Continue
                 </button>
               </div>

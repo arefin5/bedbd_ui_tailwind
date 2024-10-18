@@ -33,24 +33,23 @@ export default function Page() {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.form); // Assuming your reducer is named 'form'
   useEffect(() => {
-    console.log("Selected Property Type Updated:", propertyCondition);
+    // console.log("Selected Property Type Updated:", propertyCondition);
   }, [propertyCondition]);
-  const handleContinue = (e) => {
+  const handleContinue = async(e) => {
     e.preventDefault();
-
     // Check if propertyCondition is not empty
     if (propertyCondition===null) {
       alert('Please select a property condition before continuing.');
       return;
-    }else{
-      console.log(propertyCondition)
+    }
+      // console.log(propertyCondition)
       const payload = {
         propertyCondition: propertyCondition,
-      };
-      dispatch(updateFormData(payload)); // Dispatch the action
-      console.log('Current Redux state:', formData); // Log the current state
-      router.push('/add-listing/amenities'); // Redirect to the next step
-    }
+      }
+   await   dispatch(updateFormData(payload)); // Dispatch the action
+      // console.log('Current Redux state:', formData); // Log the current state
+      router.push('/add-listing/property-booking-types'); // Redirect to the next step
+    
    
   };
 

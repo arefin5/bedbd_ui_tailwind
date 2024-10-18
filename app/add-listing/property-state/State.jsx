@@ -39,7 +39,7 @@ export default function State({ data, setPropertyCondition }) {
 
   function handleClick() {
     setIsChecked(prev => !prev); // Toggle checked state
-    setPropertyCondition(!isChecked ? data.title : ""); // Set condition or clear it
+    setPropertyCondition(!isChecked ? data.title:null); // Set condition or clear it
   }
 
   return (
