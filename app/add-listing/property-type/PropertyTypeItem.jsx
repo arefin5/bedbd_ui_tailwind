@@ -85,7 +85,7 @@ export default function PropertyTypeItem({ data, setSelectedType }) {
     e.preventDefault();
     
     // Set the selected type in the parent component
-    setSelectedType(data.typeName);
+    setSelectedType(data.typeName|| null);
     
     const activeClasses = ['shadow', 'border-secondary-400', 'shadow-secondary-400'];
     const inActiveClass = ['border-neutral-300'];

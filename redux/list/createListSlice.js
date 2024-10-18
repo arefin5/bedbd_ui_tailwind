@@ -65,6 +65,8 @@ const formSlice = createSlice({
     },
     updateFormData(state, action) {
       // Merge new dynamic form properties into existing formData
+      console.log("redux",action.payload)
+      console.log("from redux from data ",state.formData)
       state.formData = {
         ...state.formData,
         ...action.payload,
