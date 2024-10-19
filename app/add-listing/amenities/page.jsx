@@ -395,7 +395,11 @@ export default function Page() {
     console.log('Current Redux state amentise:', formData);
     // router.push('/next-step');
   };
+  const back=(e)=>{
+    e.preventDefault();
+    router.push("/add-listing/property-booking-types")
 
+  }
   return (
     <div className="min-h-screen py-20">
       <div>
