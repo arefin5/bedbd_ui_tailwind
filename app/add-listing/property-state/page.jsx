@@ -31,7 +31,7 @@ export default function Page() {
   const [propertyCondition, setPropertyCondition] = useState(""); // Renamed for consistency
   const router = useRouter();
   const dispatch = useDispatch();
-  const formData = useSelector((state) => state.form); // Assuming your reducer is named 'form'
+  // const formData = useSelector((state) => state.form); // Assuming your reducer is named 'form'
   useEffect(() => {
     // console.log("Selected Property Type Updated:", propertyCondition);
   }, [propertyCondition]);
@@ -46,13 +46,16 @@ export default function Page() {
       const payload = {
         propertyCondition: propertyCondition,
       }
-   await   dispatch(updateFormData(payload)); // Dispatch the action
-      // console.log('Current Redux state:', formData); // Log the current state
-      router.push('/add-listing/property-booking-types'); // Redirect to the next step
-    
-   
+   await   dispatch(updateFormData(payload)); 
+      // console.log('Current Redux state:', formData);
+      router.push('/add-listing/property-booking-types');
   };
 
+    const back=(e)=>{
+      e.preventDefault();
+      router.push("/add-listing/property-type")
+
+    }
   return (
     <div className="min-h-screen py-20">
       <div>
@@ -71,7 +74,7 @@ export default function Page() {
             }
           </div>
           <div className="flex gap-x-8 mt-14">
-            <button className="btn btn-secondary max-w-36 relative" type="button">
+            <button className="btn btn-secondary max-w-36 relative" type="button" onClick={back}>
               <Icon name='chevron-left' className="icon absolute-y-center left-4" />
               Back
             </button>

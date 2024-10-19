@@ -47,12 +47,17 @@ export default function page() {
       await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
       
       // console.log('Current Redux state:', formData); // Redux state should be updated
-      router.push('/add-listing/amenities'); // Navigate to the next pag
+      router.push('/add-listing/property-details'); // Navigate to the next pag
     }catch(error){
 
     }
+  
      
     };
+    const back=(e)=>{
+      e.preventDefault();
+      router.push('/add-listing/property-state');
+    }
     return (
         <div className=" min-h-screen py-20">
           <div className="">
@@ -74,7 +79,7 @@ export default function page() {
                 Add more option
               </button>
               <div className="flex gap-x-8 mt-14">
-                <button className="btn btn-secondary max-w-36 relative">
+                <button className="btn btn-secondary max-w-36 relative" onClick={back}>
                   <Icon name='chevron-left' className="icon absolute-y-center left-4 "/> 
                   Back</button>
                 <button className="btn btn-primary" onClick={handleContinue}>
