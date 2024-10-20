@@ -78,7 +78,7 @@ export default function Page() {
     
     dispatch(updateFormData(payload));
     console.log('Current Redux state amentise:', formData);
-    // router.push('add-listing/home-rules');
+    router.push('/add-listing/home-rules');
   };
   const back=(e)=>{
     e.preventDefault();
@@ -154,7 +154,9 @@ export default function Page() {
           </div>
 
           <div className="flex gap-x-8 mt-14">
-            <button className="btn btn-secondary max-w-36 relative" type="button">
+            <button className="btn btn-secondary max-w-36 relative" type="button"
+            onClick={back}
+            >
               <Icon name='chevron-left' className="icon absolute-y-center left-4" />
               Back
             </button>

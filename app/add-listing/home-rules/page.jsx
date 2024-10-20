@@ -5,6 +5,9 @@ import getAllTimeSegments from './getAllTimeSegments'
 import OptionIcon from './OptionIcon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
+import { useDispatch ,useSelector} from 'react-redux'
+import { Plus } from 'lucide-react'
+import { updateFormData } from '@/redux/list/createListSlice';
 
 function getHomeRules() {
     return [{
@@ -103,6 +106,7 @@ export default function page() {
                     <div className='space-y-4'>
                         { data.map(item => <Rule data={item}
                             setHomeRule={setHomeRule}
+                            homerule={homerule}
                         />) }                    
                     
                     </div>
