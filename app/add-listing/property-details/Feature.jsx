@@ -1,4 +1,8 @@
 "use client"
+
+import { useState } from "react";
+import { SquareCheckBig, Square } from 'lucide-react'
+
 export default 
 function Feature({ data, setpropertyFeature, propertyFeature }) {
     const [isChecked, setIsChecked] = useState(false);
