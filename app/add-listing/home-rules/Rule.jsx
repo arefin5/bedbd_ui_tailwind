@@ -1,12 +1,19 @@
 'use client'
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { Square, SquareCheckBig } from 'lucide-react'
 
-export default function HomeRule({data}) {
+export default function HomeRule({data,setHomeRule}) {
     const [checked, setChecked] = useState(false)
     function handleClick() {
             document.getElementById(data['_id']).click();
-            setChecked(!checked)  
+            setChecked(!checked)  ;
+            setHomeRule((prevState) => ({
+              ...prevState,
+              [data.title.toLowerCase().replace(/\s+/g, '')]: {
+                  name: data.title, 
+                  value: newState   
+              }
+          }));
     }
 
   return (
