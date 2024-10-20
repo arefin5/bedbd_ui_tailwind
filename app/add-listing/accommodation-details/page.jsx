@@ -40,7 +40,7 @@ export default function Page() {
         roomCounts
        };
        await dispatch(updateFormData(payload));
-       router.push('/add-listing/accommodation-details');
+       router.push('/add-listing/amenities');
 
     } catch (error) {
        console.log(error)
@@ -48,7 +48,7 @@ export default function Page() {
   };
   const back = (e) => {
     e.preventDefault();
-    router.push("/add-listing/property-details");
+    router.push("/add-listing/location-confirmation");
   };
   return (
     <div className="min-h-screen py-20">

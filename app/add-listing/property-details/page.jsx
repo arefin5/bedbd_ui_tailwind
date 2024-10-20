@@ -49,7 +49,7 @@ export default function Page() {
 
   const handleContinue = async (e) => {
       e.preventDefault();
-      if (propertyTitle === "" && description === "") return;
+      if (propertyTitle === "") return;
       const payload = {
           propertyFeature: propertyFeature,
           title: propertyTitle,
@@ -102,7 +102,8 @@ export default function Page() {
                   <h3 className="text-neutral-500 font-medium text-xl mb-4">Property Features</h3>
                   <p className='mb-4 text-neutral-500 font-normal text-sm'>Lorem ipsum dolor sit amet consectetur. Gravida faucibus massa dignissim malesuada felis.</p>
                   {features.map(item => (
-                      <Feature key={item._id} data={item} setpropertyFeature={setpropertyFeature} propertyFeature={propertyFeature} />
+                      <Feature key={item._id} data={item} setpropertyFeature={setpropertyFeature} 
+                      propertyFeature={propertyFeature} />
                   ))}
 
                   {/* "Add More Option" button */}
