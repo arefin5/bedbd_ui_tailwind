@@ -67,7 +67,7 @@ export default function page() {
       await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
       
       console.log('Current Redux state:', formData); 
-    //   router.push('/add-listing/property-details'); // Navigate to the next pag
+      router.push('/add-listing/upload-images'); // Navigate to the next pag
     }catch(error){
 
     }
