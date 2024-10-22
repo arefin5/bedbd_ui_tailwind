@@ -2,7 +2,7 @@
 import { Minus, Plus } from "lucide-react"
 import { useState } from "react"
 
-export default function PriceCounter({data}) {
+export default function PriceCounter({data,price,setPrice}) {
     const [priceInfo, setPriceInfo] = useState({
            price: parseFloat(data['minPrice']),
         currency: data['currency'],
@@ -10,19 +10,38 @@ export default function PriceCounter({data}) {
 
     })
 
+    // function increment(e) {
+    //     e.preventDefault()
+    //     setPriceInfo(value => ({...value, price: priceInfo['price'] + 1}) )
+    //     // setPriceInfo(value => ({...value, price: (parseInt(priceInfo['price']) + 1 ).toString() }))    
+    // }
+
+    // function decrement(e) {
+    //     e.preventDefault()
+    //     if(priceInfo['price'] > parseFloat(data['minPrice']) )
+
+    //         setPriceInfo(value => ({...value, price: priceInfo['price'] - 1}) )
+    //         // setPriceInfo(value => ({...value, price: (parseInt(priceInfo['price']) - 1 ).toString() }))  
+    // }
     function increment(e) {
-        e.preventDefault()
-        setPriceInfo(value => ({...value, price: priceInfo['price'] + 1}) )
-        // setPriceInfo(value => ({...value, price: (parseInt(priceInfo['price']) + 1 ).toString() }))    
+        e.preventDefault();
+        setPriceInfo(value => {
+            const newPrice = value.price + 1;
+            setPrice(newPrice);  // Update price in parent
+            return { ...value, price: newPrice };
+        });
     }
 
     function decrement(e) {
-        e.preventDefault()
-        if(priceInfo['price'] > parseFloat(data['minPrice']) )
-            setPriceInfo(value => ({...value, price: priceInfo['price'] - 1}) )
-            // setPriceInfo(value => ({...value, price: (parseInt(priceInfo['price']) - 1 ).toString() }))  
+        e.preventDefault();
+        if (priceInfo.price > parseFloat(data.minPrice)) {
+            setPriceInfo(value => {
+                const newPrice = value.price - 1;
+                setPrice(newPrice);  // Update price in parent
+                return { ...value, price: newPrice };
+            });
+        }
     }
-
     function calculatePercentage( total, percentage) {
         // Check if inputs are valid numbers
         if (typeof percentage !== 'number' || typeof total !== 'number') {

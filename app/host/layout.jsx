@@ -45,17 +45,17 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     // If the user is not logged in or doesn't have the "user" role, redirect to "/"
-    if (!user || user.role !== "user") {
+    if (!user || user.role !== "host") {
       router.push('/');
     }
   }, [user, router]);
 
   // Don't render anything until the user check is done
-  if (!user || user.role !== "user") return null;
+  if (!user || user.role !== "host") return null;
 
   return (
     <>
-      <Header />
+      <Header user={user}/>
       <div className="container ml-auto mr-auto flex z-10">
         <Sidebar />
         {children}
