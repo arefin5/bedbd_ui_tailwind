@@ -2,7 +2,7 @@
 import  { useState } from 'react'
 import { Square, SquareCheckBig } from 'lucide-react'
 
-export default function HomeRule({data,setHomeRule}) {
+export default function HomeRule({data,setHomeRule,homerule}) {
     const [checked, setChecked] = useState(false)
     function handleClick() {
             document.getElementById(data['_id']).click();
@@ -10,10 +10,10 @@ export default function HomeRule({data,setHomeRule}) {
             setHomeRule((prevState) => ({
               ...prevState,
               [data.title.toLowerCase().replace(/\s+/g, '')]: {
-                  name: data.title, 
-                  value: newState   
+                name: data.title, 
+                value: !checked  
               }
-          }));
+            }));
     }
 
   return (
