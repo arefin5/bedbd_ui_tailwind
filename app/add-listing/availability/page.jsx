@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 export default function Page() {
     const [formValues, setFormValues] = useState({
         checkIn: '',
+        checkInStart: '',
         allowExtend: '',
         bookingExtend: '',
         specificDate: '',
@@ -29,8 +30,8 @@ export default function Page() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { checkIn, allowExtend, bookingExtend, specificDate, allowNight, stopBooking } = formValues;
-            const payload = { checkIn, allowExtend, bookingExtend, specificDate, allowNight, stopBooking };
+            const { checkInStart, allowExtend, bookingExtend, specificDate, allowNight, stopBooking } = formValues;
+            const payload = { checkInStart, allowExtend, bookingExtend, specificDate, allowNight, stopBooking };
             await dispatch(updateFormData(payload));
             console.log(payload)
             console.log('Navigating to /add-listing/approving');
@@ -62,20 +63,20 @@ export default function Page() {
                             <div className='flex gap-x-4'>
                                 <InputRadioButton
                                     inputId='asap'
-                                    inputName='checkIn'
+                                    inputName='checkInStart'
                                     value='asap'
-                                    isChecked={formValues.checkIn === 'asap'}
-                                    onChange={() => handleInputChange('checkIn', 'asap')}
+                                    isChecked={formValues.checkInStart === 'asap'}
+                                    onChange={() => handleInputChange('checkInStart', 'asap')}
                                 />
                                 <label htmlFor='asap'>As soon as possible</label>
                             </div>
                             <div className='flex gap-x-4 mt-4'>
                                 <InputRadioButton
                                     inputId='specific'
-                                    inputName='checkIn'
+                                    inputName='Start'
                                     value='specific'
-                                    isChecked={formValues.checkIn === 'specific'}
-                                    onChange={() => handleInputChange('checkIn', 'specific')}
+                                    isChecked={formValues.checkInStart === 'specific'}
+                                    onChange={() => handleInputChange('checkInStart', 'specific')}
                                 />
                                 <label htmlFor='specific'>On a specific date</label>
                             </div>
@@ -86,7 +87,7 @@ export default function Page() {
                                 type='text'
                                 name='specific'
                                 placeholder='Set Date'
-                                onChange={(e) => handleInputChange('checkIn', e.target.value)}
+                                onChange={(e) => handleInputChange('checkInStart', e.target.value)}
                             />
                         )}
                         
@@ -117,13 +118,16 @@ export default function Page() {
                                 <label htmlFor='allow-extend-no'>No</label>
                             </div>
                         </div>
-                        <input
-                            className='form-input mt-6'
-                            type='number'
-                            name='allow-night'
-                            placeholder='Set Maximum night'
-                            onChange={(e) => handleInputChange('allowExtend', e.target.value)}
-                        />
+                        {formValues.allowExtend !== 'no' && (
+                            <input
+                                className='form-input mt-6'
+                                type='text'
+                                name='allowExtend'
+                                 placeholder='Set Maximum night'
+                                onChange={(e) => handleInputChange('allowExtend', e.target.value)}
+                            />
+                        )}
+                       
                     </div>
 
                     {/* Stop booking after a timeframe */}
@@ -151,13 +155,16 @@ export default function Page() {
                                 <label htmlFor='allow-booking-no'>No</label>
                             </div>
                         </div>
-                        <input
-                            className='form-input mt-6'
+                        {formValues.bookingExtend !== 'yes' && (
+                            <input
+                               className='form-input mt-6'
                             type='number'
                             name='allow-night'
                             placeholder='Set date'
                             onChange={(e) => handleInputChange('bookingExtend', e.target.value)}
-                        />
+                            />
+                        )}
+                        
                     </div>
 
                     {/* Footer and actions */}
