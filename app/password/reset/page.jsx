@@ -11,7 +11,7 @@ export default function page() {
     const [password,setPassword]=useState("");
     const [conPass,setConPass]=useState("")
     const { user, loading, error,token } = useSelector((state) => state.auth);
-
+    const router=useRouter()
     const dispatch = useDispatch();
     
     const hadleReset=async(e)=>{
@@ -20,8 +20,8 @@ export default function page() {
             console.log("ture")
             if(password!==conPass)return 
             if (password !== conPass) return;
-        dispatch(resetPasseord({  password }));
-      
+      await  dispatch(resetPasseord({  password }));
+      router.push("/user/profile")
         }catch(error){
             console.log(error)
         }

@@ -33,9 +33,9 @@ export default function Page() {
             const { checkInStart, allowExtend, bookingExtend, specificDate, allowNight, stopBooking } = formValues;
             const payload = { checkInStart, allowExtend, bookingExtend, specificDate, allowNight, stopBooking };
             await dispatch(updateFormData(payload));
-            console.log(payload)
-            console.log('Navigating to /add-listing/approving');
-            // router.push('/add-listing/approving');
+            // console.log(payload)
+            // console.log('Navigating to /add-listing/approving');
+            router.push('/add-listing/approving');
         } catch (error) {
             console.log("Error: ", error);
         }
@@ -81,7 +81,7 @@ export default function Page() {
                                 <label htmlFor='specific'>On a specific date</label>
                             </div>
                         </div>
-                        {formValues.checkIn !== 'asap' && (
+                        {formValues.checkInStart !== 'asap' && (
                             <input
                                 className='form-input mt-6'
                                 type='text'
@@ -155,10 +155,10 @@ export default function Page() {
                                 <label htmlFor='allow-booking-no'>No</label>
                             </div>
                         </div>
-                        {formValues.bookingExtend !== 'yes' && (
+                        {formValues.bookingExtend !== 'no' && (
                             <input
                                className='form-input mt-6'
-                            type='number'
+                            type='name'
                             name='allow-night'
                             placeholder='Set date'
                             onChange={(e) => handleInputChange('bookingExtend', e.target.value)}

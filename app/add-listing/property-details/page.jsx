@@ -52,7 +52,7 @@ export default function Page() {
       if (propertyTitle === "") return;
       const payload = {
           propertyFeature: propertyFeature,
-          title: propertyTitle,
+          propertyTitle: propertyTitle,
           description: description
       };
       await dispatch(updateFormData(payload));

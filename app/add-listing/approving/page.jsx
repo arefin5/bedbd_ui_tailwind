@@ -4,13 +4,14 @@ import InputRadioButton from './InputRadioButton';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { updateFormData } from '@/redux/list/createListSlice';
 
 export default function Page() {
   const [formValues, setFormValues] = useState({
     approvingMethod: 'instant',
     genderPreference: 'anyone',
   });
-
+  
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -24,13 +25,13 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const { approvingMethod, genderPreference } = formValues;
       const payload={
-        approvingMethod: approvingMethod,
-       genderPreference: genderPreference,
+        aprovingmethod: approvingMethod,
+       gender: genderPreference,
       }
       await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
-
-      console.log('Current Form Values:', formValues);
+      console.log(payload)
       router.push('/add-listing/congratulation');
     } catch (error) {
       console.error(error);
