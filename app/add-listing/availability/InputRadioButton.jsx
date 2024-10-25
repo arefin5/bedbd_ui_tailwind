@@ -1,14 +1,13 @@
-
 "use client";
 import { Circle, CircleCheckBig } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-export default function InputRadioButton({ inputId, inputName, parentId, isChecked, onChange }) {
+export default function InputRadioButton({ inputId, inputName, value, isChecked, onChange }) {
   const [checked, setChecked] = useState(isChecked);
   const inputRef = useRef(null);
 
   const onIconClickHandler = () => {
-    setChecked((prev) => !prev);
+    setChecked(true); // Only check this radio button
     inputRef.current.click();
   };
 
@@ -24,6 +23,7 @@ export default function InputRadioButton({ inputId, inputName, parentId, isCheck
         type="radio"
         id={inputId}
         name={inputName}
+        value={value}
         checked={checked}
         onChange={onChange}
       />
