@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 
 // Your Firebase configuration object
 const firebaseConfig = {
@@ -18,5 +18,19 @@ const auth = getAuth(app);
 
 // Set up Google provider
 const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
-export { auth, googleProvider, signInWithPopup };
+async function facebookLogin(params) {
+  const provider = new FacebookAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider )
+
+    if(result)
+      console.log(result)
+  } catch (error) {
+    
+  }
+}
+
+
+export { auth, googleProvider, facebookProvider, facebookLogin, signInWithPopup };

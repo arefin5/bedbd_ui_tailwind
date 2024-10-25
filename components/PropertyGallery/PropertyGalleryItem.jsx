@@ -141,39 +141,39 @@ const [image, setImage] = useState(images[0])
 
 
 return (
-  <Link href={`/listing/${data._id}`}>
+  
     <div className="min-w-290px max-w-395px">
-
-        <div ref={imageContainerRef} className=" relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar ">
+        <div ref={imageContainerRef} className=" relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar ">        
           <div className="z-0 relative flex-none w-full h-auto aspect-[145/89]  min-h-178px  max-h-242px max-w-395px max-h-242px  object-cover items-center ">
-            <Image alt="property image" src={image.src} fill className="object-cover"/>
-          </div>
+            <Link href={`/listing/${data._id}`}>
+              <Image alt="property image" src={image.src} fill className="object-cover"/>
+            </Link>
+          </div>        
           {
             buttonVisibility['showLeftButton'] && 
-            <button onClick={leftButtonClick} className="z-10 rounded bg-gray-900 group absolute-y-center p-1 left-3 bg-opacity-30 hover:bg-opacity-50">
+            <button onClick={leftButtonClick} className="z-20 rounded bg-gray-900 group absolute-y-center p-1 left-3 bg-opacity-30 hover:bg-opacity-50">
               <ChevronLeft className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" />
             </button>
           }
-
           {
             buttonVisibility['showRightButton'] && 
-            <button onClick={rightButtonClick} className="z-10 rounded bg-gray-900 group absolute-y-center p-1 right-3 bg-opacity-30 hover:bg-opacity-50">
+            <button onClick={rightButtonClick} className="z-20 rounded bg-gray-900 group absolute-y-center p-1 right-3 bg-opacity-30 hover:bg-opacity-50">
               <ChevronRight className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" />
             </button>
           }
 
-          <button className="z-10 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
+          <button className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
             <Heart className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" />
           </button>         
         </div>
-          
-
-
-        
         <div className="mt-2">
-          <div className="inline-block float-left h-fit mt-auto | text-xl text-neutral-500 font-semibold ">{location.streetAddress.replace(/^(.{10}).*$/, '$1...') +', '+ location.country }</div>
+          <Link href={`/listing/${data._id}`}>
+            <div className="inline-block float-left h-fit mt-auto | text-xl text-neutral-500 font-semibold ">{location.streetAddress.replace(/^(.{10}).*$/, '$1...') +', '+ location.country }</div>
+          </Link>
           <div className="pl-auto text-end | text-2xl text-primary-400 font-semibold">${price + serviceFee + tex}</div>
-          <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on 25.12.2023</div>
+          <Link href={`/listing/${data._id}`}>
+            <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on 25.12.2023</div>
+          </Link>
           <div className="text-end flex float-right items-center content-center justify-center text-base font-medium">
             <Image alt="rating icon" className="" src='/icons/star_gray.svg' height={24} width={24}/><span className="mt-auto text-neutral-600 "> 
               { avgRating } 
@@ -181,7 +181,6 @@ return (
             ( {reviews.length} )</span></div>
         </div>
     </div>
-    </Link>
   )
 }
 
