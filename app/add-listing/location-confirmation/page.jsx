@@ -39,7 +39,7 @@ export default function Page() {
             thana: thana,
             district: district,
             postcode: postcode,
-            googleMap: googleMap,
+            googlemap: googleMap,
           }
         
       };

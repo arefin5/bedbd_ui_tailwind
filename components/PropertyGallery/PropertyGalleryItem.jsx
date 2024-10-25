@@ -17,7 +17,7 @@ function throttle(func, limit) {
   };
 }
 export default function PropertyGalleryItem({data}) {
-console.log(data._id);
+// console.log(data._id);
   const [images, setimages] = useState([
     {
       id:0,
