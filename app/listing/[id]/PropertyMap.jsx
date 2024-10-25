@@ -5,7 +5,6 @@ import { useRef, useState, useEffect } from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function PropertyMap({data}) {
-  console.log(data)
 
   const { coordinates } = data
   const mapRef = useRef();
@@ -37,7 +36,37 @@ export default function PropertyMap({data}) {
                 )
   },[coordinates])
 
+  function calculateBounds(lat, lon, distanceInKm) {
+    const earthRadius = 6371; // Earth's radius in kilometers
+  
+    // Convert distance to degrees
+    const latDistance = distanceInKm / earthRadius;
+    const lonDistance = distanceInKm / (earthRadius * Math.cos((Math.PI * lat) / 180));
+  
+    const southWest = [
+      lon - lonDistance, // min longitude
+      lat - latDistance, // min latitude
+    ];
+  
+    const northEast = [
+      lon + lonDistance, // max longitude
+      lat + latDistance, // max latitude
+    ];
+    return  [[southWest[0], southWest[1]], 
+             [northEast[0], northEast[1]]]
+    return {
+      southWest: southWest,
+      northEast: northEast,
+    };
+  }
+  const distanceInKm = 80; 
+  const bounds = calculateBounds(mapInfo['center']['latitude'], mapInfo['center']['longitude'], distanceInKm);
+  // const formattedBounds = [
+  //   [bounds.southWest[0], bounds.southWest[1]], 
+  //   [bounds.northEast[0], bounds.northEast[1]], 
+  // ];
   function onMapMoveHandlar(e) {
+
     setMapInfo({
       ...mapInfo,
       center:{
@@ -60,7 +89,9 @@ export default function PropertyMap({data}) {
                 latitude={ mapInfo['center']['latitude'] }
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 onMove={onMapMoveHandlar}
+                // maxBounds={bounds}
               //   onData={onMapDataHandlar}
+                // maxBounds={bounds}
                 mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'>
 
 

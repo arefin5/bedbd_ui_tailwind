@@ -1,8 +1,12 @@
 import Image from "next/image"
 import MoreButton from "./MoreButton"
+import React from 'react'
+import ImagesDetailsGallery from "./ImagesDetailsGallery"
+
 
 export default function ImageGallery({data}) {
   return (
+  <>
     <div className=" w-full grid md:grid-cols-2 gap-4 relative">
       {
         data.slice(0,4)
@@ -12,5 +16,9 @@ export default function ImageGallery({data}) {
       }
       {data.length > 4 && <MoreButton data={data}/>}
     </div>
+    <ImagesDetailsGallery data={data}/>
+  </>
+    
+
   )
 }

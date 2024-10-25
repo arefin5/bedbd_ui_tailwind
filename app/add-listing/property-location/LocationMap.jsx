@@ -77,7 +77,8 @@ export default function LocationMap() {
           <div className='relative'>
             <SearchBox 
                   className='form-input'
-                  accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+                  accessToken='eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9'
+                  // accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
                   onRetrieve={handleRetrieve}
                   placeholder='Search your location or click on location button'
                   value={mapInfo['locationName']}/>
@@ -96,7 +97,9 @@ export default function LocationMap() {
             mapStyle="mapbox://styles/mapbox/streets-v9"
             onMove={onMapMoveHandlar}
           //   onData={onMapDataHandlar}
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}>
+            mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'
+            // mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+            >
             <GeolocateControl 
               ref={geoControlRef}
               onGeolocate={onGeolocateCtrlClickHandlar}/>

@@ -16,14 +16,10 @@ export default function Login() {
         const handleLogin = async(e) => {
             try{
             e.preventDefault();
-            // Add login logic here
              let phone = `${countryCode} ${phonee}`;
             console.log("phone", phone);
               const resultAction = await dispatch(loginUserPhone({ phone }));
-            // dispatch(loginUserPhone({ phone }));
-              // Check if the action was fulfilled
           if (loginUserPhone.fulfilled.match(resultAction)) {
-            // Navigate to OTP page
             router.push("/login/phone/otp");
           } else {
             console.log("Error during phone login:", resultAction.payload);
@@ -69,13 +65,12 @@ export default function Login() {
                         <div className='flex-auto hover:bg-gray-50 pl-4 pr-7.5 py-3.5 grid relative | sm:custom-left-line-200 border border-neutral-200 sm:border-none rounded-30px'>
                             <label className='text-neutral-300 font-medium text-xs leading-none '>phone number</label>
                             <input 
-                            type='email'
-                             name='phone'
-                              placeholder='Enter Your Number'
-                              type='tel'
+                                name='phone'
+                                placeholder='Enter Your Number'
+                                type='tel'
                                 value={phonee}
                                 onChange={(e) => setPhone(e.target.value)}
-                               className='w-full bg-transparent text-sm text-left pl-0 font-semibold placeholder-semibold placeholder-neutral-500 text-neutral-500'/>
+                                className='w-full bg-transparent text-sm text-left pl-0 font-semibold placeholder-semibold placeholder-neutral-500 text-neutral-500'/>
                         </div>
                     </div>
                     {error && <p style={{ color: 'red' }}>{error.message || "Something went wrong"}</p>}
