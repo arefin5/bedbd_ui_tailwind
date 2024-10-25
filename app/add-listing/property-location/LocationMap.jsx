@@ -7,7 +7,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 export default function LocationMap() {
     const mapRef = useRef();
     const geoControlRef = useRef();
-
     const [mapInfo, setMapInfo] = useState({
                                         center:{
                                           latitude:23.794716682329422,
@@ -77,7 +76,7 @@ export default function LocationMap() {
           <div className='relative'>
             <SearchBox 
                   className='form-input'
-                  accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+                  accessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'
                   onRetrieve={handleRetrieve}
                   placeholder='Search your location or click on location button'
                   value={mapInfo['locationName']}/>
@@ -96,7 +95,7 @@ export default function LocationMap() {
             mapStyle="mapbox://styles/mapbox/streets-v9"
             onMove={onMapMoveHandlar}
           //   onData={onMapDataHandlar}
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}>
+          mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'>
             <GeolocateControl 
               ref={geoControlRef}
               onGeolocate={onGeolocateCtrlClickHandlar}/>
