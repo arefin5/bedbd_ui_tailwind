@@ -25,6 +25,7 @@ import { cache } from "react";
 import { store } from "@/redux/store";
 import { apiSlice } from "@/redux/features/api/apiSlice";
 import Amenities from "./Amenities";
+import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
 
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
@@ -64,7 +65,7 @@ const getListing = async (id) => {
 
 export default async function page({params}) {
     const data = await getListing(params.id)
-    console.log(data)
+    // console.log(data)
     const { 
             reviews,
             images, 
@@ -79,7 +80,7 @@ export default async function page({params}) {
   return (
     <>
         <Header/>
-        <div className="container mx-auto px-6 mt-10  ">
+        <div className="container mx-auto px-6 mt-10">
             <div className="mt-10 flex flex-col xl:flex-row gap-4">
                 <Images data={images}/>
                 <Map data={location} />
@@ -460,6 +461,7 @@ export default async function page({params}) {
                     
                 </div>
             </div>
+            
         </div>
         
         <Footer/>

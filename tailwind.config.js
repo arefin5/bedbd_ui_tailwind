@@ -10,9 +10,18 @@ module.exports = {
   theme: {
     extend: {
       aspectRatio: {
-        '4/3': '4/3',
         '31/22': '31/22',
-        '145/89': '145/89',
+       '145/89': '145/89',
+  
+          '1/1': '1',
+         '16/9': '16 / 9',
+          '4/3': '4 / 3',
+          '3/2': '3 / 2',
+        '16/10': '16 / 10',
+         '9/16': '9 / 16',
+          '3/4': '3 / 4',
+          '2/3': '2 / 3',
+          '3/5': '3 / 5',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -39,6 +48,7 @@ module.exports = {
         '242px': '242px',
       },
       maxWidth: {
+        '1/2-10': 'calc(50% - 40px)',
         '3.5xl': '52rem',
         '395px': '395px',
         '724px':'724px',
@@ -86,7 +96,10 @@ module.exports = {
         '10px': '10px',
         '30px': '30px',
       },
-
+      zIndex: {
+        '100': '100',
+        '90': '90',
+      },
       // Animaiton ***
       animation: {
         shimmer: 'shimmer 1.5s infinite',
