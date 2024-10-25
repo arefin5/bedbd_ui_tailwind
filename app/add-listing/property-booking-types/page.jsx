@@ -26,7 +26,9 @@ function getPropertyBookingType() {
  
 export default function page() {
   const data = getPropertyBookingType()
-    const [bookingtype,setBookingType]=useState("");
+    const [bookingtype,setBookingType]=useState({
+
+    });
     const router = useRouter();
     const dispatch = useDispatch();
     const formData = useSelector((state) => state.form);
@@ -36,12 +38,14 @@ export default function page() {
   
     const handleContinue = async (e) => {
       e.preventDefault();
-      if (!bookingtype) {
-        alert('Please select a booking type before continuing.');
-        return;
-      }
+   
     try{
-      const payload = { bookingtype };
+      const filteredHomeRules = Object.fromEntries(
+            Object.entries(bookingtype).filter(([key, value]) => value.value)
+        );
+      const payload = { 
+        bookingtype :filteredHomeRules
+      };
       
       // Using async/await to ensure the state update is processed
       await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
