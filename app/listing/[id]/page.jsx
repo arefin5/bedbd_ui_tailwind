@@ -26,46 +26,21 @@ import { store } from "@/redux/store";
 import { apiSlice } from "@/redux/features/api/apiSlice";
 import Amenities from "./Amenities";
 import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
+import AddFavorite from "@/components/AddFavorite";
 
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
     await store.dispatch(apiSlice.endpoints.getListing.initiate(id));
     const data = store.getState().api.queries[`getListing("${id}")`]?.data || [];
-    const img  = [
-                    {
-                        url: 'https://s3-alpha-sig.figma.com/img/fa82/04ba/aa7ce09cc4e2e086c0a441a2bc6c3a41?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=M8c4uLQFc7AfgQ04SbnOni~WQigOh22a69y8PqV3ln1vDTG8oEgcdko6cosl91byEuUratevvVzI-eiOU6cpskEz-T5UHVt55bqQ1po2qNGwojqnvSOZjKzLF3V5qlkK3PQDdnQeRpr5Bmi1iufCxf~FWF~VLcwaihzprTp~hAqWcEUGAuRZBowCa5AYQSErwjrnr6GL6CCrmm-XX1RvU5~pfFUzf8TUTNOIobNrpqBH1UNMZ4WKmooSt9T-zP0jXShNTyv0vRfhe3oplkCdQZc2sISRl51Renh~3WBwhq5pXbtfif3vR5bShSBpwNV-ZdPD2udqLFGayWRGhmT6fw__',
-                        public_id: '1',
-                        _id: 'a7573c04e61a281b5c232a73'
-                    },
-                    {
-                        url: 'https://s3-alpha-sig.figma.com/img/8c39/1934/dab98b8e77b48c65d7c3e2032f00af6c?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DXqNPJjksLkSL22ILvzoSr11clPS4V7XUrXcwLCITHOdMCgGUAd-OpW6ljQJs6XmOXsMBY9cx5tOXKjUw75JjhgR7UzSd8HNlkzalM2AxDGHSTUoFAU7e~ZTwao7U1zWZZBoaQdNuWCnTrCzjaq25GljhnI2zJnQDCCAsdGTXhjEkPCArvCA6nl-l7AX14roFMe99E0OKfhmRAjWne-lF5EfbGNVqeFXwC7yLlyrYcl~T1H-R4nZP9QDuWJvqo-RqzSlczkINhi2yYOmFDzr5-FJSLXBlTnJfq6MFvwPaQvLQcbLDHoSaPKPydcISPRVIQwokjxCNSdSdxU2WpnCRg__',
-                        public_id: '2',
-                        _id: 'cac5c36fd974d01016acaf4d'
-                    },
-                    {
-                        url: 'https://s3-alpha-sig.figma.com/img/8bd1/cbca/ff4537db926dfeb0067a37eecda96e8f?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UPVfuPcTEP9xkJlDWzPTu90~dT5WtP1mrQzrk7v6ldyv0LcqNr7IwozZtbd~y9pps7hGqnVJ9D3zdF3aWnFs3ckkSm7a98ty21xTX6JIW1jBOOFNx4Oh6BKmXXcl7UIt-BBZIadR6DcbvV8U-mBsfJ6RQMBm4syyDMgc5Nk3aMflwZ84qtM3htS8xCk4~s01Ndgoe4D~s0DlIWXb768y0X3cSdvheIR76b81tnvlsAALMAuqmCC2cwik~L0pm8jfdytNrLkAnGebKBhd~H4C2LCTjjg6bCZEOzcuNkJin0CeMO2siEhLclZEL~jdRFr47WT3LpDn6r9FNlpavxGAfA__',
-                        public_id: '3',
-                        _id: 'ad547aff2875e803e22c7710'
-                    },
-                    {
-                        url: 'https://s3-alpha-sig.figma.com/img/28de/5b2c/436c0b472b643abb58ba32973af9094b?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KK63n7r0yOVCnKt3HgeALpTtlER5WYm3IEU7gVyXOMx~OBsEMVK7qhmmtbaZ2CCFLhGBc3sq9H~9OKSzE6cTCXtRsi3U4Y0cg7f95kKtYv2UQ-uRJor~8uOup8c5Dn9TjMqEM61YIHUyWt8GkifXrAZn3zdk9yz0H3B45kR0qoW9PIifnOJ1vesF~mfqqOVSs3rNaspYhWY6~sI0a0jCY4IiETX94VTHhAzijrKbSFRsKY9VWNVlu1uEV06F7dW6eQLeCCmy1Qgu8hy6rVbiRP-pPSjemAvaOr0YMyIIi7MMe6ZOgrM9Yoig96QQ8ooORhJSfSU5~U-m0l8MbabL8Q__',
-                        public_id: '4',
-                        _id: '0fd3c2efbcd544b66a7b14ca'
-                    },
-                    {
-                        url: 'https://s3-alpha-sig.figma.com/img/47d6/8395/bebcd1e57e3c88ef2f4b4e2f2bfc47f1?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XHBOW53qWfhxK~Mh8cwv3CGb7yAVgY1UkBgdkoZH7Ne004Ci3kBc~DmtenyD7haNO~-sJP-2ec3agM2FYguUtBs9~peQvO~HiKyBb3loQJGbd6xKMycen6DS5wE5VSt6KTlqJImN6peU~1poG61mxXwdQGjZ9GHPqw3kVs12qcI0w~iW3LG4iEOkX~b4uRtNDusxdmUl9~TpTO7DvB9m7sjKnoUs1G~LwwHIq2fRxD41-tWjPKO9wa5XjVuhSxh~5pXWcof2q3JF-HQ9PBu8M8CII2zlkiarEmPcjre~awuihiAabAXbnZDPPeARDZzpZ8X1bohbOJAyVhxolfgUXA__',
-                        public_id: '5',
-                        _id: '0fd8c347104aae3f1c02705b'
-                    }
-                ]
-    return {...data, images: img}
+
+    return data;
   };
 
 
 export default async function page({params}) {
     const data = await getListing(params.id)
-    // console.log(data)
+    // console.log(data);
     const { 
             reviews,
             images, 
@@ -73,10 +48,11 @@ export default async function page({params}) {
             typeOfproperty,
             propertyTitle, 
             avgRating, 
-            amenities
+            amenities,
+            totalroom
         } = data 
 
-
+// console.log(images)
   return (
     <>
         <Header/>
@@ -85,20 +61,7 @@ export default async function page({params}) {
                 <Images data={images}/>
                 <Map data={location} />
             </div>
-            {/* <div>
-                <h2>Apartment<span><Image src={starFilledIcon} height={24} width={24} /></span><span>(20)</span></h2>
-                <div>
-                    <div>
-                        <Icon name='share-2' height={24} width={24}/>
-                        Share
-                    </div>
-                    <div>
-                        <Icon name='heart' height={24} width={24}/>
-                        Save
-                    </div>
-                </div>
-            
-            </div> */}
+           
 
             <div className=" flex py-4 md:py-6 xl:py-10 xl:max-w-724px 2xl:max-w-978px justify-between items-center ">
                 <div className="flex items-center text-neutral-500">
@@ -107,17 +70,14 @@ export default async function page({params}) {
                     <span className=" text-primary-400 font-semibold text-lg ml-2">
                             {avgRating}
                     </span>
-                    <span className="text-base ml-1">{`(${reviews.length})`}</span>
+                    {/* <span className="text-base ml-1">{`(${reviews.length})`}</span> */}
                 </div>
                 <div className="text-neutral-500 text-lg font-semibold | flex gap-x-8">
                     <div className="flex">
                         <Icon className="mr-4" name='share-2' height={24} width={24}/>
                         Share
                     </div>
-                    <div className="flex">
-                        <Icon className="mr-4" name='heart' height={24} width={24}/>
-                        Save
-                    </div>
+                    <AddFavorite data={data}/>
                 </div>
             </div>
 
@@ -140,12 +100,12 @@ export default async function page({params}) {
                     <div className='flex flex-wrap justify-center mt-6 gap-6 text-neutral-600 text-lg font-semibold '>
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                             <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bedIcon} height={42} width={42}/>
-                            <span className='absolute-x-center w-max bottom-7'>3 Bedrooms </span>
+                            <span className='absolute-x-center w-max bottom-7'>{totalroom.bedRoom} Bedrooms </span>
                         </div>
                         
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                             <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42}/>
-                            <span className='absolute-x-center w-max bottom-7'>3 Bathrooms </span>
+                            <span className='absolute-x-center w-max bottom-7'> Bathrooms </span>
                         </div>
 
                         <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
