@@ -27,7 +27,7 @@ import { apiSlice } from "@/redux/features/api/apiSlice";
 import Amenities from "./Amenities";
 import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
 import AddFavorite from "@/components/AddFavorite";
-
+import WriteReview from "@/components/WriteReview"
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
@@ -49,10 +49,11 @@ export default async function page({params}) {
             propertyTitle, 
             avgRating, 
             amenities,
-            totalroom
+            totalroom,
+            Postedby
         } = data 
 
-// console.log(images)
+console.log(Postedby)
   return (
     <>
         <Header/>
@@ -187,18 +188,28 @@ export default async function page({params}) {
                     <div>
                         <div className="flex gap-x-4 items-center">
                             <div className="h-20 w-20 rounded-full relative overflow-hidden">
-                                <Image src='https://s3-alpha-sig.figma.com/img/1aa6/7521/2dba83baa62c2057ce79df83a3f0bd4c?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fSET88Um-EqYOGQXnQk~I3EGZ04BpWze5BUPJJUIyisKtLbYhTITrpdYEsMp~LsbiuOLfg5tR0gle~nKzVKR64lwcL0FUp7or9wZQ8S64WQGbuN38zm8FhtUPPOMBJ3mG3~Mrj1NNE5~1TNM04FMWvtuaJg6ou92tSJXOuGzL56Hzp7wz2vr9dshoKJ-Dle-6PwwLktbM5sFsEoYmq1w~h2Qi9xKshNfHMIABGj8UShlCDycvH8Vrey2aTKfJVYYz-BFvfCyWOaoBONNITiZwNA2OE7eQ9JQydNOIGF~uZGU5ETx0uEoDvmFQ~rjKUrtCfCstnrZ0Si-sBshzezreQ__' fill/>
+                               
+                                 {/* <Image
+    src={Postedby.profilePic.url}
+    fill
+    alt="Profile Picture"
+    onError={(e) => (e.target.src = "/path/to/fallback/image.png")}
+/> */}
                             </div>
                             <div>
-                                <h3 className="text-neutral-700 text-2xl font-semibold">Hosted By Ajmol Hossain</h3>
+                                {/* <h3 className="text-neutral-700 text-2xl font-semibold">{Postedby.name}</h3> */}
                                 <div className="space-x-3.5">
                                     <div className="text-neutral-800 text-lg font-normal inline">
-                                        <Image className="icon object-contain inline mr-2" src={awardIcon} height={24} width={24} />
+                                        <Image className="icon object-contain inline mr-2" 
+                                        src={awardIcon} 
+                                        height={24} 
+                                        width={24} />
                                         Premium Host
                                     </div>
 
                                     <div className="text-neutral-800 text-lg font-normal inline">
-                                        <Image className="icon object-contain inline mr-2" src={shieldCheckedIcon} height={24} width={24} />
+                                        <Image className="icon object-contain inline mr-2" 
+                                        src={shieldCheckedIcon} height={24} width={24} />
                                         Identity Verified
                                     </div>
 
@@ -300,42 +311,7 @@ export default async function page({params}) {
 
                     {/* Write review */}
                     <div>
-                        <textarea className="w-full max-w-2xl border border-neutral-600 block rounded-lg mb-6" id="w3review" name="w3review" rows="4" cols="50"/>
-                        <button className="w-full max-w-64 py-3 rounded-md bg-transparent border border-neutral-400 text-neutral-400 text-lg font-normal ">Save Review</button>
-
-                        <ul className="text-neutral-300 max-w-2xl space-y-6 my-8">
-                            <li>
-                                <div className="flex gap-4 ">
-                                    <div className="h-12 w-12 rounded-full relative overflow-hidden">
-                                        <Image src='https://s3-alpha-sig.figma.com/img/1aa6/7521/2dba83baa62c2057ce79df83a3f0bd4c?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fSET88Um-EqYOGQXnQk~I3EGZ04BpWze5BUPJJUIyisKtLbYhTITrpdYEsMp~LsbiuOLfg5tR0gle~nKzVKR64lwcL0FUp7or9wZQ8S64WQGbuN38zm8FhtUPPOMBJ3mG3~Mrj1NNE5~1TNM04FMWvtuaJg6ou92tSJXOuGzL56Hzp7wz2vr9dshoKJ-Dle-6PwwLktbM5sFsEoYmq1w~h2Qi9xKshNfHMIABGj8UShlCDycvH8Vrey2aTKfJVYYz-BFvfCyWOaoBONNITiZwNA2OE7eQ9JQydNOIGF~uZGU5ETx0uEoDvmFQ~rjKUrtCfCstnrZ0Si-sBshzezreQ__' fill/>
-                                    </div>
-                                    <div className="block mt-2">
-                                        <h3 className="text-neutral-600 font-bold text-base">John Doberman</h3>
-                                        <h4 className="text-sm font-medium">Mar 12 2020</h4>
-                                    </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </li>
-                            <li>
-                                <div className="flex gap-4 ">
-                                    <div className="h-12 w-12 rounded-full relative overflow-hidden">
-                                        <Image src='https://s3-alpha-sig.figma.com/img/1aa6/7521/2dba83baa62c2057ce79df83a3f0bd4c?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fSET88Um-EqYOGQXnQk~I3EGZ04BpWze5BUPJJUIyisKtLbYhTITrpdYEsMp~LsbiuOLfg5tR0gle~nKzVKR64lwcL0FUp7or9wZQ8S64WQGbuN38zm8FhtUPPOMBJ3mG3~Mrj1NNE5~1TNM04FMWvtuaJg6ou92tSJXOuGzL56Hzp7wz2vr9dshoKJ-Dle-6PwwLktbM5sFsEoYmq1w~h2Qi9xKshNfHMIABGj8UShlCDycvH8Vrey2aTKfJVYYz-BFvfCyWOaoBONNITiZwNA2OE7eQ9JQydNOIGF~uZGU5ETx0uEoDvmFQ~rjKUrtCfCstnrZ0Si-sBshzezreQ__' fill/>
-                                    </div>
-                                    <div className="block mt-2">
-                                        <h3 className="text-neutral-600 font-bold text-base">John Doberman</h3>
-                                        <h4 className="text-sm font-medium">Mar 12 2020</h4>
-                                    </div>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </li>
-                        </ul>
-
-                        <button className="w-full max-w-64 py-3 rounded-md bg-transparent border border-neutral-400 text-neutral-400 text-lg font-normal ">Show All 20 Reviews</button>
-
+                       <WriteReview data={data}/>
                     </div>
 
                     {/* Nearby Service */}
