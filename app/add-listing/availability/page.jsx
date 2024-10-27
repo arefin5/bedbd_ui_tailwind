@@ -13,9 +13,9 @@ export default function Page() {
         checkInStart: '',
         allowExtend: '',
         bookingExtend: '',
-        specificDate: '',
-        allowNight: '',
-        stopBooking: ''
+       
+      
+      
     });
     const router = useRouter();
     const dispatch = useDispatch();
@@ -30,11 +30,16 @@ export default function Page() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { checkInStart, allowExtend, bookingExtend, specificDate, allowNight, stopBooking } = formValues;
-            const payload = { checkInStart, allowExtend, bookingExtend, specificDate, allowNight, stopBooking };
+            const { checkInStart, allowExtend, bookingExtend   } = formValues;
+            const payload = { 
+                availablecheck:{
+                    checkInStart, 
+                    allowExtend,
+                    bookingExtend 
+                }
+                };
             await dispatch(updateFormData(payload));
-            // console.log(payload)
-            // console.log('Navigating to /add-listing/approving');
+          
             router.push('/add-listing/approving');
         } catch (error) {
             console.log("Error: ", error);

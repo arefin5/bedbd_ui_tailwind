@@ -32,18 +32,35 @@ export default function Page() {
   };
 
   // Handle submit
-  const handleSubmit =async (event) => {
- 
+  const handleSubmit = async (event) => {
+    console.log(roomCounts);
+
     event.preventDefault();
     try {
       const payload = {
-        roomCounts
-       };
-       await dispatch(updateFormData(payload));
-       router.push('/add-listing/amenities');
+
+        Guest: {
+          adultGuest: roomCounts.adultGuest,
+          childrenGuest: roomCounts.childrenGuest
+        },
+
+        totalroom: {
+          bedRoom: roomCounts.bedRoom,
+          diningRoom: roomCounts.diningRoom,
+          washRoom: roomCounts.washRoom,
+          others: roomCounts.others,
+        },
+        totalBed: {
+          singleBed: roomCounts.singleBed,
+          doubleBed: roomCounts.doubleBed,
+          extraBed: roomCounts.extraBed,
+        }
+      };
+      await dispatch(updateFormData(payload));
+      router.push('/add-listing/amenities');
 
     } catch (error) {
-       console.log(error)
+      console.log(error)
     }
   };
   const back = (e) => {
@@ -155,8 +172,8 @@ export default function Page() {
           </div>
 
           <div className="flex gap-x-8 mt-14">
-            <button className="btn btn-secondary max-w-36 relative" type="button" 
-            onClick={back}
+            <button className="btn btn-secondary max-w-36 relative" type="button"
+              onClick={back}
             >
               <Icon name="chevron-left" className="icon absolute-y-center left-4" />
               Back

@@ -44,7 +44,7 @@ export default function Page() {
         
       };
       await dispatch(updateFormData(payload));
-      router.push('/add-listing/accommodation-details');
+      router.push('/add-listing/property-location');
     } catch (error) {
       console.log(error)
     }

@@ -6,10 +6,18 @@ export default function BookingType({data,setBookingType}) {
     const [isChecked, setIsChecked] = useState()
 
     function handleClick() {
-        document.getElementById(data['_id']).click()
-        setIsChecked(!isChecked)
-        setBookingType(!isChecked ? data.title : null);
+      document.getElementById(data['_id']).click()
+
+      setIsChecked(!isChecked)
+        setBookingType((prevState) => ({
+              ...prevState,
+              [data.title.toLowerCase().replace(/\s+/g, '')]: {
+                name: data.title, 
+                value: !isChecked  
+              }
+            }));
     }
+    
   return (
     <div 
         onClick={handleClick}
