@@ -1,13 +1,21 @@
 'use client'
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
-
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 export default function Navbar() {
-    const [loggedIn, setLoggedIn] = useState(true)
+    const [loggedIn, setLoggedIn] = useState(false)
     const [open, setOpen] = useState(false)
-    const [subMenuOpen, setSubMenuOpen] = useState(false)
+    const [subMenuOpen, setSubMenuOpen] = useState(false);
+    const { user, isLoading, error, token } = useSelector((state) => state.auth);
 
+  useEffect(()=>{
+   if(user){
+    setLoggedIn(true)
+   } else{
+    setLoggedIn(false)
+   }
+  },[user,token])
   return (
     <div className="relative z-20">
     {
