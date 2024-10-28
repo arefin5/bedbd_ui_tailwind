@@ -111,6 +111,7 @@ export default function Navbar() {
   const loggedIn = !!user;
 
   useEffect(() => {
+    
     // Logic to handle the user role (if necessary in the future)
   }, [user, token]);
 
