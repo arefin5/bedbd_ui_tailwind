@@ -56,7 +56,9 @@ export default function EmailLogin() {
                     </div>
 
                     <div className='text-xs leading-none text-neutral-400 font-medium  mt-3 mb-5 flex flex-wrap gap-2 sm:justify-between'>
-                        <h3>{`Don’t have an account?`}<span className='text-primary-400'>Create new account.</span></h3>
+                       <Link href="/signup">
+                       <h3>{`Don’t have an account?`}<span className='text-primary-400'>Create new account.</span></h3>
+                       </Link>
                        <Link href="/password/recover">
                        <h3 className='text-primary-400'>
                        {` Forget Password? `}</h3>
