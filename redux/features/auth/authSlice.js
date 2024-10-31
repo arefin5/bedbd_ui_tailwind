@@ -23,9 +23,6 @@ if (typeof window !== 'undefined') {
 }
 
 
-// const token = localStorage.getItem('token') || null;
-//     const user = localStorage.getItem('user') || null;
-// Async thunk for login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
@@ -36,12 +33,16 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       // console.log("error", error.response);
-
       if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
-      // Fallback for unexpected errors
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
     }
   }
@@ -56,13 +57,16 @@ export const loginUserPhone = createAsyncThunk(
       // console.log("finised")
       return response.data;
     } catch (error) {
-      // console.log("error", error.response);
-
       if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
-      // Fallback for unexpected errors
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
     }
   }
@@ -73,19 +77,20 @@ export const signupUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('/singup-user', { email, password });
-      // Return the token and user data/singup-user
-      // console.log(response.data)
-
       return response.data;
 
     } catch (error) {
-      // console.log("error", error.response);
-
+      console.log("error", error.response.data.error);
       if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
-      // Fallback for unexpected errors
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
 
     }
@@ -103,12 +108,16 @@ export const forgetpass = createAsyncThunk(
 
     } catch (error) {
 
-      console.log("error 3", error.response.data.error);
       if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
-      // Fallback for unexpected errors
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
     }
   }
@@ -125,13 +134,17 @@ export const verifyOtp = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      // console.log("error", error.response);
 
       if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
-      // Fallback for unexpected errors
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
     }
   }
@@ -149,14 +162,18 @@ export const verifyOtpEmail = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log("error", error.response);
 
-      if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.error); // Return the actual error message
-      }
+if (error.response && error.response.data && error.response.data.error) {
+  return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
+}
 
-      // Fallback for unexpected errors
-      return rejectWithValue('An unexpected error occurred.');
+if (error.response?.data?.message) {
+  // Specific error handling like "email already exists"
+  return rejectWithValue(error.response.data.message);
+}
+
+// Fallback for other unexpected errors
+return rejectWithValue('An unexpected error occurred.');
     }
   }
 );
@@ -285,10 +302,7 @@ const authSlice = createSlice({
       })
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token;
         state.user = action.payload.user;
-        // Store token and user data in localStorage
-        localStorage.setItem('token', action.payload.token);
         localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(signupUser.rejected, (state, action) => {

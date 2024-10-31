@@ -201,6 +201,7 @@ export default function Page() {
         setPhone(user?.phone || "");
         setParmanent(user?.parmanentAddress || "");
         setUserId(user?._id || "");
+        setImage(user.profilePic || "")
     }, [user, token]);
 
     const handleCopy = () => {
@@ -219,6 +220,8 @@ export default function Page() {
             email: email || undefined,
             phone: phone || undefined,
             parmanentAddress: parmanentAddress || undefined,
+            profilePic:image ,
+
         };
         dispatch(userEdit(payload));
     };
