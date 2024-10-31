@@ -15,7 +15,7 @@ export default function page() {
        const [fname,setfName]=useState("");
        const [lname,setlName]=useState("");
        const [email,setEmail]=useState("");
-       const [phone,setPhone]=useState("");
+       const [phone,setPhone]=useState("");  
        const [parmanentAddress,setParmanent]=useState("");
        useEffect(()=>{
              setfName(user.fname|| "");
@@ -42,7 +42,7 @@ export default function page() {
                 email: email || undefined,
                 phone: phone || undefined,
                 parmanentAddress: parmanentAddress || undefined,
-                presentAddress:presentAddress || user.presentAddress || undefined
+               
               };
               dispatch(userEdit(payload)); dispatch(userEdit(payload));
              

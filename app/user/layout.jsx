@@ -9,15 +9,15 @@ import Sidebar from './Sidebar';
 import { useSelector } from 'react-redux';
 
 export default function RootLayout({ children }) {
-  const user = useSelector((state) => state.auth.user); 
+  const {user,token}  = useSelector((state) => state.auth.user); 
   const router = useRouter(); // Initialize router for client-side navigation
 // console.log("host user from ")
   useEffect(() => {
     // Redirect to "/home" if user is null
-    if (user === null) {
+    if (user === null && token===null) {
       router.push('/');
     }
-  }, [user, router]);
+  }, [user, router,token]);
 
   // Don't render anything if user is null (during redirection)
   if (user === null) return null;
