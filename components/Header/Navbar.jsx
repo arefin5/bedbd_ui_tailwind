@@ -114,9 +114,12 @@ const LogOut=async(e)=>{
                     <span className="inline-block max-w-full text-center md:hover:scale-110 ">Profile</span>
                 </li>
                </Link>
-                <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+               <Link href="/user/wishlist">
+               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                     <span className="inline-block max-w-full text-center md:hover:scale-110 ">Favorite List</span>
                 </li> 
+
+               </Link>
                 <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                     <span className="inline-block max-w-full text-center md:hover:scale-110 ">Booking History</span>
                 </li> 

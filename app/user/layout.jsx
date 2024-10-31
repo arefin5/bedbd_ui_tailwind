@@ -9,7 +9,7 @@ import Sidebar from './Sidebar';
 import { useSelector } from 'react-redux';
 
 export default function RootLayout({ children }) {
-  const {user,token}  = useSelector((state) => state.auth.user); 
+  const {user,token}  = useSelector((state) => state.auth); 
   const router = useRouter(); // Initialize router for client-side navigation
 // console.log("host user from ")
   useEffect(() => {

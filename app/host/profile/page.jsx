@@ -59,7 +59,7 @@ export default function profile() {
     // profilePic
     dispatch(userEdit(payload));
     // console.log(image);
-    console.log(payload.profilePic)
+    // console.log(payload.profilePic)
   };
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
