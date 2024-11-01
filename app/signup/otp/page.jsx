@@ -43,7 +43,7 @@ export default function page() {
     }
      useEffect(() => {
         if (token) {
-            router.push('user/profile'); 
+            router.push('/user/profile'); 
         }
     }, [token, router]);
 

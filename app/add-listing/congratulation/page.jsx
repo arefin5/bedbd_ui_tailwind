@@ -4,11 +4,12 @@ import CopyButton from './CopyButton'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { submitList } from "@/redux/list/createListSlice";
+import { useRouter } from 'next/navigation';
 
 
 export default function Page() {
     const dispatch = useDispatch();
-    
+    const router=useRouter();
     // Access Redux state
     const { isLoading, error, lists } = useSelector((state) => state.form); // Adjust the state path if needed
   
@@ -16,7 +17,7 @@ export default function Page() {
     useEffect(() => {
       dispatch(submitList());
     }, [dispatch]);
-  
+  // host/
     // Conditional rendering based on loading, error, and success
     if (isLoading) {
       return (
@@ -27,7 +28,7 @@ export default function Page() {
         </div>
       );
     }
-  
+  // 
     if (error) {
       return (
         <div className="min-h-screen py-20">
@@ -37,7 +38,10 @@ export default function Page() {
         </div>
       );
     }
-  
+    const back = (e) => {
+      e.preventDefault();
+      router.push('/host');
+  };
     // Show success content when the list is successfully submitted
     return (
       <div className="min-h-screen py-20">
@@ -54,7 +58,7 @@ export default function Page() {
                 className='form-input' 
                 type="text"
                 id='property-url-input'
-                value={`https://www.bedbd.com/${lists?._id}`}
+                value={`https://www.bedbd.com/listing/${lists?._id}`}
                
                 readOnly
               />
@@ -62,7 +66,8 @@ export default function Page() {
             </div>
   
             <div className="flex gap-x-8 mt-14 max-w-xl ml-auto mr-auto">
-              <button className="btn btn-secondary relative">
+              <button className="btn btn-secondary relative"
+              onClick={back}>
                 <Icon name='home' className="icon absolute-y-center left-8" />
                 Back to Home
               </button>

@@ -34,8 +34,6 @@ const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 const getListing = async (id) => {
     await store.dispatch(apiSlice.endpoints.getListing.initiate(id));
     const data = store.getState().api.queries[`getListing("${id}")`]?.data || [];
-    // console.log(data)
-    // console.log(data[])
 
     return data;
 };
@@ -55,8 +53,7 @@ export default async function page({ params }) {
         totalroom,
         Postedby,
     } = data
-
-    // console.log(Postedby)
+    // console.log(images)
     return (
         <>
             <Header />
@@ -191,12 +188,13 @@ export default async function page({ params }) {
                         <div>
                             <div className="flex gap-x-4 items-center">
                                 <div className="h-20 w-20 rounded-full relative overflow-hidden">
-
-                                    <Image
-                                        src={Postedby.profilePic.url}
-                                        fill
-                                        alt="Profile Picture"
-                                    />
+                                    {Postedby.profilePic ? (
+                                        <Image
+                                            src={Postedby.profilePic.url}
+                                            fill
+                                            alt="Profile Picture"
+                                        />
+                                    ) : null}
                                 </div>
                                 <div>
                                     <h3 className="text-neutral-700 text-2xl font-semibold">{Postedby.fname} {Postedby.lname}</h3>
@@ -340,9 +338,9 @@ export default async function page({ params }) {
                     </div>
 
                     {/* Booking box  */}
-                 
+
                     <div className="w-fit  min-w-490px py-2 relative ">
-                        <BookingBox data={data}/>
+                        <BookingBox data={data} />
                     </div>
                 </div>
 
