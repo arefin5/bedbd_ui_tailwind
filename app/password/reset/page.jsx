@@ -51,7 +51,10 @@ export default function page() {
                         <Icon name='check' className='icon absolute-y-center right-6' />
                     </div>
                     <button className='btn btn-primary'>Continue</button>
+                   
                 </form >
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
 
 
                 <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>

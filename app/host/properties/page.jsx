@@ -1,5 +1,8 @@
+"use client"
+import axiosInstance from "@/redux/services/axiosInstance"
 import Icon from "/components/Icon"
 import Image from "next/image"
+import { useState, useEffect } from "react";
 
 export default function page() {
   const listView = false
@@ -11,8 +14,21 @@ export default function page() {
     'https://s3-alpha-sig.figma.com/img/fa82/04ba/aa7ce09cc4e2e086c0a441a2bc6c3a41?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qcws7pI5qGVJNbts84h1DQrPHduXqK93aBBPNkDPcoNwXV6W6Gw9dPdqmAzak8jU-2ATa4j~8rL7zWGKmaBnFpqrEvDtHA~3zOFqwbJKpmBqrp41nK8WpgS~8Woy1HIWX4-BcTeh8Wjgk2JApdTEiDeBd165Br81jFOjvGTpArtEJuT8Qlme0lq0JWxbQ24y792pxhta9bi7fV3ftdLLg9cwkaVb7pCc3m98uScurJsOxUoA0QLrB~XXx3O5EZZbplnDM4llrvab2BHrRLkayaUkFIgehWIA04lmUxV547CcI~LMT8b7w4cVVV5uS-9GrZvVh1G4kYs167bFIUO9Kg__',
     'https://s3-alpha-sig.figma.com/img/8c39/1934/dab98b8e77b48c65d7c3e2032f00af6c?Expires=1719187200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nVn5K0oUJbxNpzO~VAcpiZHA3aSRqxVWqLAgoyE55Sc3L9ADYdepp1ewBbc4LrUkmD7IQN2c-kkw8Kny8HC7sZRVu331ovEKnA5RhsPlzKEc6YtKT1YwQvH6bukmUVJ62gnTTPVWKDL0lNfGIA~ABS0qyPQlICEJF49t4pBo-b03f~dcLKaYBQ5fKBfBwOOvRw-oByy9cvQjL~JIKx3C-iQhyLGyrE2aEgMHcMPHjhjcVDfDTPaQdaMJTk-1WQ5zPlXE9im6bZ~oOrHuR-BHUex2PEpEqfVeqsj~yaEHCg2rdHZgqxj2P2dsBnQnOr8tuX8bOzmRE0SaecVHYQvFMA__'
   ]
+  
+const fetchuserList=async(e)=>{
+  try{
+    const data=await axiosInstance.get("/all-draft")
+    console.log(data);
+
+  }catch(error){
+    console.log(error)
+  }
+}
 
 
+ useEffect(()=>{
+    fetchuserList();
+  },[])
 
   return (
     <div className="py-10 px-8 w-full bg-white">

@@ -27,13 +27,14 @@ import { apiSlice } from "@/redux/features/api/apiSlice";
 import Amenities from "./Amenities";
 import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
 import AddFavorite from "@/components/AddFavorite";
-import WriteReview from "@/components/WriteReview"
+import WriteReview from "@/components/WriteReview";
+import BookingBox from "@/components/BookingBox";
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
     await store.dispatch(apiSlice.endpoints.getListing.initiate(id));
     const data = store.getState().api.queries[`getListing("${id}")`]?.data || [];
-    console.log(data)
+    // console.log(data)
     // console.log(data[])
 
     return data;
@@ -53,13 +54,9 @@ export default async function page({ params }) {
         amenities,
         totalroom,
         Postedby,
-        price,
-        serviceFee,
-        tax,
-        GroundPrice,
     } = data
 
-    console.log(Postedby)
+    // console.log(Postedby)
     return (
         <>
             <Header />
@@ -195,15 +192,14 @@ export default async function page({ params }) {
                             <div className="flex gap-x-4 items-center">
                                 <div className="h-20 w-20 rounded-full relative overflow-hidden">
 
-                                    {/* <Image
+                                    <Image
                                         src={Postedby.profilePic.url}
                                         fill
                                         alt="Profile Picture"
-                                        onError={(e) => (e.target.src = "/path/to/fallback/image.png")}
-                                    /> */}
+                                    />
                                 </div>
                                 <div>
-                                    {/* <h3 className="text-neutral-700 text-2xl font-semibold">{Postedby.name}</h3> */}
+                                    <h3 className="text-neutral-700 text-2xl font-semibold">{Postedby.fname} {Postedby.lname}</h3>
                                     <div className="space-x-3.5">
                                         <div className="text-neutral-800 text-lg font-normal inline">
                                             <Image className="icon object-contain inline mr-2"
@@ -216,7 +212,7 @@ export default async function page({ params }) {
                                         <div className="text-neutral-800 text-lg font-normal inline">
                                             <Image className="icon object-contain inline mr-2"
                                                 src={shieldCheckedIcon} height={24} width={24} />
-                                            Identity Verified
+                                            {Postedby.isVerified}
                                         </div>
 
                                         <div className="text-neutral-800 text-lg font-normal inline">
@@ -344,67 +340,9 @@ export default async function page({ params }) {
                     </div>
 
                     {/* Booking box  */}
+                 
                     <div className="w-fit  min-w-490px py-2 relative ">
-                        <div className=" top-12  sticky rounded-lg drop-shadow-booking-box bg-white">
-                            <div className="relative p-6 custom-underline-primary-400 ">
-                                <h3 className="text-neutral-700 font-semibold text-3xl">${GroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
-                                <span className="text-green-300 text-sm ml-3"> (Available)</span></h3>
-                            </div>
-                            <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
-                                <div className="grid grid-cols-2">
-                                    <div className="   py-4 px-8">
-                                        <label className="block text-neutral-600 text-sm font-semibold ">Check In</label>
-                                        <input className="text-neutral-300 font-medium" placeholder="Add Dates" />
-                                    </div>
-                                    <div className=" py-4 px-8 border-l border-neutral-400">
-                                        <label className="block text-neutral-600 text-sm font-semibold ">Check Out</label>
-                                        <input className="text-neutral-300 font-medium" placeholder="Add Dates" />
-                                    </div>
-                                </div>
-                                <div className=" py-4 px-8 border-t border-neutral-400 col-2 relative">
-                                    <label className="block text-neutral-600 text-sm font-semibold ">Guest</label>
-                                    <input className="text-neutral-300 font-medium" placeholder="Select Guest" />
-                                    <Icon name="chevron-down" size={24} className="icon absolute-y-center right-4" />
-                                </div>
-                            </div>
-                            <div className="border-b-2">
-                                <ul className="mx-14 py-6 space-y-8  ">
-                                    <li className="text-neutral-400 font-semibold text-lg">
-                                        ${GroundPrice} x  1 nights
-                                        <span className="text-neutral-500 float-right">${GroundPrice}</span>
-                                    </li>
-
-                                    <li className="text-neutral-400 font-semibold text-lg">
-                                        Service Fee 
-                                        <span className="text-neutral-500 float-right">$ {serviceFee}</span>
-                                    </li>
-
-                                    <li className="text-neutral-400 font-semibold text-lg">
-                                        Bedbd fee
-                                        <span className="text-neutral-500 float-right">$ {
- tax}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <div className="text-neutral-600 font-semibold text-lg py-6 mx-14">
-                                    Total
-                                    <span className="text-neutral-700 float-right">${price}</span>
-                                </div>
-                            </div>
-
-                            <button className="mt-4 mb-8 btn btn-primary rounded-full max-w-96 relative-x-center">Reserve Now</button>
-                        </div>
-                        {/* <div className="relative sticky marker-class">
-                        <div className="h-auto mx-h-2xl bg-white  top-16 rounded-lg drop-shadow-booking-box">
-
-
-                        </div>
-                    </div> */}
-
-
-
-
+                        <BookingBox data={data}/>
                     </div>
                 </div>
 

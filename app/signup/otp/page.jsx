@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState,useEffect } from 'react';
@@ -5,6 +6,8 @@ import { useState,useEffect } from 'react';
 import { verifyOtpEmail } from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import axiosInstance from '@/redux/services/axiosInstance';
 
 export default function page() {
     const [otp1,setOtp1]=useState("");
@@ -13,15 +16,21 @@ export default function page() {
     const [otp4,setOtp4]=useState("");
     const [otp5,setOtp5]=useState("");
     const [otp6,setOtp6]=useState("");
+    const [email,setEmail]=useState("")
+    
     const dispatch=useDispatch();
         const router = useRouter();
-        const { token, loading, error } = useSelector((state) => state.auth); // Access auth state from Redux
-    const handleLoginPhone=async(e)=>{
+        const {user, token, loading, error } = useSelector((state) => state.auth); 
+        useEffect(()=>{
+            setEmail(user.email)
+            if(user && user.isemailVerify===true && token!==null){
+              router.push("/user/profile");
+            }
+        },[user])
+  
+        const handleLoginPhone=async(e)=>{
         try{
                e.preventDefault();
-                const email = localStorage.getItem("useemail").replace(/"/g, '');
-                console.log(email);
-                // console.log(phone);
                const otp=`${otp1}${otp2}${otp3}${otp4}${otp5}${otp6}`;
                // console.log(otp);
                dispatch(verifyOtpEmail({ email, otp }));
@@ -34,9 +43,17 @@ export default function page() {
     }
      useEffect(() => {
         if (token) {
-            router.push('/password/reset'); 
+            router.push('user/profile'); 
         }
     }, [token, router]);
+
+    
+    const resendOtp=(e)=>{
+        e.preventDefault();
+        axiosInstance.post("/generate-otp",{
+            email
+        });
+    }
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white max-w-lg | absolute-center rounded-10px'>
@@ -102,15 +119,16 @@ export default function page() {
                     </div>
 
                     <button className=" btn max-w-48 btn-primary" onClick={handleLoginPhone}>Submit</button>
-                    {loading && <p>Loading...</p>}
-                      {error && <p style={{ color: 'red' }}>{error}</p>}
-               
+            
                     <div className="text-sm font-normal text-center">
-                        {`Didn't receive your code? `}<span className="text-primary-400 font-medium">resent</span>
+                        {`Didn't receive your code? `}<span className="text-primary-400 font-medium"
+                        onClick={resendOtp}
+                        >resent</span>
                         <div  className="border border-primary-400 w-8 h-8 mt-2 rounded-full m-auto py-2 text-center text-xs font-medium">
                             1:59
                         </div>
-
+                        {loading && <p>Loading...</p>}
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
                     </div>
 
                 </div>

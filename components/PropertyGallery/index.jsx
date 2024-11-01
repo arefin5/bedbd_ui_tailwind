@@ -8,14 +8,6 @@ import PropertyGalleryItem from "./PropertyGalleryItem"
 import { useGetListingsQuery } from "@/redux/features/api/apiSlice"
 
 export default function PropertyGallery() {
-//   const dispatch = useDispatch();
-//   const { lists, isLoading, error } = useSelector((state) => state.listSlice);
-//   useEffect(() => {
-//     dispatch(apiData());
-//   }, []);
-//   console.log(lists)
-// console.log("test")
-
 
 const { 
   data: listings , 
