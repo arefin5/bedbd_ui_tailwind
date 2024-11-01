@@ -18,6 +18,12 @@ export default function RootLayout({ children }) {
       router.push('/');
     }
   }, [user, router,token]);
+  useEffect(() => {
+    // Redirect to "/home" if user is null
+    if ( user.role==="host") {
+      router.push('/host/profile');
+    }
+  }, [user, router,token]);
 
   // Don't render anything if user is null (during redirection)
   if (user === null) return null;

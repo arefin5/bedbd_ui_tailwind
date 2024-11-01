@@ -180,9 +180,11 @@ export default function Navbar() {
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Favorite List
               </li>
-              <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
-                Booking History
+             <Link href="/properties">
+             <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
+              properties
               </li>
+             </Link>
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Switch to User
               </li>

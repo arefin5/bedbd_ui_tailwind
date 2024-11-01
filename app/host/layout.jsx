@@ -8,13 +8,14 @@ import { useSelector } from 'react-redux';
 
 export default function RootLayout({ children }) {
   const user = useSelector((state) => state.auth.user);
+  const token=useSelector((state)=>state.auth.token)
   const router = useRouter(); // Initialize router for client-side navigation
 
   useEffect(() => {
-    if (!user || user.role !== "host") {
+    if (!user || user.role !== "host" && !token ) {
       router.push('/');
     }
-  }, [user, router]);
+  }, [user, router,token]);
 
   // Don't render anything until the user check is done
   if (!user || user.role !== "host") return null;
