@@ -1,12 +1,15 @@
-import Sidebar from './Sidebar'
-import InputRadioIcon from './InputRadioIcon'
+"use client"
 import PendingRequestNotification from './PendingRequestNotification'
 import PropertyList from './PropertyList'
 import Calendar from './Calendar'
 import Chart from './Chart'
 import RevenueChart from './RevenueChart'
+import axiosInstance from '@/redux/services/axiosInstance'
+import { useEffect ,useState} from 'react'
 
 export default function Dashboard() {
+  const [authorBookings, setAuthorBookings] = useState([]);
+
   const data = [
     { value: 45, title: 'Booked' },
     { value: 20, title: 'Canceled' },
@@ -20,8 +23,31 @@ export default function Dashboard() {
     { date: '2024-07-06', value: 400 },
     { date: '2024-07-07', value: 450 },
     { date: '2024-07-08', value: 500 },
-    // Add more daily revenue data as needed
   ];
+// /all-draft
+const fetchUserListBooking=async()=>{
+  try{
+   const listData= await axiosInstance.get("/all-draft");
+    //  console.log(listData);
+  }catch(error){
+    console.log(error)
+  }
+}
+// /all-bookind-by-author
+const fetchAuthorListBooking=async()=>{
+  try{
+   const listData= await axiosInstance.get("/all-bookind-by-author");
+     console.log("listData author",listData.data);
+     setAuthorBookings(listData.data);
+  }catch(error){
+    console.log(error)
+  }
+}
+useEffect(()=>{
+  fetchUserListBooking();
+  fetchAuthorListBooking();
+},[])
+// const fetchUserListCancell
   return (
     <div className=' w-full'>
       <>
@@ -29,7 +55,7 @@ export default function Dashboard() {
         <PropertyList/>
         <Calendar/>
         <Chart data={data} title={'Booked & Canceled'} totalValue='11254'/>
-        <RevenueChart dailyRevenue={dailyRevenue}/>
+        <RevenueChart bookings={authorBookings}/>
       </>
     </div>
   )
