@@ -42,8 +42,9 @@ export default function Navbar() {
                     const updatedUser = response.data.user; // Assuming `response.data.user` contains the updated user info
                     localStorage.setItem("user", JSON.stringify(updatedUser)); // Store the updated user in localStorage
 
-                    // Optionally, update local `user` state if needed
-                    setUser(updatedUser);
+                    // // Optionally, update local `user` state if needed
+                    // setUser(updatedUser);
+                    router.push("/host/profile")
                 }
             } catch (error) {
                 console.error("Error updating role:", error);
@@ -54,8 +55,8 @@ export default function Navbar() {
         e.preventDefault();
         localStorage.clear();
         setLoggedIn(false);
-        router.push("/")
-    }
+        window.location.href = "/";
+        }
     return (
         <div className="relative z-20">
             {
