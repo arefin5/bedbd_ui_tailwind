@@ -10,16 +10,7 @@ export default function Calendar({ listSelect }) {
   const [bookedDates, setBookedDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // const fetchBookedDates = async () => {
-  //   if (listSelect?._id) { // Only fetch if _id is available
-  //     try {
-  //       const response = await axiosInstance.get(`/property-book-list/${listSelect._id}`);
-  //       setBookedDates(response.data.bookings.map(date => new Date(date))); // Convert to Date objects if needed
-  //     } catch (error) {
-  //       console.error("Error fetching booked dates:", error);
-  //     }
-  //   }
-  // };
+ 
   const fetchBookedDates = async () => {
     switch (true) {
       case !listSelect:
