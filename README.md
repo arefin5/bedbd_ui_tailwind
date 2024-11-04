@@ -4,11 +4,6 @@
 [![Test workflow](https://img.shields.io/github/actions/workflow/status/docker/login-action/test.yml?branch=master&label=test&logo=github&style=flat-square)](https://github.com/docker/login-action/actions?workflow=test)
 [![Codecov](https://img.shields.io/codecov/c/github/docker/login-action?logo=codecov&style=flat-square)](https://codecov.io/gh/docker/login-action)
 
-## About
-
-GitHub Action to login against a Docker registry.
-
-![Screenshot](.github/docker-login.png)
 
 ___
 
