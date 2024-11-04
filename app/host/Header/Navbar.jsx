@@ -109,12 +109,11 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const { user, token } = useSelector((state) => state.auth);
-  const loggedIn = !!user;
   const router=useRouter();
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
     
-    // Logic to handle the user role (if necessary in the future)
   }, [user, token]);
 const SwitchtoUser=(e)=>{
   router.push("/user/profile");
