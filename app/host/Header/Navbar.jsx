@@ -199,9 +199,9 @@ const LogOut = async (e) => {
               </li>
              </Link>
              
-              <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
+              {/* <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Switch to User
-              </li>
+              </li> */}
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Support
               </li>
