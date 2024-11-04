@@ -58,4 +58,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/nextjs-app:latest
             docker stop nextjs_app || true
             docker rm nextjs_app || true
-            docker run -d --name nextjs_app -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/nextjs-app:latest
+            docker run -d --name nextjs_app -p 4000:3000 ${{ secrets.DOCKER_USERNAME }}/nextjs-app:latest
