@@ -1,5 +1,6 @@
 import Icon from "/components/Icon"
 
+import Link from "next/link"
 
 export default function Sidebar() {
   return (
@@ -8,32 +9,40 @@ export default function Sidebar() {
           <li className="hidden">
             <Icon name="circle-chevron-right" className="icon"/>
           </li>
-
+          <Link
+                href="/host">
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="layout-dashboard" className="icon" />
             <span className="hidden xl:block">Dashboard</span> 
           </li>
-
+          </Link>
+          <Link href="/host/profile">
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="user-cog" className="icon" /> 
             <span className="hidden xl:block">Profile </span> 
           </li>
-
+          </Link>
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="mail" className="icon" />
             <span className="hidden xl:block">Message (2)</span> 
           </li>
+          <Link href="/host/properties">
 
+         
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="home" className="icon" /> 
             <span className="hidden xl:block">Property</span> 
           </li>
+          </Link>
+          <Link href="/">
 
+          
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="arrow-right-left" className="icon" />
             <span className="hidden xl:block">Transaction</span> 
           </li>
-
+          </Link>
+          
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="settings" className="icon" /> 
             <span className="hidden xl:block">Setting</span> 

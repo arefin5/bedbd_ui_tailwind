@@ -1,43 +1,171 @@
-import InputRadioIcon from "./InputRadioIcon"
+
+// "use client";
+// import { useRouter } from "next/navigation";
+// import InputRadioIcon from "./InputRadioIcon";
+// import Calendar from "./Calendar";
+// import usePropertyList from "./usePropertyList";
+
+// export default function PropertyList() {
+//   const { lists, selectedProperty, selectProperty } = usePropertyList();
+//   const router = useRouter();
+
+//   return (
+//     <div className="py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg">
+//       <div className="text-neutral-500 flex justify-between">
+//         <span className="font-semibold">Property List ({lists.length})</span>
+//         <button
+//           onClick={() => router.push("/host/properties")}
+//           className="border-none text-sm font-medium hover:underline hover:scale-110 transition ease-in-out delay-150"
+//         >
+//           See All
+//         </button>
+//       </div>
+//       <ul className="space-y-5 mt-6 max-h-56 overflow-y-auto">
+//         {lists.length > 0 ? (
+//           lists.map((item, index) => (
+//             <li key={index} className="flex gap-x-4">
+//               <input
+//                 type="radio"
+//                 id={`host_property_${index}`}
+//                 name="host_property"
+//                 checked={selectedProperty?._id === item._id}
+//                 onChange={() => selectProperty(item)}
+//                 className="hidden"
+//               />
+//               {/* Only show InputRadioIcon if the current item is selected */}
+//               {selectedProperty?._id === item._id && (
+//                 <InputRadioIcon inputId={`host_property_${index}`} checked />
+//               )}
+//               <label htmlFor={`host_property_${index}`}>
+//                 <span className="block text-neutral-600 text-lg font-normal">
+//                   {item.propertyTitle || "No Title"}
+//                 </span>
+//                 <span className="block text-neutral-500 text-base font-medium mt-2">
+//                   {item.GroundPrice ? `$${item.GroundPrice}` : "Price Unavailable"}
+//                 </span>
+//               </label>
+//             </li>
+//           ))
+//         ) : (
+//           <p className="text-neutral-500">No properties available.</p>
+//         )}
+//       </ul>
+//       {selectedProperty && <Calendar listSelect={selectedProperty} />}
+//     </div>
+//   );
+// // }
+// "use client";
+// import { useRouter } from "next/navigation";
+// import InputRadioIcon from "./InputRadioIcon"; // Assuming this is your checkbox component
+// import Calendar from "./Calendar";
+// import usePropertyList from "./usePropertyList";
+
+// export default function PropertyList() {
+//   const { lists, selectedProperty, selectProperty } = usePropertyList();
+//   const router = useRouter();
+
+//   return (
+//     <div className="py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg">
+//       <div className="text-neutral-500 flex justify-between">
+//         <span className="font-semibold">Property List ({lists.length})</span>
+//         <button
+//           onClick={() => router.push("/host/properties")}
+//           className="border-none text-sm font-medium hover:underline hover:scale-110 transition ease-in-out delay-150"
+//         >
+//           See All
+//         </button>
+//       </div>
+//       <ul className="space-y-5 mt-6 max-h-56 overflow-y-auto">
+//         {lists.length > 0 ? (
+//           lists.map((item, index) => (
+//             <li key={index} className="flex gap-x-4 items-center">
+//               <input
+//                 type="radio"
+//                 id={`host_property_${index}`}
+//                 name="host_property"
+//                 checked={selectedProperty?._id === item._id}
+//                 onChange={() => selectProperty(item)}
+//                 className="hidden"
+//               />
+//               {/* Show the checkbox always */}
+//               <InputRadioIcon inputId={`host_property_${index}`} checked={selectedProperty?._id === item._id} />
+//               <label htmlFor={`host_property_${index}`} onClick={() => selectProperty(item)} className="cursor-pointer">
+//                 <span className="block text-neutral-600 text-lg font-normal">
+//                   {item.propertyTitle || "No Title"}
+//                 </span>
+//                 <span className="block text-neutral-500 text-base font-medium mt-2">
+//                   {item.GroundPrice ? `$${item.GroundPrice}` : "Price Unavailable"}
+//                 </span>
+//               </label>
+//             </li>
+//           ))
+//         ) : (
+//           <p className="text-neutral-500">No properties available.</p>
+//         )}
+//       </ul>
+//       {selectedProperty && <Calendar listSelect={selectedProperty} />}
+//     </div>
+//   );
+// }
+// PropertyList.js
+
+"use client";
+import { useRouter } from "next/navigation";
+import InputRadioIcon from "./InputRadioIcon"; // Assuming this is your checkbox component
+import Calendar from "./Calendar";
+import usePropertyList from "./usePropertyList";
 
 export default function PropertyList() {
+  const { lists, selectedProperty, selectProperty } = usePropertyList();
+  const router = useRouter();
+
   return (
-    <div className='py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg '>
-        <div className='text-neutral-500  flex justify-between'>
-            <span className='font-semibold'>
-            Property List (5)
-            </span>
-            <button className='border-none text-sm font-medium hover:underline hover:scale-110 transition ease-in-out delay-150'> see all </button>
-        </div>
-        <ul className='space-y-5 mt-6 max-h-56 overflow-y-auto'>
-            <li className='flex gap-x-4'>
-            <input className='hidden' type="radio" id="host_property_0" name="host_property" value="host_property_0"/>
-            <InputRadioIcon inputId='host_property_0'/>
-            <label htmlFor="host_property_0" className="">
-                <span className='block text-neutral-600 text-lg font-normal'>{`Nahar Manjil`}</span>
-                <span className='block text-neutral-500 text-base font-medium mt-2'>{`Road: 18, Sector: 11, Uttara`}</span>
-            </label>
+    <div className="py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg">
+      <div className="text-neutral-500 flex justify-between">
+        <span className="font-semibold">Property List ({lists.length})</span>
+        <button
+          onClick={() => router.push("/host/properties")}
+          className="border-none text-sm font-medium hover:underline hover:scale-110 transition ease-in-out delay-150"
+        >
+          See All
+        </button>
+      </div>
+      <ul className="space-y-5 mt-6 max-h-56 overflow-y-auto">
+        {lists.length > 0 ? (
+          lists.map((item, index) => (
+            <li key={index} className="flex gap-x-4 items-center">
+              <input
+                type="radio"
+                id={`host_property_${index}`}
+                name="host_property"
+                checked={selectedProperty?._id === item._id}
+                onChange={() => selectProperty(item)}
+                className="hidden"
+              />
+              {/* Show the checkbox always */}
+              <InputRadioIcon 
+                inputId={`host_property_${index}`} 
+                checked={selectedProperty?._id === item._id} 
+              />
+              <label 
+                htmlFor={`host_property_${index}`} 
+                onClick={() => selectProperty(item)} 
+                className="cursor-pointer"
+              >
+                <span className="block text-neutral-600 text-lg font-normal">
+                  {item.propertyTitle || "No Title"}
+                </span>
+                <span className="block text-neutral-500 text-base font-medium mt-2">
+                  {item.GroundPrice ? `$${item.GroundPrice}` : "Price Unavailable"}
+                </span>
+              </label>
             </li>
-
-            <li className='flex gap-x-4'>
-            <input className='hidden' type="radio" id="host_property_1" name="host_property" value="host_property_1"/>
-            <InputRadioIcon inputId='host_property_1'/>
-            <label htmlFor="host_property_1" className="">
-                <span className='block text-neutral-600 text-lg font-normal'>{`Guest House`}</span>
-                <span className='block text-neutral-500 text-base font-medium mt-2'>{`Road: 18, Sector: 11, Uttara`}</span>
-            </label>
-            </li>
-
-            <li className='flex gap-x-4'>
-            <input className='hidden' type="radio" id="host_property_3" name="host_property" value="host_property_3"/>
-            <InputRadioIcon inputId='host_property_3'/>
-            <label htmlFor="host_property_3" className="">
-                <span className='block text-neutral-600 text-lg font-normal'>{`Lorem Ipsum`}</span>
-                <span className='block text-neutral-500 text-base font-medium mt-2'>{`Lorem Ipsum dolor shit`}</span>
-            </label>
-            </li> 
-            
-        </ul>
+          ))
+        ) : (
+          <p className="text-neutral-500">No properties available.</p>
+        )}
+      </ul>
+      {selectedProperty && <Calendar listSelect={selectedProperty} />}
     </div>
-  )
+  );
 }

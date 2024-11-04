@@ -101,6 +101,7 @@
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -109,12 +110,22 @@ export default function Navbar() {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const { user, token } = useSelector((state) => state.auth);
   const loggedIn = !!user;
+  const router=useRouter();
 
   useEffect(() => {
     
     // Logic to handle the user role (if necessary in the future)
   }, [user, token]);
+const SwitchtoUser=(e)=>{
+  router.push("/user/profile");
 
+}
+const LogOut = async (e) => {
+  e.preventDefault();
+  localStorage.clear();
+  setLoggedIn(false);
+  window.location.href = "/";
+  }
   return (
     <div className="relative">
       {/* Hamburger menu for mobile */}
@@ -174,24 +185,29 @@ export default function Navbar() {
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Message
               </li>
+              <Link href="/host/profile">
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Profile
               </li>
-              <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
+              </Link>
+              {/* <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Favorite List
-              </li>
-             <Link href="/properties">
+              </li> */}
+             <Link href="/host/properties">
              <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
               properties
               </li>
              </Link>
+             
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Switch to User
               </li>
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Support
               </li>
-              <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
+              <li
+              onClick={LogOut}
+               className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Log Out
               </li>
             </ul>

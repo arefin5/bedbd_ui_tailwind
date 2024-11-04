@@ -247,3 +247,7 @@
 
 
 
+.react-datepicker__day--highlighted {
+  background-color: rgba(0, 123, 255, 0.5); /* Light blue background for highlighted dates */
+  color: white; /* White text for better contrast */
+}
