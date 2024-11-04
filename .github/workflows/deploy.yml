@@ -1,3 +1,4 @@
+
 name: CI/CD for Next.js with Docker
 
 on:
@@ -59,4 +60,4 @@ jobs:
             docker pull ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
             docker stop nextjs_app || true
             docker rm nextjs_app || true
-            docker run -d --name nextjs_app -p 4000:3000 ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
+            docker run -d --name nextjs_app -p 3000:3000 ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
