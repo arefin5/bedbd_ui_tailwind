@@ -1,38 +1,18 @@
 
 // "use client";
-import axiosInstance from "@/redux/services/axiosInstance";
-import InputRadioIcon from "./InputRadioIcon";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Calendar from "./Calendar";
+// import { useRouter } from "next/navigation";
+// import InputRadioIcon from "./InputRadioIcon";
+// import Calendar from "./Calendar";
+// import usePropertyList from "./usePropertyList";
 
 // export default function PropertyList() {
-//   const [lists, setList] = useState([]);
+//   const { lists, selectedProperty, selectProperty } = usePropertyList();
 //   const router = useRouter();
-//   const [listSelect, setListSelect] = useState(null); // Keep single state for selected property
-
-//   const fetchUserList = async () => {
-//     try {
-//       const listData = await axiosInstance.get("/all-draft");
-//       console.log(listData);
-//       setList(listData.data);
-//     } catch (error) {
-//       console.error("Error fetching property list:", error);
-//     }
-//   };
-
-//   const handlePropertySelect = (item) => {
-//     setListSelect(item); // Set selected property directly
-//   };
-
-//   useEffect(() => {
-//     fetchUserList();
-//   }, []);
 
 //   return (
 //     <div className="py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg">
 //       <div className="text-neutral-500 flex justify-between">
-//         <span className="font-semibold">Property List ({lists?.length || 0})</span>
+//         <span className="font-semibold">Property List ({lists.length})</span>
 //         <button
 //           onClick={() => router.push("/host/properties")}
 //           className="border-none text-sm font-medium hover:underline hover:scale-110 transition ease-in-out delay-150"
@@ -47,13 +27,15 @@ import Calendar from "./Calendar";
 //               <input
 //                 type="radio"
 //                 id={`host_property_${index}`}
-//                 name="host_property" // Ensure the name is the same for radio buttons
-//                 value={item.propertyTitle}
-//                 checked={listSelect?._id === item._id}
-//                 onChange={() => handlePropertySelect(item)}
+//                 name="host_property"
+//                 checked={selectedProperty?._id === item._id}
+//                 onChange={() => selectProperty(item)}
 //                 className="hidden"
 //               />
-//               <InputRadioIcon inputId={`host_property_${index}`} />
+//               {/* Only show InputRadioIcon if the current item is selected */}
+//               {selectedProperty?._id === item._id && (
+//                 <InputRadioIcon inputId={`host_property_${index}`} checked />
+//               )}
 //               <label htmlFor={`host_property_${index}`}>
 //                 <span className="block text-neutral-600 text-lg font-normal">
 //                   {item.propertyTitle || "No Title"}
@@ -68,32 +50,74 @@ import Calendar from "./Calendar";
 //           <p className="text-neutral-500">No properties available.</p>
 //         )}
 //       </ul>
-//       {listSelect && <Calendar listSelect={listSelect} />}
+//       {selectedProperty && <Calendar listSelect={selectedProperty} />}
+//     </div>
+//   );
+// // }
+// "use client";
+// import { useRouter } from "next/navigation";
+// import InputRadioIcon from "./InputRadioIcon"; // Assuming this is your checkbox component
+// import Calendar from "./Calendar";
+// import usePropertyList from "./usePropertyList";
+
+// export default function PropertyList() {
+//   const { lists, selectedProperty, selectProperty } = usePropertyList();
+//   const router = useRouter();
+
+//   return (
+//     <div className="py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg">
+//       <div className="text-neutral-500 flex justify-between">
+//         <span className="font-semibold">Property List ({lists.length})</span>
+//         <button
+//           onClick={() => router.push("/host/properties")}
+//           className="border-none text-sm font-medium hover:underline hover:scale-110 transition ease-in-out delay-150"
+//         >
+//           See All
+//         </button>
+//       </div>
+//       <ul className="space-y-5 mt-6 max-h-56 overflow-y-auto">
+//         {lists.length > 0 ? (
+//           lists.map((item, index) => (
+//             <li key={index} className="flex gap-x-4 items-center">
+//               <input
+//                 type="radio"
+//                 id={`host_property_${index}`}
+//                 name="host_property"
+//                 checked={selectedProperty?._id === item._id}
+//                 onChange={() => selectProperty(item)}
+//                 className="hidden"
+//               />
+//               {/* Show the checkbox always */}
+//               <InputRadioIcon inputId={`host_property_${index}`} checked={selectedProperty?._id === item._id} />
+//               <label htmlFor={`host_property_${index}`} onClick={() => selectProperty(item)} className="cursor-pointer">
+//                 <span className="block text-neutral-600 text-lg font-normal">
+//                   {item.propertyTitle || "No Title"}
+//                 </span>
+//                 <span className="block text-neutral-500 text-base font-medium mt-2">
+//                   {item.GroundPrice ? `$${item.GroundPrice}` : "Price Unavailable"}
+//                 </span>
+//               </label>
+//             </li>
+//           ))
+//         ) : (
+//           <p className="text-neutral-500">No properties available.</p>
+//         )}
+//       </ul>
+//       {selectedProperty && <Calendar listSelect={selectedProperty} />}
 //     </div>
 //   );
 // }
-"use client"
+// PropertyList.js
+
+"use client";
+import { useRouter } from "next/navigation";
+import InputRadioIcon from "./InputRadioIcon"; // Assuming this is your checkbox component
+import Calendar from "./Calendar";
+import usePropertyList from "./usePropertyList";
 
 export default function PropertyList() {
-  const [lists, setList] = useState([]);
-  const [listSelect, setListSelect] = useState(null);
-
-  const fetchUserList = async () => {
-    try {
-      const listData = await axiosInstance.get("/all-draft");
-      setList(listData.data);
-    } catch (error) {
-      console.error("Error fetching property list:", error);
-    }
-  };
-
-  const handlePropertySelect = (item) => {
-    setListSelect(item); // Updates selected property
-  };
-
-  useEffect(() => {
-    fetchUserList();
-  }, []);
+  const { lists, selectedProperty, selectProperty } = usePropertyList();
+  const router = useRouter();
 
   return (
     <div className="py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg">
@@ -109,17 +133,25 @@ export default function PropertyList() {
       <ul className="space-y-5 mt-6 max-h-56 overflow-y-auto">
         {lists.length > 0 ? (
           lists.map((item, index) => (
-            <li key={index} className="flex gap-x-4">
+            <li key={index} className="flex gap-x-4 items-center">
               <input
                 type="radio"
                 id={`host_property_${index}`}
                 name="host_property"
-                checked={listSelect?._id === item._id}
-                onChange={() => handlePropertySelect(item)}
+                checked={selectedProperty?._id === item._id}
+                onChange={() => selectProperty(item)}
                 className="hidden"
               />
-              <InputRadioIcon inputId={`host_property_${index}`} checked={listSelect?._id === item._id} />
-              <label htmlFor={`host_property_${index}`}>
+              {/* Show the checkbox always */}
+              <InputRadioIcon 
+                inputId={`host_property_${index}`} 
+                checked={selectedProperty?._id === item._id} 
+              />
+              <label 
+                htmlFor={`host_property_${index}`} 
+                onClick={() => selectProperty(item)} 
+                className="cursor-pointer"
+              >
                 <span className="block text-neutral-600 text-lg font-normal">
                   {item.propertyTitle || "No Title"}
                 </span>
@@ -133,7 +165,7 @@ export default function PropertyList() {
           <p className="text-neutral-500">No properties available.</p>
         )}
       </ul>
-      {listSelect && <Calendar listSelect={listSelect} />}
+      {selectedProperty && <Calendar listSelect={selectedProperty} />}
     </div>
   );
 }
