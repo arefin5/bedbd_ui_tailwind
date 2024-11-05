@@ -5,7 +5,8 @@ on:
     branches:
       - main
 env:
-  ACTIONS_STEP_DEBUG: true       
+  ACTIONS_STEP_DEBUG: true
+  DOCKER_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
 
 jobs:
   build:
@@ -24,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Build the project
-        run: npm run build  # Ensure this builds to the expected output folder
+        run: npm run build
 
   docker:
     needs: build
@@ -37,13 +38,13 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}  # Ensure this secret is set
-          password: ${{ vars.DOCKER_PASSWORD }}      # Ensure this secret is set
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ vars.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest .
-          docker push ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
+          docker build -t ${{ env.DOCKER_IMAGE }} .
+          docker push ${{ env.DOCKER_IMAGE }}
 
   deploy:
     needs: docker
@@ -54,13 +55,11 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.5
         with:
-          host: ${{ vars.SERVER_IP }}            # SSH server IP
-          username: ${{ vars.SERVER_USER }}       # SSH username
-          key: ${{ vars.SERVER_SSH_KEY }} 
+          host: ${{ vars.SERVER_IP }}
+          username: ${{ vars.SERVER_USER }}
+          key: ${{ vars.SERVER_SSH_KEY }}
           script: |
-            # Make sure the target directory exists
             mkdir -p /var/www/nextjs-app/
-            docker pull ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
-            docker stop nextjs_app || true
-            docker rm nextjs_app || true
-            docker run -d --name nextjs_app -p ${{ vars.SERVER_PORT }}:3000 ${{ vars.DOCKERHUB_USERNAME }}/nextjs-app:latest
+            docker pull ${{ env.DOCKER_IMAGE }}
+            docker stop nextjs_app || true && docker rm nextjs_app || true
+            docker run -d --name nextjs_app -p ${{ vars.SERVER_PORT }}:3000 ${{ env.DOCKER_IMAGE }}
