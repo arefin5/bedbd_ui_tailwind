@@ -50,16 +50,28 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     environment: production
-
     steps:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ vars.SERVER_IP }}
-          username: ${{ vars.SERVER_USER }}
-          key: ${{ vars.SERVER_SSH_KEY }}
+          username: root  # or the specific user you want
+          password: ${{ vars.SERVER_PASSWORD }}  # store your VPS password securely in GitHub Secrets
           script: |
             mkdir -p /var/www/nextjs-app/
             docker pull ${{ env.DOCKER_IMAGE }}
             docker stop nextjs_app || true && docker rm nextjs_app || true
             docker run -d --name nextjs_app -p ${{ vars.SERVER_PORT }}:3000 ${{ env.DOCKER_IMAGE }}
+
+    # steps:
+    #   - name: Deploy to Server
+    #     uses: appleboy/ssh-action@v0.1.5
+    #     with:
+    #       host: ${{ vars.SERVER_IP }}
+    #       username: ${{ vars.SERVER_USER }}
+    #       key: ${{ vars.SERVER_SSH_KEY }}
+    #       script: |
+    #         mkdir -p /var/www/nextjs-app/
+    #         docker pull ${{ env.DOCKER_IMAGE }}
+    #         docker stop nextjs_app || true && docker rm nextjs_app || true
+    #         docker run -d --name nextjs_app -p ${{ vars.SERVER_PORT }}:3000 ${{ env.DOCKER_IMAGE }}
