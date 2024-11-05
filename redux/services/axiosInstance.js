@@ -2,7 +2,7 @@ import axios from 'axios';
 import Logout from './Logout'; // Adjust path as needed
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5001/api',
+  baseURL: 'http://203.161.52.168:5001/api',
   headers: {
     'Content-Type': 'application/json',
   },
