@@ -68,7 +68,7 @@ export default function profile() {
     // console.log([...formData]);
     setUploading(true);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/images/single-image-upload", formData);
+      const { data } = await axios.post("http://203.161.52.168:5001/api/images/single-image-upload", formData);
       // console.log("uploaded image => ", data);
       setImage({
         url: data.url,
