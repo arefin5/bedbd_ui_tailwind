@@ -67,25 +67,25 @@ jobs:
             echo 'Setting iptables configuration for Docker...'
             echo '{"iptables": true}' | sudo tee /etc/docker/daemon.json
             sudo systemctl restart docker
-           # Stop any process using port 3000
-           echo "Stopping any process using port 3000..."
-           sudo fuser -k 3000/tcp || true
+            # Stop any process using port 3000
+            echo "Stopping any process using port 3000..."
+            sudo fuser -k 3000/tcp || true
 
-           # Check if port 3000 is free
-           if sudo lsof -i:3000; then
+            # Check if port 3000 is free
+            if sudo lsof -i:3000; then
              echo "Warning: Port 3000 is still in use. Exiting..."
              exit 1
-           else
+            else
              echo "Port 3000 is free."
-           fi
+            fi
 
-           # Optional firewall configuration if ufw is available
-           if command -v ufw &>/dev/null; then
-             echo "Opening port 3000 on the firewall..."
-             sudo ufw allow 3000/tcp || true
-           else
-             echo "ufw not found; skipping firewall configuration for port 3000."
-           fi
+            # Optional firewall configuration if ufw is available
+            if command -v ufw &>/dev/null; then
+              echo "Opening port 3000 on the firewall..."
+              sudo ufw allow 3000/tcp || true
+            else
+              echo "ufw not found; skipping firewall configuration for port 3000."
+            fi
             
             # Pull the latest image
             IMAGE_TAG="${{ env.DOCKER_IMAGE }}"
