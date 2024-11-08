@@ -22,11 +22,13 @@ export default function page() {
         const router = useRouter();
         const {user, token, loading, error } = useSelector((state) => state.auth); 
         useEffect(()=>{
+            
+            
             setEmail(user.email)
             if(user && user.isemailVerify===true && token!==null){
               router.push("/user/profile");
             }
-        },[user])
+        },[user,email,token])
   
         const handleLoginPhone=async(e)=>{
         try{
@@ -50,6 +52,7 @@ export default function page() {
     
     const resendOtp=(e)=>{
         e.preventDefault();
+        console.log("email,singup",email)
         axiosInstance.post("/generate-otp",{
             email
         });
