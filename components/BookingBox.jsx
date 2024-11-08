@@ -6,10 +6,12 @@ import axiosInstance from '@/redux/services/axiosInstance';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const BookingBox = ({ data }) => {
     const { price, serviceFee, tax, GroundPrice, _id } = data;
     const id = _id;
+    const { token } = useSelector((state) => state.auth);
 
     const [bookingDetails, setBookingDetails] = useState(null);
     const [bookedDates, setBookedDates] = useState([]);
@@ -36,7 +38,7 @@ const BookingBox = ({ data }) => {
 
     useEffect(() => {
         fetchBooking();
-    }, [id, totalPrice, totalNights]);
+    }, [id, totalPrice, totalNights,token]);
 
     const fetchBooking = async () => {
         setLoading(true);
@@ -59,10 +61,14 @@ const BookingBox = ({ data }) => {
     };
 
     const handleSubmitReserve = async () => {
+        if(!token){
+            router.push("/login/email")
+        }
         if (!checkInDate || !checkOutDate) {
             setError("Please select both Check-In and Check-Out dates");
             return;
         }
+
         const reservationData = {
             propertyId: id,
             checkinDate: checkInDate,
