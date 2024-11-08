@@ -5,6 +5,8 @@ import { useState,useEffect } from 'react';
 import { verifyOtpEmail } from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
+import axiosInstance from '@/redux/services/axiosInstance';
+
 
 export default function page() {
     const [otp1,setOtp1]=useState("");
@@ -33,10 +35,23 @@ export default function page() {
         }
     }
      useEffect(() => {
+        const storedEmail = localStorage.getItem('email'); // Get the email from localStorage
+    if (storedEmail) {
+        // Remove quotes if they exist, and set the email state
+        setEmail(storedEmail.replace(/^"|"$/g, '')); 
+    }
+
         if (token) {
             router.push('/password/reset'); 
         }
     }, [token, router]);
+
+    const resendOtp=(e)=>{
+        e.preventDefault();
+        axiosInstance.post("/generate-otp",{
+            email
+        });
+    }
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white max-w-lg | absolute-center rounded-10px'>
@@ -106,7 +121,9 @@ export default function page() {
                       {error && <p style={{ color: 'red' }}>{error}</p>}
                
                     <div className="text-sm font-normal text-center">
-                        {`Didn't receive your code? `}<span className="text-primary-400 font-medium">resent</span>
+                        {`Didn't receive your code? `}<span className="text-primary-400 font-medium" 
+                        onClick={resendOtp}
+                        >resent</span>
                         <div  className="border border-primary-400 w-8 h-8 mt-2 rounded-full m-auto py-2 text-center text-xs font-medium">
                             1:59
                         </div>

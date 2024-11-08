@@ -1,11 +1,12 @@
 "use client"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { forgetpass } from '@/redux/features/auth/authSlice';
 import { useDispatch ,useSelector} from 'react-redux';
 import { useRouter } from 'next/navigation'; 
 import { resetPasseord } from '@/redux/features/auth/authSlice';
 
 import Icon from '/components/Icon'
+import axiosInstance from '@/redux/services/axiosInstance';
 
 export default function page() {
     const [password,setPassword]=useState("");
@@ -13,11 +14,11 @@ export default function page() {
     const { user, loading, error,token } = useSelector((state) => state.auth);
     const router=useRouter()
     const dispatch = useDispatch();
-    
+    const [email,setEmail]=useState("")
     const hadleReset=async(e)=>{
         try{
             e.preventDefault();
-            console.log("ture")
+            // console.log("ture")
             if(password!==conPass)return 
             if (password !== conPass) return;
       await  dispatch(resetPasseord({  password }));
@@ -26,6 +27,7 @@ export default function page() {
             console.log(error)
         }
     }
+  
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>

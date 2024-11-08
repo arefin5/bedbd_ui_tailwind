@@ -27,13 +27,13 @@ export default function Page() {
     const fileInputRef = useRef(null);
 
     useEffect(() => {
-        setfName(user?.fname || "");
-        setlName(user?.lname || "");
-        setEmail(user?.email || "");
-        setPhone(user?.phone || "");
-        setParmanent(user?.parmanentAddress || "");
-        setUserId(user?._id || "");
-        setImage(user.profilePic || "")
+        if (user.fname) setfName(user.fname);
+        if (user.lname) setlName(user.lname);
+        if (user.email) setEmail(user.email);
+        if (user.phone) setPhone(user.phone);
+        if (user.parmanentAddress) setParmanent(user.parmanentAddress);
+        if (user._id) setUserId(user._id);
+        if (user.profilePic) setImage(user.profilePic);
     }, [user, token]);
 
     const handleCopy = () => {
@@ -65,7 +65,7 @@ export default function Page() {
         
         setUploading(true);
         try {
-            const { data } = await axios.post("http://203.161.52.168:5001/api/images/single-image-upload", formData);
+            const { data } = await axios.post("http://145.223.22.239:5001/api/images/single-image-upload", formData);
             setImage({ url: data.url, public_id: data.public_id });
         } catch (err) {
             console.error("Image upload error:", err);
