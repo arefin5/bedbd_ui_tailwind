@@ -391,6 +391,11 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+
+        // Clear the localStorage before updating
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
         // Store token and user data in localStorage
         localStorage.setItem('token', action.payload.token);
         localStorage.setItem('user', JSON.stringify(action.payload.user));

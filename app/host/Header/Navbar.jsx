@@ -113,7 +113,11 @@ export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    
+    if(user){
+      setLoggedIn(true);
+    }else{
+      setLoggedIn(false)
+    }
   }, [user, token]);
 const SwitchtoUser=(e)=>{
   router.push("/user/profile");
