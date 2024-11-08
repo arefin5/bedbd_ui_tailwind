@@ -1,8 +1,28 @@
+"use client"
 import Icon from "/components/Icon"
 
 import Link from "next/link"
-
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 export default function Sidebar() {
+  const [name,setName]=useState("")
+  const { user, token } = useSelector((state) => state.auth);
+  const router=useRouter();
+
+  useEffect(() => {
+    if(user.fname && user.lname ){
+      setName(user.fname ` ` + user.lname)
+    }else{
+      
+    }
+  }, [user, token]);
+
+  const LogOut = async (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "/";
+    }
   return (
     <div className="min-h-screen bg-secondary-400 text-white px-4 pt-12 w-fit xl:w-64 flex grid justify-between" >
         <ul className="space-y-6 ">
@@ -55,12 +75,12 @@ export default function Sidebar() {
         </ul>
 
         <span className="rounded-lg ml-auto mr-auto bg-white  bg-opacity-20 h-fit w-full text-center py-4">
-          {`Russell Ahmed`}
+          {name}
         </span>
 
         <button className="mb-16 px-4 py-0 rounded-lg ml-auto mr-auto">
           <Icon name="log-out" className="icon text-white inline mr-2.5"/>
-          <span className="">Log out</span>
+          <span className="" onClick={LogOut}>Log out</span>
         </button>
       </div>
   )
