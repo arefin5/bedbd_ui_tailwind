@@ -34,7 +34,9 @@ const BookingBox = ({ data }) => {
     const totalserviceFee = serviceFee * totalNights;
     const totalGroundPrice = GroundPrice * totalNights;
     const totalTax = tax * totalNights;
-    const totalPrice = totalGroundPrice * totalNights + totalserviceFee + totalTax;
+    // const totalPrice = totalGroundPrice * totalNights + totalserviceFee + totalTax;
+    const totalPrice = (totalGroundPrice * totalNights) + totalserviceFee + totalTax;
+
 
     useEffect(() => {
         fetchBooking();

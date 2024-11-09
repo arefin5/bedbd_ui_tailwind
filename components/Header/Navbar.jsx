@@ -44,7 +44,8 @@ export default function Navbar() {
 
                     // // Optionally, update local `user` state if needed
                     // setUser(updatedUser);
-                    router.push("/host/profile")
+                    window.location.href = "/host/profile";
+                    // router.push("/host/profile")
                 }
             } catch (error) {
                 console.error("Error updating role:", error);
