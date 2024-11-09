@@ -47,55 +47,55 @@ jobs:
           docker build -t ${{ env.DOCKER_IMAGE }} .
           docker push ${{ env.DOCKER_IMAGE }}
 
-  # deploy:
-  #   needs: docker
-  #   runs-on: ubuntu-latest
-  #   environment: production
-  #   steps:
-  #     - name: Deploy to Server
-  #       uses: appleboy/ssh-action@v0.1.5
-  #       with:
-  #         host: ${{ vars.SERVER_IP }}
-  #         username: root  # Replace with the appropriate user if not root
-  #         password: ${{ secrets.SERVER_PASSWORD }}
-  #         port: 22
-  #         script: |
-  #           echo "Starting deployment on the server..."
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ vars.SERVER_IP }}
+          username: root  # Replace with the appropriate user if not root
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script: |
+            echo "Starting deployment on the server..."
 
-  #           # Troubleshooting steps - Restart Docker and ensure iptables is set correctly
-  #           sudo systemctl restart docker
-  #           echo 'Setting iptables configuration for Docker...'
-  #           echo '{"iptables": true}' | sudo tee /etc/docker/daemon.json
-  #           sudo systemctl restart docker
-  #           # Stop any process using port 3000
-  #           echo "Stopping any process using port 3000..."
-  #           sudo fuser -k 3000/tcp || true
+            # Troubleshooting steps - Restart Docker and ensure iptables is set correctly
+            sudo systemctl restart docker
+            echo 'Setting iptables configuration for Docker...'
+            echo '{"iptables": true}' | sudo tee /etc/docker/daemon.json
+            sudo systemctl restart docker
+            # Stop any process using port 3000
+            echo "Stopping any process using port 3000..."
+            sudo fuser -k 3000/tcp || true
 
-  #           # Check if port 3000 is free
-  #           if sudo lsof -i:3000; then
-  #            echo "Warning: Port 3000 is still in use. Exiting..."
-  #            exit 1
-  #           else
-  #            echo "Port 3000 is free."
-  #           fi
+            # Check if port 3000 is free
+            if sudo lsof -i:3000; then
+             echo "Warning: Port 3000 is still in use. Exiting..."
+             exit 1
+            else
+             echo "Port 3000 is free."
+            fi
 
-  #           # Optional firewall configuration if ufw is available
-  #           if command -v ufw &>/dev/null; then
-  #             echo "Opening port 3000 on the firewall..."
-  #             sudo ufw allow 3000/tcp || true
-  #           else
-  #             echo "ufw not found; skipping firewall configuration for port 3000."
-  #           fi
+            # Optional firewall configuration if ufw is available
+            if command -v ufw &>/dev/null; then
+              echo "Opening port 3000 on the firewall..."
+              sudo ufw allow 3000/tcp || true
+            else
+              echo "ufw not found; skipping firewall configuration for port 3000."
+            fi
             
-  #           # Pull the latest image
-  #           IMAGE_TAG="${{ env.DOCKER_IMAGE }}"
+            # Pull the latest image
+            IMAGE_TAG="${{ env.DOCKER_IMAGE }}"
            
-  #           echo "Pulling Docker image with tag: $IMAGE_TAG"
-  #           docker pull $IMAGE_TAG
+            echo "Pulling Docker image with tag: $IMAGE_TAG"
+            docker pull $IMAGE_TAG
 
-  #           # Stop and remove any existing container
-  #           docker stop nextjs_app || true
-  #           docker rm nextjs_app || true
+            # Stop and remove any existing container
+            docker stop nextjs_app || true
+            docker rm nextjs_app || true
 
-  #           # Run the container with troubleshooting steps
-  #           docker run -d --name nextjs_app -p ${{ vars.SERVER_PORT }}:3000 $IMAGE_TAG
+            # Run the container with troubleshooting steps
+            docker run -d --name nextjs_app -p ${{ vars.SERVER_PORT }}:3000 $IMAGE_TAG
