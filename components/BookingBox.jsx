@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import BookingCounter from "./BookingCounter";
 
 const BookingBox = ({ data }) => {
     const { price, serviceFee, tax, GroundPrice, _id } = data;
@@ -21,7 +22,7 @@ const BookingBox = ({ data }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
-
+    
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
@@ -29,17 +30,20 @@ const BookingBox = ({ data }) => {
         }
         return 1;
     };
-
+    const handleCounterChange = (name, newValue) => {
+        setGuestCount(newValue);
+    };
     const totalNights = calculateDays();
     const totalserviceFee = serviceFee * totalNights;
     const totalGroundPrice = GroundPrice * totalNights;
     const totalTax = tax * totalNights;
     // const totalPrice = totalGroundPrice * totalNights + totalserviceFee + totalTax;
-    const totalPrice = (totalGroundPrice * totalNights) + totalserviceFee + totalTax;
-
+    const totalPrice = totalGroundPrice+ totalserviceFee + totalTax;
 
     useEffect(() => {
         fetchBooking();
+        console.log(guestCount)
+
     }, [id, totalPrice, totalNights,token]);
 
     const fetchBooking = async () => {
@@ -70,7 +74,7 @@ const BookingBox = ({ data }) => {
             setError("Please select both Check-In and Check-Out dates");
             return;
         }
-
+console.log(guestCount)
         const reservationData = {
             propertyId: id,
             checkinDate: checkInDate,
@@ -144,14 +148,20 @@ const BookingBox = ({ data }) => {
                 </div>
                 <div className="py-4 px-8 border-t border-neutral-400 col-2 relative">
                     <label className="block text-neutral-600 text-sm font-semibold">Guest</label>
-                    <input
+                    <BookingCounter
+                     name="Guest"
+                     
+                     value={guestCount}
+                    onCountChange={handleCounterChange}
+                />
+                    {/* <input
                         type="number"
                         className="text-neutral-300 font-medium"
                         placeholder="Select Guest"
                         value={guestCount}
                         min="1"
                         onChange={(e) => setGuestCount(parseInt(e.target.value, 10))}
-                    />
+                    /> */}
                     <Icon name="chevron-down" size={24} className="icon absolute-y-center right-4" />
                 </div>
             </div>

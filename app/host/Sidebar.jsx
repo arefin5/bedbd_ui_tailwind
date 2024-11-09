@@ -10,14 +10,15 @@ export default function Sidebar() {
   const { user, token } = useSelector((state) => state.auth);
   const router=useRouter();
 
+
   useEffect(() => {
-    if(user.fname && user.lname ){
-      setName(user.fname ` ` + user.lname)
-    }else{
-      
+    if (user?.fname && user?.lname) {
+      setName(`${user.fname} ${user.lname}`);
+    } else {
+      // Handle case when fname or lname is missing or empty
+      setName(""); // or setName("Unknown") or handle as needed
     }
   }, [user, token]);
-
   const LogOut = async (e) => {
     e.preventDefault();
     localStorage.clear();
