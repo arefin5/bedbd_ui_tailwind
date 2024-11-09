@@ -1,6 +1,7 @@
 
 import axiosInstance from '@/redux/services/axiosInstance';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 
 // Load token and user from localStorage if available
@@ -157,8 +158,8 @@ export const verifyOtpEmail = createAsyncThunk(
       console.log("start api callling .....", email)
       const response = await axiosInstance.post('/verify-forget-pass', { email, otp });
       // Return the token and user data
-      console.log("finised")
-      console.log(response.data);
+      // console.log("finised")
+      // console.log(response.data);
 
       return response.data;
     } catch (error) {
@@ -238,6 +239,32 @@ export const resetPasseord = createAsyncThunk(
     }
   }
 );
+
+// login with google 
+export const loginwithGoogle = createAsyncThunk(
+  'auth/loginUserwithgoogle',
+  async ({ payload }, { rejectWithValue }) => {
+    try {
+          console.log(payload);
+      // const response = await axios.post('http://localhost:5001/api/google-facebook-login', { payload });
+      // Return the token and user data
+      return response.data;
+    } catch (error) {
+      // console.log("error", error.response);
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
+      }
+
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+    }
+  }
+);
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -275,7 +302,23 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      }).addCase(loginUserPhone.pending, (state) => {
+      })
+      .addCase(loginwithGoogle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginwithGoogle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+      })
+      .addCase(loginwithGoogle.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(loginUserPhone.pending, (state) => {
         state.loading = true;
         state.error = null;
       })

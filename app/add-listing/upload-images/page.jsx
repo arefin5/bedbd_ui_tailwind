@@ -30,7 +30,7 @@ export default function Page() {
       //  pair[0]+ ", "+pair[1]
       console.log(pair[0] + ', ' + pair[1]);
     }
-      const response = await axios.post("http://203.161.52.168:5001/api/images/upload-image-file", formData, {
+      const response = await axios.post("http://145.223.22.239:5001/api/images/upload-image-file", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

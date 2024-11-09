@@ -5,6 +5,7 @@ import { useState,useEffect } from 'react'
 import { forgetpass } from '@/redux/features/auth/authSlice';
 import { useDispatch ,useSelector} from 'react-redux';
 import { useRouter } from 'next/navigation'; 
+import Link from "next/link"
 
 export default function page() {
     const [email,setEmail]=useState("");
@@ -44,9 +45,11 @@ const dispatch = useDispatch();
                     <button className='btn btn-primary'>Continue</button>
                         {error && <p className="error-message">{error}</p>}
                 </form >
+<Link href="/login">
+
 
                 <p className='text-sm font-normal text-center text-neutral-500'>Already have an account? <span className='text-primary-400 font-medium'>Login</span></p>
-
+</Link>
                 <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>
             </div>
         </div>
