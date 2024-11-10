@@ -68,7 +68,7 @@ export default function PropertyGalleryItem({ data }) {
             {location.streetAddress.replace(/^(.{10}).*$/, '$1...') + ', ' + location.country}
           </div>
         </Link>
-        <div className="pl-auto text-end text-2xl text-primary-400 font-semibold">${tax + serviceFee + GroundPrice}</div>
+        <div className="pl-auto text-end text-2xl text-primary-400 font-semibold">${GroundPrice}</div>
         <Link href={`/listing/${data._id}`}>
           <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on 25.12.2023</div>
         </Link>

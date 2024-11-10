@@ -10,7 +10,6 @@ function usePropertyList() {
   const fetchUserList = async () => {
     try {
       const listData = await axiosInstance.get("/all-draft");
-      console.log(listData)
       setLists(listData.data);
     } catch (error) {
       console.error("Error fetching property list:", error);
