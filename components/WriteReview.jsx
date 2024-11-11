@@ -17,7 +17,7 @@ const WriteReview = ({ data }) => {
     const [communicationRating, setCommunicationRating] = useState(5.0);
     const [loremIpsumRating, setLoremIpsumRating] = useState(5.0);
     const [hygieneRating, setHygieneRating] = useState(5.0);
-    const [locationRating, setLocationRating] = useState(5.0);
+    const [locationOfProperty, setLocationRating] = useState(5.0);
     const [disableRating, setDisableRating] = useState(false); // Define disableRating state
 
     const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ const WriteReview = ({ data }) => {
 
     useEffect(() => {
         if (user?._id === postID) {
-            setDisableRating(true); // Disable review button if user is the post author
+            setDisableRating(true); 
         }
     }, [user, postID]);
 
@@ -42,20 +42,17 @@ const WriteReview = ({ data }) => {
         setError(null);
       
         try {
-            const reviewData = {
-                categories: {
-                    amenities: amenitiesRating,
-                    communication: communicationRating,
-                    loremIpsum: loremIpsumRating,
-                    hygiene: hygieneRating,
-                    locationOfProperty: locationRating
-                },
-                reviewText
-            };
+            const avgRating = (amenitiesRating + communicationRating + loremIpsumRating + hygieneRating + locationOfProperty) / 5;
+          
             await axiosInstance.post(`/create-review/${id}`, {
-                postId: id,
-                reviewData
-        });
+                amenitiesRating,
+                loremIpsumRating,
+                hygieneRating,
+                locationOfProperty,
+                communicationRating,
+                reviewText,
+                avgRating
+        }); 
             setReviewText(""); // Clear textarea after submission
             // router.refresh(); // Refresh the page or redirect as needed
         } catch (err) {
@@ -128,7 +125,7 @@ const WriteReview = ({ data }) => {
                     max="5"
                     min="0"
                     step="0.1"
-                    value={locationRating}
+                    value={locationOfProperty}
                     onChange={(e) => setLocationRating(parseFloat(e.target.value))}
                 />
             </div>
