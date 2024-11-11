@@ -1,57 +1,48 @@
-# version: '3.8'
+
+# version: '3'
 
 # services:
-#   nextjs:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
+#   nextjs_app:
+#     image: arefin5/nextjs-app:latest  # Replace this with your image or build instructions
+#     container_name: nextjs_app
 #     ports:
-#       - "3000" 
+#       - "3000:3000"  # Internal app port
 
 #   nginx:
 #     image: nginx:latest
+#     container_name: nginx_proxy
+#     ports:
+#       - "80:80"  # Expose NGINX on port 80
 #     volumes:
-#       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-#       - /etc/letsencrypt:/etc/letsencrypt 
-#     ports:
-#       - "80:80"
-#       - "443:443"
+#       - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Map NGINX config from the repo
 #     depends_on:
-#       - nextjs
-#version: '3.8'
-
-# services:
-#   nextjs:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     ports:
-#       - "3000" # Internal port for NGINX
-
-#   nginx:
-#     image: nginx:latest
-#     volumes:
-#       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-#     ports:
-#       - "80:80"
-#       - "443:443"
-#     depends_on:
-#       - nextjs 
+#       - nextjs_app
 version: '3'
 
 services:
   nextjs_app:
-    image: arefin5/nextjs-app:latest  # Replace this with your image or build instructions
+    image: arefin5/nextjs-app:latest
     container_name: nextjs_app
     ports:
-      - "3000:3000"  # Internal app port
+      - "3000:3000"
 
   nginx:
     image: nginx:latest
     container_name: nginx_proxy
     ports:
-      - "80:80"  # Expose NGINX on port 80
+      - "80:80"     # HTTP
+      - "443:443"   # HTTPS
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Map NGINX config from the repo
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt        # Certificates
+      - ./certbot/www:/var/www/certbot         # Webroot for Certbot
     depends_on:
       - nextjs_app
+      - certbot
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt        # Certificates
+      - ./certbot/www:/var/www/certbot         # Webroot for Certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h; done;'"
