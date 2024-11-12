@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Logout from './Logout'; // Adjust path as needed
-// const baseur="http://145.223.22.239:5001/api"
-const baseur="http://localhost:5001/api"
+const baseur="http://145.223.22.239:5001/api"
+// const baseur="http://localhost:5001/api"
 const axiosInstance = axios.create({
   baseURL: baseur,
   headers: {
