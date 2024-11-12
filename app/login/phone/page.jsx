@@ -6,6 +6,7 @@ import SocialLogin from '../SocialLogin'
 import { useState,useEffect } from 'react';
 import { loginUserPhone } from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation'; 
+import Link from 'next/link';
 
 export default function Login() {
      const [phonee, setPhone] = useState("");
@@ -17,7 +18,7 @@ export default function Login() {
             try{
             e.preventDefault();
              let phone = `${countryCode} ${phonee}`;
-            console.log("phone", phone);
+            // console.log("phone", phone);
               const resultAction = await dispatch(loginUserPhone({ phone }));
           if (loginUserPhone.fulfilled.match(resultAction)) {
             router.push("/login/phone/otp");
@@ -78,10 +79,12 @@ export default function Login() {
                     <h3 className='text-xs leading-none text-neutral-400 font-medium text-center mt-3 mb-5'>  We’ll call or text you to confirm your number. Standard message and data rates apply. </h3>
                     <div className='flex flex-col-reverse sm:flex-row gap-6 items-center'>
                         <button type='submit' className='btn btn-primary sm:max-w-48 cursor-pointer'>Sent OTP </button>
-                        <a className='flex-auto flex  gap-2.5 items-center text-neutral-500 cursor-pointer text-sm font-medium'>
+                       <Link href="/login/email">
+                       <a className='flex-auto flex  gap-2.5 items-center text-neutral-500 cursor-pointer text-sm font-medium'>
                             <Icon name='mail' className='icon' size={24}/>
                             Continue with Email
                         </a>
+                       </Link>
                     </div>
                 </form >
          

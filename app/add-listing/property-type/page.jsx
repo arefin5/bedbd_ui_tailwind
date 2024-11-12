@@ -7,7 +7,8 @@ import { updateFormData } from '@/redux/list/createListSlice';
 import { useDispatch } from 'react-redux';
 import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-
+// 
+import { useSelector } from 'react-redux';
 function getListingTypes() {
   return [
     {
@@ -51,33 +52,40 @@ function getListingTypes() {
   ];
 }
 
+
 export default function Page() {
+
   const dispatch = useDispatch();
   const router = useRouter();
   const [selectedType, setSelectedType] = useState(null);  // Track the selected property type
-  
+  const { user, isLoading, error, token } = useSelector((state) => state.auth);
+
+
   useEffect(() => {
-    // console.log("Selected Property Type Updated:", selectedType);
-  }, [selectedType]);
+    if(!user) return;
+    if(!token) return;
+      if(!user && !token && !user.isEmailVerified && !user.isPhoneVerified){
+        alert("please verified your email and Phone ");
+
+        return router.push("/host/profile")
+      }
+      if(! user?.photoIdVerify && !user.photoIdVerify){
+        alert("please Verify your Identity")
+        router.push("/registration/start")
+      }
+  }, [selectedType,user,token]);
+
   const handleContinue =async (e) => {
     e.preventDefault();
     if (selectedType===null) {
       alert('Please select a property type before continuing.');
       return;
     }
-      // console.log(selectedType)
         const payload = {
         typeOfproperty: selectedType,
        };
    await  dispatch(updateFormData(payload)); 
        router.push('/add-listing/property-state');
-    
-
-    
-
-   
-
-   
   };
 
   const data = getListingTypes();

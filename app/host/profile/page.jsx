@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Icon from '/components/Icon'
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useRef } from 'react'
-import { userEdit } from '@/redux/features/auth/authSlice';
+import { userEdit, verifyOtpEmail, verifyOtp } from '@/redux/features/auth/authSlice';
 import axiosInstance from '@/redux/services/axiosInstance';
 import axios from 'axios';
 
@@ -23,10 +23,13 @@ export default function profile() {
   const [cover, setCover] = useState({})
   const fileInputRef = useRef(null);
   const fileInputRefCover = useRef(null);
-
+  const [hanlarotp, setOptSubmite] = useState(false);
+  const [hanlarotpPhone, sethanlarotpPhone] = useState(false)
+  const [otp, setOtp] = useState("");
 
   const dispatch = useDispatch();
   const { user, isLoading, error, token } = useSelector((state) => state.auth);
+
   useEffect(() => {
     setfName(user.fname || "");
     setlName(user.lname || "");
@@ -38,7 +41,8 @@ export default function profile() {
     setImage(user.profilePic || {});
     setAbout(user.about || "");
     setUserId(user._id);
-  }, [user, token])
+  }, [user, token, hanlarotp, hanlarotpPhone])
+
   const handleCopy = () => {
     navigator.clipboard.writeText(id).then(() => {
       alert("User ID copied to clipboard!");
@@ -107,6 +111,47 @@ export default function profile() {
   };
   const triggerFileInputCover = () => {
     fileInputRefCover.current.click();
+  };
+
+  const otpGenerateEmail = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/generate-otp", { email });
+      console.log(response);
+
+      if (response.status === 200) {
+        setOptSubmite(true);
+        alert("OTP sent successfully!");
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
+  };
+  const VerifyedEmail = (e) => {
+    e.preventDefault();
+    dispatch(verifyOtpEmail({ email, otp }));
+    setOptSubmite(false);
+  };
+
+  // phone 
+  const otpGeneratePhone = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/generate-otp-phone", { phone });
+      console.log(response);
+
+      if (response.status === 200) {
+        sethanlarotpPhone(true)
+        alert("OTP sent successfully!");
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
+  };
+  const VerifyedPhone = (e) => {
+    e.preventDefault();
+    dispatch(verifyOtp({ phone, otp }));
+    setOptSubmite(false);
   };
 
   return (
@@ -207,6 +252,25 @@ export default function profile() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
+            {user && user.isPhoneVerified ? (
+              <p>verified </p>
+            ) : (
+              <p onClick={otpGeneratePhone}>Please Verified Your Phone Number </p>
+            )
+            }
+            {hanlarotpPhone && (
+              <>
+                <input
+                  className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+                  placeholder="OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                <button onClick={VerifyedPhone} className="btn btn-primary mt-2">
+                  Submit OTP
+                </button>
+              </>
+            )}
           </div>
 
           <div className="w-1/2">
@@ -216,6 +280,25 @@ export default function profile() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {user && user.isEmailVerified ? (
+              <p>verified </p>
+            ) : (
+              <p onClick={otpGenerateEmail}>Please Verified Your Email Number </p>
+            )
+            }
+            {hanlarotp && (
+              <>
+                <input
+                  className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+                  placeholder="OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                <button onClick={VerifyedEmail} className="btn btn-primary mt-2">
+                  Submit OTP
+                </button>
+              </>
+            )}
           </div>
 
 
