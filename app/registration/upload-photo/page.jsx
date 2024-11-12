@@ -42,7 +42,7 @@
 'use client';
 import Icon from '/components/Icon';
 import DropImage from '/components/DropImage';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
