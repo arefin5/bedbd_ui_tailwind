@@ -5,6 +5,7 @@ import Icon from '/components/Icon'
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { userEdit } from '@/redux/features/auth/authSlice';
 
 export default function Page() {
     const dispatch = useDispatch();
@@ -18,6 +19,11 @@ export default function Page() {
     const [name, setName] = useState("");
 
     useEffect(() => {
+        if(!user && !user.isEmailVerified && !isPhoneVerified && !token){
+            alert("please Verify your Email and Phone number ")
+            return router.push("/user/profile")
+        }
+
         if (user.fname) setfName(user.fname);
         if (user.lname) setlName(user.lname);  // Fixing the mistake here
         if (user.email) setEmail(user.email);
@@ -30,6 +36,23 @@ export default function Page() {
             setName(fname + ' ' + lname);
         }
     }
+    const handleContinue=async(e)=>{
+        e.preventDefault();
+        const payload = {
+            fname: fname || undefined,
+            lname: lname || undefined,
+            email: email || undefined,
+            phone: phone || undefined,
+            name:name
+        };
+        const resultAction = await dispatch(userEdit(payload));
+        if (userEdit.fulfilled.match(resultAction)) {
+        router.push("/registration/terms-conditions");
+        } else {
+        console.log("Error during phone login:", resultAction.payload);
+        }
+    }
+
 
     return (
         <div className='modal-background'>
@@ -62,7 +85,7 @@ export default function Page() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}   
                     />
-                    <button className='btn btn-primary mt-12'>Continue</button>
+                    <button className='btn btn-primary mt-12' onClick={handleContinue}>Continue</button>
                 </form>
 
                 <p className='mt-6 py-3.5 px-6 text-sm font-normal text-red-600'>
