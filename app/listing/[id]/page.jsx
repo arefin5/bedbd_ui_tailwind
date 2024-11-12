@@ -53,7 +53,8 @@ export default async function page({ params }) {
         totalroom,
         Postedby,
     } = data
-    // console.log(images)
+    // console.log("Postedby",Postedby);
+    // console.log(Postedby.fname, Postedby.lname)
     return (
         <>
             <Header />
@@ -197,7 +198,7 @@ export default async function page({ params }) {
                                     ) : null}
                                 </div>
                                 <div>
-                                    <h3 className="text-neutral-700 text-2xl font-semibold">{Postedby.fname} {Postedby.lname}</h3>
+                                    <h3 className="text-neutral-700 text-2xl font-semibold">{Postedby?.fname} {Postedby?.lname}</h3>
                                     <div className="space-x-3.5">
                                         <div className="text-neutral-800 text-lg font-normal inline">
                                             <Image className="icon object-contain inline mr-2"

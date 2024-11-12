@@ -38,7 +38,31 @@ export default function PropertyGalleryItem({ data }) {
     }
   };
 
-  const { location, GroundPrice, serviceFee, tax, avgRating, reviews } = data;
+  const { location, GroundPrice, reviews, availablecheck, createdAt } = data;
+
+  // Calculate the total sum of ratings and the count of reviews
+  const totalReviews = reviews.length;
+  let averageRating = 0;
+
+  if (totalReviews === 0) {
+    console.log('No reviews available.');
+  } else {
+    const totalRating = reviews.reduce((sum, review) => sum + review.avgRating, 0);
+    averageRating = Math.floor(totalRating / totalReviews);
+  }
+
+  // Determine the availableDate
+  let availableDate = 0;
+  if (availablecheck.checkInStart === "asap") {
+    availableDate = createdAt;
+  } else {
+    availableDate = availablecheck.checkInStart;
+  }
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getUTCFullYear()}/${String(date.getUTCMonth() + 1).padStart(2, '0')}/${String(date.getUTCDate()).padStart(2, '0')}`;
+  };
 
   return (
     <div className="min-w-290px max-w-395px">
@@ -70,12 +94,14 @@ export default function PropertyGalleryItem({ data }) {
         </Link>
         <div className="pl-auto text-end text-2xl text-primary-400 font-semibold">${GroundPrice}</div>
         <Link href={`/listing/${data._id}`}>
-          <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on 25.12.2023</div>
+          <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on {
+            formatDate(availableDate)
+          }</div>
         </Link>
         <div className="text-end flex float-right items-center justify-center text-base font-medium">
           <Image alt="rating icon" className="" src='/icons/star_gray.svg' height={24} width={24} />
-          <span className="mt-auto text-neutral-600">{avgRating}</span>
-          <span className="mt-auto text-neutral-500">({reviews.length})</span>
+          <span className="mt-auto text-neutral-600">{averageRating}</span>
+          <span className="mt-auto text-neutral-500">({totalReviews})</span>
         </div>
       </div>
     </div>

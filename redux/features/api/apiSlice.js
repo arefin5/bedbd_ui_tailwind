@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 export const apiSlice = createApi({
     reducerPath:"api",
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://145.223.22.239:5001/api'
+        // baseUrl: 'http://145.223.22.239:5001/api'
+        baseUrl: 'http://localhost:5001/api'
+
     }),
 
     tagTypes:[],

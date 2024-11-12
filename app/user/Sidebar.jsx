@@ -34,17 +34,30 @@ export default function Sidebar({ user }) {
             </Link>
           )}
         </p>
-
-        <p className="text-neutral-500 font-medium text-base mb-12">
-          {user?.email || "Please set your email"}
-          <span className="ml-2 text-green-600 hover:cursor-pointer">
-            {user?.email ? "Verify now" : "Verify"}
-          </span>
+        <p className="text-neutral-500 font-medium text-base mb-4">
+         Email :{" "}
+          {user?.email ? (
+            <>
+              {user.email}
+              <span className="ml-2">
+                {user.isEmailVerified ? (
+                  <Icon name="badge-check" className="icon inline" />
+                ) : (
+                  "Verify now"
+                )}
+              </span>
+            </>
+          ) : (
+            <Link href="/email">
+              <a className="text-primary-500">Add Your Email</a>
+            </Link>
+          )}
         </p>
-
-        <h1 className="text-neutral-500 text-2xl font-semibold mb-6">
+       <Link href="/registration/start">
+       <h1 className="text-neutral-500 text-2xl font-semibold mb-6">
           Verify your identity
         </h1>
+       </Link>
         <p className="text-neutral-500 text-base font-normal mb-12">
           Before you book or host on bedbd, you’ll need to complete this step.
         </p>
