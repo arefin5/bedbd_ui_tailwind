@@ -19,7 +19,7 @@ export default function Page() {
     const [name, setName] = useState("");
 
     useEffect(() => {
-        if(!user && !user.isEmailVerified && !isPhoneVerified && !token){
+        if( !user || !user.isEmailVerified || !isPhoneVerified && !token ){
             alert("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
