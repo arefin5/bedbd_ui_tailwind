@@ -4,6 +4,8 @@ import Icon from '/components/Icon';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Checkbox from '/components/Checkbox';
+import AgreeBox from './AgreeBox';
+
 
 export default function Page() {
   const termsAndConditions = [
@@ -48,8 +50,14 @@ export default function Page() {
           ))}
         </ul>
         <form>
-          <Checkbox
+          {/* <Checkbox
             id="custom-checkbox"
+            label="I agree with the terms and conditions"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          /> */}
+          <AgreeBox 
+             id="custom-checkbox"
             label="I agree with the terms and conditions"
             checked={isChecked}
             onChange={handleCheckboxChange}
