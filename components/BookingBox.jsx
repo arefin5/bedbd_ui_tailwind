@@ -16,13 +16,14 @@ const BookingBox = ({ data }) => {
 
     const [bookingDetails, setBookingDetails] = useState(null);
     const [bookedDates, setBookedDates] = useState([]);
-    const [checkInDate, setCheckInDate] = useState(null);
-    const [checkOutDate, setCheckOutDate] = useState(null);
+    const [dateRange, setDateRange] = useState([null, null]);
     const [guestCount, setGuestCount] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
-    
+
+    const [checkInDate, checkOutDate] = dateRange;
+
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
@@ -30,32 +31,30 @@ const BookingBox = ({ data }) => {
         }
         return 1;
     };
+
     const handleCounterChange = (name, newValue) => {
         setGuestCount(newValue);
     };
+
     const totalNights = calculateDays();
     const totalserviceFee = serviceFee * totalNights;
     const totalGroundPrice = GroundPrice * totalNights;
     const totalTax = tax * totalNights;
-    // const totalPrice = totalGroundPrice * totalNights + totalserviceFee + totalTax;
-    const totalPrice = totalGroundPrice+ totalserviceFee + totalTax;
+    const totalPrice = totalGroundPrice + totalserviceFee + totalTax;
 
     useEffect(() => {
         fetchBooking();
-        console.log(guestCount)
-
-    }, [id, totalPrice, totalNights,token]);
+    }, [id, totalPrice, totalNights, token]);
 
     const fetchBooking = async () => {
         setLoading(true);
         try {
             const response = await axiosInstance.get(`/property-book-list/${id}`);
             setBookingDetails(response.data.bookings);
-            //   console.log(response.data.bookings)
-            // Extract and set booked dates
+
             const bookedRanges = response.data.bookings.map(booking => ({
                 start: new Date(booking.checkinDate),
-                // end: new Date(booking.checkoutDate),
+                end: new Date(booking.checkoutDate),
             }));
             setBookedDates(bookedRanges);
 
@@ -66,15 +65,20 @@ const BookingBox = ({ data }) => {
         }
     };
 
+    const handleDateChange = (dates) => {
+        setDateRange(dates);
+    };
+
     const handleSubmitReserve = async () => {
-        if(!token){
-            router.push("/login/email")
+        if (!token) {
+            router.push("/login/email");
+            return;
         }
         if (!checkInDate || !checkOutDate) {
             setError("Please select both Check-In and Check-Out dates");
             return;
         }
-console.log(guestCount)
+
         const reservationData = {
             propertyId: id,
             checkinDate: checkInDate,
@@ -115,53 +119,31 @@ console.log(guestCount)
                 </h3>
             </div>
 
-            {/* DatePicker inputs for Check-In and Check-Out */}
+            {/* Single DatePicker with Range Selection */}
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
-                <div className="grid grid-cols-2">
-                    <div className="py-4 px-8">
-                        <label className="block text-neutral-600 text-sm font-semibold">Check In</label>
-                        <DatePicker
-                            selected={checkInDate}
-                            onChange={(date) => setCheckInDate(date)}
-                            selectsStart
-                            startDate={checkInDate}
-                            endDate={checkOutDate}
-                            excludeDateIntervals={bookedDates}
-                            placeholderText="Add Dates"
-                            className="text-neutral-300 font-medium"
-                        />
-                    </div>
-                    <div className="py-4 px-8 border-l border-neutral-400">
-                        <label className="block text-neutral-600 text-sm font-semibold">Check Out</label>
-                        <DatePicker
-                            selected={checkOutDate}
-                            onChange={(date) => setCheckOutDate(date)}
-                            selectsEnd
-                            startDate={checkInDate}
-                            endDate={checkOutDate}
-                            minDate={checkInDate}
-                            excludeDateIntervals={bookedDates}
-                            placeholderText="Add Dates"
-                            className="text-neutral-300 font-medium"
-                        />
-                    </div>
+                <div className="py-4 px-8">
+                    <label className="block text-neutral-600 text-sm font-semibold">Select Dates</label>
+                    <DatePicker
+                        selected={checkInDate}
+                        onChange={handleDateChange}
+                        startDate={checkInDate}
+                        endDate={checkOutDate}
+                        selectsRange
+                        monthsShown={2} // Display two months side by side
+                        minDate={new Date()}
+                        excludeDateIntervals={bookedDates} // Excludes booked dates
+                        placeholderText="Add Check-In and Check-Out Dates"
+                        className="text-neutral-300 font-medium"
+                        showPopperArrow={false}
+                    />
                 </div>
-                <div className="py-4 px-8 border-t border-neutral-400 col-2 relative">
+                <div className="py-4 px-8 border-t border-neutral-400">
                     <label className="block text-neutral-600 text-sm font-semibold">Guest</label>
                     <BookingCounter
-                     name="Guest"
-                     
-                     value={guestCount}
-                    onCountChange={handleCounterChange}
-                />
-                    {/* <input
-                        type="number"
-                        className="text-neutral-300 font-medium"
-                        placeholder="Select Guest"
+                        name="Guest"
                         value={guestCount}
-                        min="1"
-                        onChange={(e) => setGuestCount(parseInt(e.target.value, 10))}
-                    /> */}
+                        onCountChange={handleCounterChange}
+                    />
                     <Icon name="chevron-down" size={24} className="icon absolute-y-center right-4" />
                 </div>
             </div>
