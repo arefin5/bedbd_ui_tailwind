@@ -129,9 +129,9 @@ const BookingBox = ({ data }) => {
                         startDate={checkInDate}
                         endDate={checkOutDate}
                         selectsRange
-                        monthsShown={2} // Display two months side by side
+                        monthsShown={2} 
                         minDate={new Date()}
-                        excludeDateIntervals={bookedDates} // Excludes booked dates
+                        excludeDateIntervals={bookedDates} 
                         placeholderText="Add Check-In and Check-Out Dates"
                         className="text-neutral-300 font-medium"
                         showPopperArrow={false}
