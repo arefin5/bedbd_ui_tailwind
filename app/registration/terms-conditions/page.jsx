@@ -3,7 +3,7 @@
 import Icon from '/components/Icon';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Checkbox from '/components/Checkbox';
+
 import AgreeBox from './AgreeBox';
 
 
