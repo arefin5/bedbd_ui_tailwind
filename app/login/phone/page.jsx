@@ -17,7 +17,9 @@ export default function Login() {
         const handleLogin = async(e) => {
             try{
             e.preventDefault();
-             let phone = `${countryCode} ${phonee}`;
+            //  let phone = `${countryCode} ${phonee}`;
+             let phone = `${phonee}`;
+
             // console.log("phone", phone);
               const resultAction = await dispatch(loginUserPhone({ phone }));
           if (loginUserPhone.fulfilled.match(resultAction)) {
