@@ -19,11 +19,22 @@ export default function Page() {
     const [name, setName] = useState("");
 
     useEffect(() => {
-        if(!user && !user.isEmailVerified && !isPhoneVerified && !token){
+        if( !user || !user.isEmailVerified || !isPhoneVerified && !token ){
             alert("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
-
+        if(  !user.isEmailVerified){
+            alert("please Verify your Email and Phone number ")
+            return router.push("/user/profile")
+        }
+        if(  !isPhoneVerified){
+            alert("please Verify your Email and Phone number ")
+            return router.push("/user/profile")
+        }
+        if( !token ){
+            alert("please Verify your Email and Phone number ")
+            return router.push("/user/profile")
+        }
         if (user.fname) setfName(user.fname);
         if (user.lname) setlName(user.lname);  // Fixing the mistake here
         if (user.email) setEmail(user.email);
