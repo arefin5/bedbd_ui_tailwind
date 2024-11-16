@@ -13,6 +13,9 @@ const montserrat = Montserrat({
 export const metadata = {
   title: 'Bedbd.com',
   description: 'Find your sweet place',
+  icons: {
+    icon: '/favicon.svg', // For the main favicon
+  },
 };
 
 export default function RootLayout({ children, session }) {
