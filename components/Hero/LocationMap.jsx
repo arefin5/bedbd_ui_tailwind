@@ -12,11 +12,6 @@ import favicon from '/public/favicon.svg'
 
 export const LocationMap = forwardRef(({ properties }, ref) => {
 
-  // useEffect(()=>{
-  //   if(ref?.current)
-  //     ref.current.scrollZoom.enable()
-  // }, [ref])
-
   return (
     <div className="h-full rounded-xl overflow-hidden ">
         <Map 
