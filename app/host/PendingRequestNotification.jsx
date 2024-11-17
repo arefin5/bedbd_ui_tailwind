@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import { useSelector } from "react-redux";
 
 const SOCKET_URL = "http://145.223.22.239:5001";
+// const SOCKET_URL = "http://localhost:5001";
 
 export default function PendingRequestNotification() {
   const [paymentBookings, setPaymentBookings] = useState([]);
