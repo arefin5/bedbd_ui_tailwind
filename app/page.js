@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Header from "/components/Header"
-import Hero from "/components/Hero"
+
 import PropertyGallery from '/components/PropertyGallery'
 
 import Banner from '/components/Banner'
@@ -8,7 +8,8 @@ import Blogs from '/components/Blogs'
 import GuideInformation from '/components/GuideInformation'
 import Footer from '/components/Footer'
 import TopRatedListing from '/components/TopRatedListings'
-
+import dynamic from "next/dynamic";
+const Hero = dynamic(() => import('/components/Hero'), { ssr: false });
 
 export default function Home() {
 
