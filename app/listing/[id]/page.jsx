@@ -29,6 +29,7 @@ import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
 import AddFavorite from "@/components/AddFavorite";
 import WriteReview from "@/components/WriteReview";
 import BookingBox from "@/components/BookingBox";
+import SendMessage from "@/components/SendMessage";
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
@@ -234,8 +235,8 @@ export default async function page({ params }) {
                                     Response Time: within an hour
                                 </li>
                             </ul>
-                            <button className="btn btn-secondary rounded-full max-w-56"> Contact Host</button>
-
+                            {/* <button className="btn btn-secondary rounded-full max-w-56"> Contact Host</button> */}
+                            <SendMessage  users={Postedby}/>
                         </div>
 
                         {/* Rating... */}

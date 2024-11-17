@@ -29,7 +29,14 @@ export default function Hero(){
                                             suggestions: [],
                                             selectedSuggestion:{}
                                         })
-    const [propertyLoactions, setPropertyLoactions] = useState([])
+    const [propertyLoactions, setPropertyLoactions] = useState([]);
+
+    const handleSearch=(e)=>{
+        e.preventDefault();
+        console.log("search start ",propertyLoactions);
+      // axios.post // http://145.223.22.239:5001/api/sort-by-location?latitude=37.7749&longitude=-122.4194&maxDistance=10000
+
+    }
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
@@ -78,9 +85,12 @@ export default function Hero(){
                             {/* Submit Button */}
                             <div className='flex pl-14 pr-14 mt-8 space-x-4 md:mt-0 md:p-0 '>
                                 <button className={`btn font-medium text-base text-primary-400 underline ${!mapData['isMapOpen'] && 'md:hidden'} `}>Clear</button>
-                                <button className={`btn btn-primary space-x-4 text-center flex items-center justify-center ${!mapData['isMapOpen'] && 'md:h-14 md:w-14 md:rounded-full md:p-auto' }`} >
+                                <button
+                                 onClick={handleSearch}
+                                 className={`btn btn-primary space-x-4 text-center flex items-center justify-center ${!mapData['isMapOpen'] && 'md:h-14 md:w-14 md:rounded-full md:p-auto' }`} >
                                     <Search className='icon mr-4 md:m-0 md:h-8 md:w-8'/>
-                                    <span className={` ${ !mapData['isMapOpen'] && 'md:hidden' } `}>Search</span></button>
+                                    <span className={` ${ !mapData['isMapOpen'] && 'md:hidden' } `} 
+                                   >Search</span></button>
                             </div>
                         </div>
                     </form>
