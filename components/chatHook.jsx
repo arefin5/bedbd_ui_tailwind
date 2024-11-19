@@ -2,26 +2,38 @@
 
 import React, { useState, useEffect } from 'react';
 
-const ChatComponentHooks = ({ userId, otherUserId, socket, loadingMessages }) => {
-    // console.log("start calling apiss",userId,otherUserId,socket)
+const ChatComponentHooks = ({ userId, otherUserId, socket, loadingMessages ,setLoadingMessages}) => {
+    console.log("start calling apiss",userId,otherUserId)
     const [messages, setMessages] = useState([]);
 
+    // useEffect(() => {
+    //     socket.emit('getMessageHistory', { userId, otherUserId }, (response) => {
+    //         console.log(response)
+
+    //         if (response.status === 'success') {
+    //             setMessages(response.messages || []);
+    //         } else {
+    //             console.error("Error fetching messages:", response.message);
+    //         }
+    //     });
+
+    //     return () => {
+    //         setMessages([]);
+    //     };
+    // }, [userId, otherUserId, socket]);
     useEffect(() => {
         socket.emit('getMessageHistory', { userId, otherUserId }, (response) => {
-            console.log(response)
-
+            setLoadingMessages(false);
             if (response.status === 'success') {
                 setMessages(response.messages || []);
             } else {
                 console.error("Error fetching messages:", response.message);
             }
         });
-
-        return () => {
-            setMessages([]);
-        };
+    
+        return () => setMessages([]);
     }, [userId, otherUserId, socket]);
-
+    
     return (
         <div>
             {loadingMessages ? (

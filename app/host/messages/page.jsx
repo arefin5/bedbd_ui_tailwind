@@ -119,6 +119,7 @@ export default function Page() {
                                 otherUserId={selectedUser.userId}
                                 socket={socket}
                                 loadingMessages={loadingMessages}
+                                setLoadingMessages={setLoadingMessages}
                             />
                         </div>
 
