@@ -22,31 +22,6 @@ export default function Sidebar() {
     }
   }, [user, token]);
 
-
-  // useEffect(() => {
-  //   const socketInstance = io(SOCKET_URL, { transports: ['websocket'] });
-  //   setSocket(socketInstance);
-
-  //   socketInstance.emit('authenticate', token, (response) => {
-  //     if (response.status === 'failed') {
-  //       console.log('Authentication failed');
-  //       return;
-  //     }
-
-  //     const userId = response.user._id;
-  //     setAuthenticatedUserId(userId);
-  //     socketInstance.emit('join', userId);
-  //   });
-
-  //   socket.on("unreadMessagesCount", (count) => {
-  //     setUnreadMessagesCount(count);
-  //   });
-  //   return () => {
-  //     if (socketInstance) {
-  //       socketInstance.disconnect();
-  //     }
-  //   };
-  // }, [token]);
   useEffect(() => {
     const socketInstance = io(SOCKET_URL, { transports: ['websocket'] });
     setSocket(socketInstance);
