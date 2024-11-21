@@ -69,10 +69,10 @@ export default function Page() {
 
         return router.push("/host/profile")
       }
-      if(! user?.photoIdVerify && !user.photoIdVerify){
-        alert("please Verify your Identity")
-        router.push("/registration/start")
-      }
+      // if(! user?.photoIdVerify && !user.photoIdVerify){
+      //   alert("please Verify your Identity")
+      //   router.push("/registration/start")
+      // }
   }, [selectedType,user,token]);
 
   const handleContinue =async (e) => {

@@ -19,7 +19,7 @@ export default function Page() {
     const [name, setName] = useState("");
 
     useEffect(() => {
-        if( !user || !user.isEmailVerified || !isPhoneVerified && !token ){
+        if( !user || !user.isEmailVerified || !user.isPhoneVerified && !token ){
             alert("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
@@ -27,7 +27,7 @@ export default function Page() {
             alert("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
-        if(  !isPhoneVerified){
+        if(  !user.isPhoneVerified){
             alert("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
@@ -40,6 +40,7 @@ export default function Page() {
         if (user.email) setEmail(user.email);
         if (user.phone) setPhone(user.phone);
         if (user.name) setName(user.name);  // Correcting this
+        
     }, [user, token]);
 
     const handleNameChange = () => {
