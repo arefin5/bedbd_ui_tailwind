@@ -4,10 +4,19 @@ import { Search } from 'lucide-react'
 import debounce from '@/app/lib/debounce'
 import convertToString from '@/app/lib/convertToString'
 import SuggestionMenu from './SuggestionMenu'
+import { useDispatch, useSelector } from 'react-redux'
+import { openSuggestionsMenu , clearSuggestionsMenu, setOpenSuggestionsMenu, closeSuggestionsMenu} from '@/redux/features/search/searchSlice'
 
-const LocationInput = ({ mapSearchBox, searchSession, mapData, setMapData, setPropertyLoactions, mapRef }) => {
+const LocationInput = ({ mapSearchBox, searchSession, mapRef }) => {
+    const dispatch = useDispatch()
+    const {     
+                        isMapOpen,
+            isSuggestionsMenuOpen,
+                      suggestions
+                                    } = useSelector(state => state.search.location);
 
     const searchBoxGroupRef = useRef(null)
+    const searchBoxRef =  useRef(null)
 
     const handleSearchInput = debounce(async (event) => {
         const query  = convertToString(event.target.value)
@@ -17,39 +26,49 @@ const LocationInput = ({ mapSearchBox, searchSession, mapData, setMapData, setPr
                 if (response) {
                     if(response['suggestions'].length > 0){
                         console.log(response)
-                        setMapData(state => ({
-                            ...state,
-                            isSuggestionMenuOpen: true,
-                            suggestions: response['suggestions']
-                        }))
+                        dispatch(setOpenSuggestionsMenu(response['suggestions']))
+                        // setMapData(state => ({
+                        //     ...state,
+                        //     isSuggestionMenuOpen: true,
+                        //     suggestions: response['suggestions']
+                        // }))
 
                     } else {
-                        setMapData(state => ({
-                            ...state,
-                            isSuggestionMenuOpen: false,
-                            suggestions: []
-                        }))
+                        dispatch(clearSuggestionsMenu())
+                        // setMapData(state => ({
+                        //     ...state,
+                        //     isSuggestionMenuOpen: false,
+                        //     suggestions: []
+                        // }))
                     }
                 }
               } catch (error) {
                 console.error('Error fetching search suggestions:', error);
               }
         } else{
-            setMapData(state => ({...state, suggestions: []}))
+            // setMapData(state => ({...state, suggestions: []}))
+            dispatch(clearSuggestionsMenu())
         }
         
     }, 400)
+
     function handleLocaitonSearchBoxFocus(e) {
         const value  = convertToString(e.target.value)
-        if(value.length > 0 && !mapData['isSuggestionMenuOpen'] &&  mapData['suggestions'].length > 0 ){
-            setMapData(state => ({...state, isSuggestionMenuOpen: true }))
+        if(value.length > 0 && !isSuggestionsMenuOpen &&  suggestions.length > 0 ){
+            // setMapData(state => ({...state, isSuggestionMenuOpen: true }))
+            dispatch(openSuggestionsMenu())
         }  
     }
+
     function handleClickOutsideSearchBoxGroup(event){
+        console.log('close')
         if (searchBoxGroupRef.current && !searchBoxGroupRef.current.contains(event.target)) {
-            setMapData(state => ({ ...state, isSuggestionMenuOpen: false}));
+            // setMapData(state => ({ ...state, isSuggestionMenuOpen: false}));
+
+            dispatch(closeSuggestionsMenu())
           }
     }
+    
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutsideSearchBoxGroup);
         return () => {
@@ -60,22 +79,22 @@ const LocationInput = ({ mapSearchBox, searchSession, mapData, setMapData, setPr
 
   return (
     <div ref={searchBoxGroupRef} className={`w-full  
-            ${!mapData['isMapOpen']
-                ? 'md:shadow-none md:px-0 md:py-0 md:rounded-none md:static md:h-max md:max-w-52' 
-                : 'w-64 md:min-w-full'
+            ${isMapOpen
+                ? 'md:shadow-none md:px-0 md:py-0 md:rounded-none md:static md:h-max md:max-w-52 md:min-w-full' 
+                : 'w-64 '
                 }   
             relative px-6 py-2.5 block rounded-full shadow-search-input | md:shadow-none md:px-0 md:py-0 md:rounded-none md:static md:h-max md:max-w-52 
         `}>
         <label
-            className={`${mapData['isMapOpen']
+            className={`${isMapOpen
                             ? 'md:text-neutral-500 md:text-lg mb-2'
                             : 'text-neutral-600 text-xs md:text-sm '
                         } font-semibold`}>
             Location
         </label>
         <div className="relative ">
-            <input className={`
-                        ${mapData['isMapOpen']
+            <input ref={searchBoxRef} className={`
+                        ${isMapOpen
                         ? 'block w-full md:px-2.5 md:py-2 md:border md:border-neutral-300 md:rounded-md'
                         : 'block bg-transparent placeholder-medium placeholder-text-sm placeholder-text-netural-300 md:max-w-64'
                     }`} 
@@ -84,8 +103,8 @@ const LocationInput = ({ mapSearchBox, searchSession, mapData, setMapData, setPr
                     placeholder="Provide your locaiton " />
 
             {
-                mapData['isSuggestionMenuOpen'] &&  mapData['suggestions']?.length > 0
-                && <SuggestionMenu  mapSearchBox={mapSearchBox} mapData={mapData} setMapData={setMapData} mapRef={mapRef} searchSession={searchSession} setPropertyLoactions={setPropertyLoactions}/>
+                isSuggestionsMenuOpen &&  suggestions?.length > 0
+                && <SuggestionMenu searchBoxRef={searchBoxRef} mapSearchBox={mapSearchBox} mapRef={mapRef} searchSession={searchSession}/>
                 // && <div className={`${mapData['isMapOpen'] ? 'top-12': 'top-8' } absolute z-20  bg-white w-72 h-max rounded-lg shadow-lg origin-top-right ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-300 transform scale-95 overflow-hidden`}>
                 //         {
                 //             mapData['suggestions'].map(suggestion=> (

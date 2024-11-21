@@ -17,6 +17,10 @@
 
 /* Secondary Colors */
   --clr-secondary-50:       hsl(240, 100%, 99.02%);
+  --clr-secondary-75:       hsl(239, 96%, 94%);
+  --clr-secondary-100:      hsl(237, 93%, 90%);
+  --clr-secondary-200:      hsl(236, 92%, 80%);
+  --clr-secondary-300:      hsl(235, 89%, 70%);
   --clr-secondary-400:      hsl(234, 86%, 61%);
 
 /* Neutral colors */
@@ -250,4 +254,20 @@
 .react-datepicker__day--highlighted {
   background-color: rgba(0, 123, 255, 0.5); /* Light blue background for highlighted dates */
   color: white; /* White text for better contrast */
+}
+
+
+/* Calender  */
+.calender-day{
+  
+}
+.calender-day:hover{
+  @apply bg-secondary-300 text-white rounded-md  
+}
+.selected-date{
+  @apply bg-secondary-200 text-white 
+}
+
+.selected-date:first-child {
+  @apply bg-secondary-100
 }

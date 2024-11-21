@@ -15,8 +15,15 @@ export const apiSlice = createApi({
         }),
         getListings: builder.query({
             query: ()=> '/all-list'
-        })
+        }), 
+        getMapListings: builder.query({
+            query: ({latitude, longitude, distance })=> `/sort-by-location?latitude=${latitude}&longitude=${longitude}&maxDistance=${distance}`
+        }),
     })
 });
 
-export const { useGetListingsQuery, useGetListingQuery,  } = apiSlice;
+export const { 
+        useGetListingsQuery, 
+        useGetListingQuery, 
+        useGetMapListingsQuery 
+    } = apiSlice;

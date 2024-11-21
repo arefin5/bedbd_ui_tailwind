@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import authSliceReducer from "./features/auth/authSlice";
 import listSlice from "./list/listSlice";
+import searchSlice from "./features/search/searchSlice"
 import form from "./list/createListSlice"
 export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer,
         auth: authSliceReducer,
+        search: searchSlice,
         listSlice,
         form,
         // used rtk-query

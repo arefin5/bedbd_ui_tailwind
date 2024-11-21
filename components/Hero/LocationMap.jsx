@@ -5,16 +5,86 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { sampleLocaiton } from '@/app/lib/sampleLocationPoints';
 import Image from 'next/image';
 import favicon from '/public/favicon.svg'
+import debounce from '@/app/lib/debounce';
+import * as turf from '@turf/turf';
+import { useGetMapListingsQuery } from '@/redux/features/api/apiSlice';
+import { useSelector } from 'react-redux';
 
 
 
 
 
-export const LocationMap = forwardRef(({ properties }, ref) => {
+export const LocationMap = forwardRef((props, ref) => {
+  const location = useSelector(state => state.search.location);
+
+  const [mapState, setMapState] = useState({
+                                              latitude: 23.794716682329422, 
+                                              longitude: 90.41353033484006,
+                                              distance: 1.5,
+                                          })
+  const { data, isLoading, isError, error } = useGetMapListingsQuery({
+                                                                          latitude: mapState['latitude'],
+                                                                          longitude:  mapState['longitude'],
+                                                                          distance: mapState['distance']
+                                                                      });
+
+
+
+
+
+
+  // useEffect(()=>{
+  //   let ignore = false
+  //     if(ref.current){
+  //       const center = ref?.current?.getCenter();
+  //       console.log(center)
+  //     }
+  //   return ()=> ignore = true
+  // }, [ref])
+  useEffect(()=>{
+    console.log(data)
+  }, [data])
+
+  useEffect(()=>{
+    console.log(isLoading)
+  }, [isLoading])
+
+  useEffect(()=>{
+    console.log(error)
+  }, [error])
+
+  useEffect(()=>{
+    console.log(isError)
+  }, [isError])
+
+  const handleMapChange = () => {
+
+    const map = ref.current.getMap(); // Access the Map instance
+    const center = map.getCenter(); // Get center of the map
+
+    const bounds = map.getBounds();
+    const northEast = bounds.getNorthEast();
+
+    const from = turf.point([center.lng, center.lat]); // center of the map
+    const to = turf.point([northEast.lng, northEast.lat]); 
+    const options = { units: 'kilometers' };
+    const distance = turf.distance(from, to, options);
+
+
+    setMapState(state => ({ 
+                            ...state,  
+                            latitude: center.lat,  
+                            latitude: center.lat,                            
+                            distance
+                          }))
+  };
+  const debouncedHandleMapChange = debounce(handleMapChange, 1000);
 
   return (
     <div className="h-full rounded-xl overflow-hidden ">
         <Map 
+            onMoveEnd={debouncedHandleMapChange}
+            onZoomEnd={debouncedHandleMapChange}
             ref={ref}
             initialViewState={{
               longitude: 90.41353033484006,
@@ -26,7 +96,7 @@ export const LocationMap = forwardRef(({ properties }, ref) => {
             dragPan={true}
             mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'
             >
-              {
+              {/* {
                 properties?.length>0 
                   && properties.map((item, idx)=> <Marker anchor="bottom" key={idx}
                                               longitude={ item['longitude'] }
@@ -46,97 +116,11 @@ export const LocationMap = forwardRef(({ properties }, ref) => {
                                                       }                                                        
                                                 </div>
                                               </Marker>)
-              }
+              } */}
           </Map> 
     </div>
     
   )
 })
 export default LocationMap
-// export default map
-
-// export default function LocationMap({mapData, property}) {
-//   console.log(sampleLocaiton)
-
-//     const mapRef = useRef();
-//     const geoControlRef = useRef();
-
-//     const [mapInfo, setMapInfo] = useState(mapData)
-
-
-//     function onMapMoveHandlar(e) {
-//         setMapInfo({
-//           ...mapInfo,
-//           center:{
-//             latitude: e['viewState']['latitude'],
-//             longitude: e['viewState']['longitude'],
-//           },
-//           zoom: e['viewState']['zoom']
-//         })
-
-//         }
-
-//     function onGeolocateCtrlClickHandlar(e) {
-//       console.log(e) 
-//         setMapInfo({
-//           ...mapInfo,
-//           marker: {
-//                   latitude: e['coords']['latitude'],
-//                   longitude: e['coords']['longitude'],
-//                 },
-//           setMapPosition: true
-//         })
-//       }
-
-//     function onMarkerDragHandlar(e) {
-//       setMapInfo({
-//         ...mapInfo,
-//         marker: {
-//                 latitude: e['lngLat']['lat'],
-//                 longitude: e['lngLat']['lng'],
-//               } 
-//         })
-//       }
-
-//     function handleRetrieve(e) {
-//       setMapInfo({
-//         ...mapInfo,
-//         center:{
-//           latitude: e['features'][0]['properties']['coordinates']['latitude'],
-//           longitude: e['features'][0]['properties']['coordinates']['longitude'],
-//         },
-//         marker:{
-//           latitude: e['features'][0]['properties']['coordinates']['latitude'],
-//           longitude: e['features'][0]['properties']['coordinates']['longitude'],
-//         },
-//         locationName:e['features'][0]['properties']['full_address']
-//       })
-//     }
-
-//   return (
-//     <div className="h-full rounded-xl overflow-hidden ">
-//         <Map 
-//             ref={mapRef}
-//             zoom = { mapInfo['zoom'] }
-//             longitude={ mapInfo['center']['longitude'] }
-//             latitude={ mapInfo['center']['latitude'] }
-//             mapStyle="mapbox://styles/mapbox/streets-v9"
-//             onMove={onMapMoveHandlar}
-//             mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'
-//             >
-//               {
-//                 property.map(item=> <Marker 
-//                                       anchor="bottom"
-//                                         longitude={ item['longitude'] }
-//                                         latitude={ item['latitude'] }
-//                                         color="red"/>)
-//               }
-//           </Map> 
-//     </div>
-    
-//   )
-// }
-
-// mapboxAccessToken='pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew'
-
 
