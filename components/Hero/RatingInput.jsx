@@ -1,11 +1,13 @@
 import Image from "next/image"
 import { Check } from "lucide-react"
 import StarFilledIcon from '/public/icons/star_filled.svg'
+import { useSelector } from "react-redux"
 
-export default function RatingInput({mapData}) {
+export default function RatingInput() {
+    const { isMapOpen } = useSelector(state => state.search.location);
   return (
     <div className={`border border-neutral-200 divide-x divide-neutral-200 w-max mx-auto flex rounded-md
-                        ${!mapData['isMapOpen'] && 'md:hidden'} `}>
+                        ${!isMapOpen && 'md:hidden'} `}>
     <div className='p-2 flex items-center gap-1 '>
         <input className='hidden' type="radio" name="rating" value='any' id="rating_any" />
         <label className="text-neutral-600 text-xs md:text-sm font-semibold" htmlFor="rating_3_5">Any</label>
