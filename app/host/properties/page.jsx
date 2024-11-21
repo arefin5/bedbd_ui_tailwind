@@ -14,21 +14,21 @@ export default function page() {
   const [authorBookings, setAuthorBookings] = useState(sampleData);
 
 
-//   const fetchAuthorListBooking = async () => {
-//     try {
-//       const listData = await axiosInstance.get("/all-draft");
-//       setAuthorBookings(listData.data);
-//     console.log(listData.data)
-//     } catch (error) {
-//       console.log("error",error)
-//       console.error("Error fetching author bookings:", error);
-//     }
-//   };
-// useEffect(()=>{
-//   fetchAuthorListBooking();
-// },[authorBookings])
+  const fetchAuthorListBooking = async () => {
+    try {
+      const listData = await axiosInstance.get("/all-draft");
+      setAuthorBookings(listData.data);
+          console.log(listData.data);
+    } catch (error) {
+      console.log("error",error)
+      console.error("Error fetching author bookings:", error);
+    }
+  };
+useEffect(()=>{
+  fetchAuthorListBooking();
+},[authorBookings])
 
-console.log(sampleData)
+// console.log(sampleData)
   return(
     <div className=" w-full px-8 py-12">
       <div className="relative w-full h-full rounded-lg overflow-hidden bg-secondary-50 pt-16 px-6">
@@ -49,8 +49,13 @@ console.log(sampleData)
         
         <div className={`${listView ? 'grid space-y-4 mt-6' : 'w-full  flex justify-center flex-wrap gap-6'} text-neutral-400 `}>
           {
-            authorBookings
+            authorBookings &&   authorBookings.length ?(
+              authorBookings
               .map((booking, index)=><PropertyItem key={booking._id} data={booking} index={index} listView={listView}/>)
+            ):(
+
+              <p>You Have No Property yet </p>
+            )
           }
           
         </div>
