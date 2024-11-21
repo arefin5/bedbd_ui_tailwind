@@ -17,17 +17,12 @@ export default function Page() {
   const dispatch = useDispatch();
   const handleSubmitImage = async (e) => {
     e.preventDefault();
-  
     try {
       const formData = new FormData();
       images.forEach((image) => {
         formData.append('image', image.file);  // Use the 'file' property
       });
-      // console.log('Uploaded images:', formData.images);
-        //  console.log("image",images);
-          // Log formData to check
     for (let pair of formData.entries()) {
-      //  pair[0]+ ", "+pair[1]
       console.log(pair[0] + ', ' + pair[1]);
     }
       const response = await axios.post("http://145.223.22.239:5001/api/images/upload-image-file", formData, {
@@ -39,12 +34,9 @@ export default function Page() {
      const payload = { 
        image:response.data
 };  
-// if(payload.image==="") return
-await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
-      
-// console.log('Current Redux state:', formData); 
-router.push('/add-listing/price'); // Navigate to the next pag
-      console.log('Uploaded images:', response.data);
+            await dispatch(updateFormData(payload));
+            router.push('/add-listing/price'); // Navigate to the next pag
+              console.log('Uploaded images:', response.data);
     } catch (error) {
       console.error("Error uploading images:", error);
     }
