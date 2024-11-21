@@ -75,7 +75,11 @@ module.exports = {
           400: 'var(--clr-primary-400)',
         },
         secondary: {
-          50: 'var(--clr-secondary-50)',
+           50: 'var(--clr-secondary-50)',
+           75: 'var(--clr-secondary-75)',
+          100: 'var(--clr-secondary-100)',
+          200: 'var(--clr-secondary-200)',
+          300: 'var(--clr-secondary-300)',
           400: 'var(--clr-secondary-400)',
         },
         neutral: {
