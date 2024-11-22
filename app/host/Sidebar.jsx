@@ -57,6 +57,7 @@ export default function Sidebar() {
     window.location.href = "/";
   };
 
+
   return (
     <div className="min-h-screen bg-secondary-400 text-white px-4 pt-12 w-fit xl:w-64 flex grid justify-between">
       <ul className="space-y-6">
@@ -69,10 +70,23 @@ export default function Sidebar() {
             <span className="hidden xl:block">Dashboard</span>
           </li>
         </Link>
+        <Link href="/host/booklist">
+          <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
+            <Icon name="layout-dashboard" className="icon" />
+            <span className="hidden xl:block">Book List </span>
+          </li>
+        </Link>
+        {/* booklist */}
         <Link href="/host/profile">
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="user-cog" className="icon" />
             <span className="hidden xl:block">Profile</span>
+          </li>
+        </Link>
+        <Link href="/host/pending">
+          <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
+            <Icon name="user-cog" className="icon" />
+            <span className="hidden xl:block">Pending Bookings</span>
           </li>
         </Link>
         {/* Unread Messages */}
