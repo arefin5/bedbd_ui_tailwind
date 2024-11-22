@@ -5,8 +5,8 @@ import Link from "next/link"
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";  // Import socket.io-client if not already imported
-// const SOCKET_URL = "http://localhost:5001";
-const SOCKET_URL = "http://145.223.22.239:5001";
+const SOCKET_URL = "http://localhost:5001";
+// const SOCKET_URL = "http://145.223.22.239:5001";
 export default function Sidebar() {
   const [name, setName] = useState("");
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
