@@ -6,21 +6,6 @@ const ChatComponentHooks = ({ userId, otherUserId, socket, loadingMessages ,setL
     console.log("start calling apiss",userId,otherUserId)
     const [messages, setMessages] = useState([]);
 
-    // useEffect(() => {
-    //     socket.emit('getMessageHistory', { userId, otherUserId }, (response) => {
-    //         console.log(response)
-
-    //         if (response.status === 'success') {
-    //             setMessages(response.messages || []);
-    //         } else {
-    //             console.error("Error fetching messages:", response.message);
-    //         }
-    //     });
-
-    //     return () => {
-    //         setMessages([]);
-    //     };
-    // }, [userId, otherUserId, socket]);
     useEffect(() => {
         socket.emit('getMessageHistory', { userId, otherUserId }, (response) => {
             setLoadingMessages(false);

@@ -96,10 +96,7 @@ const BookingBox = ({ data }) => {
             const GatewayPageURL = response.data.GatewayPageURL;
             if (GatewayPageURL) {
                 router.push(GatewayPageURL);
-                const tran_id = response.data.tran_id;
-                if (tran_id) {
-                    localStorage.setItem("tran_id", tran_id);
-                }
+               
             } else {
                 setError("Payment initiation failed.");
             }
@@ -114,7 +111,7 @@ const BookingBox = ({ data }) => {
         <div className="top-12 sticky rounded-lg drop-shadow-booking-box bg-white">
             <div className="relative p-6 custom-underline-primary-400">
                 <h3 className="text-neutral-700 font-semibold text-3xl">
-                    ${totalGroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
+                    ${GroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
                     <span className="text-green-300 text-sm ml-3"> (Available)</span>
                 </h3>
             </div>
@@ -122,7 +119,11 @@ const BookingBox = ({ data }) => {
             {/* Single DatePicker with Range Selection */}
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
                 <div className="py-4 px-8">
-                    <label className="block text-neutral-600 text-sm font-semibold">Select Dates</label>
+                <div className="flex justify-between">
+            <label className="block text-neutral-600 text-sm font-semibold">Check In</label>
+            <label className="block text-neutral-600 text-sm font-semibold">Check Out</label>
+        </div>
+                    {/* <label className="block text-neutral-600 text-sm font-semibold">Select Dates</label> */}
                     <DatePicker
                         selected={checkInDate}
                         onChange={handleDateChange}

@@ -7,6 +7,7 @@ import { X, SendHorizonal, MessageCircleMore } from "lucide-react";
 import ChatComponentHooks from "@/components/chatHook";
 
 const socket = io("http://145.223.22.239:5001", { autoConnect: false });
+// const socket = io("http://localhost:5001", { autoConnect: false });
 
 // Page Component
 export default function Page() {
