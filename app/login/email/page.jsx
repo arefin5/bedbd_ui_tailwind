@@ -22,7 +22,7 @@ export default function EmailLogin() {
   };
    useEffect(() => {
         if (token) {
-            router.push('/user/profile'); 
+            router.push('/'); 
         }
     }, [token, router,user]);
 
