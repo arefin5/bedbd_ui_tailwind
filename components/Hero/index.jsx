@@ -18,12 +18,13 @@ import RatingInput from './RatingInput'
 import AmenitiesInput from './AmenitiesInput'
 import BadgesInput from './BadgesInput'
 import GenderPreference from './GenderPreference'
+import axios from 'axios'
 
 export default function Hero(){
     const mapRef = useRef(null)
     const mapSearchBox = useSearchBoxCore({ accessToken: 'pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew' })
     const searchSession = new useSearchSession(mapSearchBox);
-
+    const [gust,setGust]=useState("")
     const {location, selectedDate  } = useSelector(state => state.search);
 
     const {  selectedLocation, 
@@ -32,12 +33,46 @@ export default function Hero(){
                     suggestions
                 } = useSelector(state => state.search.location);
 
-    function formSubmit(e) {
-        e.preventDefault()
-        console.log(location)
-        console.log(selectedDate)
-    }
+const formSubmit=async(e)=>{
 
+    try{
+        e.preventDefault()
+        // console.log(location)
+        // console.log(selectedDate)
+         let checkinDate=null;
+         let   checkoutDate=null;
+        if (selectedDate.length === 2) {
+             checkinDate = selectedDate[0].toISOString();  
+             checkoutDate = selectedDate[1].toISOString(); 
+            // console.log("checkinDate:", checkinDate);    
+            // console.log("checkoutDate:", checkoutDate);
+        } else {
+            console.log("Selected date range is invalid");
+        }
+       const latitude =location.selectedLocation.latitude;
+        const  longitude=location.selectedLocation.longitude;
+       const locations=location.selectedLocation ;
+       const searchdata={
+        longitude:longitude,
+        latitude:latitude,
+        locations:locations,
+        checkinDate,
+        checkoutDate,
+       }
+    //    console.log(searchdata);
+      
+        const response = await axios.get("http://localhost:5001/api/sort-by-location/", {
+            params: searchdata, 
+        });
+
+        // console.log(response);
+
+         console.log(response);
+
+    }catch(error){
+        console.log(error);
+    }
+}
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
