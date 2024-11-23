@@ -24,19 +24,20 @@ export default function Hero(){
     const mapSearchBox = useSearchBoxCore({ accessToken: 'pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew' })
     const searchSession = new useSearchSession(mapSearchBox);
 
+    const {location, selectedDate  } = useSelector(state => state.search);
+
     const {  selectedLocation, 
                     isMapOpen,
         isSuggestionsMenuOpen,
                     suggestions
                 } = useSelector(state => state.search.location);
 
-    // const [mapData, setMapData]= useState({
-    //                                         isMapOpen: true  ,
-    //                                         isSuggestionMenuOpen: false, 
-    //                                         suggestions: [],
-    //                                         selectedSuggestion:{}
-    //                                     })
-    const [propertyLoactions, setPropertyLoactions] = useState([])
+    function formSubmit(e) {
+        e.preventDefault()
+        console.log(location)
+        console.log(selectedDate)
+    }
+
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
@@ -67,6 +68,7 @@ export default function Hero(){
                             }`}>
                             <LocationInput mapSearchBox={mapSearchBox} searchSession={searchSession} mapRef={mapRef} />
                             <CheckInOutInput/>
+
                             <GuestCountInput />
                             {
                                 !isMapOpen
@@ -89,8 +91,8 @@ export default function Hero(){
 
                             {/* Submit Button */}
                             <div className='flex pl-14 pr-14 mt-8 space-x-4 md:mt-0 md:p-0 '>
-                                <button className={`btn font-medium text-base text-primary-400 underline ${!isMapOpen && 'md:hidden'} `}>Clear</button>
-                                <button className={`btn btn-primary space-x-4 text-center flex items-center justify-center ${!isMapOpen && 'md:h-14 md:w-14 md:rounded-full md:p-auto' }`} >
+                                {/* <button className={`btn font-medium text-base text-primary-400 underline ${!isMapOpen && 'md:hidden'} `}>Clear</button> */}
+                                <button onClick={formSubmit} className={`btn btn-primary space-x-4 text-center flex items-center justify-center ${!isMapOpen && 'md:h-14 md:w-14 md:rounded-full md:p-auto' }`} >
                                     <Search className='icon mr-4 md:m-0 md:h-8 md:w-8'/>
                                     <span className={` ${ !isMapOpen && 'md:hidden' } `}>Search</span></button>
                             </div>
