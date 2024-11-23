@@ -96,6 +96,7 @@ const BookingBox = ({ data }) => {
                console.log(response);
                setLoading(false);
                alert("Reservation successful! Your booking has been confirmed.");
+               window.location.href = "/user/bookinglist";
 
         } catch (error) {
             setError("Failed to make the reservation. Please try again.");
