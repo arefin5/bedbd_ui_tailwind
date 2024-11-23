@@ -8,8 +8,8 @@ const initialState = {
                                     isSuggestionsMenuOpen: false,
                         suggestions: [], 
                         },
-            
-            
+          selectedDate: [],
+                 
 
         }
 
@@ -37,14 +37,14 @@ const searchSlice = createSlice({
         isSuggestionsMenuOpen: false  },
     };
     },
-      clearSuggestionsMenu : (state, action) => {
-        return {
-          ...state,
-          location:{ ...state['location'], 
-                    isSuggestionsMenuOpen: false, 
-                              suggestions: []},
-                    };
-      },
+    clearSuggestionsMenu : (state, action) => {
+      return {
+        ...state,
+        location:{ ...state['location'], 
+                  isSuggestionsMenuOpen: false, 
+                            suggestions: []},
+                  };
+    },
     setOpenSuggestionsMenu : (state, action) => {
         return {
           ...state,
@@ -61,6 +61,27 @@ const searchSlice = createSlice({
                                  selectedLocation: action.payload },
                 };
       },
+    setLocation: (state, action) => {
+      return {
+        ...state,
+        location: action.payload,
+      };
+      },
+    clearDateSelection: (state, action) => {
+      return {
+        ...state,
+        selectedDate: [],
+      };
+      },
+    setCheckInOutDate: (state, action) => {
+      return {
+        ...state,
+        selectedDate: action.payload,
+      };
+    },
+
+    
+
     //   addCordinateSelectedLocation : (state, action) => {
     //     return {
     //             ...state,
@@ -72,14 +93,9 @@ const searchSlice = createSlice({
     //             };
     //   },
     
-    setLocation: (state, action) => {
-        return {
-          ...state,
-          location: action.payload,
-        };
-      },
+    
   },
 })
 
-export const { setLocation, setOpenSuggestionsMenu, closeSuggestionsMenu, clearSuggestionsMenu, selectSuggestedLocation, openSuggestionsMenu } = searchSlice.actions
+export const { setLocation, setOpenSuggestionsMenu, closeSuggestionsMenu, clearSuggestionsMenu, selectSuggestedLocation, openSuggestionsMenu, clearDateSelection, setCheckInOutDate } = searchSlice.actions
 export default searchSlice.reducer
