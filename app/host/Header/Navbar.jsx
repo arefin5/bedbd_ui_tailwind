@@ -123,6 +123,29 @@ const SwitchtoUser=(e)=>{
   router.push("/user/profile");
 
 }
+ const changeRuleAsUser = async (e) => {
+        e.preventDefault();
+
+        if (user && user.role === "user") {
+            router.push("/user/profile");
+        } else {
+            try {
+                const response = await axiosInstance.put("/change-role-user");
+
+                if (response.data) {
+                    const updatedUser = response.data.user; // Assuming `response.data.user` contains the updated user info
+                    localStorage.setItem("user", JSON.stringify(updatedUser)); // Store the updated user in localStorage
+
+                    // // Optionally, update local `user` state if needed
+                    // setUser(updatedUser);
+                    window.location.href = "/host/profile";
+                    // router.push("/host/profile")
+                }
+            } catch (error) {
+                console.error("Error updating role:", error);
+            }
+        }
+    };
 const LogOut = async (e) => {
   e.preventDefault();
   localStorage.clear();

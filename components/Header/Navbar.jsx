@@ -52,6 +52,29 @@ export default function Navbar() {
             }
         }
     };
+    const changeRuleAsUser = async (e) => {
+        e.preventDefault();
+
+        if (user && user.role === "host") {
+            router.push("/host/");
+        } else {
+            try {
+                const response = await axiosInstance.put("/change-role");
+
+                if (response.data) {
+                    const updatedUser = response.data.user; // Assuming `response.data.user` contains the updated user info
+                    localStorage.setItem("user", JSON.stringify(updatedUser)); // Store the updated user in localStorage
+
+                    // // Optionally, update local `user` state if needed
+                    // setUser(updatedUser);
+                    window.location.href = "/host/profile";
+                    // router.push("/host/profile")
+                }
+            } catch (error) {
+                console.error("Error updating role:", error);
+            }
+        }
+    };
     const LogOut = async (e) => {
         e.preventDefault();
         localStorage.clear();
@@ -79,7 +102,7 @@ export default function Navbar() {
                         <>
                             <Link href="/signup">
                                 <li className="overflow-visible w-max min-w-full md:min-w-max py-4 md:p-0 px-10 font-medium hover:font-bold md:hover:font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner md:hover:shadow-none">
-                                    <span className="inline-block max-w-full text-center hover:scale-110 ">Sing up</span>
+                                    <span className="inline-block max-w-full text-center hover:scale-110 ">Sign up</span>
                                 </li>
                             </Link>
                             <Link href="/login/email">
@@ -132,9 +155,13 @@ export default function Navbar() {
                                 </li>
 
                             </Link>
-                            <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
-                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">Booking History</span>
-                            </li>
+                            <Link href="/user/bookinglist">
+                                <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                    <span className="inline-block max-w-full text-center md:hover:scale-110 ">Booking History</span>
+                                </li>
+
+                            </Link>
+                            
                             <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                 <span className="inline-block max-w-full text-center md:hover:scale-110 ">Switch to User</span>
                             </li>

@@ -9,7 +9,7 @@ export default function page() {
     const router = useRouter();
     const goHome=(e)=>{
         e.preventDefault();
-        router.push("/user/profile");
+        router.push("/");
     }
     return (
         <div className='modal-background'>

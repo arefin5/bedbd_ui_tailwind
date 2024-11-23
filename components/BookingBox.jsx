@@ -93,13 +93,10 @@ const BookingBox = ({ data }) => {
 
         try {
             const response = await axiosInstance.post(`/book-property/${id}`, reservationData);
-            const GatewayPageURL = response.data.GatewayPageURL;
-            if (GatewayPageURL) {
-                router.push(GatewayPageURL);
-               
-            } else {
-                setError("Payment initiation failed.");
-            }
+               console.log(response);
+               setLoading(false);
+               alert("Reservation successful! Your booking has been confirmed.");
+
         } catch (error) {
             setError("Failed to make the reservation. Please try again.");
         } finally {
@@ -115,15 +112,12 @@ const BookingBox = ({ data }) => {
                     <span className="text-green-300 text-sm ml-3"> (Available)</span>
                 </h3>
             </div>
-
-            {/* Single DatePicker with Range Selection */}
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
                 <div className="py-4 px-8">
                 <div className="flex justify-between">
             <label className="block text-neutral-600 text-sm font-semibold">Check In</label>
             <label className="block text-neutral-600 text-sm font-semibold">Check Out</label>
         </div>
-                    {/* <label className="block text-neutral-600 text-sm font-semibold">Select Dates</label> */}
                     <DatePicker
                         selected={checkInDate}
                         onChange={handleDateChange}
