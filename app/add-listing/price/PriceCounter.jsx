@@ -1,5 +1,5 @@
-"use client"
-import { Minus, Plus } from "lucide-react";
+
+"use client";
 import { useState, useEffect } from "react";
 
 export default function PriceCounter({ data, price, setPrice, GroundPrice, setGroundPrice, setServiceFee, tax, setTax }) {
@@ -11,78 +11,64 @@ export default function PriceCounter({ data, price, setPrice, GroundPrice, setGr
 
   // Function to calculate percentage (tax)
   function calculatePercentage(total, percentage) {
-    return total * percentage; // Simplified calculation
+    return total * percentage;
   }
 
-  // Update the state when the price changes
+  // Update the state when the price or other dependencies change
   useEffect(() => {
     const taxAmount = calculatePercentage(priceInfo.price, data.taxRate);
-    const totalEarned = priceInfo.price + priceInfo.serviceFee + taxAmount;
+     const serviceAmoutn=calculatePercentage(priceInfo.price, data.serviceFee);
+     const totalEarned = priceInfo.price +  serviceAmoutn+ taxAmount;
 
-    // Update parent component states with valid numbers
-    setGroundPrice(priceInfo.price); 
-    setServiceFee(priceInfo.serviceFee);
+    setGroundPrice(priceInfo.price);
+    setServiceFee(serviceAmoutn);
     setTax(taxAmount);
-    setPrice(totalEarned); // Ensure price is a number
-  }, [priceInfo.price, data.taxRate, priceInfo.serviceFee]);
+    setPrice(totalEarned);
+  }, [priceInfo.price, data.taxRate, priceInfo.serviceFee, setGroundPrice, setServiceFee, setTax, setPrice]);
 
-  // Increment function
-  function increment(e) {
-    e.preventDefault();
+  // Handle input change
+  const handleInputChange = (e) => {
+    const inputPrice = parseFloat(e.target.value) || data.minPrice;
     setPriceInfo((prev) => ({
       ...prev,
-      price: prev.price + 1,
+      price: inputPrice >= data.minPrice ? inputPrice : data.minPrice,
     }));
-  }
-
-  // Decrement function
-  function decrement(e) {
-    e.preventDefault();
-    if (priceInfo.price > data.minPrice) {
-      setPriceInfo((prev) => ({
-        ...prev,
-        price: prev.price - 1,
-      }));
-    }
-  }
+  };
 
   return (
     <>
-      <div className='w-full py-14 bg-neutral-100 rounded-lg mt-8 mb-6'>
-        <div className="w-max mx-auto flex justify-center items-center gap-x-6 ">
-          <button className="bg-white p-2 rounded-full" onClick={decrement}>
-            <Minus className='h-8 w-8'/>
-          </button>
+      <div className="w-full py-14 bg-neutral-100 rounded-lg mt-8 mb-6">
+        <div className="w-max mx-auto flex flex-col items-center gap-y-4">
+          <label htmlFor="priceInput" className="text-xl font-medium">
+            Enter Price
+          </label>
           <input
-            className="px-8 py-2 w-72 rounded-lg text-8xl text-secondary-400 font-semibold text-center"
-            type="text"
-            readOnly
-            value={`${priceInfo.currency}${priceInfo.price.toFixed(2)}`}
+            id="priceInput"
+            className="px-8 py-2 w-72 rounded-lg text-2xl text-secondary-400 font-semibold text-center border border-neutral-300"
+            type="number"
+            value={priceInfo.price}
+            onChange={handleInputChange}
+            min={data.minPrice}
           />
-          <button className="bg-white p-2 rounded-full" onClick={increment}>
-            <Plus className='h-8 w-8'/>
-          </button>
         </div>
       </div>
 
-      <div className="text-base text-neutral-500 font-medium ">
+      <div className="text-base text-neutral-500 font-medium">
         <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
           <h3>Ground Price</h3>
-          <h3 className="text-lg font-normal">{`${priceInfo.currency}${GroundPrice.toFixed(2)}`}</h3> 
+          <h3 className="text-lg font-normal">{`${priceInfo.currency}${GroundPrice}`}</h3>
         </div>
         <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
-          <h3>Service Fee</h3>
-          <h3 className="text-lg font-normal">{`${priceInfo.currency}${priceInfo.serviceFee.toFixed(2)}`}</h3> 
+          <h3>Platform fee</h3>
+          <h3 className="text-lg font-normal">{`${priceInfo.currency}${priceInfo.serviceFee.toFixed(2)}`}</h3>
         </div>
         <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
-          <h3>Taxes ({data.taxRate * 100}%)</h3>
-          <h3 className="text-lg font-normal">{`${priceInfo.currency}${tax.toFixed(2)}`}</h3> 
+          <h3>Taxes ({(data.taxRate * 100).toFixed(2)}%)</h3>
+          <h3 className="text-lg font-normal">{`${priceInfo.currency}${tax.toFixed(2)}`}</h3>
         </div>
-        <div className="py-2.5 px-20 flex justify-between text-secondary-400">
-          <h3>You will earn</h3>
-          <h3 className="text-lg font-normal">
-            {`${priceInfo.currency}${(price ).toFixed(2)}`} {/* Earning calculation */}
-          </h3>
+        <div className="relative py-2.5 px-20 flex justify-between">
+          <h3>Total Earned</h3>
+          <h3 className="text-lg font-bold">{`${priceInfo.currency}${price.toFixed(2)}`}</h3>
         </div>
       </div>
     </>
