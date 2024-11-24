@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { submitList } from "@/redux/list/createListSlice";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 
 export default function Page() {
@@ -38,6 +39,11 @@ export default function Page() {
         </div>
       );
     }
+    const goProperty = (e) => {
+      e.preventDefault();
+      console.log(lists)
+      router.push(`/listing/{lists?._id}`);
+    };
     const back = (e) => {
       e.preventDefault();
       router.push('/host');
@@ -71,9 +77,13 @@ export default function Page() {
                 <Icon name='home' className="icon absolute-y-center left-8" />
                 Back to Home
               </button>
-              <button className="btn btn-primary">
-                Show Property
+             
+              <button className="btn btn-primary"  onClick={() => goProperty()}
+              disabled={!lists}>
+                Show Property 
               </button>
+           
+              
             </div>
           </form>
         </div>
