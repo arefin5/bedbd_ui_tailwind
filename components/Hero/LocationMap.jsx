@@ -1,6 +1,6 @@
 'use client'
 import Map , { Marker }  from 'react-map-gl'
-import { useState, forwardRef, useEffect } from 'react'
+import { useState, forwardRef, useEffect, useRef } from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { sampleLocaiton } from '@/app/lib/sampleLocationPoints';
 import Image from 'next/image';
@@ -10,12 +10,10 @@ import * as turf from '@turf/turf';
 import { useGetMapListingsQuery } from '@/redux/features/api/apiSlice';
 import { useSelector } from 'react-redux';
 
-
-
-
-
 export const LocationMap = forwardRef((props, ref) => {
   const location = useSelector(state => state.search.location);
+  const { selectedLocation, isMapOpen } = location
+  // const isMapMountedRef = useRef(false)
 
   const [mapState, setMapState] = useState({
                                               latitude: 23.794716682329422, 
@@ -28,34 +26,17 @@ export const LocationMap = forwardRef((props, ref) => {
                                                                           distance: mapState['distance']
                                                                       });
 
-
-
-
-
-
-  // useEffect(()=>{
-  //   let ignore = false
-  //     if(ref.current){
-  //       const center = ref?.current?.getCenter();
-  //       console.log(center)
-  //     }
-  //   return ()=> ignore = true
-  // }, [ref])
-  useEffect(()=>{
-    console.log(data)
-  }, [data])
-
-  useEffect(()=>{
-    console.log(isLoading)
-  }, [isLoading])
-
-  useEffect(()=>{
-    console.log(error)
-  }, [error])
-
-  useEffect(()=>{
-    console.log(isError)
-  }, [isError])
+function mapOnLoad() {
+  if(ref.current && isMapOpen){
+    const map = ref.current.getMap()
+    if(selectedLocation.hasOwnProperty("latitude") 
+        && 
+      selectedLocation.hasOwnProperty("longitude")){
+        map?.flyTo({center: [selectedLocation.longitude, selectedLocation.latitude],
+          zoom: 15,})
+      }
+  }
+}
 
   const handleMapChange = () => {
 
@@ -85,6 +66,7 @@ export const LocationMap = forwardRef((props, ref) => {
         <Map 
             onMoveEnd={debouncedHandleMapChange}
             onZoomEnd={debouncedHandleMapChange}
+            onLoad={mapOnLoad}
             ref={ref}
             initialViewState={{
               longitude: 90.41353033484006,
@@ -119,7 +101,6 @@ export const LocationMap = forwardRef((props, ref) => {
               } */}
           </Map> 
     </div>
-    
   )
 })
 export default LocationMap

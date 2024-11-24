@@ -23,6 +23,12 @@ const searchSlice = createSlice({
                 location:{ ...state['location'], isMapOpen: true },
                 };
     },
+    setMapClose: (state) => {
+      return {
+              ...state,
+              location:{ ...state['location'], isMapOpen: false },
+              };
+    },
     openSuggestionsMenu : (state, action) => {
         return {
           ...state,
@@ -97,5 +103,5 @@ const searchSlice = createSlice({
   },
 })
 
-export const { setLocation, setOpenSuggestionsMenu, closeSuggestionsMenu, clearSuggestionsMenu, selectSuggestedLocation, openSuggestionsMenu, clearDateSelection, setCheckInOutDate } = searchSlice.actions
+export const { setMapClose, setMapOpen, setLocation, setOpenSuggestionsMenu, closeSuggestionsMenu, clearSuggestionsMenu, selectSuggestedLocation, openSuggestionsMenu, clearDateSelection, setCheckInOutDate } = searchSlice.actions
 export default searchSlice.reducer

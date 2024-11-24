@@ -5,7 +5,7 @@ import { useState, useEffect, useRef} from "react";
 import debounce from "@/app/lib/debounce";
 import { useDispatch } from "react-redux";
 import { clearDateSelection, setCheckInOutDate } from "@/redux/features/search/searchSlice";
-
+import formatTimestampPretty from "@/app/lib/formatTimestampPretty";
 
 export default function CheckInOutInput() {
     const checkInCheckOutRef = useRef(null)
@@ -24,60 +24,36 @@ export default function CheckInOutInput() {
             dispatch(clearDateSelection())
 
     }
-    function formatDatePretty(date) {
-        if (!(date instanceof Date) || isNaN(date)) {
-          throw new Error("Invalid Date object provided.");
-        }
-      
-        const months = [
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
-      
-        const day = date.getDate();
-        const month = months[date.getMonth()]; // Months are 0-indexed
-        const year = date.getFullYear();
-      
-        return `${day} ${month} ${year}`;
-      }
+
     const onDateClickHandlar = debounce((date) => {
-        // console.log("Selected Date:", date);
+        const serializedTimestamp = date.getTime();
         if(selectedDate.length === 0){
-            // setSelectDate([date])
-            dispatch(setCheckInOutDate([date]))
+            dispatch(setCheckInOutDate([serializedTimestamp]))
         }else if(selectedDate.length === 1){
-            if(selectedDate[0].getTime() === date.getTime()){
-                // setSelectDate([])
+            if(selectedDate[0] === serializedTimestamp){
                 dispatch(clearDateSelection())
             } 
-            if(selectedDate[0].getTime() < date.getTime()){
-                dispatch(setCheckInOutDate([selectedDate[0], date]))
-                // setSelectDate(() => [selectedDate[0], date])
+            if(selectedDate[0] < serializedTimestamp){
+                dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
             }else{
-                dispatch(setCheckInOutDate([date, selectedDate[0]]))
-                // setSelectDate(() => [date, selectedDate[0]])
+                dispatch(setCheckInOutDate([serializedTimestamp, selectedDate[0]]))
             }
         }else if(selectedDate.length === 2 ){
-            const difference_0 = Math.abs(selectedDate[0].getTime() - date.getTime())
-            const difference_1 = Math.abs(selectedDate[1].getTime() - date.getTime())
+            const difference_0 = Math.abs(selectedDate[0] - serializedTimestamp)
+            const difference_1 = Math.abs(selectedDate[1] - serializedTimestamp)
             if(difference_0 < difference_1){
-                if(selectedDate[1].getTime() < date.getTime()){
-                    dispatch(setCheckInOutDate([selectedDate[1], date]))
-                    // setSelectDate(()=>[selectedDate[1], date])
+                if(selectedDate[1] < serializedTimestamp){
+                    dispatch(setCheckInOutDate([selectedDate[1], serializedTimestamp]))
                 }else{
-                    dispatch(setCheckInOutDate([date, selectedDate[1]]))
-                    // setSelectDate(()=>[date, selectedDate[1]])
+                    dispatch(setCheckInOutDate([serializedTimestamp, selectedDate[1]]))
                 }
                 
             }else if(difference_1 < difference_0){
-                if(selectedDate[0].getTime() < date.getTime()){
-                    dispatch(setCheckInOutDate([selectedDate[0], date]))
-                    // setSelectDate(()=>[selectedDate[0], date])
+                if(selectedDate[0] < serializedTimestamp){
+                    dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
                 }else{
-                    dispatch(setCheckInOutDate([date, selectedDate[0]]))
-                    // setSelectDate(()=>[date, selectedDate[0]])
+                    dispatch(setCheckInOutDate([serializedTimestamp, selectedDate[0]]))
                 }
-                // setSelectDate(()=>[date, selectedDate[1]])
             }
         }
       }, 300);
@@ -113,7 +89,7 @@ export default function CheckInOutInput() {
                     : 'text-neutral-600 text-xs md:text-sm font-semibold'
                 }
                 `}>Check In</label>
-            <input value={selectedDate?.length > 0 ? formatDatePretty(selectedDate[0]) : ''   } className={`${isMapOpen
+            <input value={selectedDate?.length > 0 ? formatTimestampPretty(selectedDate[0]) : ''   } className={`${isMapOpen
                                         ? 'block w-full md:px-2.5 md:py-2 md:border md:border-neutral-300 md:rounded-md'
                                         : 'block bg-transparent placeholder-medium placeholder-text-sm placeholder-text-netural-300 md:max-w-32'
                                     }`} 
@@ -130,7 +106,7 @@ export default function CheckInOutInput() {
                         : 'text-neutral-600 text-xs md:text-sm font-semibold'
                     }
                 `}>Check Out</label>
-            <input value={selectedDate?.length > 1 ? formatDatePretty(selectedDate[1]) : ''   }
+            <input value={selectedDate?.length > 1 ? formatTimestampPretty(selectedDate[1]) : ''   }
                 className={`
                     ${isMapOpen
                         ? 'block w-full md:px-2.5 md:py-2 md:border md:border-neutral-300 md:rounded-md'
@@ -148,9 +124,9 @@ export default function CheckInOutInput() {
                                     : 'text-neutral-600 text-xs '
                                 } font-semibold`}>Check In-Out</label>
             <input value={selectedDate?.length > 1 
-                                        ? formatDatePretty(selectedDate[0])+ '     -      ' +formatDatePretty(selectedDate[1]) 
+                                        ? formatTimestampPretty(selectedDate[0])+ '     -      ' +formatTimestampPretty(selectedDate[1]) 
                                         : selectedDate?.length > 0
-                                            ?  formatDatePretty(selectedDate[0])
+                                            ?  formatTimestampPretty(selectedDate[0])
                                             : ''
                             }
                 className={`w-full ${isMapOpen
