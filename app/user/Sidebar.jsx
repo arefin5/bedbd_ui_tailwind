@@ -73,7 +73,11 @@ const VerifyedPhone = async(e) => {
     <div className="h-[712px] w-[314px] absolute left-0">
       <div className="bg-secondary-50 h-full rounded-b-lg px-4 pt-28 drop-shadow-sm shadow-sm">
         <h1 className="text-3xl font-semibold text-neutral-800 text-center mb-12">
-          {user.fname && user.lname  || "Please set your name"}
+          {user.fname && user.lname ?
+          <>
+           { user?.fname  + user?.lname}
+          </>  :
+           "Please set your name"}
         </h1>
         <h1 className="text-neutral-500 text-2xl font-semibold mb-6">
           Verified information

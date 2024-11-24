@@ -101,8 +101,8 @@ function getIfo() {
     _id: "663a0b374ec144ec33e4f103",
     currency: "$",
     minPrice: 0,
-    taxRate: 0.06, // Changed to decimal for clarity
-    serviceFee: 0,
+    taxRate: 0.00,
+    serviceFee: 0.06,
   };
 }
 
@@ -154,8 +154,6 @@ export default function Page() {
           <p className="text-sm font-normal">
             No worries! You can change it anytime you want.
           </p>
-
-          {/* Price Counter Component */}
           <PriceCounter
             data={data}
             setPrice={setPrice}
@@ -171,7 +169,6 @@ export default function Page() {
             Check your nearest property price to make it more competitive. It will increase your chances of getting more bookings.
           </div>
 
-          {/* Navigation Buttons */}
           <div className="flex gap-x-8 mt-14 max-w-3xl ml-auto mr-auto">
             <button
               className="btn btn-secondary max-w-36 relative"

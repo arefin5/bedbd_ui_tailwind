@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import axiosInstance from '@/redux/services/axiosInstance';
 
 const WriteReview = ({ data }) => {
+    // if(data.booking.client.id !==user._id)return;
+    
     const id = data._id;
     const postID = data.Postedby._id;
     

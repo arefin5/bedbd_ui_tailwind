@@ -151,13 +151,14 @@ const BookingBox = ({ data }) => {
                         ${GroundPrice} x {totalNights} night(s)
                         <span className="text-neutral-500 float-right">${GroundPrice * totalNights}</span>
                     </li>
+                    
                     <li className="text-neutral-400 font-semibold text-lg">
-                        Service Fee
-                        <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
+                    Tax/VAT
+                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
                     </li>
                     <li className="text-neutral-400 font-semibold text-lg">
-                        Bedbd fee
-                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
+                            Platform fee (instead of bedbd fee)
+                        <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
                     </li>
                 </ul>
             </div>
