@@ -28,13 +28,53 @@ export const optionalSubmit = (data, id) => async (dispatch) => {
   }
 };
 
+// // Async thunk to submit the list
+// export const submitList = createAsyncThunk(
+//   "form/submitList", 
+//   async (_, { getState }) => {
+//     const { formData } = getState().form; // Get form data from the Redux state
+//     const response = await axiosInstance.post('/create-list', formData);
+//     return response.data;
+//   }
+// );
 // Async thunk to submit the list
+// export const submitList = createAsyncThunk(
+//   "form/submitList", 
+//   async (formData, { getState }) => {
+//     console.log("formData",formData)
+//     // const { formData } = getState().form; // Get form data from the Redux state
+//     const response = await axiosInstance.post('/create-list', formData);
+//     // formData={}
+//     return response.data;
+//   }
+// );
 export const submitList = createAsyncThunk(
   "form/submitList", 
-  async (_, { getState }) => {
-    const { formData } = getState().form; // Get form data from the Redux state
-    const response = await axiosInstance.post('/create-list', formData);
-    return response.data;
+  async (listData, { rejectWithValue }) => {
+    console.log("submite ",listData)
+    try {
+      const payload = Object.fromEntries(
+        Object.entries(listData).filter(([_, value]) => value !== undefined && value !== null)
+      );
+      // Make the API call with the dynamic payload
+      const response = await axiosInstance.post('/create-list', payload);
+      return response.data;
+
+    } catch (error) {
+      console.log(error.response?.data?.message);
+
+      if (error.response && error.response.data && error.response.data.error) {
+        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
+      }
+
+      if (error.response?.data?.message) {
+        // Specific error handling like "email already exists"
+        return rejectWithValue(error.response.data.message);
+      }
+
+      // Fallback for other unexpected errors
+      return rejectWithValue('An unexpected error occurred.');
+    }
   }
 );
 

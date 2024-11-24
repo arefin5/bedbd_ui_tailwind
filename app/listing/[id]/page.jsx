@@ -115,7 +115,7 @@ export default async function page({ params }) {
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42} />
-                                <span className='absolute-x-center w-max bottom-7 '>{Guest.adultsadult}+{Guest.adultGuest} /8 Guests</span>
+                                <span className='absolute-x-center w-max bottom-7 '>{Guest.adultGuest}+ {Guest.childrenGuest} Guests</span>
                             </div>
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
