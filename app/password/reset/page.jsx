@@ -22,7 +22,7 @@ export default function page() {
             if(password!==conPass)return 
             if (password !== conPass) return;
       await  dispatch(resetPasseord({  password }));
-      router.push("/user/profile")
+      router.push("/")
         }catch(error){
             console.log(error)
         }

@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 
 const { handleLogout } = Logout();
 
-// Add a request interceptor to include token
+
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');

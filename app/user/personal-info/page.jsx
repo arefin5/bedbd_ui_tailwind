@@ -22,7 +22,10 @@ export default function Page() {
     const [parmanentAddress, setParmanent] = useState("");
     const [image, setImage] = useState({});
     const [uploading, setUploading] = useState(false);
-
+    const [hanlarotp, setOptSubmite] = useState(false);
+    const [hanlarotpPhone, sethanlarotpPhone] = useState(false)
+    const [otp, setOtp] = useState("");
+  
     // Reference for hidden file input
     const fileInputRef = useRef(null);
 

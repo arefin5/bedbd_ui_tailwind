@@ -19,8 +19,6 @@ export default function Login() {
             e.preventDefault();
             //  let phone = `${countryCode} ${phonee}`;
              let phone = `${phonee}`;
-
-            // console.log("phone", phone);
               const resultAction = await dispatch(loginUserPhone({ phone }));
           if (loginUserPhone.fulfilled.match(resultAction)) {
             router.push("/login/phone/otp");
@@ -36,7 +34,7 @@ export default function Login() {
 
    useEffect(() => {
         if (token) {
-            router.push('/user/profile'); 
+            router.push('/'); 
         }
     }, [token, router,user]);
     return (

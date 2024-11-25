@@ -104,6 +104,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import axiosInstance from "@/redux/services/axiosInstance"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -123,6 +124,48 @@ const SwitchtoUser=(e)=>{
   router.push("/user/profile");
 
 }
+const [isLoading, setIsLoading] = useState(false);
+
+const changeRuleAsUser = async () => {
+  setIsLoading(true); // Show loading indicator
+  try {
+    const response = await axiosInstance.put("/change-role-user");
+    if (response.data) {
+      const updatedUser = response.data.user; // Assuming updated user data is returned
+      localStorage.setItem("user", JSON.stringify(updatedUser)); // Update local storage
+      setIsLoading(false); // Stop loading indicator
+      window.location.href = "/"; // Redirect to homepage
+    }
+  } catch (error) {
+    console.error("Error updating role:", error);
+    setIsLoading(false); // Stop loading indicator even on error
+  }
+};
+//  const changeRuleAsUser = async (e) => {
+//         // e.preventDefault();
+
+//         if (user && user.role === "user") {
+//             router.push("/user/profile");
+//         } else {
+//             try {
+//                 const response = await axiosInstance.put("/change-role-user");
+
+//                 if (response.data) {
+//                     const updatedUser = response.data.user; // Assuming `response.data.user` contains the updated user info
+//                     localStorage.setItem("user", JSON.stringify(updatedUser)); // Store the updated user in localStorage
+
+//                     // // Optionally, update local `user` state if needed
+//                     // setUser(updatedUser);
+//                     window.location.href = "/host/profile";
+//                     // router.push("/host/profile")
+//                 }
+//             } catch (error) {
+//                 console.error("Error updating role:", error);
+//             }
+//         }
+//     };
+
+
 const LogOut = async (e) => {
   e.preventDefault();
   localStorage.clear();
@@ -188,6 +231,17 @@ const LogOut = async (e) => {
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Message
               </li>
+              
+              <li
+  onClick={changeRuleAsUser}
+  className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold"
+>
+  {isLoading ? (
+    <span>Loading...</span> // Replace with a spinner if needed
+  ) : (
+    "Become a User"
+  )}
+</li>
               <Link href="/host/profile">
               <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:font-bold">
                 Profile

@@ -93,16 +93,11 @@ const BookingBox = ({ data }) => {
 
         try {
             const response = await axiosInstance.post(`/book-property/${id}`, reservationData);
-            const GatewayPageURL = response.data.GatewayPageURL;
-            if (GatewayPageURL) {
-                router.push(GatewayPageURL);
-                const tran_id = response.data.tran_id;
-                if (tran_id) {
-                    localStorage.setItem("tran_id", tran_id);
-                }
-            } else {
-                setError("Payment initiation failed.");
-            }
+               console.log(response);
+               setLoading(false);
+               alert("Reservation successful! Your booking has been confirmed.");
+               window.location.href = "/user/bookinglist";
+
         } catch (error) {
             setError("Failed to make the reservation. Please try again.");
         } finally {
@@ -114,15 +109,16 @@ const BookingBox = ({ data }) => {
         <div className="top-12 sticky rounded-lg drop-shadow-booking-box bg-white">
             <div className="relative p-6 custom-underline-primary-400">
                 <h3 className="text-neutral-700 font-semibold text-3xl">
-                    ${totalGroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
+                    ${GroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
                     <span className="text-green-300 text-sm ml-3"> (Available)</span>
                 </h3>
             </div>
-
-            {/* Single DatePicker with Range Selection */}
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
                 <div className="py-4 px-8">
-                    <label className="block text-neutral-600 text-sm font-semibold">Select Dates</label>
+                <div className="flex justify-between">
+            <label className="block text-neutral-600 text-sm font-semibold">Check In</label>
+            <label className="block text-neutral-600 text-sm font-semibold">Check Out</label>
+        </div>
                     <DatePicker
                         selected={checkInDate}
                         onChange={handleDateChange}
@@ -155,13 +151,14 @@ const BookingBox = ({ data }) => {
                         ${GroundPrice} x {totalNights} night(s)
                         <span className="text-neutral-500 float-right">${GroundPrice * totalNights}</span>
                     </li>
+                    
                     <li className="text-neutral-400 font-semibold text-lg">
-                        Service Fee
-                        <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
+                    Tax/VAT
+                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
                     </li>
                     <li className="text-neutral-400 font-semibold text-lg">
-                        Bedbd fee
-                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
+                            Platform fee (instead of bedbd fee)
+                        <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
                     </li>
                 </ul>
             </div>

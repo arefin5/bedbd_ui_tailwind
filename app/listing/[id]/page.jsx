@@ -29,6 +29,7 @@ import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
 import AddFavorite from "@/components/AddFavorite";
 import WriteReview from "@/components/WriteReview";
 import BookingBox from "@/components/BookingBox";
+import SendMessage from "@/components/SendMessage";
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
@@ -52,8 +53,10 @@ export default async function page({ params }) {
         amenities,
         totalroom,
         Postedby,
+        Guest,
+        
     } = data
-    // console.log("Postedby",Postedby);
+    console.log("",Guest);
     // console.log(Postedby.fname, Postedby.lname)
     return (
         <>
@@ -90,10 +93,10 @@ export default async function page({ params }) {
                             <h2 className="font-semibold text-3xl text-neutral-600">{propertyTitle}</h2>
                             <h4 className="font-normal text-lg text-neutral-400">
                                 {
-                                    location.streetAddress + ', ' +
-                                    location.address + ', ' +
-                                    location.postcode + ', ' +
-                                    location.country
+                                    location?.streetAddress + ', ' +
+                                    location?.address + ', ' +
+                                    location?.postcode + ', ' +
+                                    location?.country
                                 }
                             </h4>
                         </div>
@@ -107,23 +110,23 @@ export default async function page({ params }) {
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42} />
-                                <span className='absolute-x-center w-max bottom-7'> Bathrooms </span>
+                                <span className='absolute-x-center w-max bottom-7'>{totalroom.washRoom} Bathrooms </span>
                             </div>
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42} />
-                                <span className='absolute-x-center w-max bottom-7 '>6/8 Guests</span>
+                                <span className='absolute-x-center w-max bottom-7 '>{Guest.adultGuest}+ {Guest.childrenGuest} Guests</span>
                             </div>
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42} />
-                                <span className='absolute-x-center w-max bottom-7'>3 Bathrooms </span>
+                                <span className='absolute-x-center w-max bottom-7'>{totalroom.washRoom} Bathrooms </span>
                             </div>
 
-                            <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
+                            {/* <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42} />
                                 <span className='absolute-x-center w-max bottom-7 '>6/8 Guests</span>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* About */}
@@ -234,8 +237,8 @@ export default async function page({ params }) {
                                     Response Time: within an hour
                                 </li>
                             </ul>
-                            <button className="btn btn-secondary rounded-full max-w-56"> Contact Host</button>
-
+                            {/* <button className="btn btn-secondary rounded-full max-w-56"> Contact Host</button> */}
+                            <SendMessage  users={Postedby}/>
                         </div>
 
                         {/* Rating... */}

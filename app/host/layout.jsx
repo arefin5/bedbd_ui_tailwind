@@ -17,7 +17,6 @@ export default function RootLayout({ children }) {
     }
   }, [user, router,token]);
 
-  // Don't render anything until the user check is done
   if (!user || user.role !== "host") return null;
 
   return (

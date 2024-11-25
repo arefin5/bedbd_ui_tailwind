@@ -244,7 +244,7 @@ export default function Page() {
     useEffect(() => {
         if (user) setEmail(user.email);
         if (user?.isEmailVerified && token) {
-            router.push("/user/profile");
+            router.push("/");
         }
     }, [user, token, router]);
 

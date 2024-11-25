@@ -2,9 +2,10 @@
 import Icon from '/components/Icon';
 import InputRadioButton from './InputRadioButton';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { updateFormData } from '@/redux/list/createListSlice';
+import { submitList } from "@/redux/list/createListSlice";
 
 export default function Page() {
   const [formValues, setFormValues] = useState({
@@ -14,6 +15,7 @@ export default function Page() {
   
   const router = useRouter();
   const dispatch = useDispatch();
+  const {error,formData} = useSelector((state) => state.form); 
 
   const handleInputChange = (name, value) => {
     setFormValues((prev) => ({
@@ -21,18 +23,30 @@ export default function Page() {
       [name]: value,
     }));
   };
+  useEffect(() => {
+    console.log('Approving Method changed:', formValues.approvingMethod);
+    console.log('Gender Preference changed:', formValues.genderPreference);
+  }, [formValues.approvingMethod, formValues.genderPreference]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { approvingMethod, genderPreference } = formValues;
-      const payload={
+      console.log(genderPreference)
+      const payload = {
+        ...formData,
         aprovingmethod: approvingMethod,
-       gender: genderPreference,
+        gender: genderPreference,
+      };
+      const resultAction = await  dispatch(submitList(payload));
+      if (submitList.fulfilled.match(resultAction)) {
+        console.log(payload)
+        router.push('/add-listing/congratulation');
+      } else {
+        console.error("Error during user edit:", resultAction.payload);
       }
-      await dispatch(updateFormData(payload)); // Wait until the action is dispatched and processed
-      console.log(payload)
-      router.push('/add-listing/congratulation');
+
+     
     } catch (error) {
       console.error(error);
     }

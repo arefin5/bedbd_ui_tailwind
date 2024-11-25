@@ -22,34 +22,112 @@ export default function LocationPage() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Only set client-side rendering flag here
+    setIsClient(true);
   }, [currentFormData]);
 
+  // const submitLocation = async (e) => {
+  //   e.preventDefault();
+  //   if (!currentFormData) return;
+
+  //   try {
+  //     const coordinates = [90.388964, 23.764287];  longitude: '90.388964',
+    latitude: '23.764287'
+  //     // ...currentFormData
+  //     // console.log("from data ",currentFormData)
+
+  //     // console.log("location",currentFormData.formData.location)
+  //     const payload = {
+  //     ...currentFormData.formData,
+  //       location: {
+  //         ...formData.location,
+  //         type: "Point",
+  //         coordinates: coordinates,
+  //       },
+  //     };
+  //     await dispatch(updateFormData(payload));
+  //     router.push('/add-listing/accommodation-details');
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // const submitLocation = async (e) => {
+  //   e.preventDefault();
+    
+  //   // Ensure that the coordinates are taken from the map directly, not using fallback
+  //   const coordinates = currentFormData?.formData?.location?.coordinates; 
+  
+  //   if (!coordinates) {
+  //     // Handle the case where no coordinates are set
+  //     console.error('Coordinates are not set. Please select a location.');
+  //     return;
+  //   }
+  
+  //   try {
+  //     const payload = {
+  //       ...currentFormData.formData,
+  //       location: {
+  //         ...formData.location,
+  //         type: "Point",
+  //         coordinates: coordinates,  // Use the coordinates directly from the map
+  //       },
+  //     };
+  
+  //     await dispatch(updateFormData(payload)); // Dispatch to update Redux store
+  //     router.push('/add-listing/accommodation-details'); // Navigate to next page
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  
+  // const submitLocation = async (e) => {
+  //   e.preventDefault();
+
+  //   const coordinates = formData?.location?.coordinates;
+
+  //   if (!coordinates) {
+  //     console.error('Coordinates are not set. Please select a location on the map.');
+  //     return;
+  //   }
+
+  //   try {
+  //     const payload = {
+  //       ...formData,
+  //       location: {
+  //         ...formData.location,
+  //         type: "Point",
+  //         coordinates,
+  //       },
+  //     };
+
+  //     await dispatch(updateFormData(payload));
+  //     router.push('/add-listing/accommodation-details');
+  //   } catch (error) {
+  //     console.error('Error updating form data:', error);
+  //   }
+  // };
   const submitLocation = async (e) => {
     e.preventDefault();
-    if (!currentFormData) return;
-
+  
+    // Use the provided coordinates from the map, or default to specified values
+    const coordinates = formData?.location?.coordinates || [90.388964, 23.764287];
+  
     try {
-      const coordinates = [-122.4194, 37.7749];
-      // ...currentFormData
-      // console.log("from data ",currentFormData)
-
-      // console.log("location",currentFormData.formData.location)
       const payload = {
-      ...currentFormData.formData,
+        ...formData,
         location: {
           ...formData.location,
           type: "Point",
-          coordinates: coordinates,
+          coordinates, // Either the selected or default coordinates
         },
       };
+  
       await dispatch(updateFormData(payload));
       router.push('/add-listing/accommodation-details');
     } catch (error) {
-      console.error(error);
+      console.error('Error updating form data:', error);
     }
   };
-
+  
   const goBack = (e) => {
     e.preventDefault();
     router.push("/add-listing/location-confirmation");

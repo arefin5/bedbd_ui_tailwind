@@ -38,7 +38,10 @@ export default function Page() {
     }
     router.push("/registration/upload-photo");
   };
-
+  const backToPrevious=(e)=>{
+    e.preventDefault();
+    router.push("/registration/start")
+  }
   return (
     <div className='modal-background'>
       <div className='pt-14 pb-24 sm:px-24 px-16 bg-secondary-50 w-screen max-w-3.5xl absolute-center rounded-2xl'>
@@ -71,8 +74,9 @@ export default function Page() {
           </button>
         </form>
 
-        <Icon name='arrow-left' className='text-neutral-600 cursor-pointer absolute top-8 left-8' />
-      </div>
+        <Icon name="arrow-left"
+  onClick={backToPrevious}
+   className="text-neutral-600 cursor-pointer absolute top-8 left-8" />      </div>
     </div>
   );
 }
