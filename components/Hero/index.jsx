@@ -18,14 +18,11 @@ import RatingInput from './RatingInput'
 import AmenitiesInput from './AmenitiesInput'
 import BadgesInput from './BadgesInput'
 import GenderPreference from './GenderPreference'
-import axios from 'axios'
 
 export default function Hero(){
     const mapRef = useRef(null)
     const mapSearchBox = useSearchBoxCore({ accessToken: 'pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew' })
     const searchSession = new useSearchSession(mapSearchBox);
-    const [gust,setGust]=useState("")
-    const {location, selectedDate  } = useSelector(state => state.search);
 
     const {  selectedLocation, 
                     isMapOpen,
@@ -33,46 +30,13 @@ export default function Hero(){
                     suggestions
                 } = useSelector(state => state.search.location);
 
-const formSubmit=async(e)=>{
-
-    try{
-        e.preventDefault()
-        // console.log(location)
-        // console.log(selectedDate)
-         let checkinDate=null;
-         let   checkoutDate=null;
-        if (selectedDate.length === 2) {
-             checkinDate = selectedDate[0].toISOString();  
-             checkoutDate = selectedDate[1].toISOString(); 
-            // console.log("checkinDate:", checkinDate);    
-            // console.log("checkoutDate:", checkoutDate);
-        } else {
-            console.log("Selected date range is invalid");
-        }
-       const latitude =location.selectedLocation.latitude;
-        const  longitude=location.selectedLocation.longitude;
-       const locations=location.selectedLocation ;
-       const searchdata={
-        longitude:longitude,
-        latitude:latitude,
-        locations:locations,
-        checkinDate,
-        checkoutDate,
-       }
-    //    console.log(searchdata);
-      
-        const response = await axios.get("http://localhost:5001/api/sort-by-location/", {
-            params: searchdata, 
-        });
-
-        // console.log(response);
-
-         console.log(response);
-
-    }catch(error){
-        console.log(error);
-    }
-}
+    // const [mapData, setMapData]= useState({
+    //                                         isMapOpen: true  ,
+    //                                         isSuggestionMenuOpen: false, 
+    //                                         suggestions: [],
+    //                                         selectedSuggestion:{}
+    //                                     })
+    const [propertyLoactions, setPropertyLoactions] = useState([])
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
@@ -103,7 +67,6 @@ const formSubmit=async(e)=>{
                             }`}>
                             <LocationInput mapSearchBox={mapSearchBox} searchSession={searchSession} mapRef={mapRef} />
                             <CheckInOutInput/>
-
                             <GuestCountInput />
                             {
                                 !isMapOpen
@@ -126,8 +89,8 @@ const formSubmit=async(e)=>{
 
                             {/* Submit Button */}
                             <div className='flex pl-14 pr-14 mt-8 space-x-4 md:mt-0 md:p-0 '>
-                                {/* <button className={`btn font-medium text-base text-primary-400 underline ${!isMapOpen && 'md:hidden'} `}>Clear</button> */}
-                                <button onClick={formSubmit} className={`btn btn-primary space-x-4 text-center flex items-center justify-center ${!isMapOpen && 'md:h-14 md:w-14 md:rounded-full md:p-auto' }`} >
+                                <button className={`btn font-medium text-base text-primary-400 underline ${!isMapOpen && 'md:hidden'} `}>Clear</button>
+                                <button className={`btn btn-primary space-x-4 text-center flex items-center justify-center ${!isMapOpen && 'md:h-14 md:w-14 md:rounded-full md:p-auto' }`} >
                                     <Search className='icon mr-4 md:m-0 md:h-8 md:w-8'/>
                                     <span className={` ${ !isMapOpen && 'md:hidden' } `}>Search</span></button>
                             </div>
