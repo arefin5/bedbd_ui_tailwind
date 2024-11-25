@@ -218,7 +218,7 @@ export default function Hero() {
 
             {showData ? (
                 <SearchProperty listings={lists} />
-            ) : <p>No Seach Found ... </p>}
+            ) : null}
         </>
     )
 }
