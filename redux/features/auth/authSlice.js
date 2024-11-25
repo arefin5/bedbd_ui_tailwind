@@ -291,13 +291,29 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
+      // .addCase(loginUser.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.token = action.payload.token;
+      //   state.user = action.payload.user;
+      //   // Store token and user data in localStorage
+      //   localStorage.setItem('token', action.payload.token);
+      //   localStorage.setItem('user', JSON.stringify(action.payload.user));
+      // })
       .addCase(loginUser.fulfilled, (state, action) => {
+        const { token, user } = action.payload;
+
+        // Only store valid token and user in state and localStorage
+        if (token) {
+          state.token = token;
+          localStorage.setItem('token', token);
+        }
+
+        if (user) {
+          state.user = user;
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+
         state.loading = false;
-        state.token = action.payload.token;
-        state.user = action.payload.user;
-        // Store token and user data in localStorage
-        localStorage.setItem('token', action.payload.token);
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
