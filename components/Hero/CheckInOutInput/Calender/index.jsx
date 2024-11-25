@@ -117,9 +117,9 @@ const previousMonthDateArray = []
         }{
             currentMonthDateArray.map((date, idx)=>{
                 const isSelected  = (selectedDate.length === 1) 
-                                        ? selectedDate[0]?.getTime() === date?.getTime()
+                                        ? selectedDate[0] === date?.getTime()
                                         : (selectedDate.length === 2)
-                                            ? (selectedDate[0]?.getTime() <= date?.getTime()) && (date?.getTime() <= selectedDate[1]?.getTime())
+                                            ? (selectedDate[0] <= date?.getTime()) && (date?.getTime() <= selectedDate[1])
                                             : false
                     
 

@@ -18,24 +18,38 @@ import RatingInput from './RatingInput'
 import AmenitiesInput from './AmenitiesInput'
 import BadgesInput from './BadgesInput'
 import GenderPreference from './GenderPreference'
+import { useDispatch } from 'react-redux'
+import { setMapOpen, setMapClose } from '@/redux/features/search/searchSlice'
 
 export default function Hero(){
+    const dispatch  = useDispatch()
     const mapRef = useRef(null)
     const mapSearchBox = useSearchBoxCore({ accessToken: 'pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew' })
     const searchSession = new useSearchSession(mapSearchBox);
 
     const {location, selectedDate  } = useSelector(state => state.search);
 
-    const {  selectedLocation, 
-                    isMapOpen,
-        isSuggestionsMenuOpen,
-                    suggestions
-                } = useSelector(state => state.search.location);
+    const { isMapOpen } = location;
 
     function formSubmit(e) {
         e.preventDefault()
         console.log(location)
         console.log(selectedDate)
+        // if(location.selectedLocation.hasOwnProperty("latitude")
+        //                         &&
+        //     location.selectedLocation.hasOwnProperty("longitude")){
+        //         dispatch(setMapOpen())
+        //         if(mapRef?.current){
+        //             mapRef?.flyTo({center: [location.selectedLocation.longitude, location.selectedLocation.latitude],
+        //                 zoom: 10,})
+        //         }
+                
+        //     }
+        dispatch(setMapOpen())
+
+        // mapRef.flyTo({
+        //     center: [(Math.random() - 0.5) * 360, (Math.random() - 0.5) * 100],
+        // });
     }
 
     return (
