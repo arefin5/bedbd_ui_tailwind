@@ -30,6 +30,7 @@ import AddFavorite from "@/components/AddFavorite";
 import WriteReview from "@/components/WriteReview";
 import BookingBox from "@/components/BookingBox";
 import SendMessage from "@/components/SendMessage";
+import HomeRules from "@/components/HomeRules";
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
@@ -54,9 +55,10 @@ export default async function page({ params }) {
         totalroom,
         Postedby,
         Guest,
-        
+        homerule,
+        propertyFeature
     } = data
-    console.log("",Guest);
+    console.log("",homerule);
 
     // console.log(Postedby.fname, Postedby.lname)
     return (
@@ -116,13 +118,13 @@ export default async function page({ params }) {
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42} />
-                                <span className='absolute-x-center w-max bottom-7 '>{Guest.adultGuest.value} + {Guest.childrenGuest.value} Guests</span>
+                                <span className='absolute-x-center w-max bottom-7 '> {Guest.adultGuest} + {Guest.childrenGuest} Guests</span>
                             </div>
-
-                            <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
+                           
+                            {/* <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bathroomIcon} height={42} width={42} />
                                 <span className='absolute-x-center w-max bottom-7'>{totalroom.washRoom} Bathrooms </span>
-                            </div>
+                            </div> */}
 
                             {/* <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42} />
@@ -131,7 +133,7 @@ export default async function page({ params }) {
                         </div>
 
                         {/* About */}
-                        <div className="mt-14">
+                        {/* <div className="mt-14">
                             <h3 className="text-2xl font-semibold text-neutral-700">About the Apartment</h3>
                             <div className="mt-6 space-y-4">
                                 <div className="relative pl-12">
@@ -152,39 +154,26 @@ export default async function page({ params }) {
                                     <p className="text-neutral-700 text-lg font-normal">A room with wifiIcon that’s well-suited for working</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Amenities */}
-                        <Amenities data={amenities} />
+                        <Amenities data={propertyFeature.features} />
 
                         {/* Home rules */}
-                        <div className="my-14 text-neutral-700">
-                            <h3 className="text-2xl font-semibold text-neutral-700">Home rules</h3>
-                            <ul className="space-y-3 mt-6 font-normal text-lg">
-                                <li>
-                                    <Icon name='info' className="icon inline mr-6" /> Only for Female
-                                </li>
-                                <li>
-                                    <Icon name='info' className="icon inline mr-6" /> Check In 15:00 PM
-                                </li>
-                                <li>
-                                    <Icon name='info' className="icon inline mr-6" /> Check Out: 11:00 AM
-                                </li>
-                            </ul>
-                        </div>
+                       <HomeRules homerules={homerule.homesRoules}/>
 
                         {/* Cancellation Policy */}
                         <div className="my-14">
                             <h3 className="text-2xl font-semibold text-neutral-700">Cancellation Policy</h3>
                             <ul className="space-y-3 mt-6 font-normal text-lg">
                                 <li>
-                                    <Icon name='info' className="icon inline mr-6" /> If you cancel before <span className='text-neutral-800 font-medium'>48 hours</span>, will be 85% refund.
+                                    <Icon name='dot' className="icon inline mr-6" /> If you cancel before <span className='text-neutral-800 font-medium'>48 hours</span>, will be 85% refund.
                                 </li>
                                 <li>
-                                    <Icon name='info' className="icon inline mr-6" /> If you cancel within <span className='text-neutral-800 font-medium'>48 hours,</span> will be 50% refund.
+                                    <Icon name='dot' className="icon inline mr-6" /> If you cancel within <span className='text-neutral-800 font-medium'>48 hours,</span> will be 50% refund.
                                 </li>
                                 <li>
-                                    <Icon name='info' className="icon inline mr-6" /> If you cancel within <span className='text-neutral-800 font-medium'>12 hours,</span>  there will be <span className='text-neutral-800 font-medium'>no refund.</span>
+                                    <Icon name='dot' className="icon inline mr-6" /> If you cancel within <span className='text-neutral-800 font-medium'>12 hours,</span>  there will be <span className='text-neutral-800 font-medium'>no refund.</span>
                                 </li>
                             </ul>
                         </div>
@@ -220,7 +209,7 @@ export default async function page({ params }) {
 
                                         <div className="text-neutral-800 text-lg font-normal inline">
                                             <Icon name='star' size={24} className=" icon inline mr-2" />
-                                            4.3 Rating (15 Reviews)
+                                            4.3(20 Reviews)
                                         </div>
                                     </div>
                                 </div>

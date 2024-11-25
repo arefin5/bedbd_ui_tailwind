@@ -97,7 +97,7 @@ export default function Page() {
   const { user, token } = useSelector((state) => state.auth);
   const router = useRouter();
   const dispatch = useDispatch();
-const varificationImage=null;
+const profilePic=null;
 
   useEffect(() => {
     if (!user || !user.isEmailVerified || !user.isPhoneVerified || !token) {
@@ -105,9 +105,9 @@ const varificationImage=null;
       router.push("/user/profile");
     } 
     // console.log(user)
-    if  (user?.varificationImage) {
-      console.log(varificationImage)
-      setImage(user.varificationImage);
+    if  (user?.profilePic) {
+      console.log(profilePic)
+      setImage(user.profilePic);
     }
   }, [user, token]);
 
@@ -127,7 +127,7 @@ const varificationImage=null;
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const payload = { varificationImage: image };
+    const payload = { profilePic: image };
     // dispatch(userEdit(payload));
     const resultAction = await dispatch(userEdit(payload));
     if (userEdit.fulfilled.match(resultAction)) {
@@ -151,7 +151,7 @@ const varificationImage=null;
           <div className="w-full h-80">
             <DropImage
               onImageUpload={handleImageChange}
-              initialImage={user?.varificationImage?.url}
+              initialImage={user?.profilePic?.url}
             />
           </div>
           <button

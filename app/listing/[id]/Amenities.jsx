@@ -13,7 +13,7 @@ import shieldCheckedIcon from '/public/icons/shield-check.svg'
 import starGrayIcon from '/public/icons/star_gray.svg'
 
 export default function Amenities({data}) {
-
+console.log(data)
   return (
     <div className="my-14 text-neutral-700">
         <h3 className="text-2xl font-semibold ">Offered Amenities</h3>
@@ -43,7 +43,7 @@ export default function Amenities({data}) {
                 BalconyIcon or Patio
             </li>
         </ul>
-        <button className="w-full max-w-64 py-3 rounded-md bg-transparent border border-neutral-400 text-neutral-400 text-lg font-normal ">Show All 10 Amenities</button>
+        {/* <button className="w-full max-w-64 py-3 rounded-md bg-transparent border border-neutral-400 text-neutral-400 text-lg font-normal ">Show All 10 Amenities</button> */}
     </div>
   )
 }
