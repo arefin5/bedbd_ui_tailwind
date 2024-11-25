@@ -120,7 +120,8 @@ export default function Hero() {
         };
 
         try {
-            const response = await axios.get("http://localhost:5001/api/sort-by-location/", { params: searchdata });
+            // const response = await axios.get("http://localhost:5001/api/sort-by-location/", { params: searchdata });
+            const response = await axios.get("http://145.223.22.239:5001/api/sort-by-location/", { params: searchdata });
 
             if (response.data?.length > 0) {
                 setLists(response.data);
