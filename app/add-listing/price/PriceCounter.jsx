@@ -60,7 +60,7 @@ export default function PriceCounter({ data, price, setPrice, GroundPrice, setGr
         </div>
         <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
           <h3>Platform fee</h3>
-          <h3 className="text-lg font-normal">{`${priceInfo.currency}${priceInfo.serviceFee.toFixed(2)}`}</h3>
+          <h3 className="text-lg font-normal">{`${priceInfo.currency}${taxAmount}`}</h3>
         </div>
         <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
           <h3>Taxes ({(data.taxRate * 100).toFixed(2)}%)</h3>

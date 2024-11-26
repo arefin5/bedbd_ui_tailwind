@@ -94,7 +94,10 @@ import PriceCounter from "./PriceCounter";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { updateFormData } from "@/redux/list/createListSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 
 function getIfo() {
   return {
@@ -105,9 +108,10 @@ function getIfo() {
     serviceFee: 0.06,
   };
 }
-
 export default function Page() {
-  const data = getIfo();
+
+  
+  const [data,setData]=useState({});
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -115,6 +119,18 @@ export default function Page() {
   const [GroundPrice, setGroundPrice] = useState(data.minPrice);
   const [serviceFee, setServiceFee] = useState(data.serviceFee);
   const [tax, setTax] = useState(0);
+
+useEffect(()=>{
+  fetchService();
+},[data])
+const fetchService=async(e)=>{
+  try{
+    const response=await axios.get("http://145.223.22.239:5001/api/service-rate");
+    setData(response.data)
+  }catch(error){
+    console.log(error);
+  }
+}
 
   // Handle form submission
   const handleSubmitImage = async (e) => {
