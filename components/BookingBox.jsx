@@ -21,6 +21,7 @@ const BookingBox = ({ data }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
+    const { user } = useSelector((state) => state.auth);
 
     const [checkInDate, checkOutDate] = dateRange;
 
@@ -36,12 +37,20 @@ const BookingBox = ({ data }) => {
         setGuestCount(newValue);
     };
 
+    // const totalNights = calculateDays();
+    // const totalserviceFee = serviceFee * totalNights;
+    // const totalGroundPrice = GroundPrice * totalNights;
+    // const totalTax = tax * totalNights;
+    // const totalPrice = totalGroundPrice + totalserviceFee + totalTax;
     const totalNights = calculateDays();
-    const totalserviceFee = serviceFee * totalNights;
-    const totalGroundPrice = GroundPrice * totalNights;
-    const totalTax = tax * totalNights;
-    const totalPrice = totalGroundPrice + totalserviceFee + totalTax;
-
+    const totalserviceFee = (serviceFee * totalNights).toFixed(2);
+    const totalGroundPrice = (GroundPrice * totalNights).toFixed(2);
+    const totalTax = (tax * totalNights).toFixed(2);
+    const totalPrice = (
+      parseFloat(totalGroundPrice) +
+      parseFloat(totalserviceFee) +
+      parseFloat(totalTax)
+    ).toFixed(2);
     useEffect(() => {
         fetchBooking();
     }, [id, totalPrice, totalNights, token]);
@@ -99,7 +108,7 @@ const BookingBox = ({ data }) => {
             const response = await axiosInstance.post(`/book-property/${id}`, reservationData);
                console.log(response);
                setLoading(false);
-               alert("Reservation successful! Your booking has been confirmed.");
+               alert(" Your booking has been Requested.");
                window.location.href = "/user/bookinglist";
 
         } catch (error) {
@@ -114,7 +123,7 @@ const BookingBox = ({ data }) => {
             <div className="relative p-6 custom-underline-primary-400">
                 <h3 className="text-neutral-700 font-semibold text-3xl">
                     ${GroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
-                    <span className="text-green-300 text-sm ml-3"> (Available)</span>
+                    {/* <span className="text-green-300 text-sm ml-3"> (Available)</span> */}
                 </h3>
             </div>
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">

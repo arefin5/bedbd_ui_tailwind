@@ -64,9 +64,8 @@ export default function Page() {
   useEffect(() => {
     if(!user) return;
     if(!token) return;
-      if(!user && !token && !user.isEmailVerified && !user.isPhoneVerified){
+      if(!user && !token && !user.isEmailVerified || !user.isPhoneVerified){
         alert("please verified your email and Phone ");
-
         return router.push("/host/profile")
       }
       if(! user?.varificationId && !user.varificationId){

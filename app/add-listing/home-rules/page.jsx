@@ -147,14 +147,16 @@ export default function Page() {
                     </div>
                     
                     <div className='mt-10 flex gap-x-10 justify-between'>
+                        
+
                         <div className='w-full max-w-80'>
-                            <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-in (GMT +6)</h3>
+                            <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-out (GMT +6)</h3>
                             <div className='relative'>
-                                <select
-                                    name='check-in-time'
-                                    id='select_check_in'
+                                <select 
+                                    name='check-out-time'
+                                    id='select_check_out'
+                                    onChange={(e) => setCheckOutTime(e.target.value)}
                                     className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
-                                    onChange={(e) => setCheckInTime(e.target.value)}
                                 >
                                     {timeSegments.map(item => (
                                         <option key={item.hour + item.minute} 
@@ -166,15 +168,14 @@ export default function Page() {
                                 <Icon name='chevron-down' className="icon absolute-y-center right-4 -z-10" />
                             </div>
                         </div>
-
                         <div className='w-full max-w-80'>
-                            <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-out (GMT +6)</h3>
+                            <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-in (GMT +6)</h3>
                             <div className='relative'>
-                                <select 
-                                    name='check-out-time'
-                                    id='select_check_out'
-                                    onChange={(e) => setCheckOutTime(e.target.value)}
+                                <select
+                                    name='check-in-time'
+                                    id='select_check_in'
                                     className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
+                                    onChange={(e) => setCheckInTime(e.target.value)}
                                 >
                                     {timeSegments.map(item => (
                                         <option key={item.hour + item.minute} 
