@@ -35,7 +35,7 @@ export default function GuestCountInput({ gust, setGust }) {
       <div className="flex items-center justify-between relative">
         <Minus
           className={`${
-            isMapOpen ? "cursor-pointer" : "hidden"
+            isMapOpen ? "cursor-pointer" : "cursor-pointer"
           } absolute left-2 bottom-2.5`}
           size={24}
           onClick={handleDecrement}
@@ -48,13 +48,12 @@ export default function GuestCountInput({ gust, setGust }) {
           }`}
           placeholder={isMapOpen ? "0" : "Adult, infant 1"}
           value={gust}
-          
-          onChange={(e) => setGust(e.target.value)}
-        //   readOnly
+          // onChange={(e) => setGust(e.target.value)}
+          readOnly
         />
         <Plus
           className={`${
-            isMapOpen ? "cursor-pointer" : "hidden"
+            isMapOpen ? "cursor-pointer" : "cursor-pointer"
           } absolute right-2 bottom-2.5`}
           size={24}
           onClick={handleIncrement}

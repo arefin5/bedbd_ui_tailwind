@@ -28,7 +28,11 @@ export default function Page() {
     // null
     try {
       e.preventDefault();
-      
+      if(!thana){
+        alert("please Select your City");
+        return
+      }
+
       const payload = {
        location: 
           {
@@ -95,12 +99,12 @@ export default function Page() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-            <input
+            {/* <input
               type='text'
               name='address_2'
               className='form-input'
               placeholder='Address 2'
-            />
+            /> */}
           </div>
 
           <div className='mt-10'>
@@ -108,7 +112,7 @@ export default function Page() {
               type='text'
               name='thana'
               className='form-input mb-4'
-              placeholder='Thana'
+              placeholder='city'
               value={thana}
               onChange={(e) => setThana(e.target.value)}
             />
