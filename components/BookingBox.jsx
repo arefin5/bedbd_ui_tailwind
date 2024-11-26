@@ -74,6 +74,10 @@ const BookingBox = ({ data }) => {
             router.push("/login/email");
             return;
         }
+        if(! user?.varificationId && !user.varificationId){
+            alert("please Verify your Identity")
+            router.push("/registration/start")
+          }
         if (!checkInDate || !checkOutDate) {
             setError("Please select both Check-In and Check-Out dates");
             return;
