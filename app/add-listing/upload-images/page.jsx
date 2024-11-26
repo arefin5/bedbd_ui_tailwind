@@ -36,7 +36,7 @@ export default function Page() {
 };  
             await dispatch(updateFormData(payload));
             router.push('/add-listing/price'); // Navigate to the next pag
-              console.log('Uploaded images:', response.data);
+              // console.log('Uploaded images:', response.data);
     } catch (error) {
       console.error("Error uploading images:", error);
     }
