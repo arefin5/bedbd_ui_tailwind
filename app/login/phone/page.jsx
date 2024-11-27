@@ -88,7 +88,7 @@ export default function Login() {
                     </div>
                 </form >
          
-                <SocialLogin/>
+                {/* <SocialLogin/> */}
                 <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>
             </div>
         </div>
