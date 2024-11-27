@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mapbox/search-js-react": "^1.0.0-beta.21",
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.7",
     "@turf/distance": "^7.1.0",
     "@turf/turf": "^7.1.0",
