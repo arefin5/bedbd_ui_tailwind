@@ -37,6 +37,22 @@ export default function Login() {
             router.push('/'); 
         }
     }, [token, router,user]);
+    const loginwithgoogle = ()=>{
+        window.open("http://145.223.22.239:5001/auth/google/callback","_self")
+    }
+    const getUser = async () => {
+        try {
+            const response = await axios.get("http://145.223.22.239:5001/login/sucess", { withCredentials: true });
+    
+            console.log("response",response)
+        } catch (error) {
+        //   navigate("*")
+        console.log("error",error)
+        }
+    }
+    useEffect(() => {
+      getUser()
+    }, [])
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
@@ -88,7 +104,10 @@ export default function Login() {
                     </div>
                 </form >
          
-                <SocialLogin/>
+                {/* <SocialLogin/> */}
+                <button className='login-with-google-btn' onClick={loginwithgoogle}>
+                     Sign In With Google
+                 </button>
                 <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>
             </div>
         </div>
