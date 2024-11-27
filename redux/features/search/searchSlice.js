@@ -8,9 +8,7 @@ const initialState = {
                                     isSuggestionsMenuOpen: false,
                         suggestions: [], 
                         },
-          selectedDate: [],
-                 
-
+          selectedDate: [0, 0],
         }
 
 const searchSlice = createSlice({
@@ -74,14 +72,14 @@ const searchSlice = createSlice({
       };
       },
     clearDateSelection: (state, action) => {
-      localStorage.removeItem("selectedDate");
+      // localStorage.removeItem("selectedDate");
       return {
         ...state,
-        selectedDate: [],
+        selectedDate: [0, 0],
       };
       },
     setCheckInOutDate: (state, action) => {
-      localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
+      // localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
       return {
         ...state,
         selectedDate: action.payload,

@@ -259,7 +259,7 @@
 
 /* Calender  */
 .calender-day{
-  
+  /* @apply marker-class */
 }
 .calender-day:hover{
   @apply bg-secondary-300 text-white rounded-md  
@@ -268,6 +268,22 @@
   @apply bg-secondary-200 text-white 
 }
 
+.selected-date:first-child{
+  /* @apply marker-class */
+}
+.selected-date:nth-child(2){
+  /* @apply marker-class */
+}
+
 /* .selected-date:first-child {
   @apply bg-secondary-100
 } */
+
+.calendar {
+  opacity: 0; /* Initial state */
+  transition: opacity 0.7s ease-in-out; /* Animation definition */
+}
+
+.calendar.active {
+  opacity: 1; /* Applies animation on state change */
+}
