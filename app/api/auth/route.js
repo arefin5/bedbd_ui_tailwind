@@ -1,7 +1,10 @@
 
 import { NextResponse } from 'next/server';
 import axios from 'axios';
+import dotenv from 'dotenv';
 
+// Load environment variables from the .env file
+dotenv.config();
 export async function POST(request) {
   const { code } = await request.json();
 
@@ -9,8 +12,7 @@ export async function POST(request) {
     return NextResponse.json({ success: false, error: 'Missing code' }, { status: 400 });
   }
 
-  // const CLIENT_ID = "836370823354-m9ku1ntb5jrcf1o0fkp57nr34ud67lfo.apps.googleusercontent.com";
-  // const CLIENT_SECRET = "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";
+
   const REDIRECT_URI = "www.bedbd.com/auth/google/callback";
 
   try {
@@ -22,7 +24,13 @@ export async function POST(request) {
       grant_type: 'authorization_code',
       code,
     });
-
+    // const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
+    //   client_id: CLIENT_ID,
+    //   client_secret:CLIENT_SECRET ,
+    //   redirect_uri: REDIRECT_URI,
+    //   grant_type: 'authorization_code',
+    //   code,
+    // });
     const { access_token } = tokenResponse.data;
 
     // Use the access token to fetch user information
