@@ -74,7 +74,7 @@
 //     </>
 //   );
 // }
-"use client";
+
 // import { useState, useEffect } from "react";
 
 // export default function PriceCounter({
@@ -129,6 +129,10 @@
   //     price: inputPrice >= data.minPrice ? inputPrice : data.minPrice,
   //   }));
   // };
+  "use client";
+
+import { useEffect, useState } from "react";
+
   export default function PriceCounter({
     data,
     price,
