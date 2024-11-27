@@ -38,11 +38,11 @@ export default function Login() {
         }
     }, [token, router,user]);
     const loginwithgoogle = ()=>{
-        window.open("http://localhost:5001/auth/google/callback","_self")
+        window.open("http://145.223.22.239:5001/auth/google/callback","_self")
     }
     const getUser = async () => {
         try {
-            const response = await axios.get("http://localhost:5001/login/sucess", { withCredentials: true });
+            const response = await axios.get("http://145.223.22.239:5001/login/sucess", { withCredentials: true });
     
             console.log("response",response)
         } catch (error) {
