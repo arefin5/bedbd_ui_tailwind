@@ -75,7 +75,7 @@ export default function profile() {
     // console.log([...formData]);
     setUploading(true);
     try {
-      const { data } = await axios.post("http://backend.bedbd.com/api/images/single-image-upload", formData);
+      const { data } = await axios.post("https://backend.bedbd.com/api/images/single-image-upload", formData);
       // console.log("uploaded image => ", data);
       setImage({
         url: data.url,
@@ -94,7 +94,7 @@ export default function profile() {
     // console.log([...formData]);
     setUploading(true);
     try {
-      const { data } = await axios.post("http://145.223.22.239:5001/api/images/single-image-upload", formData);
+      const { data } = await axios.post("https://backend.bedbd.com/api/images/single-image-upload", formData);
       // console.log("uploaded image => ", data);
       setCover({
         url: data.url,

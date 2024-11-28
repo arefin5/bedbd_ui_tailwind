@@ -68,7 +68,7 @@ export default function Page() {
         
         setUploading(true);
         try {
-            const { data } = await axios.post("http://backend.bedbd.com/api/images/single-image-upload", formData);
+            const { data } = await axios.post("https://backend.bedbd.com/api/images/single-image-upload", formData);
             setImage({ url: data.url, public_id: data.public_id });
         } catch (err) {
             console.error("Image upload error:", err);

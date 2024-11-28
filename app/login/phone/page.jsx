@@ -38,11 +38,11 @@ export default function Login() {
         }
     }, [token, router,user]);
     const loginwithgoogle = ()=>{
-        window.open("http://backend.bedbd.com/auth/google/callback","_self")
+        window.open("https://backend.bedbd.com/auth/google/callback","_self")
     }
     const getUser = async () => {
         try {
-            const response = await axios.get("http://backend.bedbd.com/login/sucess", { withCredentials: true });
+            const response = await axios.get("https://backend.bedbd.com/login/sucess", { withCredentials: true });
     
             console.log("response",response)
         } catch (error) {
