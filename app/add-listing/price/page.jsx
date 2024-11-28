@@ -235,7 +235,7 @@ export default function Page() {
 
   const fetchService = async () => {
     try {
-      const response = await axios.get("http://145.223.22.239:5001/api/service-rate");
+      const response = await axios.get("https://backend.bedbd.com/api/service-rate");
       setData(response.data);
     } catch (error) {
       console.log(error);

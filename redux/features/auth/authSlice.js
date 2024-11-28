@@ -1,7 +1,6 @@
 
 import axiosInstance from '@/redux/services/axiosInstance';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 
 // Load token and user from localStorage if available

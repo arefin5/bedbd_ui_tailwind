@@ -17,8 +17,8 @@ export async function POST(request) {
   const GOOGLE_CLIENT_SECRET="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"
 
 
-  const REDIRECT_URI = "www.bedbd.com/auth/google/callback";
-
+  const REDIRECT_URI = "https://www.bedbd.com/auth/google/callback";
+  
   try {
     // // Exchange the authorization code for access and ID tokens
     // const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {

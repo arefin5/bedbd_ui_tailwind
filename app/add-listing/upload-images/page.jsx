@@ -25,7 +25,7 @@ export default function Page() {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-      const response = await axios.post("http://backend.bedbd.com/api/images/upload-image-file", formData, {
+      const response = await axios.post("https://backend.bedbd.com/api/images/upload-image-file", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
