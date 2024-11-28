@@ -116,7 +116,7 @@ const profilePic=null;
     formData.append("image", file);
     setUploading(true);
     try {
-      const { data } = await axios.post("http://145.223.22.239:5001/api/images/single-image-upload", formData);
+      const { data } = await axios.post("http://backend.bedbd.com/api/images/single-image-upload", formData);
       setImage({ url: data.url, public_id: data.public_id });
     } catch (err) {
       console.error("Image upload error:", err);

@@ -12,7 +12,7 @@ export async function POST(request) {
     return NextResponse.json({ success: false, error: 'Missing code' }, { status: 400 });
   }
   console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID);
-console.log('Redirect URI:', process.env.GOOGLE_REDIRECT_URI);
+  console.log('Redirect URI:', process.env.GOOGLE_REDIRECT_URI);
   const GOOGLE_CLIENT_ID="836370823354-m9ku1ntb5jrcf1o0fkp57nr34ud67lfo.apps.googleusercontent.com"
   const GOOGLE_CLIENT_SECRET="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"
 
