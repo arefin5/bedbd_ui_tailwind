@@ -13,8 +13,11 @@ export async function POST(request) {
   }
   console.log('Google Client ID:', process.env.GOOGLE_CLIENT_ID);
   console.log('Redirect URI:', process.env.GOOGLE_REDIRECT_URI);
-  const GOOGLE_CLIENT_ID="836370823354-m9ku1ntb5jrcf1o0fkp57nr34ud67lfo.apps.googleusercontent.com"
-  const GOOGLE_CLIENT_SECRET="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"
+  // const GOOGLE_CLIENT_ID="836370823354-m9ku1ntb5jrcf1o0fkp57nr34ud67lfo.apps.googleusercontent.com"
+  // const GOOGLE_CLIENT_SECRET="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"
+
+const GOOGLE_CLIENT_ID="20226538185-hd0nr2ach4fmrut1gfj2e1b66ijh1e3c.apps.googleusercontent.com"
+const GOOGLE_CLIENT_SECRET="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"
 
 
   const REDIRECT_URI = "https://www.bedbd.com/auth/google/callback";
