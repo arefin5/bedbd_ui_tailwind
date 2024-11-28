@@ -279,11 +279,3 @@
   @apply bg-secondary-100
 } */
 
-.calendar {
-  opacity: 0; /* Initial state */
-  transition: opacity 0.7s ease-in-out; /* Animation definition */
-}
-
-.calendar.active {
-  opacity: 1; /* Applies animation on state change */
-}

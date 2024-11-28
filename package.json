@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@canvasjs/charts": "^3.10.17",
+    "@canvasjs/react-charts": "^1.0.2",
     "@mapbox/search-js-react": "^1.0.0-beta.21",
     "@reduxjs/toolkit": "^2.2.7",
     "@turf/distance": "^7.1.0",
