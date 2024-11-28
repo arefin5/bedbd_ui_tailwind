@@ -202,7 +202,8 @@ export default function EmailLogin() {
         }
     }, [token, router,user]);
     const loginwithgoogle = ()=>{
-        window.open("https://backend.bedbd.com/auth/google/callback","_self")
+        window.open("https://backend.bedbd.com/auth/google/callback","_self");
+        // window.open("http://localhost:5001/auth/google/callback","_self")
     }
     const getUser = async () => {
         try {
