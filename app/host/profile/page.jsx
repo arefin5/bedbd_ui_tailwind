@@ -8,6 +8,9 @@ import { useState, useEffect, useRef } from 'react'
 import { userEdit, verifyOtpEmail, verifyOtp } from '@/redux/features/auth/authSlice';
 import axiosInstance from '@/redux/services/axiosInstance';
 import axios from 'axios';
+import { BadgeCheck } from 'lucide-react';
+import EmailVerificationModal from '@/components/EmailVerificationModal';
+import NotificationModal from '@/components/NotificationModal';
 
 export default function profile() {
   const [id, setUserId] = useState("")
@@ -273,19 +276,18 @@ export default function profile() {
             )}
           </div>
 
-          <div className="w-1/2">
+          <div className="w-1/2 relative">
             <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {user && user.isEmailVerified ? (
-              <p>verified </p>
-            ) : (
-              <p onClick={otpGenerateEmail}>Please Verified Your Email Number </p>
-            )
-            }
+            {/* {user && user.isEmailVerified 
+              ? ( <p>verified </p> ) 
+              : ( <p onClick={otpGenerateEmail}>Please Verified Your Email Number </p>
+                )
+            } */}
             {hanlarotp && (
               <>
                 <input
@@ -299,6 +301,13 @@ export default function profile() {
                 </button>
               </>
             )}
+            <div className='absolute-y-center right-4 '>
+            {
+              user && user.isEmailVerified
+                ? <BadgeCheck size={24} className='icon text-secondary-400'  />
+                : <div className='whitespace-nowrap flex gap-2 items-center jutify-center'><BadgeCheck size={24} className='icon text-neutral-400' /> {" | "} <button onClick={otpGenerateEmail}>Verify Now</button></div>
+            } 
+            </div>
           </div>
 
 
@@ -326,7 +335,8 @@ export default function profile() {
           <button className="btn btn-primary relative-x-center max-w-72" type="submit">Edit/Save</button>
         </form>
       </div>
-
+      {/* <EmailVerificationModal/> */}
+      {/* <NotificationModal/> */}
     </div>
   )
 }

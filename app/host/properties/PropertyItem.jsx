@@ -37,11 +37,11 @@ export default function PropertyItem({data, index, listView}) {
             <div className={`${!listView && 'text-primary-400 text-xl font-semibold px-4 mt-4'}`}>{propertyTitle}</div>
                 {
                     !listView && 
-                    <div className="font-medium text-base text-neutral-300 px-4">{location.address}</div>
+                    <div className="  font-medium text-base text-neutral-300 px-4">{location.address}</div>
                 }
 
                 {/* Buttons */}
-                <div className= {`${!listView && 'flex justify-between mt-6 px-4'}  w-full `}>
+                <div className= {`${!listView && 'flex justify-between  mt-6 px-4 w-full'}  w-fit mx-auto`}>
                     {!listView && <buttom className="btn btn-secondary max-w-28 rounded-lg text-base w-full border-primary-400 py-2">Preview</buttom>}
                     <div className={`${listView && 'mx-auto'}w-40 flex gap-4  text-neutral-800`}>
                         <div className="p-2 rounded-xl hover:bg-green-50">

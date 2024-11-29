@@ -106,10 +106,10 @@ export default function Dashboard() {
         <div className="flex gap-x-8 w-full  ">
             <div className=" w-full  ">
                 <div className="bg-secondary-50 rounded-lg px-6 py-8 flex flex-wrap gap-4">
-                    <div className="w-[206px] bg-green-400 bg-opacity-20 rounded-lg p-6">
+                    <div className="w-[197px] bg-green-400 bg-opacity-20 rounded-lg p-6">
                         <h4 className="text-xl font-medium text-neutral-600">Total Booking</h4>
                         <div className="flex justify-between items-center mt-4">
-                            <div className="text-3xl font-medium text-neutral-600">1,230</div>
+                            <div className="text-2xl font-medium text-neutral-600">1,230</div>
                             <div className="p-2 rounded-lg bg-white w-fit bg-opacity-50">
                                 <LineChartIcon className="icon" color="#4785f1" />
                                 {/* <ArrowDownWideNarrow color="#f22922" /> */}
@@ -118,10 +118,10 @@ export default function Dashboard() {
                         </div>
                     </div>
                     
-                    <div className="w-[206px] bg-purple-600 bg-opacity-20 rounded-lg p-6">
+                    <div className="w-[197px] bg-purple-600 bg-opacity-20 rounded-lg p-6">
                         <h4 className="text-xl font-medium text-neutral-600">Cancle</h4>
                         <div className="flex justify-between items-center mt-4">
-                            <div className="text-3xl font-medium text-neutral-600">124</div>
+                            <div className="text-2xl font-medium text-neutral-600">124</div>
                             <div className="p-2 rounded-lg bg-white w-fit bg-opacity-50">
                                 {/* <LineChartIcon className="icon" color="#4785f1" /> */}
                                 <ArrowDownWideNarrow color="#f22922" />
@@ -129,10 +129,10 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    <div className="w-[206px] bg-blue-500 bg-opacity-20 rounded-lg p-6">
+                    <div className="w-[197px] bg-blue-500 bg-opacity-20 rounded-lg p-6">
                         <h4 className="text-xl font-medium text-neutral-600">Revenue</h4>
                         <div className="flex justify-between items-center mt-4">
-                            <div className="text-3xl font-medium text-neutral-600">$123,000</div>
+                            <div className="text-2xl font-medium text-neutral-600">$123,000</div>
                             <div className="p-2 rounded-lg bg-white w-fit bg-opacity-50">
                                 {/* <ArrowDownWideNarrow color="#f22922" /> */}
                                 <TrendingUp color="#008000" />

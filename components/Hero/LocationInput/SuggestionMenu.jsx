@@ -1,12 +1,7 @@
-
-import { generateRandomLocations } from "@/app/lib/sampleLocationPoints"
-import { distance as turfDistance } from '@turf/distance';
-
-
 import { setLocation, selectSuggestedLocation } from "@/redux/features/search/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function SuggestionMenu({ mapSearchBox, mapData, setMapData, searchBoxRef, mapRef, searchSession  }) {
+export default function SuggestionMenu({ mapSearchBox, searchBoxRef, mapRef, searchSession  }) {
     const dispatch = useDispatch()
     const { selectedLocation,
                     isMapOpen,
@@ -40,24 +35,17 @@ export default function SuggestionMenu({ mapSearchBox, mapData, setMapData, sear
         //         selectedSuggestion: 
         //         {...suggestion, coordinates: features[0]['geometry']['coordinates'] }}))
         if(features && features.length > 0 ){
-            // const locationData = {
-            //                                   name : suggestion?.name || '',
-            //                         place_formatted: suggestion?.place_formatted|| '',
-            //                                 country: suggestion?.context?.country?.name || '',
-            //                            country_code: suggestion?.context?.country?.country_code || '',
-            //                                district: suggestion?.context?.district?.name || '',
-            //                            feature_type: suggestion?.context?.feature_type || '',
-            //                               longitude: features[0]['geometry']['coordinates'][0], 
-            //                                latitude: features[0]['geometry']['coordinates'][1]
-            //                     }
-            // dispatch(setLocation(locationData));
-
+            console.log(mapRef.current)
+            console.log(features[0]['geometry']['coordinates'])
+            const center = mapRef.current.getCenter()
+            console.log(center)
             if(isMapOpen){
+                console.log(isMapOpen)
                 if(mapRef.current){
 
                     mapRef?.current.flyTo({ center: features[0]['geometry']['coordinates'], 
                                             essential: true ,
-                                            zoom: 16 
+                                            zoom: 13 
                                         })
                                     }
                 }

@@ -60,7 +60,7 @@ export default function Sidebar() {
 
 
   return (
-    <div className="min-h-screen bg-secondary-400 text-white px-4 pt-12 w-fit xl:w-64 flex grid justify-between">
+    <div className="w-[248px] max-w-[248px] min-h-screen bg-secondary-400 text-white px-4 pt-12 w-fit xl:w-64 flex grid justify-between">
       <ul className="space-y-6">
         <li className="hidden">
           <Icon name="circle-chevron-right" className="icon" />
@@ -73,7 +73,7 @@ export default function Sidebar() {
           </li>
         </Link>
         <Link href="/host/booklist">
-          <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
+          <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg w-[216px]">
             {/* <Icon name="layout-dashboard" className="icon" /> */}
             <Home className="icon" size={24}/>
             <span className="hidden xl:block">Property List</span>

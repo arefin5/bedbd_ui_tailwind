@@ -10,6 +10,7 @@ export default function Header() {
     e.preventDefault();
     window.location.href = "/";
   };
+
   return (
     <div className="p-4 header-shadow z-10 sticky top-0 bg-white">
       <div className="container mx-auto flex justify-between items-center">
