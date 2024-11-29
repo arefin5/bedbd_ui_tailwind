@@ -1,12 +1,23 @@
 import { FilePen , Trash, EllipsisVertical} from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { useDispatch } from "react-redux";
+// import { useRouter } from "next/";
+import { useRouter } from 'next/navigation';
 
+import { setId } from "@/redux/list/createListSlice";
 
 export default function PropertyItem({data, index, listView}) {
 
     const {_id:id , images, propertyTitle, location } = data
+console.log(data);
+const dispatch = useDispatch();
+  const router = useRouter();
 
+  const handleEditClick = (id) => {
+    dispatch(setId(id)); // Set the ID in Redux
+    router.push("/add-listing/property-type"); // Navigate to the target page
+  };
   return (<div key={id} className={`${listView 
                 ? 'grid grid-cols-host-property h-12' 
                 : 'max-w-[300px]  pb-6'
@@ -42,9 +53,12 @@ export default function PropertyItem({data, index, listView}) {
 
                 {/* Buttons */}
                 <div className= {`${!listView && 'flex justify-between mt-6 px-4'}  w-full `}>
-                    {!listView && <buttom className="btn btn-secondary max-w-28 rounded-lg text-base w-full border-primary-400 py-2">Preview</buttom>}
+                    {!listView && <buttom className="btn btn-secondary max-w-28 
+                    rounded-lg text-base w-full border-primary-400 py-2">Preview
+                        <Link href={`/listing/${id}`}></Link>
+                    </buttom>}
                     <div className={`${listView && 'mx-auto'}w-40 flex gap-4  text-neutral-800`}>
-                        <div className="p-2 rounded-xl hover:bg-green-50">
+                        <div className="p-2 rounded-xl hover:bg-green-50" onClick={() => handleEditClick(id)} >
                             <FilePen className="icon" size={24}/>
                         </div>
                         <div className="p-2 rounded-xl hover:bg-red-50">
