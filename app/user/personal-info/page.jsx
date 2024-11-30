@@ -68,7 +68,7 @@ export default function Page() {
         
         setUploading(true);
         try {
-            const { data } = await axios.post("http://145.223.22.239:5001/api/images/single-image-upload", formData);
+            const { data } = await axios.post("https://backend.bedbd.com/api/images/single-image-upload", formData);
             setImage({ url: data.url, public_id: data.public_id });
         } catch (err) {
             console.error("Image upload error:", err);
@@ -108,7 +108,7 @@ export default function Page() {
             />
 
             <form onSubmit={userUpdate}>
-                <div className='border w-full rounded-lg relative py-3 px-4'>
+                {/* <div className='border w-full rounded-lg relative py-3 px-4'>
                     <input
                         placeholder='User ID'
                         value={id}
@@ -117,7 +117,7 @@ export default function Page() {
                     <button className='absolute right-4' onClick={handleCopy} type="button">
                         <Icon name='copy' className='icon inline mr-4' /> Copy
                     </button>
-                </div>
+                </div> */}
 
                 <div className='border w-1/2 rounded-lg relative py-3 px-4'>
                     <input
@@ -153,14 +153,14 @@ export default function Page() {
 
                 <div className='border w-full rounded-lg relative py-3 px-4'>
                     <input
-                        placeholder='Permanent Address'
+                        placeholder='Address'
                         value={parmanentAddress}
                         onChange={(e) => setParmanent(e.target.value)}
                     />
                 </div>
 
                 {error && <div className='error-message text-red-500'>{error}</div>}
-                <button className='btn btn-primary' type="submit">Edit</button>
+                <button className='btn btn-primary' type="submit">Save</button>
             </form>
         </div>
     );

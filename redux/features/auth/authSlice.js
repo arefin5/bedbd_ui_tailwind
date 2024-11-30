@@ -1,7 +1,6 @@
 
 import axiosInstance from '@/redux/services/axiosInstance';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 
 // Load token and user from localStorage if available
@@ -241,30 +240,46 @@ export const resetPasseord = createAsyncThunk(
 );
 
 // login with google 
+// export const loginwithGoogle = createAsyncThunk(
+//   'auth/loginUserwithgoogle',
+//   async ({ payload }, { rejectWithValue }) => {
+//     try {
+//           console.log(payload);
+//       const response = await axiosInstance.post('/google-facebook-login', { payload });
+//       // Return the token and user data
+//       return response.data;
+//     } catch (error) {
+//       // console.log("error", error.response);
+//       if (error.response && error.response.data && error.response.data.error) {
+//         return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
+//       }
+
+//       if (error.response?.data?.message) {
+//         // Specific error handling like "email already exists"
+//         return rejectWithValue(error.response.data.message);
+//       }
+
+//       // Fallback for other unexpected errors
+//       return rejectWithValue('An unexpected error occurred.');
+//     }
+//   }
+// );
 export const loginwithGoogle = createAsyncThunk(
-  'auth/loginUserwithgoogle',
-  async ({ payload }, { rejectWithValue }) => {
+  'auth/loginUserwithGoogle',
+  async (userData, { rejectWithValue }) => {
     try {
-          console.log(payload);
-      // const response = await axios.post('http://localhost:5001/api/google-facebook-login', { payload });
-      // Return the token and user data
-      return response.data;
+      const response = await axiosInstance.post('/google-facebook-login', userData);
+      return response.data; // Return the response data directly
     } catch (error) {
-      // console.log("error", error.response);
-      if (error.response && error.response.data && error.response.data.error) {
-        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
-      }
-
       if (error.response?.data?.message) {
-        // Specific error handling like "email already exists"
-        return rejectWithValue(error.response.data.message);
+        return rejectWithValue(error.response.data.message); // Specific error message
       }
 
-      // Fallback for other unexpected errors
-      return rejectWithValue('An unexpected error occurred.');
+      return rejectWithValue('An unexpected error occurred.'); // Fallback error
     }
   }
-);
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -327,6 +342,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.user;
+        
         localStorage.setItem('token', action.payload.token);
         localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
