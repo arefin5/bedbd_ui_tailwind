@@ -1,10 +1,14 @@
 // "use client";
 // import { useEffect, useState } from 'react';
 import {ArrowDownWideNarrow,TrendingUp,  LineChartIcon, LucideLineChart, BarChart, LucideGanttChartSquare, LucideCandlestickChart } from "lucide-react";
-import RevenueChart from "./RevenueChart";
-import DonutChart from "./DonutChart";
+import dynamic from 'next/dynamic';
+const RevenueChart = dynamic(() => import('./RevenueChart'), { ssr: false });
+const DonutChart = dynamic(() => import('./DonutChart'), { ssr: false });
+
+
 
 export default function Dashboard() {
+
     const data = [
         {
           date: "2023-10-01",
