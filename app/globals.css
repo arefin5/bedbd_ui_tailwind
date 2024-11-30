@@ -282,6 +282,9 @@
 
 /* Admin Panel components */
 .admin-property-list-table-item{
- @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center  rounded-lg py-2
+ @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
+}
+.host-manage-booking-list-item{
+  @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
 }
 
