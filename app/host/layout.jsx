@@ -11,13 +11,13 @@ export default function RootLayout({ children }) {
   const token=useSelector((state)=>state.auth.token)
   const router = useRouter(); // Initialize router for client-side navigation
 
-  useEffect(() => {
-    if (!user || user.role !== "host" && !token ) {
-      router.push('/');
-    }
-  }, [user, router,token]);
+  // useEffect(() => {
+  //   if (!user || user.role !== "host" && !token ) {
+  //     router.push('/');
+  //   }
+  // }, [user, router,token]);
 
-  if (!user || user.role !== "host") return null;
+  // if (!user || user.role !== "host") return null;
 
   return (
     <>

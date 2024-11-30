@@ -96,8 +96,10 @@ const VerifyedPhone = async(e) => {
               </span>
             </>
           ) : (
-            <Link href="/user/personal-info">
-              <a className="text-primary-500">Add Your Phone</a>
+            <Link className="text-primary-500" href="/user/personal-info">
+              {/* <a className="text-primary-500"> */}
+                Add Your Phone
+              {/* </a> */}
             </Link>
           )}
         </p>
@@ -129,8 +131,10 @@ const VerifyedPhone = async(e) => {
               </span>
             </>
           ) : (
-            <Link href="/user/personal-info">
-              <a className="text-primary-500">Add Your Email</a>
+            <Link className="text-primary-500" href="/user/personal-info">
+              {/* <a className="text-primary-500"> */}
+                Add Your Email
+                {/* </a> */}
             </Link>
           )}
         </p>
@@ -147,10 +151,10 @@ const VerifyedPhone = async(e) => {
                 </button>
               </>
             )}
-       <Link href="/registration/start">
-       <h1 className="text-neutral-500 text-2xl font-semibold mb-6">
+       <Link className="text-neutral-500 text-2xl font-semibold mb-6" href="/registration/start">
+       {/* <h1 className="text-neutral-500 text-2xl font-semibold mb-6"> */}
           Verify your identity
-        </h1>
+        {/* </h1> */}
        </Link>
         <p className="text-neutral-500 text-base font-normal mb-12">
           Before you book or host on bedbd, you’ll need to complete this step.

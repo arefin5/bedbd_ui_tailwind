@@ -259,7 +259,7 @@
 
 /* Calender  */
 .calender-day{
-  
+  /* @apply marker-class */
 }
 .calender-day:hover{
   @apply bg-secondary-300 text-white rounded-md  
@@ -268,6 +268,23 @@
   @apply bg-secondary-200 text-white 
 }
 
+.selected-date:first-child{
+  /* @apply marker-class */
+}
+.selected-date:nth-child(2){
+  /* @apply marker-class */
+}
+
 /* .selected-date:first-child {
   @apply bg-secondary-100
 } */
+
+
+/* Admin Panel components */
+.admin-property-list-table-item{
+ @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
+}
+.host-manage-booking-list-item{
+  @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
+}
+

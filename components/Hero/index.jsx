@@ -149,31 +149,34 @@ export default function Hero() {
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
-                <div className={`${isMapOpen
+                <div className={`relative ${isMapOpen
                     ? 'grid md:flex '
-                    : 'md:relative md:container min-h-96  md:ml-auto md:mr-auto '}`}>
+                    : ' md:container min-h-96  md:ml-auto md:mr-auto '}`}>
                     <form className={`${isMapOpen
-                        ? ' md:min-w-[calc(theme(minWidth.96)-50px)] md:h-full overflow-y-scroll md:py-8 md:px-6 md:bg-secondary-50 max-h-[calc(100vh-100px)]'
+                        ? 'z-20 md:min-w-[calc(theme(minWidth.96)-50px)] md:h-full overflow-y-scroll md:py-8 md:px-6 md:bg-secondary-50 max-h-[calc(100vh-100px)]'
                         : 'md:absolute-center md:rounded-2xl md:min-h-52 md:w-full md:max-w-5xl md:bg-white md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70'}`}>
                         {
                             isMapOpen &&
-                            <div className=" hidden md:flex  items-center justify-between mb-8 ">
-                                <div className="border font-semibold text-primary-400 text-sm border-primary-400 rounded-full flex py-3 px-6 gap-x-2.5 w-fit">
-                                    <Filter className="text-primary-400" size={24} />
-                                    Advance Search
+                                <div className=" hidden md:flex  items-center justify-between mb-8 ">
+                                    <div className="border font-semibold text-primary-400 text-sm border-primary-400 rounded-full flex py-3 px-6 gap-x-2.5 w-fit">
+                                        <Filter className="text-primary-400" size={24} />
+                                        Advance Search
+                                    </div>
+                                    <button className="rounded-full bg-primary-400 h-min p-2.5">
+                                        <ArrowLeft className="icon text-white" size={24} />
+                                    </button>
                                 </div>
-                                <button className="rounded-full bg-primary-400 h-min p-2.5">
-                                    <ArrowLeft className="icon text-white" size={24} />
-                                </button>
-                            </div>
                         }
+                        
 
-                        <div className={`w-full  space-y-4 px-4 py-6
+                        <div className={` w-full space-y-4 px-4 py-6 
                             ${isMapOpen
                                 ? 'md:space-y-6 w-[274px]'
-                                : '  | md:max-w-4xl md:rounded-full md:flex md:items-center md:py-3.5 md:pl-8 md:pr-4 md:bg-white md:space-y-0 md:justify-between md:shadow-search-section md:absolute-x-center md:bottom-8'
+                                : 'relative md:max-w-4xl md:rounded-full md:flex md:items-center md:py-3.5 md:pl-8 md:pr-4 md:bg-white md:space-y-0 md:justify-between md:shadow-search-section md:absolute-x-center md:bottom-8'
 
                             }`}>
+                                <div className=' z-30 h-96 absolute hidden top-0 bg-neutral-600 w-80 ' >
+                                </div>
                             <LocationInput mapSearchBox={mapSearchBox} searchSession={searchSession} mapRef={mapRef} />
                             <CheckInOutInput />
 
@@ -209,7 +212,7 @@ export default function Hero() {
                     {
                         // map
                         isMapOpen
-                        && <div className="p-8 w-full min-h-[600px]  md:min-h-full md:max-h-[calc(100vh-80px)]">
+                        && <div className="z-10 p-8 w-full min-h-[600px]  md:min-h-full md:max-h-[calc(100vh-80px)]">
                             <LocationMap ref={mapRef} />
                         </div>
                     }

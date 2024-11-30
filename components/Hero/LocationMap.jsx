@@ -62,7 +62,7 @@ function mapOnLoad() {
   const debouncedHandleMapChange = debounce(handleMapChange, 1000);
 
   return (
-    <div className="h-full rounded-xl overflow-hidden ">
+    <div className="h-full rounded-xl overflow-hidden z-10">
         <Map 
             onMoveEnd={debouncedHandleMapChange}
             onZoomEnd={debouncedHandleMapChange}
