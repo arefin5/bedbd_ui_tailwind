@@ -1,4 +1,3 @@
-
 "use client";
 import PendingRequestNotification from './PendingRequestNotification';
 import PropertyList from './PropertyList';

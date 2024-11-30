@@ -279,11 +279,12 @@
   @apply bg-secondary-100
 } */
 
-.calendar {
-  opacity: 0; /* Initial state */
-  transition: opacity 0.7s ease-in-out; /* Animation definition */
+
+/* Admin Panel components */
+.admin-property-list-table-item{
+ @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
+}
+.host-manage-booking-list-item{
+  @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
 }
 
-.calendar.active {
-  opacity: 1; /* Applies animation on state change */
-}

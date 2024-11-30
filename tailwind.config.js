@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin');
 
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -32,6 +33,12 @@ module.exports = {
         'search-input': '0px 0px 15px 0px rgba(0, 0, 0, 0.06);',
         'search-section': '0px 0px 30px 0px rgba(0, 0, 0, 0.10);',
         'nearby-service': '0px 0px 8px 0px rgba(194, 198, 204, 0.50);',
+        'secondary-50': `0 4px 6px rgb(250, 250, 255)`,
+        'inner-sm': 'inset 0 1px 2px rgba(0, 0, 0, 0.05)',
+        'inner-md': 'inset 0 2px 4px rgba(0, 0, 0, 0.25)',
+        'inner-lg': 'inset 0 4px 6px rgba(0, 0, 0, 0.3)',
+        'inner-xl': 'inset 0 6px 10px rgba(0, 0, 0, 0.4)'
+        
       },
       dropShadow: {
         'booking-box': '0px 0px 20px rgba(0, 0, 0, 0.08)',
