@@ -59,7 +59,7 @@ export default function Page() {
   const router = useRouter();
   const [selectedType, setSelectedType] = useState(null);  // Track the selected property type
   const { user, isLoading, error, token } = useSelector((state) => state.auth);
-
+  const currentFormData = useSelector((state) => state.editForm); 
 
   useEffect(() => {
     if(!user) return;
@@ -72,7 +72,8 @@ export default function Page() {
         alert("please Verify your Identity")
         router.push("/registration/start")
       }
-  }, [selectedType,user,token]);
+      console.log(currentFormData)
+  }, [selectedType,user,token,currentFormData]);
 
   const handleContinue =async (e) => {
     e.preventDefault();

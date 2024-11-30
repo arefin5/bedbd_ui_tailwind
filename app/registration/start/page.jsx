@@ -100,9 +100,9 @@ export default function Page() {
                     <button className='btn btn-primary mt-12' onClick={handleContinue}>Continue</button>
                 </form>
 
-                <p className='mt-6 py-3.5 px-6 text-sm font-normal text-red-600'>
+                {/* <p className='mt-6 py-3.5 px-6 text-sm font-normal text-red-600'>
                     We need you to verify your phone to proceed. Click to verify.
-                </p>
+                </p> */}
             </div>
         </div>
     )

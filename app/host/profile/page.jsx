@@ -219,13 +219,13 @@ export default function profile() {
           <button className=" cursor-pointer mt-4 relative-x-center hover:underline text-red-500"> Delete Account </button>
         </div>
         <form className=" bg-secondary-50 w-full max-w-3xl  rounded-lg py-10 px-6 " onSubmit={userUpdate}>
-          <div className="">
+          {/* <div className="">
             <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="User ID"
               value={id}
               readOnly />
-          </div>
+          </div> */}
 
           <div className="w-1/2 inline-block ">
             <input
@@ -240,7 +240,6 @@ export default function profile() {
             <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Last Name"
-
               value={lname}
               onChange={(e) => setlName(e.target.value)}
             />
@@ -255,7 +254,8 @@ export default function profile() {
             {user && user.isPhoneVerified ? (
               <p>verified </p>
             ) : (
-              <p onClick={otpGeneratePhone}>Please Verified Your Phone Number </p>
+              <button className='
+              btn btn-secondary mt-2' onClick={otpGeneratePhone}>Please Verified Your Phone Number </button>
             )
             }
             {hanlarotpPhone && (
@@ -283,7 +283,10 @@ export default function profile() {
             {user && user.isEmailVerified ? (
               <p>verified </p>
             ) : (
-              <p onClick={otpGenerateEmail}>Please Verified Your Email Number </p>
+              <button onClick={otpGenerateEmail} className="btn btn-secondary mt-2">
+                   Please  Verifiy
+                </button>
+             
             )
             }
             {hanlarotp && (
@@ -300,30 +303,28 @@ export default function profile() {
               </>
             )}
           </div>
-
-
           <div className="">
-            <input className="w-full border border-neutral-300 py-3 px-4 rounded-md" placeholder="ID No." />
+            {/* <input className="w-full border border-neutral-300 py-3 px-4 rounded-md" placeholder="ID No." /> */}
           </div>
 
-          <div className="">
+          {/* <div className="">
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Present Address"
               value={presentAddress}
               onChange={(e) => setPresentAddress(e.target.value)}
             />
-          </div>
+          </div> */}
 
           <div className="">
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
-              placeholder="Parmanent Address"
+              placeholder="Address"
               value={parmanentAddress}
               onChange={(e) => setParmanent(e.target.value)}
 
             />
           </div>
           {error && <div className='error-message text-red-500'>{error}</div>}
-          <button className="btn btn-primary relative-x-center max-w-72" type="submit">Edit/Save</button>
+          <button className="btn btn-primary relative-x-center max-w-72" type="submit">Save</button>
         </form>
       </div>
 
