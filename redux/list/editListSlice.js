@@ -4,7 +4,7 @@ import axiosInstance from '../services/axiosInstance';
 
 // Initial state
 const initialState = {
-  id: 1,        
+  editlist: [],        
   formData: {},
   isLoading: false,
   lists: [],
@@ -59,11 +59,11 @@ export const submitList = createAsyncThunk(
 
 // Redux slice
 const formSliceEdit = createSlice({
-  name: 'form',
+  name: 'lists',
   initialState,
   reducers: {
-    setId(state, action) {
-      state.id = action.payload;
+    editList(state, action) {
+      state.editlist = action.payload; // Store the selected property data
     },
     updateFormData(state, action) {
       console.log("redux", action.payload);
@@ -96,6 +96,6 @@ const formSliceEdit = createSlice({
   }
 });
 
-export const { setId, updateFormData, clearFormData } = formSliceEdit.actions;
+export const { setId, updateFormData, clearFormData,editList } = formSliceEdit.actions;
 
 export default formSliceEdit.reducer;

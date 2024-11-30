@@ -18,7 +18,7 @@ export default function page() {
     try {
       const listData = await axiosInstance.get("/all-draft");
       setAuthorBookings(listData.data);
-          console.log(listData.data);
+          // console.log(listData.data);
     } catch (error) {
       console.log("error",error)
       console.error("Error fetching author bookings:", error);
