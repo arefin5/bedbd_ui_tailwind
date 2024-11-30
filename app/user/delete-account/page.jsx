@@ -1,4 +1,3 @@
-import PaymentFaied from "@/components/PaymentFaied"
 import Icon from "/components/Icon"
 
 
