@@ -127,9 +127,10 @@ export default function LocationMap() {
       ...prev,
       marker: { latitude: lat, longitude: lng },
     }));
+
     dispatch(updateFormData({ latitude: lat, longitude: lng }));
   }, 500);
-
+ 
   const handleRetrieve = (data) => {
     const feature = data.features[0];
     const { latitude, longitude } = feature.properties.coordinates;

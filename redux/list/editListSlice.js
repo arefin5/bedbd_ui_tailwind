@@ -30,7 +30,7 @@ export const optionalSubmit = (data, id) => async (dispatch) => {
 export const submitList = createAsyncThunk(
   "form/submitList", 
   async (listData, { rejectWithValue }) => {
-    console.log("submite ",listData)
+    // console.log("submite ",listData)
     try {
       const payload = Object.fromEntries(
         Object.entries(listData).filter(([_, value]) => value !== undefined && value !== null)
@@ -66,8 +66,8 @@ const formSliceEdit = createSlice({
       state.editlist = action.payload; // Store the selected property data
     },
     updateFormData(state, action) {
-      console.log("redux", action.payload);
-      console.log("from redux form data ", state.formData);
+      // console.log("redux", action.payload);
+      // console.log("from redux form data ", state.formData);
       // Merge new dynamic form properties into existing formData
       state.formData = {
         ...state.formData,
