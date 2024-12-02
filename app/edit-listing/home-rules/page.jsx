@@ -20,7 +20,8 @@ function getHomeRules() {
 }
 
 export default function Page() {
-    const data = getHomeRules();
+    const [data,setData] = useState([]);
+    
     const timeSegments = getAllTimeSegments();
     const [homerule, setHomeRule] = useState({});
     const router = useRouter();
@@ -32,10 +33,13 @@ export default function Page() {
     const [newHomeFeatureDesc, setHomeNewFeatureDesc] = useState('');
     const [checkInTime, setCheckInTime] = useState('');
     const [checkOutTime, setCheckOutTime] = useState('');
+    const homeRuleDefault=useSelector((state) => state.editForm.editlist?.homerule) || {};
 
     useEffect(() => {
         console.log(homerule);
-    }, [homerule, data]);
+        setData(homeRuleDefault.homesRoules);
+        // console.log(homeRuleDefault.homesRoules)
+    }, [ data]);
 
     const handleContinue = async (e) => {
         e.preventDefault();
@@ -79,16 +83,16 @@ export default function Page() {
 
     const handleSaveNewFeature = (e) => {
         e.preventDefault();
-        if (newHomeFeatureTitle && newHomeFeatureDesc) {
+        if (newHomeFeatureTitle) {
             const newFeature = {
                 _id: `${Date.now()}`, // Generate a simple unique ID
                 title: newHomeFeatureTitle,
-                description: newHomeFeatureDesc
+               
             };
             setHomeFeatures([...homefeatures, newFeature]);
             setHomeNewFeatureTitle('');
             setHomeNewFeatureDesc('');
-            setShowAddForm(false); // Hide the form after adding a feature
+            setShowAddForm(false); 
         }
     };
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Logout from './Logout'; // Adjust path as needed
-const baseur="https://backend.bedbd.com/api" 
-// const baseur="http://localhost:5001/api"
+// const baseur="https://backend.bedbd.com/api" 
+const baseur="http://localhost:5001/api"
 const axiosInstance = axios.create({
   baseURL: baseur,
   headers: {

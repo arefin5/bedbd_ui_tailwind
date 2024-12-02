@@ -6,7 +6,7 @@ import Counter from './Counter';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormData } from '@/redux/list/createListSlice';
+import { updateFormData } from '@/redux/list/editListSlice';
 
 export default function Page() {
   // State to store counter values
@@ -34,21 +34,37 @@ const Guest=useSelector((state)=>state.editForm.editlist?.Guest)
     }));
   };
 
-useEffect(()=>{
-
-    setRoomCounts.bedRoom(totalroom.bedRoom);
-    setRoomCounts.diningRoom(totalroom.diningRoom);
-    setRoomCounts.washRoom(totalroom.washRoom);
-    setRoomCounts.others(totalroom.others);
-    setRoomCounts.singleBed(totalBed.singleBed)
-    setRoomCounts.doubleBed(totalBed.doubleBed)
-    setRoomCounts.extrabed(totalBed.extraBed)
-    setRoomCounts.adultGuest(Guest.adultGuest)
-    setRoomCounts.childrenGuest(Guest.childrenGuest)
+// useEffect(()=>{
+//   console.log(totalroom);
+//   console.log(totalBed);
+//   console.log(Guest)
+//     // setRoomCounts.bedRoom(totalroom.bedRoom);
+//     // setRoomCounts.diningRoom(totalroom.diningRoom);
+//     // setRoomCounts.washRoom(totalroom.washRoom);
+//     // setRoomCounts.others(totalroom.others);
+//     // setRoomCounts.singleBed(totalBed.singleBed)
+//     // setRoomCounts.doubleBed(totalBed.doubleBed)
+//     // setRoomCounts.extrabed(totalBed.extraBed)
+//     // setRoomCounts.adultGuest(Guest.adultGuest)
+//     // setRoomCounts.childrenGuest(Guest.childrenGuest)
   
-},[totalroom,])
+// },[totalroom,])
 
 
+useEffect(() => {
+  setRoomCounts((prev) => ({
+    ...prev,
+    bedRoom: totalroom?.bedRoom || 0,
+    diningRoom: totalroom?.diningRoom || 0,
+    washRoom: totalroom?.washRoom || 0,
+    others: totalroom?.others || 0,
+    singleBed: totalBed?.singleBed || 0,
+    doubleBed: totalBed?.doubleBed || 0,
+    extraBed: totalBed?.extraBed || 0,
+    adultGuest: Guest?.adultGuest || 0,
+    childrenGuest: Guest?.childrenGuest || 0,
+  }));
+}, [totalroom, totalBed, Guest]);
 
 
   // Handle submit
@@ -77,7 +93,7 @@ useEffect(()=>{
         }
       };
       await dispatch(updateFormData(payload));
-      router.push('/add-listing/amenities');
+      router.push('/edit-listing/amenities');
 
     } catch (error) {
       console.log(error)
