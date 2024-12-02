@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react'
 import Icon from '/components/Icon'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { updateFormData } from '@/redux/list/createListSlice';
-
+import { useDispatch, useSelector } from "react-redux";
+import { updateFormData } from "@/redux/list/editListSlice";
 export default function Page() {
   const [country, setCountry] = useState("");
   const [floor, setFloor] = useState("");
@@ -19,11 +18,37 @@ export default function Page() {
   const [latitude, setLatitude] = useState("");
   const [googleMap, setGoogleMap] = useState("");
   //
+  const location=useSelector((state) => state.editForm.editlist?.location) || {};
   const router = useRouter();
   const dispatch = useDispatch();
+  // const googlemap =""
   useEffect(() => {
-          
-  }, [])
+    console.log(location)
+          if(location?.country){
+            setCountry(location.country)
+          }
+          if(location?.floor){
+            setFloor(location.floor)
+          }
+          if(location?.streetAddress){
+            setStreetAddress(location.streetAddress)
+          }
+          if(location?.address){
+            setAddress(location?.address)
+          }
+          if(location?.thana){
+            setThana(location.thana)
+          }
+          if(location?.district){
+            setDistrict(location.district)
+          }
+          if(location?.postcode){
+            setPostcode(location.postcode);
+          }
+          if(location?.googlemap){
+            setGoogleMap(location.googlemap)
+          }
+  }, [location])
   const handleContinue = async (e) => {
     // null
     try {
@@ -48,7 +73,10 @@ export default function Page() {
         
       };
       await dispatch(updateFormData(payload));
-      router.push('/add-listing/property-location');
+     
+      router.push('/edit-listing/accommodation-details');
+
+      // router.push('/edit-listing/property-location');
     } catch (error) {
       console.log(error)
     }
@@ -56,7 +84,7 @@ export default function Page() {
   }
   const back = (e) => {
     e.preventDefault();
-    router.push("/add-listing/property-details");
+    router.push("/edit-listing/property-details");
   };
   return (
     <div className="min-h-screen py-20">

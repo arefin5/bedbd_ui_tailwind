@@ -3,9 +3,9 @@
 "use client"
 import Icon from '/components/Icon';
 import Counter from './Counter';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFormData } from '@/redux/list/createListSlice';
 
 export default function Page() {
@@ -21,6 +21,9 @@ export default function Page() {
     adultGuest: 0,
     childrenGuest: 0
   });
+  const totalroom =useSelector((state) => state.editForm.editlist?.totalroom) || {};
+const totalBed=useSelector((state) => state.editForm.editlist?.totalBed) 
+const Guest=useSelector((state)=>state.editForm.editlist?.Guest)
   const router = useRouter();
   const dispatch = useDispatch();
   // Handle change function to update specific counter
@@ -30,6 +33,23 @@ export default function Page() {
       [name]: value,
     }));
   };
+
+useEffect(()=>{
+
+    setRoomCounts.bedRoom(totalroom.bedRoom);
+    setRoomCounts.diningRoom(totalroom.diningRoom);
+    setRoomCounts.washRoom(totalroom.washRoom);
+    setRoomCounts.others(totalroom.others);
+    setRoomCounts.singleBed(totalBed.singleBed)
+    setRoomCounts.doubleBed(totalBed.doubleBed)
+    setRoomCounts.extrabed(totalBed.extraBed)
+    setRoomCounts.adultGuest(Guest.adultGuest)
+    setRoomCounts.childrenGuest(Guest.childrenGuest)
+  
+},[totalroom,])
+
+
+
 
   // Handle submit
   const handleSubmit = async (event) => {
