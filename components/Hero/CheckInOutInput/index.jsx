@@ -20,12 +20,15 @@ export default function CheckInOutInput() {
                                                         calenderType: '' })
     // const [isCalenderOpen, setIsCalenderOpen] = useState(false)
     // const [calenderType, setCalenderType] = useState('checkIn')
-
+    function closeCalender(){
+        setCalenderInfo(state=>({...state, isCalenderOpen: false}))
+    }
     function handleClearSelction(e) {
         e.preventDefault()
         if(selectedDate.length>0)
             // setSelectDate([])
             dispatch(clearDateSelection())
+            setCalenderInfo({...calenderInfo, calenderType: 'checkIn'})
 
     }
 
@@ -40,18 +43,26 @@ export default function CheckInOutInput() {
         }
         if(calenderType==="checkOut"){
             // (serializedTimestamp === selectedDate[1])
-            if(serializedTimestamp < selectedDate[0]){
-                dispatch(setCheckInOutDate([serializedTimestamp, 0 ]))
-            }else{
+            if(selectedDate[0]===0 && selectedDate[1]>0){
                 if(serializedTimestamp === selectedDate[1]){
-                    dispatch(setCheckInOutDate([selectedDate[0], 0 ]))
-                }else{
-                    dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
+                    dispatch(setCheckInOutDate([selectedDate[0], 0]))
+                }else if(serializedTimestamp < selectedDate[1]){
+                    dispatch(setCheckInOutDate([serializedTimestamp, selectedDate[1] ]))
+                }else if(serializedTimestamp > selectedDate[1]){
+                    dispatch(setCheckInOutDate([selectedDate[1], serializedTimestamp ]))
                 }
             }
-                // (serializedTimestamp === selectedDate[1])
-                //     ? dispatch(setCheckInOutDate([selectedDate[0], 0 ]))
-                //     : dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
+            else if(serializedTimestamp < selectedDate[0]){
+                dispatch(setCheckInOutDate([serializedTimestamp, 0 ]))
+            } else if(serializedTimestamp === selectedDate[0]){
+                dispatch(setCheckInOutDate([0, selectedDate[1] ]))
+            } else if(serializedTimestamp < selectedDate[1] ){
+                dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp ]))
+            } else if(serializedTimestamp === selectedDate[1]){
+                dispatch(setCheckInOutDate([selectedDate[0], 0 ]))
+            } else if((serializedTimestamp > selectedDate[1])){
+                dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
+            }
             }
       }, 300);
       const today = new Date
@@ -144,7 +155,7 @@ export default function CheckInOutInput() {
     
                 <CalendarDays className='icon absolute-y-center right-4 md:hidden'/>
             </div> */}
-            {
+            {/* {
                  (calenderInfo['isCalenderOpen']  
                && calenderInfo['calenderType'] === "checkIn")
                     && <Calender type="checkIn"  
@@ -158,8 +169,16 @@ export default function CheckInOutInput() {
                         handleClearSelction={handleClearSelction}
                         onClickHandlar={onDateClickHandlar} 
                         today={today}/>
-            }
-                    
+            } */}
+             {calenderInfo.isCalenderOpen && ["checkIn", "checkOut"].includes(calenderInfo.calenderType) && (
+                <Calender 
+                    type={calenderInfo.calenderType}
+                    handleClearSelction={handleClearSelction}
+                    onClickHandlar={onDateClickHandlar}
+                    today={today}
+                    close={closeCalender}
+                />
+            )}       
 
 
         </div>
