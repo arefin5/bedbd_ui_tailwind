@@ -18,8 +18,8 @@ export default function CheckInOutInput() {
     
     const [calenderInfo, setCalenderInfo] = useState({  isCalenderOpen: false,
                                                         calenderType: '' })
-    const [isCalenderOpen, setIsCalenderOpen] = useState(false)
-    const [calenderType, setCalenderType] = useState('checkIn')
+    // const [isCalenderOpen, setIsCalenderOpen] = useState(false)
+    // const [calenderType, setCalenderType] = useState('checkIn')
 
     function handleClearSelction(e) {
         e.preventDefault()
@@ -35,12 +35,24 @@ export default function CheckInOutInput() {
             (serializedTimestamp === selectedDate[0])
                 ? dispatch(setCheckInOutDate([0, selectedDate[1]]))
                 : dispatch(setCheckInOutDate([serializedTimestamp, selectedDate[1]]))
+                setCalenderInfo({   ...calenderInfo,
+                                    calenderType: 'checkOut' })
         }
         if(calenderType==="checkOut"){
-            (serializedTimestamp === selectedDate[1])
-                ? dispatch(setCheckInOutDate([selectedDate[0], 0 ]))
-                : dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
-        }
+            // (serializedTimestamp === selectedDate[1])
+            if(serializedTimestamp < selectedDate[0]){
+                dispatch(setCheckInOutDate([serializedTimestamp, 0 ]))
+            }else{
+                if(serializedTimestamp === selectedDate[1]){
+                    dispatch(setCheckInOutDate([selectedDate[0], 0 ]))
+                }else{
+                    dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
+                }
+            }
+                // (serializedTimestamp === selectedDate[1])
+                //     ? dispatch(setCheckInOutDate([selectedDate[0], 0 ]))
+                //     : dispatch(setCheckInOutDate([selectedDate[0], serializedTimestamp]))
+            }
       }, 300);
       const today = new Date
 
