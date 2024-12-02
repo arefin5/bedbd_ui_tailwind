@@ -220,7 +220,7 @@ export default function Page() {
       };
       console.log(payload)
       await dispatch(updateFormData(payload));
-      // router.push('/edit-listing/property-details');
+      router.push('/edit-listing/property-details');
     } catch (error) {
       console.error('Error updating booking types:', error);
     }
