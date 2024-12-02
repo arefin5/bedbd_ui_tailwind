@@ -6,7 +6,7 @@ import { SquareCheckBig, Square } from "lucide-react";
 
 export default function Feature({ data, id, setpropertyFeature, propertyFeature }) {
   const [isChecked, setIsChecked] = useState(false);
-
+// console.log(data)
   useEffect(() => {
     // Initialize the checked state based on incoming data
     setIsChecked(data?.value || false);
@@ -40,7 +40,7 @@ export default function Feature({ data, id, setpropertyFeature, propertyFeature 
       )}
       <h4 className="font-semibold text-xl text-neutral-500 mb-2">{data?.name}</h4>
       <p className="text-neutral-500 font-medium text-base">
-        {data?.description || "No description provided"}
+        {data?.description ||data?.name || "No description provided"}
       </p>
     </div>
   );

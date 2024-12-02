@@ -191,13 +191,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFormData } from '@/redux/list/editListSlice';
 import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react'
 
 export default function Page() {
   const currentFormData = useSelector((state) => state.editForm.editlist?.bookingtype || {});
   const [bookingtype, setBookingType] = useState({});
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const [features, setFeatures] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newFeatureTitle, setNewFeatureTitle] = useState('');
+  const [newFeatureDescription, setNewFeatureDescription] = useState('');
   // Initialize state from Redux when the component loads
   useEffect(() => {
     if (currentFormData?.bookingTypes) {
@@ -214,6 +218,7 @@ export default function Page() {
           bookingTypes: bookingtype,
         },
       };
+      console.log(payload)
       await dispatch(updateFormData(payload));
       router.push('/edit-listing/property-details');
     } catch (error) {
@@ -225,7 +230,35 @@ export default function Page() {
     e.preventDefault();
     router.push('/edit-listing/property-state');
   };
-
+  const handleSaveNewFeature = (e) => {
+    e.preventDefault();
+    if (newFeatureTitle && newFeatureDescription) {
+        const newFeature = {
+            name: newFeatureTitle, // Use name as the key
+            description: newFeatureDescription,
+            value: false, // Default unchecked value
+        };
+  
+        // Use name as the key in propertyFeature
+        // setpropertyFeature((prevPropertyFeature) => ({
+        //     ...prevPropertyFeature,
+        //     [newFeature.name]: newFeature,
+        // }));
+        setBookingType((prevPropertyFeature) => ({
+          ...prevPropertyFeature,
+          [newFeature.name]: newFeature,
+      }));
+        // Reset the form
+        setNewFeatureTitle('');
+        setNewFeatureDescription('');
+        setShowAddForm(false);
+    } else {
+        alert("Please fill in both the feature title and description.");
+    }
+  };
+  const handleAddMore = () => {
+    setShowAddForm(true);
+  };
   return (
     <div className="min-h-screen py-20">
       <div className="">
@@ -243,6 +276,48 @@ export default function Page() {
               />
             ))}
           </div>
+          {!showAddForm && (
+                      <button
+                          className='flex gap-x-2 mt-3 text-neutral-600 text-base font-medium'
+                          onClick={handleAddMore}
+                      >
+                          <Plus className='icon' />
+                          Add more option
+                      </button>
+                  )}
+
+                  {/* Form for adding a new feature, hidden initially */}
+                  {showAddForm && (
+                      <div className='mt-6'>
+                          <h3 className="text-neutral-500 font-medium text-xl mb-4">Feature Title</h3>
+                          <input
+                              name='new_feature_title'
+                              type='text'
+                              className='form-input'
+                              placeholder='Enter new feature title'
+                              value={newFeatureTitle}
+                              onChange={(e) => setNewFeatureTitle(e.target.value)}
+                          />
+                          <h3 className="text-neutral-500 font-medium text-xl mt-4 mb-4">Feature Description</h3>
+                          <textarea
+                              rows="2"
+                              name='new_feature_description'
+                              className='form-input'
+                              placeholder='Enter new feature description'
+                              value={newFeatureDescription}
+                              onChange={(e) => setNewFeatureDescription(e.target.value)}
+                          />
+
+                          {/* Button to save the new feature */}
+                          <button
+                              className='btn btn-primary mt-4'
+                              onClick={handleSaveNewFeature}
+                          >
+                             Save Property 
+
+                          </button>
+                      </div>
+                  )}
           <div className="flex gap-x-8 mt-14">
             <button className="btn btn-secondary max-w-36 relative" onClick={handleBack}>
               <Icon name="chevron-left" className="icon absolute-y-center left-4" />

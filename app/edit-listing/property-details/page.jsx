@@ -21,7 +21,7 @@ export default function Page() {
 });
   const currentFormData = useSelector((state) => state.editForm);
   const currentFormDataProperty = useSelector((state) => state.editForm.editlist?.propertyFeature || {});
-  const [features, setFeatures] = useState();
+  const [features, setFeatures] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newFeatureTitle, setNewFeatureTitle] = useState('');
   const [newFeatureDescription, setNewFeatureDescription] = useState('');
@@ -35,7 +35,7 @@ export default function Page() {
 setTitle(currentFormData.editlist.propertyTitle);
 setdescription(currentFormData?.editlist.description);
 // setpropertyFeature(currentFormDataProperty?.features)
-setFeatures(currentFormDataProperty?.features || {});
+setFeatures(currentFormDataProperty?.features);
   }, [currentFormData,currentFormDataProperty]);
 
 
@@ -47,8 +47,11 @@ setFeatures(currentFormDataProperty?.features || {});
           propertyTitle: propertyTitle,
           description: description
       };
-      await dispatch(updateFormData(payload)); router.push('/edit-listing/location-confirmation'
-     );
+      console.log(payload)
+
+      await dispatch(updateFormData(payload));
+      console.log(payload)
+       router.push('/edit-listing/location-confirmation');
   };
 
   const back = (e) => {
@@ -69,7 +72,10 @@ const handleSaveNewFeature = (e) => {
           ...prevPropertyFeature,
           [newFeature.name]: newFeature,
       }));
-
+      setFeatures((prevPropertyFeature) => ({
+        ...prevPropertyFeature,
+        [newFeature.name]: newFeature,
+    }));
       // Reset the form
       setNewFeatureTitle('');
       setNewFeatureDescription('');
@@ -101,7 +107,7 @@ const handleAddMore = () => {
                   <h3 className="text-neutral-500 font-medium text-xl mb-4">Property Features</h3>
                   <p className='mb-4 text-neutral-500 font-normal text-sm'>Lorem ipsum dolor sit amet consectetur. Gravida faucibus massa dignissim malesuada felis.</p>
                  
-                  {Object.entries(propertyFeature).map(([key, value]) => (
+                  {Object.entries(features).map(([key, value]) => (
               <Feature
                 key={key}
                 id={key}
