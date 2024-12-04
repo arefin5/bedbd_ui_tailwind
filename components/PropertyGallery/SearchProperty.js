@@ -5,8 +5,6 @@ import PropertyGalleryItem from "./PropertyGalleryItem"
 export default function SearchProperty({listings}) {
 console.log("listings",listings)
 
-
-
   return (
     <div className="container mx-auto px-6 10 mb-10 mt-10">
         <h3 className="text-3xl font-semibold text-primary-400">Search  Properties</h3>

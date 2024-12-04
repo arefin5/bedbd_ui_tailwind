@@ -36,7 +36,6 @@ const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 const getListing = async (id) => {
     await store.dispatch(apiSlice.endpoints.getListing.initiate(id));
     const data = store.getState().api.queries[`getListing("${id}")`]?.data || [];
-
     return data;
 };
 

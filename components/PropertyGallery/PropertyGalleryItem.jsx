@@ -4,12 +4,15 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import PropertyLoadingSkeleton from "./PropertyLoadingSkeleton";
 import { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import Link from 'next/link';
 
 export default function PropertyGalleryItem({ data }) {
   const [images, setImages] = useState(data.images || []); // Use dynamic images from props
   const [image, setImage] = useState(images[0] || { url: '' });
   const imageContainerRef = useRef(null);
+  const {selectedDate} = useSelector(state => state.search)
+  console.log(selectedDate)
   const [buttonVisibility, setButtonVisibility] = useState({
     showLeftButton: false,
     showRightButton: true,
@@ -64,12 +67,33 @@ export default function PropertyGalleryItem({ data }) {
     return `${date.getUTCFullYear()}/${String(date.getUTCMonth() + 1).padStart(2, '0')}/${String(date.getUTCDate()).padStart(2, '0')}`;
   };
 
+  const formatToDDMMYYYY = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+  
+  const checkIn = selectedDate[0] > 0 ? `checkIn=${formatToDDMMYYYY(selectedDate[0])}` : "";
+  const checkOut = selectedDate[1] > 0 ? `&checkOut=${formatToDDMMYYYY(selectedDate[1])}` : "";
+  const query = checkIn ? `?${checkIn}${checkOut}` : "";
+  const targetUrl = `/listing/${data._id}${query}`;
+
   return (
     <div className="min-w-290px max-w-395px">
       <div ref={imageContainerRef} className="relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar">
         <div className="z-0 relative flex-none w-full h-auto aspect-[145/89] min-h-178px max-h-242px max-w-395px object-cover items-center">
-          <Link href={`/listing/${data._id}`}>
-            <Image alt="property image" src={image.url} fill className="object-cover" />
+        {/* {{
+    pathname: '/new-page',
+    query: { value1: 10, value2: 20 },
+  }} */}
+
+          <Link href={targetUrl}
+            // href={`/listing/${data._id}?checkIn=10&value2=20`}
+            // href={{pathname:`/listing/${data._id}`, query: { value1: 10, value2: 20 }}} 
+            target="_blank" rel="noopener noreferrer">
+              <Image alt="property image" src={image.url} fill className="object-cover" />
           </Link>
         </div>
         {buttonVisibility.showLeftButton &&
@@ -87,13 +111,13 @@ export default function PropertyGalleryItem({ data }) {
         </button>
       </div>
       <div className="mt-2">
-        <Link href={`/listing/${data._id}`}>
+        <Link href={`/listing/${data._id}`} target="_blank" rel="noopener noreferrer">
           <div className="inline-block float-left h-fit mt-auto text-xl text-neutral-500 font-semibold ">
             {location.streetAddress.replace(/^(.{10}).*$/, '$1...') + ', ' + location.country}
           </div>
         </Link>
         <div className="pl-auto text-end text-2xl text-primary-400 font-semibold">${GroundPrice}</div>
-        <Link href={`/listing/${data._id}`}>
+        <Link href={`/listing/${data._id}`} target="_blank" rel="noopener noreferrer">
           <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on {
             formatDate(availableDate)
           }</div>
