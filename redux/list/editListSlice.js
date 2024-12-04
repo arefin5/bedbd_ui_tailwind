@@ -30,13 +30,13 @@ export const optionalSubmit = (data, id) => async (dispatch) => {
 export const submitList = createAsyncThunk(
   "form/submitList", 
   async (listData, { rejectWithValue }) => {
-    // console.log("submite ",listData)
+    console.log("submite ",listData)
     try {
       const payload = Object.fromEntries(
         Object.entries(listData).filter(([_, value]) => value !== undefined && value !== null)
       );
       // Make the API call with the dynamic payload
-      const response = await axiosInstance.post('/create-list', payload);
+      const response = await axiosInstance.put(`/update-list/${listData.id}`, payload);
       return response.data;
 
     } catch (error) {

@@ -4,8 +4,8 @@ import InputRadioButton from './InputRadioButton';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { updateFormData } from '@/redux/list/createListSlice';
-import { submitList } from "@/redux/list/createListSlice";
+import { updateFormData } from '@/redux/list/editListSlice';
+import { submitList } from "@/redux/list/editListSlice";
 
 export default function Page() {
   const [formValues, setFormValues] = useState({
@@ -23,9 +23,12 @@ export default function Page() {
       [name]: value,
     }));
   };
+  const id=useSelector((state) => state.editForm.editlist?.availablecheck);
+
   useEffect(() => {
     console.log('Approving Method changed:', formValues.approvingMethod);
     console.log('Gender Preference changed:', formValues.genderPreference);
+    
   }, [formValues.approvingMethod, formValues.genderPreference]);
 
   const handleSubmit = async (e) => {
@@ -37,6 +40,7 @@ export default function Page() {
         ...formData,
         aprovingmethod: approvingMethod,
         gender: genderPreference,
+        id:id
       };
       const resultAction = await  dispatch(submitList(payload));
       if (submitList.fulfilled.match(resultAction)) {

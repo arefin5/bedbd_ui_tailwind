@@ -1,152 +1,221 @@
 
-// Imports
 "use client"
 import Icon from '/components/Icon'
-import Rule from './Rule'
+import Feature from './Feature'
+
+import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateFormData } from '@/redux/list/editListSlice';
+
 import getAllTimeSegments from './getAllTimeSegments'
 import OptionIcon from './OptionIcon'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux'
-import { Plus } from 'lucide-react'
-import { updateFormData } from '@/redux/list/createListSlice';
 
-function getHomeRules() {
-    return [
-        { "_id": "663a0b374ec144ec33e4f103", "title": "In House Smoking allowed", "description": "" },
-        { "_id": "663a0b6b4ec144ec33e4f104", "title": "Parties/events allowed", "description": "" },
-        { "_id": "663a0b8b4ec144ec33e4f105", "title": "Pet allowed", "description": "" }
-    ];
-}
+
 
 export default function Page() {
-    const data = getHomeRules();
-    const timeSegments = getAllTimeSegments();
-    const [homerule, setHomeRule] = useState({});
-    const router = useRouter();
-    const dispatch = useDispatch();
-    const formData = useSelector((state) => state.form);
-    const [homefeatures, setHomeFeatures] = useState(data);
-    const [showAddForm, setShowAddForm] = useState(false);
-    const [newHomeFeatureTitle, setHomeNewFeatureTitle] = useState('');
-    const [newHomeFeatureDesc, setHomeNewFeatureDesc] = useState('');
-    const [checkInTime, setCheckInTime] = useState('');
-    const [checkOutTime, setCheckOutTime] = useState('');
+  const [propertyTitle, setTitle] = useState("");
+  const [description, setdescription] = useState('');
+  const [propertyFeature, setpropertyFeature] = useState({});
+  const [submiteProperty,setSubmiteProperty]=useState({})
+  const currentFormData = useSelector((state) => state.editForm);
+  const currentFormDataProperty = useSelector((state) => state.editForm.editlist?.homerule || {});
+  const [features, setFeatures] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newFeatureTitle, setNewFeatureTitle] = useState('');
+  const [newFeatureDescription, setNewFeatureDescription] = useState('');
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [checkInTime, setCheckInTime] = useState('');
+  const [checkOutTime, setCheckOutTime] = useState('');
+  const timeSegments = getAllTimeSegments();
+  const checkInTimeOrCheckOut=useSelector((state) => state.editForm.editlist);
+  const [loading, setLoading] = useState(true); // Loading state
 
-    useEffect(() => {
-        console.log(homerule);
-    }, [homerule, data]);
+  useEffect(() => {
+    setCheckInTime(checkInTimeOrCheckOut?.checkInTime);
+    setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
+     setFeatures(currentFormDataProperty?.homesRoules);
+  }, [checkInTimeOrCheckOut,currentFormDataProperty,]);
 
-    const handleContinue = async (e) => {
-        e.preventDefault();
-        // Check if there are any selected home rules
-        if (Object.keys(homerule).length === 0) {
-            alert('Please select at least one home rule before continuing.');
-            return;
-        }
-     
-        try {
-            const filteredHomeRules = Object.fromEntries(
-                Object.entries(homerule).filter(([key, value]) => value.value)
-            );
-            if (!checkInTime || !checkOutTime) {
-                alert('Please select both check-in and check-out times before continuing.');
-                return; // Stop further execution
-            }
-        
-            const payload = { 
-                homerule: filteredHomeRules, // Send only checked rules
-                checkInTime,
-                checkOutTime
-            };
+//   useEffect(() => {
+//     setCheckInTime(checkInTimeOrCheckOut?.checkInTime);
+//     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
+  
+//     const homesRoules = currentFormDataProperty?.homesRoules;
+//     if (homesRoules && Object.keys(homesRoules).length > 0) {
+//       setFeatures(homesRoules);
+//     } else {
+//       setFeatures(null); // No features to display
+//     }
+  
+//     const timeout = setTimeout(() => {
+//       setLoading(false);
+//     }, 1000); // Simulate loading delay (adjust as needed)
+  
+//     return () => clearTimeout(timeout);
+//   }, [checkInTimeOrCheckOut, currentFormDataProperty]);
 
-            await dispatch(updateFormData(payload)); 
-            router.push('/add-listing/upload-images'); 
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
-    const back = (e) => {
-        e.preventDefault();
-        router.push('/add-listing/amenities');
-    };
+// useEffect(() => {
+//     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
+//     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
+//     const homesRoules = currentFormDataProperty?.homesRoules;
+//     if (homesRoules && Object.keys(homesRoules).length > 0) {
+//       setFeatures(homesRoules); // Populate features if data exists
+//     } else {
+//       setFeatures(null); // Indicate no features are available
+//     }
 
-    const handleAddMore = (e) => {
-        e.preventDefault();
-        setShowAddForm(true);
-    };
+//     // Simulate an asynchronous operation or real data fetch
+//     const timeout = setTimeout(() => {
+//       setLoading(false); // Set loading to false after a delay
+//     }, 1000); // Adjust the delay as needed
 
-    const handleSaveNewFeature = (e) => {
-        e.preventDefault();
-        if (newHomeFeatureTitle && newHomeFeatureDesc) {
-            const newFeature = {
-                _id: `${Date.now()}`, // Generate a simple unique ID
-                title: newHomeFeatureTitle,
-                description: newHomeFeatureDesc
-            };
-            setHomeFeatures([...homefeatures, newFeature]);
-            setHomeNewFeatureTitle('');
-            setHomeNewFeatureDesc('');
-            setShowAddForm(false); // Hide the form after adding a feature
-        }
-    };
+//     return () => clearTimeout(timeout); // Clean up the timeout
+//   }, [currentFormDataProperty]);
 
-    return (
-        <div className="min-h-screen py-20">
-            <div>
-                <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Home Rules</h2>
-                <form className="w-full max-w-3xl ml-auto mr-auto mt-28 px-8 ">
-                    <div>
-                        <h3 className='text-neutral-600 text-xl mb-4 font-medium'>Home Rules</h3>
-                        <div className='space-y-4'>
-                            {data.map(item => (
-                                <Rule key={item._id} data={item} setHomeRule={setHomeRule} homerule={homerule} />
-                            ))}
-                        </div>
-                        {!showAddForm && (
-                            <button
-                                className='flex gap-x-2 mt-3 text-neutral-600 text-base font-medium'
-                                onClick={handleAddMore}
-                            >
-                                <Plus className='icon' /> Add more option
-                            </button>
-                        )}
 
-                        {/* Form for adding a new feature, hidden initially */}
-                        {showAddForm && (
-                            <div className='mt-6'>
-                                <h3 className="text-neutral-500 font-medium text-xl mb-4">Feature Title</h3>
-                                <input
-                                    name='new_feature_title'
-                                    type='text'
-                                    className='form-input'
-                                    placeholder='Enter new feature title'
-                                    value={newHomeFeatureTitle}
-                                    onChange={(e) => setHomeNewFeatureTitle(e.target.value)}
-                                />
-                                <h3 className="text-neutral-500 font-medium text-xl mt-4 mb-4">Feature Description</h3>
-                                <textarea
-                                    rows="2"
-                                    name='new_feature_description'
-                                    className='form-input'
-                                    placeholder='Enter new feature description'
-                                    value={newHomeFeatureDesc}
-                                    onChange={(e) => setHomeNewFeatureDesc(e.target.value)}
-                                />
+  const handleContinue = async (e) => {
+    console.log("test console from home rule ")
+      e.preventDefault();
+   
 
-                                {/* Button to save the new feature */}
-                                <button
-                                    className='btn btn-primary mt-4'
-                                    onClick={handleSaveNewFeature}
-                                >
-                                    Save Feature
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                    
-                    <div className='mt-10 flex gap-x-10 justify-between'>
+//    console.log("propertyFeature",propertyFeature);
+// console.log("features",features);
+
+console.log("submiteProperty in Page",submiteProperty)
+
+const combinedFeatures = [
+    ...Object.values(submiteProperty),
+    ...Object.values(features),
+];
+
+// Construct homesRules
+const homesRules = combinedFeatures.reduce((acc, feature) => {
+    acc[feature.name] = { name: feature.name, value: feature.value };
+    return acc;
+}, {});
+
+const payload = {
+    homesRules, // Combined rules object
+    checkInTime, // Additional properties
+    checkOutTime,
+};
+  
+
+    console.log(payload);
+    //   console.log(payload)
+
+      await dispatch(updateFormData(payload));
+      console.log(payload)
+       router.push('/edit-listing/upload-images');
+  };
+
+  const back = (e) => {
+      e.preventDefault();
+      router.push("/edit-listing/property-booking-types");
+  };
+const handleSaveNewFeature = (e) => {
+  e.preventDefault();
+  if (newFeatureTitle && newFeatureDescription) {
+      const newFeature = {
+          name: newFeatureTitle, // Use name as the key
+          description: newFeatureDescription,
+          value: false, // Default unchecked value
+      };
+
+      // Use name as the key in propertyFeature
+      setpropertyFeature((prevPropertyFeature) => ({
+          ...prevPropertyFeature,
+          [newFeature.name]: newFeature,
+      }));
+      setFeatures((prevPropertyFeature) => ({
+        ...prevPropertyFeature,
+        [newFeature.name]: newFeature,
+    }));
+      // Reset the form
+      setNewFeatureTitle('');
+      setNewFeatureDescription('');
+      setShowAddForm(false);
+  } else {
+      alert("Please fill in both the feature title and description.");
+  }
+};
+const handleAddMore = () => {
+  setShowAddForm(true);
+};
+
+  return (
+      <div className="min-h-screen py-20">
+          <div className="">
+              <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Home Rule</h2>
+              <form className="w-full max-w-2xl ml-auto mr-auto mt-28 px-8">
+                  <p className='mb-4 text-neutral-500 font-normal text-sm'>Lorem ipsum dolor sit amet consectetur. Gravida faucibus massa dignissim malesuada felis.</p>
+                 
+                
+            { features ? (
+  Object.entries(features).map(([key, value]) => (
+    <Feature
+      key={key}
+      id={key}
+      data={value}
+      setpropertyFeature={setpropertyFeature}
+      propertyFeature={propertyFeature}
+      submiteProperty={submiteProperty}
+      setSubmiteProperty={setSubmiteProperty}
+    />
+  ))
+) : (
+  <p className="text-center text-neutral-500">You have not yet any homeRule.</p>
+)}
+                 
+                  {/* "Add More Option" button */}
+                  {!showAddForm && (
+                      <button
+                          className='flex gap-x-2 mt-3 text-neutral-600 text-base font-medium'
+                          onClick={handleAddMore}
+                      >
+                          <Plus className='icon' />
+                          Add more option
+                      </button>
+                  )}
+
+                  {/* Form for adding a new feature, hidden initially */}
+                  {showAddForm && (
+                      <div className='mt-6'>
+                          <h3 className="text-neutral-500 font-medium text-xl mb-4">Feature Title</h3>
+                          <input
+                              name='new_feature_title'
+                              type='text'
+                              className='form-input'
+                              placeholder='Enter new feature title'
+                              value={newFeatureTitle}
+                              onChange={(e) => setNewFeatureTitle(e.target.value)}
+                          />
+                          <h3 className="text-neutral-500 font-medium text-xl mt-4 mb-4">Feature Description</h3>
+                          <textarea
+                              rows="2"
+                              name='new_feature_description'
+                              className='form-input'
+                              placeholder='Enter new feature description'
+                              value={newFeatureDescription}
+                              onChange={(e) => setNewFeatureDescription(e.target.value)}
+                          />
+
+                          {/* Button to save the new feature */}
+                          <button
+                              className='btn btn-primary mt-4'
+                              onClick={handleSaveNewFeature}
+                          >
+                              Save Feature
+                          </button>
+                      </div>
+                  )}
+
+
+                  <div className='mt-10 flex gap-x-10 justify-between'>
                         
 
                         <div className='w-full max-w-80'>
@@ -155,8 +224,10 @@ export default function Page() {
                                 <select 
                                     name='check-out-time'
                                     id='select_check_out'
+                                    value={checkOutTime}
                                     onChange={(e) => setCheckOutTime(e.target.value)}
-                                    className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
+                                    className=
+                                    "outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
                                 >
                                     {timeSegments.map(item => (
                                         <option key={item.hour + item.minute} 
@@ -176,6 +247,7 @@ export default function Page() {
                                     id='select_check_in'
                                     className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
                                     onChange={(e) => setCheckInTime(e.target.value)}
+                                value={checkInTime}
                                 >
                                     {timeSegments.map(item => (
                                         <option key={item.hour + item.minute} 
@@ -188,18 +260,17 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-
-                    <div className="flex gap-x-8 mt-14">
-                        <button className="btn btn-secondary max-w-36 relative" onClick={back}>
-                            <Icon name='chevron-left' className="icon absolute-y-center left-4" /> 
-                            Back
-                        </button>
-                        <button className="btn btn-primary" onClick={handleContinue}>
-                            Continue
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+                  <div className="flex gap-x-8 mt-14">
+                      <button className="btn btn-secondary max-w-36 relative" onClick={back}>
+                          Back
+                      </button>
+                      <button className="btn btn-primary" onClick={handleContinue}>
+                          Continue
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  );
 }
+

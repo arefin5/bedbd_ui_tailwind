@@ -4,7 +4,9 @@ import Icon from '/components/Icon';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { updateFormData } from '@/redux/list/createListSlice';
+import { updateFormData } from '@/redux/list/editListSlice';
+
+// propertyFeature 
 
 export default function Page() {
   const initialAmenitiesState = {
@@ -54,9 +56,11 @@ export default function Page() {
   const router = useRouter();
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.form);
-
+  const amenitiesDefault =useSelector((state) => state.editForm.editlist?.amenities) || {};
   useEffect(() => {
-    // console.log("Updated Amenities:", amenities);
+    // console.log("Updated Amenities:", amenitiesDefault);
+    // amenities
+    setAmenities(amenitiesDefault)
   }, [amenities]);
 
   const handleCheckboxChange = (category, field) => {
@@ -77,12 +81,12 @@ export default function Page() {
     };
     
     dispatch(updateFormData(payload));
-    console.log('Current Redux state amentise:', formData);
-    router.push('/add-listing/home-rules');
+    // console.log('Current Redux state amentise:', formData);
+    router.push('/edit-listing/home-rules');
   };
   const back=(e)=>{
     e.preventDefault();
-    router.push("/add-listing/accommodation-details")
+    router.push("/edit-listing/accommodation-details")
 
   }
   return (
