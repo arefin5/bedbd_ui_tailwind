@@ -2,7 +2,9 @@
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from '/components/Icon';
-import { updateFormData } from '@/redux/list/createListSlice';
+
+import { updateFormData } from "@/redux/list/editListSlice";
+
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
@@ -20,10 +22,10 @@ export default function LocationPage() {
   const currentFormData = useSelector((state) => state.form); 
   const {error,formData} = useSelector((state) => state.form); 
   const [isClient, setIsClient] = useState(false);
-
+  const coordinates = []
   useEffect(() => {
     setIsClient(true);
-  }, [currentFormData]);
+  }, [currentFormData,coordinates]);
 
   // const submitLocation = async (e) => {
   //   e.preventDefault();
@@ -109,7 +111,9 @@ export default function LocationPage() {
     e.preventDefault();
   
     // Use the provided coordinates from the map, or default to specified values
-    const coordinates = formData?.location?.coordinates || [90.388964, 23.764287];
+    if (coordinates.length === 0) {
+      alert("Please select your property location.");
+  }
   
     try {
       const payload = {
@@ -117,12 +121,12 @@ export default function LocationPage() {
         location: {
           ...formData.location,
           type: "Point",
-          coordinates, // Either the selected or default coordinates
+          coordinates,
         },
       };
-  
+    
       await dispatch(updateFormData(payload));
-      router.push('/add-listing/accommodation-details');
+      router.push('/edit-listing/accommodation-details');
     } catch (error) {
       console.error('Error updating form data:', error);
     }
@@ -130,7 +134,7 @@ export default function LocationPage() {
   
   const goBack = (e) => {
     e.preventDefault();
-    router.push("/add-listing/location-confirmation");
+    router.push("/edit-listing/location-confirmation");
   };
 
   if (!isClient) return null; // Prevent SSR-related issues
@@ -146,7 +150,7 @@ export default function LocationPage() {
         <form className="w-full max-w-2xl ml-auto mr-auto mt-28 px-8">
           <h3 className="text-neutral-500 font-medium text-xl mb-4">Find your place</h3>
 
-          <LocationMap />
+          <LocationMap coordinates={coordinates}/>
 
           <div className="flex gap-x-8 mt-14">
             <button className="btn btn-secondary max-w-36 relative" onClick={goBack}>
