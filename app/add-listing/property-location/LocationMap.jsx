@@ -18,6 +18,7 @@ export default function LocationMap() {
     const {   isSuggestionsMenuOpen,
                 suggestions, selectedLocation
                               } = useSelector(state => state.search.location);
+    const { formData } = useSelector((state) => state.form); 
     
 
     const searchBoxRef = useRef(null)
@@ -127,7 +128,17 @@ export default function LocationMap() {
       ...prev,
       marker: { latitude: lat, longitude: lng },
     }));
-    dispatch(updateFormData({ latitude: lat, longitude: lng }));
+      const payload = {
+        ...formData,
+        location: {
+          ...formData.location,
+          type: "Point",
+          coordinates: [lng, lat], // Either the selected or default coordinates
+        },
+      };
+  
+       dispatch(updateFormData(payload));
+    // dispatch(updateFormData({ latitude: lat, longitude: lng }));
   }, 500);
 
   const handleRetrieve = (data) => {

@@ -31,7 +31,7 @@ export default function LocationPage() {
 
   //   try {
   //     const coordinates = [90.388964, 23.764287];  longitude: '90.388964',
-    latitude: '23.764287'
+    // latitude: '23.764287'
   //     // ...currentFormData
   //     // console.log("from data ",currentFormData)
 
@@ -112,16 +112,16 @@ export default function LocationPage() {
     const coordinates = formData?.location?.coordinates || [90.388964, 23.764287];
   
     try {
-      const payload = {
-        ...formData,
-        location: {
-          ...formData.location,
-          type: "Point",
-          coordinates, // Either the selected or default coordinates
-        },
-      };
+      // const payload = {
+      //   ...formData,
+      //   location: {
+      //     ...formData.location,
+      //     type: "Point",
+      //     coordinates, // Either the selected or default coordinates
+      //   },
+      // };
   
-      await dispatch(updateFormData(payload));
+      // await dispatch(updateFormData(payload));
       router.push('/add-listing/accommodation-details');
     } catch (error) {
       console.error('Error updating form data:', error);
