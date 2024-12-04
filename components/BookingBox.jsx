@@ -13,7 +13,10 @@ const BookingBox = ({ data }) => {
     const { price, serviceFee, tax, GroundPrice, _id } = data;
     const id = _id;
     const { token } = useSelector((state) => state.auth);
-
+    
+    const { selectedDate } = useSelector((state) => state.search);
+    console.log(selectedDate)
+    
     const [bookingDetails, setBookingDetails] = useState(null);
     const [bookedDates, setBookedDates] = useState([]);
     const [dateRange, setDateRange] = useState([null, null]);
