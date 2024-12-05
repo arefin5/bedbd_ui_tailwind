@@ -61,8 +61,13 @@ export default function Page() {
     // console.log("Updated Amenities:", amenitiesDefault);
     // amenities
     setAmenities(amenitiesDefault)
-  }, [amenities]);
-
+  }, [amenitiesDefault]);
+  // useEffect(() => {
+  //   setAmenities((prevState) => ({
+  //     ...prevState,
+  //     ...amenitiesDefault
+  //   }));
+  // }, [amenitiesDefault]);
   const handleCheckboxChange = (category, field) => {
     setAmenities((prevState) => ({
       ...prevState,
@@ -102,7 +107,7 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.outdoorScenicView.lakeAccess}
+                  checked={amenities?.outdoorScenicView?.lakeAccess}
                   onChange={() => handleCheckboxChange('outdoorScenicView', 'lakeAccess')}
                 />
                 Lake Access
@@ -110,7 +115,7 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.outdoorScenicView.beachAccess}
+                  checked={amenities?.outdoorScenicView?.beachAccess}
                   onChange={() => handleCheckboxChange('outdoorScenicView', 'beachAccess')}
                 />
                 Beach Access
@@ -118,7 +123,7 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.outdoorScenicView.ski}
+                  checked={amenities?.outdoorScenicView?.ski}
                   onChange={() => handleCheckboxChange('outdoorScenicView', 'ski')}
                 />
                 Ski
@@ -131,23 +136,28 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.cookingCleaning.kitchen}
+                  checked={amenities?.cookingCleaning?.kitchen}
                   onChange={() => handleCheckboxChange('cookingCleaning', 'kitchen')}
                 />
                 Kitchen
               </label>
               <label>
-                <input
+              <input
+  type="checkbox"
+  checked={amenities?.cookingCleaning?.bbqGrill || false}
+  onChange={() => handleCheckboxChange('cookingCleaning', 'bbqGrill')}
+/>
+                {/* <input
                   type="checkbox"
-                  checked={amenities.cookingCleaning.bbqGrill}
+                  checked={amenities?.cookingCleaning?.bbqGrill}
                   onChange={() => handleCheckboxChange('cookingCleaning', 'bbqGrill')}
-                />
+                /> */}
                 BBQ Grill
               </label>
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.cookingCleaning.outdoorDiningArea}
+                  checked={amenities?.cookingCleaning?.outdoorDiningArea}
                   onChange={() => handleCheckboxChange('cookingCleaning', 'outdoorDiningArea')}
                 />
                 Outdoor Dining Area

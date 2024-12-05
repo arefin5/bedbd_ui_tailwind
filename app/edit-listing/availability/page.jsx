@@ -43,10 +43,10 @@ useEffect(() => {
         try {
             const { checkInStart, allowExtend, bookingExtend   } = formValues;
             const payload = { 
-                availablecheck:{
-                    checkInStart, 
-                    allowExtend,
-                    bookingExtend 
+                      availablecheck:{
+                      checkInStart, 
+                       allowExtend,
+                      bookingExtend 
                 }
                 };
             await dispatch(updateFormData(payload));

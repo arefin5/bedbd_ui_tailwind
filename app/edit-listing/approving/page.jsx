@@ -15,7 +15,7 @@ export default function Page() {
   
   const router = useRouter();
   const dispatch = useDispatch();
-  const {error,formData} = useSelector((state) => state.form); 
+  const {error,formData} = useSelector((state) => state.editForm); 
 
   const handleInputChange = (name, value) => {
     setFormValues((prev) => ({
@@ -23,7 +23,7 @@ export default function Page() {
       [name]: value,
     }));
   };
-  const id=useSelector((state) => state.editForm.editlist?.availablecheck);
+  const id=useSelector((state) => state.editForm.editlist?._id);
 
   useEffect(() => {
     console.log('Approving Method changed:', formValues.approvingMethod);

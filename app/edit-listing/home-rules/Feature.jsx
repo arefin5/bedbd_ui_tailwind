@@ -1,79 +1,52 @@
 
-// // "use client";
-
-// // import { useState, useEffect } from "react";
-// // import { SquareCheckBig, Square } from "lucide-react";
-
-// // export default function Feature({ data, id, setpropertyFeature, propertyFeature }) {
-// //   const [isChecked, setIsChecked] = useState(false);
-// // console.log("data",data);
-// // console.log("key",id)
-// //   useEffect(() => {
-// //     setIsChecked(data?.value || false); 
-
-// //     console.log("propertyFeature in State ",propertyFeature)
-// //   }, [data]);
-
-// //   const handleClick = () => {
-// //     // Toggle the checkbox state
-// //     const updatedFeature = { ...data, value: !isChecked };
-// //     setIsChecked(!isChecked);
-// //     console.log("updatedFeature",updatedFeature)
-// //     // Update the propertyFeature state with the new checked state
-// //     setpropertyFeature((prev) => ({
-// //       ...prev,
-// //       [id]: updatedFeature,
-// //       // may be here are issues 
-// //     }));
-// //   };
-
-// //   return (
-// //     <div onClick={handleClick} className="flex items-center cursor-pointer">
-// //       {isChecked ? (
-// //         <SquareCheckBig className="text-primary-400" />
-// //       ) : (
-// //         <Square className="text-neutral-500" />
-// //       )}
-// //       <div className="ml-4">
-// //         <p>{data?.name}</p>
-// //         <p className="text-neutral-500">{data?.description}</p>
-// //       </div>
-// //     </div>
-// //   );
-// // }
 // "use client";
 
 // import { useState, useEffect } from "react";
 // import { SquareCheckBig, Square } from "lucide-react";
+// import { useSelector } from "react-redux";
 
-// export default function Feature({ data, id, setpropertyFeature, propertyFeature }) {
+// export default function Feature({ data, id, setpropertyFeature, propertyFeature,submiteProperty,setSubmiteProperty }) {
+//   // Local state for checkboxfeatures setpropertyFeature propertyFeature
 //   const [isChecked, setIsChecked] = useState(false);
+//   const updateList=useSelector((state) => state.editForm.editlist?._id);
+//   const currentFormDataProperty = useSelector((state) => state.editForm.editlist?.homerule || {});
 
-//   // Log initial props and state
+//   // Sync `isChecked` with `data.value` when `data` changes
 //   useEffect(() => {
-//     console.log("Initial data:", data);
-//     console.log("Feature ID:", id);
-//     console.log("Initial propertyFeature:", propertyFeature);
-//     setIsChecked(data?.value || false);
-//   }, [data, id, propertyFeature]); // Track changes for better debugging
+//     setIsChecked(data?.value || false); // Initialize with `data.value`
+//     console.log("Feature initialized:", { id, data, isChecked });
+//     console.log("test",propertyFeature);
+//     setSubmiteProperty(propertyFeature);
+//     console.log("submiteProperty in components",submiteProperty)
+//   }, [data]);
 
+//   // Toggle checkbox and update parent state
 //   const handleClick = () => {
-//     const updatedFeature = { ...data, value: !isChecked };
-//     setIsChecked(!isChecked);
+//     const updatedValue = !isChecked; // Toggle current state
+//     setIsChecked(updatedValue);
 
 //     // Update parent state
 //     setpropertyFeature((prev) => {
-//       const updated = {
+//       const updatedPropertyFeature = {
 //         ...prev,
-//         [id]: updatedFeature,
+//         [id]: { ...data, value: updatedValue }, // Update specific feature
 //       };
-//       console.log("Updated propertyFeature:", updated); // Log updated state
-//       return updated;
+//       console.log("Updated propertyFeature:", updatedPropertyFeature);
+//       return updatedPropertyFeature;
+//     });
+//     setSubmiteProperty((prev) => {
+//       const updatedPropertyFeature = {
+//         ...prev,
+//         [id]: { ...data, value: updatedValue }, // Update specific feature
+//       };
+//       console.log("Updated propertyFeature:", updatedPropertyFeature);
+//       return updatedPropertyFeature;
 //     });
 //   };
 
 //   return (
 //     <div onClick={handleClick} className="flex items-center cursor-pointer">
+//       {/* Display checkbox based on isChecked */}
 //       {isChecked ? (
 //         <SquareCheckBig className="text-primary-400" />
 //       ) : (
@@ -86,52 +59,64 @@
 //     </div>
 //   );
 // }
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { SquareCheckBig, Square } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+// import { removeHomeRule } from "./list/editListSlice"; // Adjust path if needed
+import { removeHomeRule } from '@/redux/list/editListSlice';
 
-export default function Feature({ data, id, setpropertyFeature, propertyFeature,submiteProperty,setSubmiteProperty }) {
-  // Local state for checkboxfeatures setpropertyFeature propertyFeature
+export default function Feature({
+  data,
+  id,
+  setpropertyFeature,
+  propertyFeature,
+  submiteProperty,
+  setSubmiteProperty,
+}) {
   const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch();
 
-  // Sync `isChecked` with `data.value` when `data` changes
+
+
   useEffect(() => {
     setIsChecked(data?.value || false); // Initialize with `data.value`
-    console.log("Feature initialized:", { id, data, isChecked });
-    console.log("test",propertyFeature);
     setSubmiteProperty(propertyFeature);
-    console.log("submiteProperty in components",submiteProperty)
   }, [data]);
 
-  // Toggle checkbox and update parent state
   const handleClick = () => {
     const updatedValue = !isChecked; // Toggle current state
     setIsChecked(updatedValue);
 
-    // Update parent state
     setpropertyFeature((prev) => {
       const updatedPropertyFeature = {
         ...prev,
         [id]: { ...data, value: updatedValue }, // Update specific feature
       };
-      console.log("Updated propertyFeature:", updatedPropertyFeature);
+
+      if (!updatedValue) {
+        console.log("id",id)
+
+        dispatch(removeHomeRule({ key: id }));
+
+        // dispatch(removeHomeRule({  })); // Remove from homerule in Redux
+      }
+
       return updatedPropertyFeature;
     });
+
     setSubmiteProperty((prev) => {
       const updatedPropertyFeature = {
         ...prev,
         [id]: { ...data, value: updatedValue }, // Update specific feature
       };
-      console.log("Updated propertyFeature:", updatedPropertyFeature);
       return updatedPropertyFeature;
     });
   };
 
   return (
     <div onClick={handleClick} className="flex items-center cursor-pointer">
-      {/* Display checkbox based on isChecked */}
       {isChecked ? (
         <SquareCheckBig className="text-primary-400" />
       ) : (

@@ -14,9 +14,16 @@ export default function PropertyItem({data, index, listView}) {
 const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleEditClick = (data) => {
-    dispatch(editList(data)); // Set the ID in Redux
-    router.push("/edit-listing/home-rules"); // Navigate to the target page
+  const handleEditClick =async (data, e) => {
+    e.preventDefault(); 
+     // Store the data in localStorage as a string
+     localStorage.removeItem("data");
+
+  // Store the new data in localStorage as a string
+ await localStorage.setItem("data", JSON.stringify(data));
+  await  dispatch(editList(data)); // Set the ID in Redux
+    router.push("/edit-listing/property-type"); // Navigate to the target page
+
   };
   return (<div key={id} className={`${listView 
                 ? 'grid grid-cols-host-property h-12' 
@@ -58,7 +65,7 @@ const dispatch = useDispatch();
                         <Link href={`/listing/${id}`}></Link>
                     </buttom>}
                     <div className={`${listView && 'mx-auto'}w-40 flex gap-4  text-neutral-800`}>
-                        <div className="p-2 rounded-xl hover:bg-green-50" onClick={() => handleEditClick(data)} >
+                        <div className="p-2 rounded-xl hover:bg-green-50" onClick={(event) => handleEditClick(data, event)}  >
                             <FilePen className="icon" size={24}/>
                         </div>
                         <div className="p-2 rounded-xl hover:bg-red-50">

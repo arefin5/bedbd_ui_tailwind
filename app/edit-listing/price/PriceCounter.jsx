@@ -149,14 +149,21 @@ export default function PriceCounter({
     setServiceAmount(calculatedServiceAmount);
   }, [priceInfo.price, data?.taxRate, priceInfo.serviceFee, setGroundPrice, setServiceFee, setTax, setPrice]);
 
+  // const handleInputChange = (e) => {
+  //   const inputPrice = parseFloat(e.target.value) || data?.minPrice || 0;
+  //   setPriceInfo((prev) => ({
+  //     ...prev,
+  //     price: inputPrice >= (data?.minPrice || 0) ? inputPrice : data?.minPrice || 0,
+  //   }));
+  // };
   const handleInputChange = (e) => {
-    const inputPrice = parseFloat(e.target.value) || data?.minPrice || 0;
+    const inputPrice = parseFloat(e.target.value);
+  
     setPriceInfo((prev) => ({
       ...prev,
-      price: inputPrice >= (data?.minPrice || 0) ? inputPrice : data?.minPrice || 0,
+      price: isNaN(inputPrice) || inputPrice < 0 ? 0 : inputPrice,
     }));
   };
-
   const handlePriceFormatting = (num) => (isNaN(num) ? "0.00" : num.toFixed(2));
 
   return (
