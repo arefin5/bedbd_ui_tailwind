@@ -36,45 +36,10 @@ export default function Page() {
   useEffect(() => {
     setCheckInTime(checkInTimeOrCheckOut?.checkInTime);
     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
+    console.log(currentFormDataProperty)
      setFeatures(currentFormDataProperty?.homesRoules);
-  }, [checkInTimeOrCheckOut,currentFormDataProperty,]);
-
-//   useEffect(() => {
-//     setCheckInTime(checkInTimeOrCheckOut?.checkInTime);
-//     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
-  
-//     const homesRoules = currentFormDataProperty?.homesRoules;
-//     if (homesRoules && Object.keys(homesRoules).length > 0) {
-//       setFeatures(homesRoules);
-//     } else {
-//       setFeatures(null); // No features to display
-//     }
-  
-//     const timeout = setTimeout(() => {
-//       setLoading(false);
-//     }, 1000); // Simulate loading delay (adjust as needed)
-  
-//     return () => clearTimeout(timeout);
-//   }, [checkInTimeOrCheckOut, currentFormDataProperty]);
-
-
-// useEffect(() => {
-//     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
-//     setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
-//     const homesRoules = currentFormDataProperty?.homesRoules;
-//     if (homesRoules && Object.keys(homesRoules).length > 0) {
-//       setFeatures(homesRoules); // Populate features if data exists
-//     } else {
-//       setFeatures(null); // Indicate no features are available
-//     }
-
-//     // Simulate an asynchronous operation or real data fetch
-//     const timeout = setTimeout(() => {
-//       setLoading(false); // Set loading to false after a delay
-//     }, 1000); // Adjust the delay as needed
-
-//     return () => clearTimeout(timeout); // Clean up the timeout
-//   }, [currentFormDataProperty]);
+     console.log("home rule",features)
+  }, [checkInTimeOrCheckOut,currentFormDataProperty]);
 
 
   const handleContinue = async (e) => {
@@ -99,8 +64,8 @@ const homesRules = combinedFeatures.reduce((acc, feature) => {
 }, {});
 
 const payload = {
-    homesRules, // Combined rules object
-    checkInTime, // Additional properties
+    homesRules:homesRules, 
+    checkInTime, 
     checkOutTime,
 };
   
@@ -119,10 +84,10 @@ const payload = {
   };
 const handleSaveNewFeature = (e) => {
   e.preventDefault();
-  if (newFeatureTitle && newFeatureDescription) {
+  if (newFeatureTitle) {
       const newFeature = {
           name: newFeatureTitle, // Use name as the key
-          description: newFeatureDescription,
+        //   description: newFeatureDescription,
           value: false, // Default unchecked value
       };
 
@@ -137,7 +102,7 @@ const handleSaveNewFeature = (e) => {
     }));
       // Reset the form
       setNewFeatureTitle('');
-      setNewFeatureDescription('');
+    //   setNewFeatureDescription('');
       setShowAddForm(false);
   } else {
       alert("Please fill in both the feature title and description.");
@@ -185,16 +150,16 @@ const handleAddMore = () => {
                   {/* Form for adding a new feature, hidden initially */}
                   {showAddForm && (
                       <div className='mt-6'>
-                          <h3 className="text-neutral-500 font-medium text-xl mb-4">Feature Title</h3>
+                          <h3 className="text-neutral-500 font-medium text-xl mb-4">Home Rules</h3>
                           <input
                               name='new_feature_title'
                               type='text'
                               className='form-input'
-                              placeholder='Enter new feature title'
+                              placeholder='Enter new Home Rule'
                               value={newFeatureTitle}
                               onChange={(e) => setNewFeatureTitle(e.target.value)}
                           />
-                          <h3 className="text-neutral-500 font-medium text-xl mt-4 mb-4">Feature Description</h3>
+                          {/* <h3 className="text-neutral-500 font-medium text-xl mt-4 mb-4">Feature Description</h3>
                           <textarea
                               rows="2"
                               name='new_feature_description'
@@ -202,14 +167,14 @@ const handleAddMore = () => {
                               placeholder='Enter new feature description'
                               value={newFeatureDescription}
                               onChange={(e) => setNewFeatureDescription(e.target.value)}
-                          />
+                          /> */}
 
                           {/* Button to save the new feature */}
                           <button
                               className='btn btn-primary mt-4'
                               onClick={handleSaveNewFeature}
                           >
-                              Save Feature
+                              Save HomeRule
                           </button>
                       </div>
                   )}

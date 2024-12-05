@@ -12,7 +12,8 @@ export default function Sidebar({ user }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [hanlarotp, setOptSubmite] = useState(false);
- const [hanlarotpPhone, sethanlarotpPhone] = useState(false)
+ const [hanlarotpPhone, sethanlarotpPhone] = useState(false);
+ const [verrification,setVerification]=useState(false)
  const [otp, setOtp] = useState("");
  const dispatch = useDispatch();
  const {  isLoading, error, token } = useSelector((state) => state.auth);
@@ -20,6 +21,9 @@ export default function Sidebar({ user }) {
   useEffect(() => {
     if (user.email) setEmail(user.email);
     if (user.phone) setPhone(user.phone);
+    if(user?.varificationId){
+      setVerification(true)
+    }
 }, [user, token,hanlarotp, hanlarotpPhone,otp]);
  
 
@@ -151,7 +155,11 @@ const VerifyedPhone = async(e) => {
                 </button>
               </>
             )}
-       <Link className="text-neutral-500 text-2xl font-semibold mb-6" href="/registration/start">
+            {/* verification Status*/}
+            {verrification  ?(<>
+              your identity is Verified  <Icon name="badge-check" className="icon inline" />
+            </>):(<>
+              <Link className="text-neutral-500 text-2xl font-semibold mb-6" href="/registration/start">
        {/* <h1 className="text-neutral-500 text-2xl font-semibold mb-6"> */}
           Verify your identity
         {/* </h1> */}
@@ -163,6 +171,8 @@ const VerifyedPhone = async(e) => {
         <button className="btn btn-secondary rounded-full">Get Verified</button>
 
        </Link>
+            </>)}
+      
       </div>
     </div>
   );
