@@ -9,10 +9,13 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import BookingCounter from "./BookingCounter";
 
-const BookingBox = ({ data }) => {
+
+const BookingBox = ({data, searchParams} ) => {
     const { price, serviceFee, tax, GroundPrice, _id } = data;
     const id = _id;
     const { token } = useSelector((state) => state.auth);
+
+    
     
     const { selectedDate } = useSelector((state) => state.search);
     console.log(selectedDate)
@@ -24,9 +27,38 @@ const BookingBox = ({ data }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
+    console.log(router)
     const { user } = useSelector((state) => state.auth);
 
     const [checkInDate, checkOutDate] = dateRange;
+
+
+    
+
+    useEffect(()=>{
+        let ignore = false 
+        function formatDate(dateString) {
+            const dateParts = dateString.split('-');
+            return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+          }
+        if(!ignore){
+            if(!(Object.keys(searchParams).length === 0)){
+                const { checkIn, checkOut } = searchParams
+                if(checkIn && !checkOut){
+                    const checkInDate = formatDate(checkIn)
+                    setDateRange([checkInDate, dateRange[1]])
+                }else if(!checkOut && checkOut){
+                    const checkOutDate = formatDate(checkOut)
+                    setDateRange([ dateRange[0], checkOutDate])
+                }else if(checkIn && checkOut){
+                    const checkInDate = formatDate(checkIn)
+                    const checkOutDate = formatDate(checkOut)
+                    setDateRange([checkInDate, checkOutDate])
+                }
+            }
+        }
+        return ()=> ignore = true 
+    }, [])
 
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
@@ -109,7 +141,6 @@ const BookingBox = ({ data }) => {
 
         try {
             const response = await axiosInstance.post(`/book-property/${id}`, reservationData);
-               console.log(response);
                setLoading(false);
                alert(" Your booking has been Requested.");
                window.location.href = "/user/bookinglist";

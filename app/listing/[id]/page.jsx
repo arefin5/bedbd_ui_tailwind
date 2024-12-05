@@ -31,6 +31,8 @@ import WriteReview from "@/components/WriteReview";
 import BookingBox from "@/components/BookingBox";
 import SendMessage from "@/components/SendMessage";
 import HomeRules from "@/components/HomeRules";
+// import { useRouter } from "next/router";
+
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
 const getListing = async (id) => {
@@ -40,8 +42,9 @@ const getListing = async (id) => {
 };
 
 
-export default async function page({ params }) {
+export default async function page({searchParams, params}) {
     const data = await getListing(params.id)
+    
     // console.log(data);
     const {
         reviews,
@@ -333,7 +336,7 @@ export default async function page({ params }) {
                     {/* Booking box  */}
 
                     <div className="w-fit  min-w-490px py-2 relative ">
-                        <BookingBox data={data} />
+                        <BookingBox data={data} searchParams={searchParams}/>
                     </div>
                 </div>
 
