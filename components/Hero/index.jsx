@@ -40,61 +40,7 @@ export default function Hero() {
         console.log(guestCount)
         // console.log("lists in use Effect", lists);
     }, [selectedDate, showData, lists,guestCount])
-    // const  formSubmit=async(e)=> {
-    //     e.preventDefault()
-    //     console.log("location",location)
-    //     console.log("date",selectedDate)
-    //     // if(location.selectedLocation.hasOwnProperty("latitude")
-    //     //                         &&
-    //     //     location.selectedLocation.hasOwnProperty("longitude")){
-    //     //         dispatch(setMapOpen())
-    //     //         if(mapRef?.current){
-    //     //             mapRef?.flyTo({center: [location.selectedLocation.longitude, location.selectedLocation.latitude],
-    //     //                 zoom: 10,})
-    //     //         }
-
-    //     //     }
-    //     dispatch(setMapOpen())
-
-    //     let checkinDate=null;
-    //      let   checkoutDate=null;
-    //     if (selectedDate.length === 2) {
-    //          checkinDate =  new Date(selectedDate[0]).toISOString();
-    //          checkoutDate = new Date(selectedDate[1]).toISOString();
-    //         // console.log("checkinDate:", checkinDate);    
-    //         // console.log("checkoutDate:", checkoutDate);
-    //     } else {
-    //         console.log("Selected date range is invalid");
-    //     }
-    //    const latitude =location.selectedLocation.latitude;
-    //     const  longitude=location.selectedLocation.longitude;
-    //    const locations=location.selectedLocation ;
-    //    const searchdata={
-    //     longitude:longitude,
-    //     latitude:latitude,
-    //     locations:locations,
-    //     checkinDate,
-    //     checkoutDate,
-    //    }
-    // //    console.log(searchdata);
-
-    //     const response = await axios.get("http://localhost:5001/api/sort-by-location/", {
-    //         params: searchdata, 
-    //     });
-
-    //     // console.log(response);
-
-    //     //  console.log(response.data);
-    //      if(response.data?.length<0){
-    //         console.log(response.data);
-
-    //         setShowData(true);
-    //         setLists(response.data)
-    //      }
-    //     // mapRef.flyTo({
-    //     //     center: [(Math.random() - 0.5) * 360, (Math.random() - 0.5) * 100],
-    //     // });
-    // }
+ 
     const formSubmit = async (e) => {
         e.preventDefault();
         dispatch(setMapOpen());
@@ -126,6 +72,8 @@ export default function Hero() {
             if (response.data?.length > 0) {
                 setLists(response.data);
                 setShowData(true);
+                // const queryParams = new URLSearchParams(searchdata).toString();
+                // window.open(`/search`, '_blank');
             } else {
                 console.log("No data found");
                 setShowData(false);

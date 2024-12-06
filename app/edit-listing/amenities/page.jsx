@@ -4,7 +4,9 @@ import Icon from '/components/Icon';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { updateFormData } from '@/redux/list/createListSlice';
+import { updateFormData } from '@/redux/list/editListSlice';
+
+// propertyFeature 
 
 export default function Page() {
   const initialAmenitiesState = {
@@ -54,11 +56,18 @@ export default function Page() {
   const router = useRouter();
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.form);
-
+  const amenitiesDefault =useSelector((state) => state.editForm.editlist?.amenities) || {};
   useEffect(() => {
-    // console.log("Updated Amenities:", amenities);
-  }, [amenities]);
-
+    // console.log("Updated Amenities:", amenitiesDefault);
+    // amenities
+    setAmenities(amenitiesDefault)
+  }, [amenitiesDefault]);
+  // useEffect(() => {
+  //   setAmenities((prevState) => ({
+  //     ...prevState,
+  //     ...amenitiesDefault
+  //   }));
+  // }, [amenitiesDefault]);
   const handleCheckboxChange = (category, field) => {
     setAmenities((prevState) => ({
       ...prevState,
@@ -77,12 +86,12 @@ export default function Page() {
     };
     
     dispatch(updateFormData(payload));
-    console.log('Current Redux state amentise:', formData);
-    router.push('/add-listing/home-rules');
+    // console.log('Current Redux state amentise:', formData);
+    router.push('/edit-listing/home-rules');
   };
   const back=(e)=>{
     e.preventDefault();
-    router.push("/add-listing/accommodation-details")
+    router.push("/edit-listing/accommodation-details")
 
   }
   return (
@@ -98,7 +107,7 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.outdoorScenicView.lakeAccess}
+                  checked={amenities?.outdoorScenicView?.lakeAccess}
                   onChange={() => handleCheckboxChange('outdoorScenicView', 'lakeAccess')}
                 />
                 Lake Access
@@ -106,7 +115,7 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.outdoorScenicView.beachAccess}
+                  checked={amenities?.outdoorScenicView?.beachAccess}
                   onChange={() => handleCheckboxChange('outdoorScenicView', 'beachAccess')}
                 />
                 Beach Access
@@ -114,7 +123,7 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.outdoorScenicView.ski}
+                  checked={amenities?.outdoorScenicView?.ski}
                   onChange={() => handleCheckboxChange('outdoorScenicView', 'ski')}
                 />
                 Ski
@@ -127,23 +136,28 @@ export default function Page() {
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.cookingCleaning.kitchen}
+                  checked={amenities?.cookingCleaning?.kitchen}
                   onChange={() => handleCheckboxChange('cookingCleaning', 'kitchen')}
                 />
                 Kitchen
               </label>
               <label>
-                <input
+              <input
+  type="checkbox"
+  checked={amenities?.cookingCleaning?.bbqGrill || false}
+  onChange={() => handleCheckboxChange('cookingCleaning', 'bbqGrill')}
+/>
+                {/* <input
                   type="checkbox"
-                  checked={amenities.cookingCleaning.bbqGrill}
+                  checked={amenities?.cookingCleaning?.bbqGrill}
                   onChange={() => handleCheckboxChange('cookingCleaning', 'bbqGrill')}
-                />
+                /> */}
                 BBQ Grill
               </label>
               <label>
                 <input
                   type="checkbox"
-                  checked={amenities.cookingCleaning.outdoorDiningArea}
+                  checked={amenities?.cookingCleaning?.outdoorDiningArea}
                   onChange={() => handleCheckboxChange('cookingCleaning', 'outdoorDiningArea')}
                 />
                 Outdoor Dining Area

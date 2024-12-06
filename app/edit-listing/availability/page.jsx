@@ -2,9 +2,10 @@
 "use client";
 import Icon from '/components/Icon';
 import InputRadioButton from './InputRadioButton';
-import { useCallback, useState } from 'react';
-import { updateFormData } from '@/redux/list/createListSlice';
-import { useDispatch } from 'react-redux';
+import {  useEffect, useState } from 'react';
+import { updateFormData } from '@/redux/list/editListSlice';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
 export default function Page() {
@@ -13,13 +14,23 @@ export default function Page() {
         checkInStart: '',
         allowExtend: '',
         bookingExtend: '',
-       
-      
       
     });
     const router = useRouter();
     const dispatch = useDispatch();
+const existAvailAble=useSelector((state) => state.editForm.editlist?.availablecheck);
 
+
+useEffect(() => {
+    // console.log(existAvailAble)
+    if (existAvailAble) {
+        setFormValues({
+            checkInStart: existAvailAble.checkInStart || '',
+            allowExtend: existAvailAble.allowExtend || '',
+            bookingExtend: existAvailAble.bookingExtend || '',
+        });
+    }
+}, [existAvailAble])
     const handleInputChange = (name, value) => {
         setFormValues((prev) => ({
             ...prev,
@@ -32,15 +43,15 @@ export default function Page() {
         try {
             const { checkInStart, allowExtend, bookingExtend   } = formValues;
             const payload = { 
-                availablecheck:{
-                    checkInStart, 
-                    allowExtend,
-                    bookingExtend 
+                      availablecheck:{
+                      checkInStart, 
+                       allowExtend,
+                      bookingExtend 
                 }
                 };
             await dispatch(updateFormData(payload));
           
-            router.push('/add-listing/approving');
+            router.push('/edit-listing/approving');
         } catch (error) {
             console.log("Error: ", error);
         }
@@ -48,14 +59,14 @@ export default function Page() {
 
     const back = (e) => {
         e.preventDefault();
-        console.log('Navigating to /add-listing/price');
-        router.push('/add-listing/price');
+        // console.log('Navigating to /add-listing/price');
+        router.push('/edit-listing/price');
     };
 
     return (
         <div className="min-h-screen py-20">
             <div>
-                <h2 className="text-primary-400 text-4xl text-center font-medium mb-2">Set Price</h2>
+                <h2 className="text-primary-400 text-4xl text-center font-medium mb-2">Availability</h2>
                 <h3 className='text-sm font-normal text-neutral-500 text-center'>
                     From your profile dashboard, you also will be able to change all availability.
                 </h3>

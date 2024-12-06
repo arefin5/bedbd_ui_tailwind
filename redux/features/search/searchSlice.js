@@ -72,6 +72,7 @@ const searchSlice = createSlice({
       };
       },
     clearDateSelection: (state, action) => {
+      localStorage.removeItem('selectedDate');
       // localStorage.removeItem("selectedDate");
       return {
         ...state,
@@ -79,6 +80,7 @@ const searchSlice = createSlice({
       };
       },
     setCheckInOutDate: (state, action) => {
+      localStorage.setItem('selectedDate', JSON.stringify(action.payload));
       // localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
       return {
         ...state,

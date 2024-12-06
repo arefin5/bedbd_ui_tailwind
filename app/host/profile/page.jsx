@@ -471,8 +471,10 @@ export default function profile() {
   };
   const VerifyedEmail = (e) => {
     e.preventDefault();
-    dispatch(verifyOtpEmail({ email, otp }));
-    setOptSubmite(false);
+     dispatch(verifyOtpEmail({ email, otp }));
+     setOptSubmite(false);
+     sethanlarotpPhone(false);
+     setOtp("")
   };
 
   // phone 
@@ -493,7 +495,9 @@ export default function profile() {
   const VerifyedPhone = (e) => {
     e.preventDefault();
     dispatch(verifyOtp({ phone, otp }));
+    sethanlarotpPhone(false)
     setOptSubmite(false);
+    setOtp("")
   };
 
   return (

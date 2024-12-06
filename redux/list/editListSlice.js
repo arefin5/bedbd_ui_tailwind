@@ -27,22 +27,23 @@ export const optionalSubmit = (data, id) => async (dispatch) => {
   }
 };
 
+// Async action for submitting a list
 export const submitList = createAsyncThunk(
   "form/submitList", 
   async (listData, { rejectWithValue }) => {
-    // console.log("submite ",listData)
+    console.log("submit ", listData);
     try {
       const payload = Object.fromEntries(
         Object.entries(listData).filter(([_, value]) => value !== undefined && value !== null)
       );
       // Make the API call with the dynamic payload
-      const response = await axiosInstance.post('/create-list', payload);
+      const response = await axiosInstance.put(`/update-list/${listData.id}`, payload);
       return response.data;
 
     } catch (error) {
-      console.log(error.response?.data?.message);
+      console.error(error.response?.data?.message);
 
-      if (error.response && error.response.data && error.response.data.error) {
+      if (error.response?.data?.error) {
         return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
       }
 
@@ -66,8 +67,6 @@ const formSliceEdit = createSlice({
       state.editlist = action.payload; // Store the selected property data
     },
     updateFormData(state, action) {
-      // console.log("redux", action.payload);
-      // console.log("from redux form data ", state.formData);
       // Merge new dynamic form properties into existing formData
       state.formData = {
         ...state.formData,
@@ -78,7 +77,65 @@ const formSliceEdit = createSlice({
       state.id = null;
       state.formData = {};
     },
+  //   removeHomeRule(state, action) {
+  //     const { key } = action.payload; // Assuming the payload contains the key of the rule to remove
+  //        // Log the payload for debugging
+  // // Remove the home rule by deleting the specified key from homesRoules
+  // if (state.editlist.homesRoules && state.editlist.homesRoules[key]) {
+  //   delete state.editlist.homesRoules[key];
+  //   console.log("action.payload",state.editlist); 
+  // }
+  //   },
+//     removeHomeRule(state, action) {
+//   const { key } = action.payload; // Extract the key from the payload
+
+//   // Ensure editlist is an array
+//   if (Array.isArray(state.editlist)) {
+//     state.editlist = state.editlist.filter(item => item.key !== key);
+//     console.log("Updated editlist:", state.editlist); // Debugging log
+//   } else {
+//     console.error("editlist is not an array!");
+//   }
+// },
+// removeHomeRule(state, action) {
+//   const { key } = action.payload; // Extract the key from the payload
+
+//   if (state.editlist && typeof state.editlist === 'object') {
+//     // Assuming editlist.homesRules is an object
+//     console.log(state.editlist.homerule)
+//     console.log("editlist:", state.editlist);
+//   console.log("homerule:", state.editlist.homerule);
+//   console.log("homesRoules:", state.editlist.homerule?.homesRoules);
+//     if (state.editlist.homerule.homesRoules && state.editlist.homerule.homesRoules[key]) {
+//       delete state.editlist.homerule.homesRoules[key];
+//       console.log("Updated homesRoules:", state.editlist.homesRoules); // Debugging log
+//     } else {
+//       console.error("Key does not exist in homesRoules!");
+//     }
+//   } else {
+//     console.error("editlist is not an object or is undefined!");
+//   }
+// }
+removeHomeRule(state, action) {
+  const { key } = action.payload; // Extract the key from the payload
+
+  if (state.editlist && state.editlist.homerule && typeof state.editlist.homerule === 'object') {
+    const homesRoules = state.editlist.homerule.homesRoules;
+        console.log(state.editlist)
+    // Check if homesRoules exists and the key exists inside it
+    if (homesRoules && homesRoules.hasOwnProperty(key)) {
+      // Remove the home rule by deleting the specified key
+      delete homesRoules[key];
+      console.log("Updated homesRoules:", homesRoules); // Debugging log
+    } else {
+      console.error("Key does not exist in homesRoules!");
+    }
+  } else {
+    console.error("editlist or homerule is not an object or is undefined!");
+  }
+}
   },
+ 
   extraReducers: (builder) => {
     builder
       .addCase(submitList.pending, (state) => {
@@ -96,6 +153,7 @@ const formSliceEdit = createSlice({
   }
 });
 
-export const { setId, updateFormData, clearFormData,editList } = formSliceEdit.actions;
+// Export actions and reducer
+export const { setId, updateFormData, clearFormData, editList, removeHomeRule } = formSliceEdit.actions;
 
 export default formSliceEdit.reducer;

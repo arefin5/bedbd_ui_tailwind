@@ -1,26 +1,20 @@
 
 "use client";
+
 import { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
 
-export default function DropImage({ setImages }) {
+export default function DropImage({ setImages, existingImages ,handleRemoveImage }) {
   const [previewImages, setPreviewImages] = useState([]);
-  const [dragActive, setDragActive] = useState(false);
-  const [isDropEvent, setIsDropEvent] = useState(false);
-
   const MAX_FILE_SIZE_MB = 5;
   const SUPPORTED_FORMATS = ["image/jpeg", "image/png"];
 
   useEffect(() => {
-    console.log(previewImages);
-
-    return () => {
-      // Cleanup object URLs to prevent memory leaks
-      previewImages.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, [previewImages]);
+    setPreviewImages(existingImages.map((img) => img.preview));
+    setImages(existingImages);
+  }, [existingImages]);
 
   const validateFile = (file) => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
@@ -44,7 +38,6 @@ export default function DropImage({ setImages }) {
         newImages.push(previewUrl);
         fileObjects.push({ file, preview: previewUrl });
       } else {
-        // Optional: Convert unsupported formats
         try {
           const options = { maxSizeMB: 5, fileType: "image/jpeg" };
           const compressedFile = await imageCompression(file, options);
@@ -65,52 +58,42 @@ export default function DropImage({ setImages }) {
 
   const handleDragOver = (event) => {
     event.preventDefault();
-    setDragActive(true);
-  };
-
-  const handleDragLeave = () => {
-    setDragActive(false);
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
-    setDragActive(false);
     handleFiles(event.dataTransfer.files);
-    setIsDropEvent(true);
   };
 
   const handleChange = (event) => {
     handleFiles(event.target.files);
   };
 
-  const handleClick = () => {
-    if (!isDropEvent) {
-      document.getElementById("fileInput").click();
-    }
-    setIsDropEvent(false);
-  };
+  // const handleRemoveImage = (index) => {
+  //   setPreviewImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
+  //   setImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
+  // };
 
   return (
     <>
       <div
         onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={handleClick}
-        className={`cursor-pointer w-full max-w-4xl bg-neutral-100 border border-neutral-400 border-dashed rounded-10px py-10 ${
-          dragActive ? "bg-neutral-200" : ""
-        }`}
+        className="cursor-pointer w-full max-w-4xl bg-neutral-100 border border-neutral-400 border-dashed rounded-10px py-10"
       >
         <input
           type="file"
-          id="fileInput"
           accept="image/*"
           multiple
           onChange={handleChange}
           className="hidden"
+          id="fileInput"
         />
         <h3 className="text-center text-neutral-700 text-sm font-medium">Drag and drop or</h3>
-        <div className="py-3 px-6 mt-6 mb-2.5 ml-auto mr-auto flex gap-x-4 w-fit text-neutral-600 text-base font-medium border rounded-lg border-neutral-200">
+        <div
+          className="py-3 px-6 mt-6 mb-2.5 mx-auto flex gap-x-4 w-fit text-neutral-600 text-base font-medium border rounded-lg border-neutral-200"
+          onClick={() => document.getElementById("fileInput").click()}
+        >
           <Plus className="icon" />
           Upload photos
         </div>
@@ -129,11 +112,7 @@ export default function DropImage({ setImages }) {
             >
               <Image src={image} alt={`image-${index}`} layout="fill" className="object-cover" />
               <div
-                onClick={() =>
-                  setPreviewImages((prev) =>
-                    prev.filter((_, imgIndex) => imgIndex !== index)
-                  )
-                }
+                onClick={() => handleRemoveImage(index)}
                 className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
               >
                 <X className="icon" />
