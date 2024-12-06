@@ -24,7 +24,7 @@ export default function page() {
                     </select>
                 </div>
             </div>
-
+    
             <ul className='text-neutral-400 font-xl font-medium | flex gap-14 py-6'>
                 <li>Pending</li>
                 <li className='text-primary-400 underline'>Listed</li>
@@ -130,7 +130,6 @@ export default function page() {
                             </li>
                         </ul>
                     </div>
-                    
                 </div>
             </div>
         </div>
