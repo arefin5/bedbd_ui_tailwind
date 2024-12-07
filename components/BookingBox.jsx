@@ -28,13 +28,6 @@ const BookingBox = ({ data }) => {
 
     const [checkInDate, checkOutDate] = dateRange;
 
-    // const calculateDays = () => {
-    //     if (checkInDate && checkOutDate) {
-    //         const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
-    //         return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-    //     }
-    //     return 1;
-    // };
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
