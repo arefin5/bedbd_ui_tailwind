@@ -28,14 +28,21 @@ const BookingBox = ({ data }) => {
 
     const [checkInDate, checkOutDate] = dateRange;
 
+    // const calculateDays = () => {
+    //     if (checkInDate && checkOutDate) {
+    //         const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
+    //         return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    //     }
+    //     return 1;
+    // };
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
-            return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            return days > 0 ? days : 1; // Return 1 if days is 0 or negative
         }
-        return 1;
+        return 1; // Default to 1 if dates are not provided
     };
-  
     
     const handleCounterChange = (name, newValue) => {
         setGuestCount(newValue);
