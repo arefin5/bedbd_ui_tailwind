@@ -18,7 +18,7 @@ const BookingBox = ({data, searchParams} ) => {
     
     
     const { selectedDate } = useSelector((state) => state.search);
-    console.log(selectedDate)
+    // console.log(selectedDate)
     
     const [bookingDetails, setBookingDetails] = useState(null);
     const [bookedDates, setBookedDates] = useState([]);
@@ -66,18 +66,13 @@ const BookingBox = ({data, searchParams} ) => {
             const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
             return days > 0 ? days : 1; // Return 1 if days is 0 or negative
         }
-        return 1; // Default to 1 if dates are not provided
+        return 1;
     };
     
     const handleCounterChange = (name, newValue) => {
         setGuestCount(newValue);
     };
 
-    // const totalNights = calculateDays();
-    // const totalserviceFee = serviceFee * totalNights;
-    // const totalGroundPrice = GroundPrice * totalNights;
-    // const totalTax = tax * totalNights;
-    // const totalPrice = totalGroundPrice + totalserviceFee + totalTax;
     const totalNights = calculateDays();
     const totalserviceFee = (serviceFee * totalNights).toFixed(2);
     const totalGroundPrice = (GroundPrice * totalNights).toFixed(2);
