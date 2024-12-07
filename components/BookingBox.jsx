@@ -67,7 +67,8 @@ const BookingBox = ({data, searchParams} ) => {
         }
         return 1;
     };
-
+  
+    
     const handleCounterChange = (name, newValue) => {
         setGuestCount(newValue);
     };
@@ -163,8 +164,8 @@ const BookingBox = ({data, searchParams} ) => {
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
                 <div className="py-4 px-8">
                 <div className="flex justify-between">
-            <label className="block text-neutral-600 text-sm font-semibold">Check In   Check Out</label>
-            {/* <label className="block text-neutral-600 text-sm font-semibold">Check Out</label> */}
+            <label className="block text-neutral-600 text-sm font-semibold">Check In  
+            Check Out</label>
         </div>
                     <DatePicker
                         selected={checkInDate}
@@ -199,13 +200,14 @@ const BookingBox = ({data, searchParams} ) => {
                         <span className="text-neutral-500 float-right">${GroundPrice * totalNights}</span>
                     </li>
                     
-                    <li className="text-neutral-400 font-semibold text-lg">
-                    Tax/VAT
-                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
-                    </li>
+                   
                     <li className="text-neutral-400 font-semibold text-lg">
                             Platform fee (instead of bedbd fee)
                         <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
+                    </li>
+                    <li className="text-neutral-400 font-semibold text-lg">
+                    Tax/VAT
+                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
                     </li>
                 </ul>
             </div>
