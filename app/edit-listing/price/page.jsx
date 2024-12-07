@@ -22,19 +22,10 @@ export default function Page() {
     const fetchService = async () => {
       try {
         setGroundPrice(existPrice)
-        // console.log(existPrice);
-        // const response = await axios.get("https://backend.bedbd.com/api/service-rate");
-        // setGroundPrice(existPrice || response.data.minPrice);
-        // setData(response.data);
-        // setGroundPrice(existPrice || response.data.minPrice);
-        // // Set the initial ground price
-        // // console.log(data);
-        const response = await axios.get("https://backend.bedbd.com/api/service-rate");
-
-        // Set the fetched data and override the price with existPrice
+       const response = await axios.get("https://backend.bedbd.com/api/service-rate");
         setData((prevData) => ({
           ...response.data,
-          minPrice: existPrice || 100, // Fallback to minPrice if existPrice is undefined
+          minPrice: existPrice || 0, // Fallback to minPrice if existPrice is undefined
         }));
       } catch (error) {
         console.error("Error fetching service rates:", error);
@@ -46,7 +37,9 @@ export default function Page() {
   const handleSubmitImage = async (e) => {
     e.preventDefault();
     try {
-      const payload = { price, serviceFee, tax, groundPrice };
+      const payload = { price, serviceFee, tax,
+         groundPrice};
+         
       await dispatch(updateFormData(payload));
       console.log("Form Data Submitted:", payload);
       router.push("/edit-listing/availability");

@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 
-// const SOCKET_URL = "http://localhost:5001";
-const SOCKET_URL = "http://145.223.22.239:5001";
+const SOCKET_URL = "http://localhost:5001";
+// const SOCKET_URL = "http://145.223.22.239:5001";
 const SendMessage = ({ users }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('');
