@@ -140,8 +140,8 @@ const BookingBox = ({ data }) => {
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
                 <div className="py-4 px-8">
                 <div className="flex justify-between">
-            <label className="block text-neutral-600 text-sm font-semibold">Check In   Check Out</label>
-            {/* <label className="block text-neutral-600 text-sm font-semibold">Check Out</label> */}
+            <label className="block text-neutral-600 text-sm font-semibold">Check In  
+            Check Out</label>
         </div>
                     <DatePicker
                         selected={checkInDate}
