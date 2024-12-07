@@ -28,14 +28,22 @@ const BookingBox = ({ data }) => {
 
     const [checkInDate, checkOutDate] = dateRange;
 
+    // const calculateDays = () => {
+    //     if (checkInDate && checkOutDate) {
+    //         const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
+    //         return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    //     }
+    //     return 1;
+    // };
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
-            return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            return days > 0 ? days : 1; // Return 1 if days is 0 or negative
         }
-        return 1;
+        return 1; // Default to 1 if dates are not provided
     };
-
+    
     const handleCounterChange = (name, newValue) => {
         setGuestCount(newValue);
     };
@@ -168,13 +176,14 @@ const BookingBox = ({ data }) => {
                         <span className="text-neutral-500 float-right">${GroundPrice * totalNights}</span>
                     </li>
                     
-                    <li className="text-neutral-400 font-semibold text-lg">
-                    Tax/VAT
-                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
-                    </li>
+                   
                     <li className="text-neutral-400 font-semibold text-lg">
                             Platform fee (instead of bedbd fee)
                         <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
+                    </li>
+                    <li className="text-neutral-400 font-semibold text-lg">
+                    Tax/VAT
+                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
                     </li>
                 </ul>
             </div>
