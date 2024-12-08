@@ -9,6 +9,10 @@ import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
   const [authorBookings, setAuthorBookings] = useState([]);
+  const [bookingList, setBookingList] = useState([]);
+  const [sPayment,setsPayment]=useState(0);
+  const [canPayment,setCancelPayment]=useState(0);
+  
 
   const fetchAuthorListBooking = async () => {
     try {
@@ -19,8 +23,29 @@ export default function Dashboard() {
     }
   };
 
+const fetchSuccess = async () => {
+  try {
+      const response = await axiosInstance.get("/host-all-booking-list");
+      const allBookings = response?.data || [];
+
+      // Filter by status: "paymentsuccess"
+      const successfulBookings = allBookings.filter(booking => booking.status === "paymentsuccess");
+
+      // Calculate the sum of basePrice for filtered bookings
+      const totalBasePrice = successfulBookings.reduce((sum, booking) => sum + (booking.basePrice || 0), 0);
+      const cancelBooking=allBookings.filter(booking => booking?.status === "cancel");
+      const totalCancelPrice = cancelBooking.reduce((sum, booking) => sum + (booking.basePrice || 0), 0);
+      setsPayment(totalBasePrice);
+      setCancelPayment(totalCancelPrice)
+
+  } catch (error) {
+      console.error("Error fetching pending list:", error);
+  }
+};
+
   useEffect(() => {
     fetchAuthorListBooking();
+    fetchSuccess();
   }, []);
 
   return (
@@ -28,8 +53,9 @@ export default function Dashboard() {
       <>
         <PendingRequestNotification />
         <PropertyList />
-       
-        <Chart data={[{ value: 45, title: 'Booked' }, { value: 20, title: 'Canceled' }]} title="Booked & Canceled" totalValue="11254" />
+  
+        <Chart data={[{ value: sPayment, title: 'Booked' },
+         { value: canPayment, title: 'Canceled' }]} title="Booked & Canceled" totalValue={sPayment+canPayment} />
         <RevenueChart bookings={authorBookings} />
       </>
     </div>
