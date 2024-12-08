@@ -73,6 +73,7 @@ module.exports = {
       },
       padding: {
         '7.5': '1.875rem',
+        
       },
       colors: {
         'hero':'var(--clr-bg-hero)',
@@ -124,6 +125,10 @@ module.exports = {
     },
   },
   plugins: [
+    plugin(function ({ addVariant }) {
+      addVariant('child', '& > *');
+      addVariant('child-hover', '& > *:hover');
+  }),
     plugin(function({ addUtilities }) {
       addUtilities({
         '.placeholder-medium': {
