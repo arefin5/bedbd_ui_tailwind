@@ -198,7 +198,7 @@ export default function Page() {
             <input 
               placeholder="Address"
               value={birth}
-              onChange={(e) => setParmanent(e.target.setBirth)}
+              onChange={(e) => setBirth(e.target.setBirth)}
 
             />
                {ageWarning && (
