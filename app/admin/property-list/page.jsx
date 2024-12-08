@@ -24,7 +24,7 @@ export default function page() {
                     </select>
                 </div>
             </div>
-
+    
             <ul className='text-neutral-400 font-xl font-medium | flex gap-14 py-6'>
                 <li>Pending</li>
                 <li className='text-primary-400 underline'>Listed</li>
@@ -64,9 +64,9 @@ export default function page() {
                                 </button>
                             </li>
                             <li className='pl-6 text-center flex items-center justify-center gap-6'>
-                                <button className="py-2 px-2 rounded-lg bg-neutral-50">
+                                <div className="py-2 px-2 rounded-lg bg-neutral-50">
                                     <ToggleButton/>
-                                </button>
+                                </div>
                                 <button className="py-2 px-2 rounded-lg bg-[#F7E1E1]">
                                     <Trash2 className="icon text-[#FF4D4D]" size={24}/>
                                 </button>
@@ -83,9 +83,9 @@ export default function page() {
                                 </button>
                             </li>
                             <li className='pl-6 text-center flex items-center justify-center gap-6'>
-                                <button className="py-2  px-2 rounded-lg bg-neutral-50">
+                                <div className="py-2  px-2 rounded-lg bg-neutral-50">
                                     <ToggleButton/>
-                                </button>
+                                </div>
                                 <button className="py-2  px-2 rounded-lg bg-[#F7E1E1]">
                                     <Trash2 className="icon text-[#FF4D4D]" size={24}/>
                                 </button>
@@ -102,9 +102,9 @@ export default function page() {
                                 </button>
                             </li>
                             <li className='pl-6 text-center flex items-center justify-center gap-6'>
-                                <button className="py-2  px-2 rounded-lg bg-neutral-50">
+                                <div className="py-2  px-2 rounded-lg bg-neutral-50">
                                     <ToggleButton/>
-                                </button>
+                                </div>
                                 <button className="py-2  px-2 rounded-lg bg-[#F7E1E1]">
                                     <Trash2 className="icon text-[#FF4D4D]" size={24}/>
                                 </button>
@@ -121,16 +121,15 @@ export default function page() {
                                 </button>
                             </li>
                             <li className='pl-6 text-center flex items-center justify-center gap-6'>
-                                <button className="py-2  px-2 rounded-lg bg-neutral-50">
+                                <div className="py-2  px-2 rounded-lg bg-neutral-50">
                                     <ToggleButton/>
-                                </button>
+                                </div>
                                 <button className="py-2  px-2 rounded-lg bg-[#F7E1E1]">
                                     <Trash2 className="icon text-[#FF4D4D]" size={24}/>
                                 </button>
                             </li>
                         </ul>
                     </div>
-                    
                 </div>
             </div>
         </div>

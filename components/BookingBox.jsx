@@ -416,6 +416,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/redux/services/axiosInstance";
 
+<<<<<<< HEAD
 const BookingBox = ({ data, searchParams }) => {
     const { GroundPrice, _id } = data;
     const id = _id;
@@ -423,6 +424,22 @@ const BookingBox = ({ data, searchParams }) => {
 
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
+=======
+
+const BookingBox = ({data, searchParams} ) => {
+    const { price, serviceFee, tax, GroundPrice, _id } = data;
+    const id = _id;
+    const { token } = useSelector((state) => state.auth);
+
+    
+    
+    const { selectedDate } = useSelector((state) => state.search);
+    // console.log(selectedDate)
+    
+    const [bookingDetails, setBookingDetails] = useState(null);
+    const [bookedDates, setBookedDates] = useState([]);
+    const [dateRange, setDateRange] = useState([null, null]);
+>>>>>>> 1ab7539e270a319d5d1e75690dfa4013cb0101c6
     const [guestCount, setGuestCount] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -431,8 +448,13 @@ const BookingBox = ({ data, searchParams }) => {
     const [serviceFee, setServiceFee] = useState(0);
 
     const router = useRouter();
+<<<<<<< HEAD
     const checkOutPickerRef = useRef();
     const { selectedDate } = useSelector((state) => state.search);
+=======
+    console.log(router)
+    const { user } = useSelector((state) => state.auth);
+>>>>>>> 1ab7539e270a319d5d1e75690dfa4013cb0101c6
 
     // Fetch booking details and service rates on component mount
     useEffect(() => {
@@ -445,6 +467,7 @@ const BookingBox = ({ data, searchParams }) => {
     useEffect(() => {
         let ignore = false;
 
+<<<<<<< HEAD
         if (!ignore && Object.keys(searchParams).length > 0) {
             const { checkIn, checkOut } = searchParams;
             console.log("checkIn, checkOut",checkIn, checkOut)
@@ -548,6 +571,36 @@ const BookingBox = ({ data, searchParams }) => {
     };
 
     // Calculate the total number of nights between check-in and check-out
+=======
+
+    
+
+    useEffect(()=>{
+        let ignore = false 
+        function formatDate(dateString) {
+            const dateParts = dateString.split('-');
+            return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+          }
+        if(!ignore){
+            if(!(Object.keys(searchParams).length === 0)){
+                const { checkIn, checkOut } = searchParams
+                if(checkIn && !checkOut){
+                    const checkInDate = formatDate(checkIn)
+                    setDateRange([checkInDate, dateRange[1]])
+                }else if(!checkOut && checkOut){
+                    const checkOutDate = formatDate(checkOut)
+                    setDateRange([ dateRange[0], checkOutDate])
+                }else if(checkIn && checkOut){
+                    const checkInDate = formatDate(checkIn)
+                    const checkOutDate = formatDate(checkOut)
+                    setDateRange([checkInDate, checkOutDate])
+                }
+            }
+        }
+        return ()=> ignore = true 
+    }, [])
+
+>>>>>>> 1ab7539e270a319d5d1e75690dfa4013cb0101c6
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
@@ -574,8 +627,49 @@ const BookingBox = ({ data, searchParams }) => {
     // Memoized excluded date intervals for the date picker
     const excludedDateIntervals = useMemo(() => bookedDates, [bookedDates]);
 
+<<<<<<< HEAD
     // Effect to set default date range from searchParams (if available)
     
+=======
+    const handleSubmitReserve = async () => {
+        if (!token) {
+            router.push("/login/email");
+            return;
+        }
+        if(! user?.varificationId && !user.varificationId){
+            alert("please Verify your Identity")
+            router.push("/registration/start")
+          }
+        if (!checkInDate || !checkOutDate) {
+            setError("Please select both Check-In and Check-Out dates");
+            return;
+        }
+
+        const reservationData = {
+            propertyId: id,
+            checkinDate: checkInDate,
+            checkoutDate: checkOutDate,
+            guestCount,
+            totalCost: totalPrice,
+            totalNights,
+        };
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await axiosInstance.post(`/book-property/${id}`, reservationData);
+               setLoading(false);
+               alert(" Your booking has been Requested.");
+               window.location.href = "/user/bookinglist";
+
+        } catch (error) {
+            setError("Failed to make the reservation. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+>>>>>>> 1ab7539e270a319d5d1e75690dfa4013cb0101c6
 
     return (
         <div className="top-12 sticky rounded-lg drop-shadow-booking-box bg-white">

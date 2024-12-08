@@ -80,6 +80,7 @@ export default function PropertyGalleryItem({ data }) {
   const query = checkIn ? `?${checkIn}${checkOut}` : "";
   const targetUrl = `/listing/${data._id}${query}`;
 
+
   return (
     <div className="min-w-290px max-w-395px">
       <div ref={imageContainerRef} className="relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar">
@@ -111,13 +112,13 @@ export default function PropertyGalleryItem({ data }) {
         </button>
       </div>
       <div className="mt-2">
-        <Link href={`/listing/${data._id}`} target="_blank" rel="noopener noreferrer">
+        <Link href={targetUrl} target="_blank" rel="noopener noreferrer">
           <div className="inline-block float-left h-fit mt-auto text-xl text-neutral-500 font-semibold ">
             {location.streetAddress.replace(/^(.{10}).*$/, '$1...') + ', ' + location.country}
           </div>
         </Link>
         <div className="pl-auto text-end text-2xl text-primary-400 font-semibold">${GroundPrice}</div>
-        <Link href={`/listing/${data._id}`} target="_blank" rel="noopener noreferrer">
+        <Link href={targetUrl} target="_blank" rel="noopener noreferrer">
           <div className="inline-block float-left text-neutral-400 text-base font-medium">Available on {
             formatDate(availableDate)
           }</div>
