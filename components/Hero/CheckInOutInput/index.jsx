@@ -19,7 +19,8 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
 
     // const [isCalenderOpen, setIsCalenderOpen] = useState(false)
     // const [calenderType, setCalenderType] = useState('checkIn')
-    function closeCalender(){
+    function closeCalender(e){
+        e.preventDefault()
         setCalenderInfo(state=>({...state, isCalenderOpen: false}))
     }
     function handleClearSelction(e) {
@@ -179,9 +180,9 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
                 />
             )}        */}
             {
-                calenderInfo.isCalenderOpen &&
+                 
 
-                <div  className={` transition duration-500 ease-in-out duration-700
+                <div  className={` ${calenderInfo.isCalenderOpen ? 'opacity-100 delay-500 ease-in duration-1500' : 'opacity-0 delay-50 ease-out duration-100'} transition 
                     ${isMapOpen 
                         ? `left-[300px]  z-[999] fixed ${calenderInfo['calenderType'] ==="checkIn" ? 'top-[324px]' : 'top-[420px]' }` 
                         : "absolute top-[calc(100%+6px)] md:left-1/2 md:-translate-x-1/2"} 
