@@ -162,7 +162,7 @@ export default async function page({searchParams, params}) {
                         <Amenities data={propertyFeature.features} />
 
                         {/* Home rules */}
-                       <HomeRules homerules={homerule.homesRoules}/>
+                       <HomeRules homerules={homerule?.homesRoules}/>
 
                         {/* Cancellation Policy */}
                         <div className="my-14">
