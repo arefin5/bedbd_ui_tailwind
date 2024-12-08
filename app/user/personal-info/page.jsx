@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useRef } from 'react';
 import { userEdit } from '@/redux/features/auth/authSlice';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
     const dispatch = useDispatch();
@@ -26,40 +26,62 @@ export default function Page() {
     const [hanlarotpPhone, sethanlarotpPhone] = useState(false)
     const [otp, setOtp] = useState("");
     const [birth, setBirth] = useState("");
-  const [ageWarning, setAgeWarning] = useState(""); // Warning message
-   let age=0;
+    const [ageWarning, setAgeWarning] = useState(""); // Warning message
+    let age = 0;
 
-  const handleDateChange = (e) => {
-    const inputDate = e.target.value;
-    setBirth(inputDate);
+    //   const handleDateChange = (e) => {
+    //     const inputDate = e.target.value;
+    //     setBirth(inputDate);
 
-    // Check if the date format is valid (dd/mm/yyyy)
-    const [day, month, year] = inputDate.split("/").map(Number);
+    //     // Check if the date format is valid (dd/mm/yyyy)
+    //     const [day, month, year] = inputDate.split("/").map(Number);
 
-    if (day && month && year) {
-      const birthDate = new Date(year, month - 1, day); // Convert to a Date object
-      const today = new Date();
+    //     if (day && month && year) {
+    //       const birthDate = new Date(year, month - 1, day); // Convert to a Date object
+    //       const today = new Date();
 
-      // Calculate age
-       age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      const dayDiff = today.getDate() - birthDate.getDate();
+    //       // Calculate age
+    //        age = today.getFullYear() - birthDate.getFullYear();
+    //       const monthDiff = today.getMonth() - birthDate.getMonth();
+    //       const dayDiff = today.getDate() - birthDate.getDate();
 
-      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-        age--; // Adjust age if the birthdate hasn't occurred yet this year
-      }
+    //       if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    //         age--; // Adjust age if the birthdate hasn't occurred yet this year
+    //       }
 
-      // Check if the user is under 18
-      if (age < 18) {
-        setAgeWarning("You are under age.");
-      } else {
-        setAgeWarning(""); // Clear the warning if age is 18 or older
-      }
-    } else {
-      setAgeWarning("Invalid date format. Please use dd/mm/yyyy.");
-    }
-  };
+    //       // Check if the user is under 18
+    //       if (age < 18) {
+    //         setAgeWarning("You are under age.");
+    //       } else {
+    //         setAgeWarning(""); // Clear the warning if age is 18 or older
+    //       }
+    //     } else {
+    //       setAgeWarning("Invalid date format. Please use dd/mm/yyyy.");
+    //     }
+    //   };
     // Reference for hidden file input
+    const handleDateChange = (e) => {
+        const inputDate = e.target.value; // Format: yyyy-mm-dd
+        setBirth(inputDate);
+
+        const birthDate = new Date(inputDate);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;
+        }
+
+        // Show warning if age is under 18
+        if (age < 18) {
+            setAgeWarning("You are under age.");
+        } else {
+            setAgeWarning("");
+        }
+    };
     const fileInputRef = useRef(null);
 
     useEffect(() => {
@@ -83,16 +105,25 @@ export default function Page() {
 
     const userUpdate = async (e) => {
         e.preventDefault();
+        const birthDate = new Date(birth);
+        const today = new Date();
+
+        let computedAge = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            computedAge--;
+        }
         const payload = {
             fname: fname || undefined,
             lname: lname || undefined,
             email: email || undefined,
             phone: phone || undefined,
             parmanentAddress: parmanentAddress || undefined,
-            profilePic:image ,
-            birth:birth,
-            age:age,
-
+            profilePic: image,
+            birth,
+            age: computedAge,
         };
         dispatch(userEdit(payload));
     };
@@ -101,7 +132,7 @@ export default function Page() {
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append("image", file);
-        
+
         setUploading(true);
         try {
             const { data } = await axios.post("https://backend.bedbd.com/api/images/single-image-upload", formData);
@@ -133,7 +164,7 @@ export default function Page() {
             ) : (
                 <Image src={SVGCercle} height={120} width={120} alt="Placeholder" onClick={triggerFileInput} />
             )}
-            
+
             {/* Hidden file input */}
             <input
                 ref={fileInputRef}
@@ -195,19 +226,19 @@ export default function Page() {
                     />
                 </div>
                 <div className="border w-full rounded-lg relative py-3 px-4">
-            <input 
-              placeholder="Address"
-              value={birth}
-              onChange={(e) => setBirth(e.target.setBirth)}
-
-            />
-               {ageWarning && (
-        <p className="text-red-500 mt-2">{ageWarning}</p>
-      )}
-          </div>
+                    <input
+                        type="date"
+                        value={birth}
+                        onChange={(e) => setBirth(e.target.value)}
+                        className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+                    />
+                    {ageWarning && (
+                        <p className="text-red-500 mt-2">{ageWarning}</p>
+                    )}
+                </div>
                 {error && <div className='error-message text-red-500'>{error}</div>}
-                <button  disabled={!!ageWarning}
-           className="btn btn-primary relative-x-center max-w-72" type="submit">Save</button>
+                <button disabled={!!ageWarning}
+                    className="btn btn-primary relative-x-center max-w-72" type="submit">Save</button>
                 {/* <button className='btn btn-primary' type="submit">Save</button> */}
             </form>
         </div>

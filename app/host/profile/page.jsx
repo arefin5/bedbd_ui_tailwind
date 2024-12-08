@@ -31,36 +31,59 @@ export default function profile() {
   const [ageWarning, setAgeWarning] = useState(""); // Warning message
    let age=0;
 
+  // const handleDateChange = (e) => {
+  //   const inputDate = e.target.value;
+  //   setBirth(inputDate);
+
+  //   // Check if the date format is valid (dd/mm/yyyy)
+  //   const [day, month, year] = inputDate.split("/").map(Number);
+
+  //   if (day && month && year) {
+  //     const birthDate = new Date(year, month - 1, day); // Convert to a Date object
+  //     const today = new Date();
+
+  //     // Calculate age
+  //      age = today.getFullYear() - birthDate.getFullYear();
+  //     const monthDiff = today.getMonth() - birthDate.getMonth();
+  //     const dayDiff = today.getDate() - birthDate.getDate();
+
+  //     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+  //       age--; // Adjust age if the birthdate hasn't occurred yet this year
+  //     }
+
+  //     // Check if the user is under 18
+  //     if (age < 18) {
+  //       setAgeWarning("You are under age.");
+  //     } else {
+  //       setAgeWarning(""); // Clear the warning if age is 18 or older
+  //     }
+  //   } else {
+  //     setAgeWarning("Invalid date format. Please use dd/mm/yyyy.");
+  //   }
+  // };
   const handleDateChange = (e) => {
-    const inputDate = e.target.value;
+    const inputDate = e.target.value; // Format: yyyy-mm-dd
     setBirth(inputDate);
-
-    // Check if the date format is valid (dd/mm/yyyy)
-    const [day, month, year] = inputDate.split("/").map(Number);
-
-    if (day && month && year) {
-      const birthDate = new Date(year, month - 1, day); // Convert to a Date object
-      const today = new Date();
-
-      // Calculate age
-       age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      const dayDiff = today.getDate() - birthDate.getDate();
-
-      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-        age--; // Adjust age if the birthdate hasn't occurred yet this year
-      }
-
-      // Check if the user is under 18
-      if (age < 18) {
-        setAgeWarning("You are under age.");
-      } else {
-        setAgeWarning(""); // Clear the warning if age is 18 or older
-      }
+  
+    const birthDate = new Date(inputDate);
+    const today = new Date();
+  
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+  
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+  
+    // Show warning if age is under 18
+    if (age < 18) {
+      setAgeWarning("You are under age.");
     } else {
-      setAgeWarning("Invalid date format. Please use dd/mm/yyyy.");
+      setAgeWarning("");
     }
   };
+  
   const dispatch = useDispatch();
   const { user, isLoading, error, token } = useSelector((state) => state.auth);
 
@@ -87,6 +110,16 @@ export default function profile() {
   };
   const userUpdate = async (e) => {
     e.preventDefault();
+    const birthDate = new Date(birth);
+    const today = new Date();
+  
+    let computedAge = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+  
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      computedAge--;
+    }
     const payload = {
       fname: fname || undefined,
       lname: lname || undefined,
@@ -97,9 +130,10 @@ export default function profile() {
       about: about || undefined,
       profilePic: image,
       cover: cover || undefined,
-      birth:birth,
-      age:age,
+      birth,
+    age: computedAge,
     };
+    console.log(payload)
     // profilePic
     dispatch(userEdit(payload));
     // console.log(image);
@@ -366,12 +400,24 @@ export default function profile() {
          
             </div>
             <div className="">
-            <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+            {/* <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="dd/mm/yyyy"
               value={birth}
               onChange={(e) => setBirth(e.target.setBirth)}
 
-            />
+<input
+  type="date"
+  value={birth}
+  onChange={(e) => setBirth(e.target.value)}
+  className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+/>
+            /> */}
+            <input
+  type="date"
+  value={birth}
+  onChange={(e) => setBirth(e.target.value)}
+  className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+/>
                {ageWarning && (
         <p className="text-red-500 mt-2">{ageWarning}</p>
       )}
