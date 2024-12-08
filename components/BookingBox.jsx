@@ -150,11 +150,9 @@ const BookingBox = ({ data, searchParams }) => {
     };
 
     const totalNights = calculateDays();
-    console.log(serviceFee);
-    console.log(tax)
-    const totalserviceFee = (totalGroundPrice*serviceFee * totalNights).toFixed(2);
     const totalGroundPrice = (GroundPrice * totalNights).toFixed(2);
-    const totalTax = (totalGroundPrice*tax * totalNights).toFixed(2);
+    const totalserviceFee = (GroundPrice*serviceFee * totalNights).toFixed(2);
+    const totalTax = (GroundPrice*tax * totalNights).toFixed(2);
     const totalPrice = (
         parseFloat(totalGroundPrice) +
         parseFloat(totalserviceFee) +
