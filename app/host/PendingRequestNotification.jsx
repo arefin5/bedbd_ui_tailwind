@@ -5,7 +5,7 @@ import Link from 'next/link';
 import io from 'socket.io-client';
 import { useSelector } from "react-redux";
 
-const SOCKET_URL = "http://backend.bedbd.com";
+const SOCKET_URL = "https://backend.bedbd.com";
 // const SOCKET_URL = "http://localhost:5001";
 
 export default function PendingRequestNotification() {
@@ -15,6 +15,7 @@ export default function PendingRequestNotification() {
   
   useEffect(() => {
   if (!token) return;  // Prevent socket connection if no token
+  console.log(paymentBookings)
 
   // Connect to the Socket.IO server
   const socketInstance = io(SOCKET_URL, {
@@ -41,6 +42,7 @@ export default function PendingRequestNotification() {
   // Listen for payment success bookings in real-time
   socketInstance.on('paymentSuccessBookings', (bookings) => {
     setPaymentBookings(bookings);  // Update the state with payment success bookings
+    console.log(paymentBookings)
   });
 
   // Cleanup on component unmount
@@ -64,7 +66,8 @@ export default function PendingRequestNotification() {
           to view or approve them.
         </div>
       ) : (
-        <div className='w-full h-fit text-center py-3 border-secondary-400 bg-secondary-50 rounded-lg text-neutral-400 font-semibold text-lg'>
+        <div className='w-full h-fit text-center py-3
+         border-secondary-400 bg-secondary-50 rounded-lg text-neutral-400 font-semibold text-lg'>
           A booking request is pending,
           <Link href="/host/pending">
             <span className='text-secondary-400 cursor-pointer'>
