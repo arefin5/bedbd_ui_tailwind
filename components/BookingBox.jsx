@@ -29,6 +29,7 @@ const BookingBox = ({ data, searchParams }) => {
         if (id) {
             fetchBookingDetails();
             fetchServiceRates();
+            
         }
     }, [id]);
     console.log(searchParams)
@@ -60,8 +61,9 @@ const BookingBox = ({ data, searchParams }) => {
     const fetchServiceRates = async () => {
         try {
             const response = await axiosInstance.get("https://backend.bedbd.com/api/service-rate");
-            setTax(response.data.taxRate * 100);
-            setServiceFee(response.data.serviceFee * 100);
+            setTax(response.data.taxRate );
+            setServiceFee(response.data.serviceFee);
+            console.log(tax,serviceFee)
         } catch (error) {
             console.error("Failed to fetch service rates:", error);
         }
@@ -148,9 +150,11 @@ const BookingBox = ({ data, searchParams }) => {
     };
 
     const totalNights = calculateDays();
-    const totalserviceFee = (serviceFee * totalNights).toFixed(2);
+    console.log(serviceFee);
+    console.log(tax)
+    const totalserviceFee = (totalGroundPrice*serviceFee * totalNights).toFixed(2);
     const totalGroundPrice = (GroundPrice * totalNights).toFixed(2);
-    const totalTax = (tax * totalNights).toFixed(2);
+    const totalTax = (totalGroundPrice*tax * totalNights).toFixed(2);
     const totalPrice = (
         parseFloat(totalGroundPrice) +
         parseFloat(totalserviceFee) +
@@ -204,6 +208,34 @@ const BookingBox = ({ data, searchParams }) => {
                     />
                 </div>
             </div>
+{/* Calculation Section */}
+<div className="border-b-2">
+                <ul className="mx-14 py-6 space-y-8">
+                    <li className="text-neutral-400 font-semibold text-lg">
+                        ${GroundPrice} x {totalNights} night(s)
+                        <span className="text-neutral-500 float-right">${GroundPrice * totalNights}</span>
+                    </li>
+                    
+                   
+                    <li className="text-neutral-400 font-semibold text-lg">
+                            Platform fee 
+                        <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
+                    </li>
+                    <li className="text-neutral-400 font-semibold text-lg">
+                    Tax/VAT
+                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
+                    </li>
+                </ul>
+            </div>
+
+            {/* Total Price Display */}
+            <div>
+                <div className="text-neutral-600 font-semibold text-lg py-6 mx-14">
+                    Total
+                    <span className="text-neutral-700 float-right">${totalPrice}</span>
+                </div>
+            </div>
+
 
             <button
                 className="mt-4 mb-8 btn btn-primary rounded-full max-w-96 relative-x-center"
