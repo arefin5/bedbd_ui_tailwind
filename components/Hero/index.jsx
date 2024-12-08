@@ -28,7 +28,7 @@ export default function Hero() {
     const dispatch = useDispatch()
     const mapRef = useRef(null)
     const [calenderInfo, setCalenderInfo] = useState({  isCalenderOpen: false,
-        calenderType: '' })
+                                                        calenderType: '' })
     const mapSearchBox = useSearchBoxCore({ accessToken: 'pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew' })
     const searchSession = new useSearchSession(mapSearchBox);
 
@@ -115,10 +115,10 @@ export default function Hero() {
                     
                     <form className={` ${isMapOpen
                         ? 'z-20 md:min-w-[calc(theme(minWidth.96)-50px)] md:h-full overflow-y-scroll md:py-8 md:px-6 md:bg-secondary-50 max-h-[calc(100vh-100px)]'
-                        : ` ${calenderInfo['isCalenderOpen'] ? 'top-0 h-32':'top-[180px] md:bg-white md:min-h-52' }   absolute-x-center  md:rounded-2xl  md:w-full md:max-w-5xl  md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70`}`}>
-                        {
+                        : ` ${calenderInfo['isCalenderOpen'] ? 'top-[180px] h-32 transition-transform duration-300 -translate-y-44' :'top-8 transition-transform duration-500  translate-y-36 md:bg-white md:min-h-52' }   absolute-x-center  md:rounded-2xl  md:w-full md:max-w-5xl  md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70`}`}>
+                        {/* {
                             isMapOpen &&
-                                <div className=" hidden md:flex  items-center justify-between mb-8 ">
+                                <div className={`transition-all duration-500 ease-in-out opacity-0 translate-y-4 invisible md:flex  items-center justify-between mb-8 ${isMapOpen && 'opacity-100 translate-y-0 visible'}`} >
                                     <div className="border font-semibold text-primary-400 text-sm border-primary-400 rounded-full flex py-3 px-6 gap-x-2.5 w-fit">
                                         <Filter className="text-primary-400" size={24} />
                                         Advance Search
@@ -127,7 +127,18 @@ export default function Hero() {
                                         <ArrowLeft className="icon text-white" size={24} />
                                     </button>
                                 </div>
-                        }
+                        } */}
+                        <div className={`group ${isMapOpen ? '' : 'hidden'}`}>
+                            <div className="transition-all duration-500 ease-in-out opacity-0 translate-y-4 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible md:flex items-center justify-between mb-8">
+                                <div className="border font-semibold text-primary-400 text-sm border-primary-400 rounded-full flex py-3 px-6 gap-x-2.5 w-fit">
+                                <Filter className="text-primary-400" size={24} />
+                                Advance Search
+                                </div>
+                                <button className="rounded-full bg-primary-400 h-min p-2.5">
+                                <ArrowLeft className="icon text-white" size={24} />
+                                </button>
+                            </div>
+                            </div>
                         
 
                         <div className={`w-full space-y-4 px-4 py-6 

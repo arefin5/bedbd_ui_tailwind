@@ -97,7 +97,7 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
         <div ref={checkInCheckOutRef} className={`flex ${isMapOpen && 'grid gap-y-6'} relative`}>
             <div onClick={onCkeckInInputClick} className={`${isMapOpen
                                     ? 'px-6 py-2.5 rounded-full shadow-search-input md:shadow-none md:rounded-none md:py-0 md:px-0'
-                                    : `hidden md:block md:h-max ${(calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkIn") && 'bg-white'} py-2 pl-4 rounded-3xl md:relative md:custom-left-line-150 md:ml-4`
+                                    : `hidden md:block md:h-max ${(calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkIn") && 'bg-white drop-shadow-lg drop-shadow-secondary-400'} py-2 pl-4 rounded-xl md:relative md:custom-left-line-150 md:ml-4`
                                 }`}>
                 <label className={`font-semibold
                         ${isMapOpen
@@ -113,7 +113,7 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
             </div>
             <div onClick={onCkeckOutInputClick} className={`${isMapOpen
                                     ? 'px-6 py-2.5 rounded-full shadow-search-input md:shadow-none md:rounded-none md:py-0 md:px-0'
-                                    : `hidden | md:block md:h-max md:relative md:custom-left-line-150 md:ml-4 ${(calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkOut") &&  'bg-white'} py-2 pl-4 rounded-3xl`
+                                    : `hidden | md:block md:h-max md:relative md:custom-left-line-150 md:ml-4 ${(calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkOut") &&  'bg-white drop-shadow-lg drop-shadow-secondary-400'} py-2 pl-4 rounded-xl`
                                 }`}>
                 <label
                     className={` font-semibold
@@ -183,9 +183,9 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
 
                 <div  className={` transition duration-500 ease-in-out duration-700
                     ${isMapOpen 
-                        ? `left-[300px]  z-[999] fixed ${calenderInfo['calenderType'] ==="checkIn" ? 'top-[320px]' : 'top-[420px]' }` 
-                        : "absolute top-full md:left-1/2 md:-translate-x-1/2"} 
-                         w-max md:w-[600px]  bg-white p-4 rounded-lg shadow-md drop-shadow-md`}>
+                        ? `left-[300px]  z-[999] fixed ${calenderInfo['calenderType'] ==="checkIn" ? 'top-[324px]' : 'top-[420px]' }` 
+                        : "absolute top-[calc(100%+6px)] md:left-1/2 md:-translate-x-1/2"} 
+                         w-max md:w-[600px]  bg-white p-4 rounded-lg shadow-md `}>
                     <Calender 
                         type={calenderInfo.calenderType}
                         handleClearSelction={handleClearSelction}
