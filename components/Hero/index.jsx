@@ -1,5 +1,6 @@
 "use client"
 import PropertyTypeSelect from './PropertyTypeSelect'
+import Image from 'next/image'
 import FilterSection from './FilterSection'
 import { Search, Filter, ArrowLeft } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
@@ -26,6 +27,8 @@ import SearchProperty from '../PropertyGallery/SearchProperty'
 export default function Hero() {
     const dispatch = useDispatch()
     const mapRef = useRef(null)
+    const [calenderInfo, setCalenderInfo] = useState({  isCalenderOpen: false,
+                                                        calenderType: '' })
     const mapSearchBox = useSearchBoxCore({ accessToken: 'pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew' })
     const searchSession = new useSearchSession(mapSearchBox);
 
@@ -97,12 +100,24 @@ export default function Hero() {
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
-                <div className={`relative ${isMapOpen
-                    ? 'grid md:flex '
-                    : ' md:container min-h-96  md:ml-auto md:mr-auto '}`}>
-                    <form className={`${isMapOpen
+                <div className={`relative  ${isMapOpen
+                                                            ? 'grid md:flex '
+                                                            : ' md:container min-h-[430px] md:ml-auto md:mr-auto '}`}>
+                    
+                    {/* {!isMapOpen && !calenderInfo['isCalenderOpen']
+                        &&  <> */}
+                          {/* transition-opacity ease-in-out delay-300 duration-700  */}
+                                <h1 className={`${(!isMapOpen && !calenderInfo['isCalenderOpen']) ? 'md:opacity-100 ease-in delay-300 duration-800' : 'opacity-0 ease-out delay-150 duration-500 '} transition-opacity   absolute top-14 left-1/2 -translate-x-1/2 text-center text-neutral-600 font-medium text-3xl`}> Start getting deals by choosing your <br/>
+                                    <span className='text-primary-400 font-semibold'>perfect place</span>
+                                </h1>
+                                <Image src="/decorative__arrow.svg" 
+                                    className={`${(!isMapOpen && !calenderInfo['isCalenderOpen']) ? 'md:opacity-100 ease-in delay-300 duration-800' : 'opacity-0 ease-out delay-150 duration-500' } object-contain absolute top-[42px] left-[calc(50%+20px)]`}  height={136} width={280} />
+                            {/* </>
+                          } */}
+                    
+                    <form className={` ${isMapOpen
                         ? 'z-20 md:min-w-[calc(theme(minWidth.96)-50px)] md:h-full overflow-y-scroll md:py-8 md:px-6 md:bg-secondary-50 max-h-[calc(100vh-100px)]'
-                        : 'md:absolute-center md:rounded-2xl md:min-h-52 md:w-full md:max-w-5xl md:bg-white md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70'}`}>
+                        : ` ${calenderInfo['isCalenderOpen'] ? 'top-[180px] h-32 transition-transform duration-500 -translate-y-44' :'top-8 transition-transform duration-500  translate-y-40 md:bg-white md:min-h-52' }   absolute-x-center  md:rounded-2xl  md:w-full md:max-w-5xl  md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70`}`}>
                         {
                             isMapOpen &&
                                 <div className=" hidden md:flex  items-center justify-between mb-8 ">
@@ -117,20 +132,20 @@ export default function Hero() {
                         }
                         
 
-                        <div className={` w-full space-y-4 px-4 py-6 
+                        <div className={`w-full space-y-4 px-4 py-6 
                             ${isMapOpen
                                 ? 'md:space-y-6 w-[274px]'
-                                : 'relative md:max-w-4xl md:rounded-full md:flex md:items-center md:py-3.5 md:pl-8 md:pr-4 md:bg-white md:space-y-0 md:justify-between md:shadow-search-section md:absolute-x-center md:bottom-8'
+                                : `relative md:max-w-4xl md:rounded-full md:flex md:items-center md:py-1.5 md:pl-8 md:pr-4 md:space-y-0 md:justify-between  md:absolute-x-center md:bottom-8 ${!calenderInfo['isCalenderOpen'] ? 'md:bg-white md:shadow-search-section' : 'md:bg-neutral-50' }`
 
                             }`}>
-                                <div className=' z-30 h-96 absolute hidden top-0 bg-neutral-600 w-80 ' >
-                                </div>
+                                {/* <div className='marker-class z-30 h-96 absolute hidden top-0 bg-neutral-600 w-80 ' >
+                                </div> */}
                             <LocationInput mapSearchBox={mapSearchBox} searchSession={searchSession} mapRef={mapRef} />
-                            <CheckInOutInput />
+                            <CheckInOutInput calenderInfo={calenderInfo} setCalenderInfo={setCalenderInfo} />
 
                             <GuestCountInput gust={guestCount} setGust={setGuestCount} />
                             {
-                                !isMapOpen
+                                !isMapOpen && !calenderInfo['isCalenderOpen']
                                 && <PropertyTypeSelect />
                             }
                             <PropertyTypeInput />
