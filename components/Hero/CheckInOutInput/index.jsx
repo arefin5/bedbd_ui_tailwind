@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { clearDateSelection, setCheckInOutDate } from "@/redux/features/search/searchSlice";
 import formatTimestampPretty from "@/app/lib/formatTimestampPretty";
 
-export default function CheckInOutInput() {
+export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
     const checkInCheckOutRef = useRef(null)
     const dispatch =  useDispatch()
 
@@ -16,11 +16,11 @@ export default function CheckInOutInput() {
     const {  selectedDate } = useSelector(state => state.search);
     console.log(selectedDate)
     
-    const [calenderInfo, setCalenderInfo] = useState({  isCalenderOpen: false,
-                                                        calenderType: '' })
+
     // const [isCalenderOpen, setIsCalenderOpen] = useState(false)
     // const [calenderType, setCalenderType] = useState('checkIn')
-    function closeCalender(){
+    function closeCalender(e){
+        e.preventDefault()
         setCalenderInfo(state=>({...state, isCalenderOpen: false}))
     }
     function handleClearSelction(e) {
@@ -95,15 +95,15 @@ export default function CheckInOutInput() {
       }, []);
 
       return (
-        <div ref={checkInCheckOutRef} className={`flex ${isMapOpen && 'grid gap-y-6'}`}>
+        <div ref={checkInCheckOutRef} className={`flex ${isMapOpen && 'grid gap-y-6'} relative`}>
             <div onClick={onCkeckInInputClick} className={`${isMapOpen
                                     ? 'px-6 py-2.5 rounded-full shadow-search-input md:shadow-none md:rounded-none md:py-0 md:px-0'
-                                    : 'hidden md:block md:h-max md:relative md:custom-left-line-150 md:ml-4'
+                                    : `hidden md:block md:h-max ${(calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkIn") && 'bg-white drop-shadow-lg drop-shadow-secondary-400'} py-2 pl-4 rounded-xl md:relative md:custom-left-line-150 md:ml-4`
                                 }`}>
                 <label className={`font-semibold
                         ${isMapOpen
-                        ? 'md:text-neutral-500 md:text-lg mb-2 '
-                        : 'text-neutral-600 text-xs md:text-sm '
+                            ? 'md:text-neutral-500 md:text-lg mb-2 '
+                            : 'text-neutral-600 text-xs md:text-sm '
                     }
                     `}>Check In</label>
                 <input value={(selectedDate[0] < today.getTime()) ? '' : formatTimestampPretty(selectedDate[0])   } className={`${isMapOpen
@@ -114,7 +114,7 @@ export default function CheckInOutInput() {
             </div>
             <div onClick={onCkeckOutInputClick} className={`${isMapOpen
                                     ? 'px-6 py-2.5 rounded-full shadow-search-input md:shadow-none md:rounded-none md:py-0 md:px-0'
-                                    : 'hidden | md:block md:h-max md:relative md:custom-left-line-150 md:ml-4'
+                                    : `hidden | md:block md:h-max md:relative md:custom-left-line-150 md:ml-4 ${(calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkOut") &&  'bg-white drop-shadow-lg drop-shadow-secondary-400'} py-2 pl-4 rounded-xl`
                                 }`}>
                 <label
                     className={` font-semibold
@@ -170,7 +170,7 @@ export default function CheckInOutInput() {
                         onClickHandlar={onDateClickHandlar} 
                         today={today}/>
             } */}
-             {calenderInfo.isCalenderOpen && ["checkIn", "checkOut"].includes(calenderInfo.calenderType) && (
+             {/* {calenderInfo.isCalenderOpen && ["checkIn", "checkOut"].includes(calenderInfo.calenderType) && (
                 <Calender 
                     type={calenderInfo.calenderType}
                     handleClearSelction={handleClearSelction}
@@ -178,8 +178,25 @@ export default function CheckInOutInput() {
                     today={today}
                     close={closeCalender}
                 />
-            )}       
+            )}        */}
+            {
+                 
 
+                <div  className={` ${calenderInfo.isCalenderOpen ? 'opacity-100 delay-500 ease-in duration-1500' : 'opacity-0 delay-50 ease-out duration-100'} transition 
+                    ${isMapOpen 
+                        ? `left-[300px]  z-[999] fixed ${calenderInfo['calenderType'] ==="checkIn" ? 'top-[324px]' : 'top-[420px]' }` 
+                        : "absolute top-[calc(100%+6px)] md:left-1/2 md:-translate-x-1/2"} 
+                         w-max md:w-[600px]  bg-white p-4 rounded-lg shadow-md `}>
+                    <Calender 
+                        type={calenderInfo.calenderType}
+                        handleClearSelction={handleClearSelction}
+                        onClickHandlar={onDateClickHandlar}
+                        today={today}
+                        close={closeCalender}
+                    />
+                </div>
+                    
+            }       
 
         </div>
       )
