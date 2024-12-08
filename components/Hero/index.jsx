@@ -102,9 +102,9 @@ export default function Hero() {
             <div className=" relative w-100 md:bg-hero z-10 ">
                 <div className={`relative  ${isMapOpen
                                                             ? 'grid md:flex '
-                                                            : ' md:container md:pt-44 md:pb-12 md:ml-auto md:mr-auto '}`}>
+                                                            : ' md:container min-h-[430px] md:ml-auto md:mr-auto '}`}>
                     
-                    {!isMapOpen 
+                    {!isMapOpen && !calenderInfo['isCalenderOpen']
                         &&  <>
                                 <h1 className='hidden md:block absolute top-14 left-1/2 -translate-x-1/2 text-center text-neutral-600 font-medium text-3xl'> Start getting deals by choosing your <br/>
                                     <span className='text-primary-400 font-semibold'>perfect place</span>
@@ -113,9 +113,9 @@ export default function Hero() {
                             </>
                           }
                     
-                    <form className={`${isMapOpen
+                    <form className={` ${isMapOpen
                         ? 'z-20 md:min-w-[calc(theme(minWidth.96)-50px)] md:h-full overflow-y-scroll md:py-8 md:px-6 md:bg-secondary-50 max-h-[calc(100vh-100px)]'
-                        : 'md:relative md:mx-auto md:rounded-2xl md:min-h-52 md:w-full md:max-w-5xl md:bg-white md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70'}`}>
+                        : ` ${calenderInfo['isCalenderOpen'] ? 'top-0 h-32':'top-[180px] md:bg-white md:min-h-52' }   absolute-x-center  md:rounded-2xl  md:w-full md:max-w-5xl  md:backdrop-filter md:backdrop-blur-2xl md:bg-opacity-70`}`}>
                         {
                             isMapOpen &&
                                 <div className=" hidden md:flex  items-center justify-between mb-8 ">
@@ -130,20 +130,20 @@ export default function Hero() {
                         }
                         
 
-                        <div className={` w-full space-y-4 px-4 py-6 
+                        <div className={`w-full space-y-4 px-4 py-6 
                             ${isMapOpen
                                 ? 'md:space-y-6 w-[274px]'
-                                : 'relative md:max-w-4xl md:rounded-full md:flex md:items-center md:py-3.5 md:pl-8 md:pr-4 md:bg-white md:space-y-0 md:justify-between md:shadow-search-section md:absolute-x-center md:bottom-8'
+                                : `relative md:max-w-4xl md:rounded-full md:flex md:items-center md:py-1.5 md:pl-8 md:pr-4 md:space-y-0 md:justify-between  md:absolute-x-center md:bottom-8 ${!calenderInfo['isCalenderOpen'] ? 'md:bg-white md:shadow-search-section' : 'md:bg-neutral-50' }`
 
                             }`}>
-                                <div className=' z-30 h-96 absolute hidden top-0 bg-neutral-600 w-80 ' >
-                                </div>
+                                {/* <div className='marker-class z-30 h-96 absolute hidden top-0 bg-neutral-600 w-80 ' >
+                                </div> */}
                             <LocationInput mapSearchBox={mapSearchBox} searchSession={searchSession} mapRef={mapRef} />
                             <CheckInOutInput calenderInfo={calenderInfo} setCalenderInfo={setCalenderInfo} />
 
                             <GuestCountInput gust={guestCount} setGust={setGuestCount} />
                             {
-                                !isMapOpen
+                                !isMapOpen && !calenderInfo['isCalenderOpen']
                                 && <PropertyTypeSelect />
                             }
                             <PropertyTypeInput />
