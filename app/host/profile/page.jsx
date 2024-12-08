@@ -367,9 +367,9 @@ export default function profile() {
             </div>
             <div className="">
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
-              placeholder="Address"
+              placeholder="dd/mm/yyyy"
               value={birth}
-              onChange={(e) => setParmanent(e.target.setBirth)}
+              onChange={(e) => setBirth(e.target.setBirth)}
 
             />
                {ageWarning && (
