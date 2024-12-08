@@ -44,7 +44,7 @@ const HomeRules = ({ homerules }) => {
         <ul className="space-y-3 mt-6 font-normal text-lg">
           {Object.entries(homerules).map(([key, rule]) => (
             <li key={key}>
-              <Icon name="dot" className="icon inline mr-6" /> {rule.name}
+              <Icon name="dot" className="icon inline mr-6" /> {rule?.name}
             </li>
           ))}
         </ul>

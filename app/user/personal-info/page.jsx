@@ -25,7 +25,40 @@ export default function Page() {
     const [hanlarotp, setOptSubmite] = useState(false);
     const [hanlarotpPhone, sethanlarotpPhone] = useState(false)
     const [otp, setOtp] = useState("");
-  
+    const [birth, setBirth] = useState("");
+  const [ageWarning, setAgeWarning] = useState(""); // Warning message
+   let age=0;
+
+  const handleDateChange = (e) => {
+    const inputDate = e.target.value;
+    setBirth(inputDate);
+
+    // Check if the date format is valid (dd/mm/yyyy)
+    const [day, month, year] = inputDate.split("/").map(Number);
+
+    if (day && month && year) {
+      const birthDate = new Date(year, month - 1, day); // Convert to a Date object
+      const today = new Date();
+
+      // Calculate age
+       age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      const dayDiff = today.getDate() - birthDate.getDate();
+
+      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--; // Adjust age if the birthdate hasn't occurred yet this year
+      }
+
+      // Check if the user is under 18
+      if (age < 18) {
+        setAgeWarning("You are under age.");
+      } else {
+        setAgeWarning(""); // Clear the warning if age is 18 or older
+      }
+    } else {
+      setAgeWarning("Invalid date format. Please use dd/mm/yyyy.");
+    }
+  };
     // Reference for hidden file input
     const fileInputRef = useRef(null);
 
@@ -37,6 +70,7 @@ export default function Page() {
         if (user.parmanentAddress) setParmanent(user.parmanentAddress);
         if (user._id) setUserId(user._id);
         if (user.profilePic) setImage(user.profilePic);
+        setBirth(user?.birth)
     }, [user, token]);
 
     const handleCopy = () => {
@@ -56,6 +90,8 @@ export default function Page() {
             phone: phone || undefined,
             parmanentAddress: parmanentAddress || undefined,
             profilePic:image ,
+            birth:birth,
+            age:age,
 
         };
         dispatch(userEdit(payload));
@@ -158,9 +194,21 @@ export default function Page() {
                         onChange={(e) => setParmanent(e.target.value)}
                     />
                 </div>
+                <div className="border w-full rounded-lg relative py-3 px-4">
+            <input 
+              placeholder="Address"
+              value={birth}
+              onChange={(e) => setParmanent(e.target.setBirth)}
 
+            />
+               {ageWarning && (
+        <p className="text-red-500 mt-2">{ageWarning}</p>
+      )}
+          </div>
                 {error && <div className='error-message text-red-500'>{error}</div>}
-                <button className='btn btn-primary' type="submit">Save</button>
+                <button  disabled={!!ageWarning}
+           className="btn btn-primary relative-x-center max-w-72" type="submit">Save</button>
+                {/* <button className='btn btn-primary' type="submit">Save</button> */}
             </form>
         </div>
     );
