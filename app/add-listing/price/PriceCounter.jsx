@@ -222,20 +222,12 @@ import { useEffect, useState } from "react";
 
       <div className="text-base text-neutral-500 font-medium">
         <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
-          <h3>Ground Price</h3>
+          <h3>Base Price</h3>
           <h3 className="text-lg font-normal">{`${priceInfo.currency}${handlePriceFormatting(GroundPrice)}`}</h3>
-        </div>
-        <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
-          <h3>Platform fee</h3>
-          <h3 className="text-lg font-normal">{`${priceInfo.currency}${handlePriceFormatting(serviceAmount)}`}</h3>
-        </div>
-        <div className="relative custom-btm-line-200 py-2.5 px-20 flex justify-between">
-          <h3>Taxes ({(data.taxRate * 100).toFixed(2)}%)</h3>
-          <h3 className="text-lg font-normal">{`${priceInfo.currency}${handlePriceFormatting(taxAmount)}`}</h3>
         </div>
         <div className="relative py-2.5 px-20 flex justify-between">
           <h3>Total Earned</h3>
-          <h3 className="text-lg font-bold">{`${priceInfo.currency}${handlePriceFormatting(price)}`}</h3>
+          <h3 className="text-lg font-bold">{`${priceInfo.currency}${handlePriceFormatting(GroundPrice)}`}</h3>
         </div>
       </div>
     </>
