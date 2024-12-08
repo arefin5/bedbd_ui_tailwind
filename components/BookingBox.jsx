@@ -1,65 +1,143 @@
-
 "use client";
-import Icon from "/components/Icon";
-import React, { useEffect, useState } from 'react';
-import axiosInstance from '@/redux/services/axiosInstance';
+import { useState, useEffect, useRef, useMemo } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import BookingCounter from "./BookingCounter";
+import { useRouter } from "next/navigation";
+import axiosInstance from "@/redux/services/axiosInstance";
 
-
-const BookingBox = ({data, searchParams} ) => {
-    const { price, serviceFee, tax, GroundPrice, _id } = data;
+const BookingBox = ({ data, searchParams }) => {
+    const { GroundPrice, _id } = data;
     const id = _id;
-    const { token } = useSelector((state) => state.auth);
+    const { token, user } = useSelector((state) => state.auth);
 
-    
-    
-    const { selectedDate } = useSelector((state) => state.search);
-    // console.log(selectedDate)
-    
-    const [bookingDetails, setBookingDetails] = useState(null);
-    const [bookedDates, setBookedDates] = useState([]);
-    const [dateRange, setDateRange] = useState([null, null]);
+    const [checkInDate, setCheckInDate] = useState(null);
+    const [checkOutDate, setCheckOutDate] = useState(null);
     const [guestCount, setGuestCount] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [bookedDates, setBookedDates] = useState([]);
+    const [tax, setTax] = useState(0);
+    const [serviceFee, setServiceFee] = useState(0);
+
     const router = useRouter();
-    console.log(router)
-    const { user } = useSelector((state) => state.auth);
+    const checkOutPickerRef = useRef();
+    const { selectedDate } = useSelector((state) => state.search);
 
-    const [checkInDate, checkOutDate] = dateRange;
+    // Fetch booking details and service rates on component mount
+    useEffect(() => {
+        if (id) {
+            fetchBookingDetails();
+            fetchServiceRates();
+        }
+    }, [id]);
+    console.log(searchParams)
+    useEffect(() => {
+        let ignore = false;
 
-
-    
-
-    useEffect(()=>{
-        let ignore = false 
-        function formatDate(dateString) {
-            const dateParts = dateString.split('-');
-            return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
-          }
-        if(!ignore){
-            if(!(Object.keys(searchParams).length === 0)){
-                const { checkIn, checkOut } = searchParams
-                if(checkIn && !checkOut){
-                    const checkInDate = formatDate(checkIn)
-                    setDateRange([checkInDate, dateRange[1]])
-                }else if(!checkOut && checkOut){
-                    const checkOutDate = formatDate(checkOut)
-                    setDateRange([ dateRange[0], checkOutDate])
-                }else if(checkIn && checkOut){
-                    const checkInDate = formatDate(checkIn)
-                    const checkOutDate = formatDate(checkOut)
-                    setDateRange([checkInDate, checkOutDate])
-                }
+        if (!ignore && Object.keys(searchParams).length > 0) {
+            const { checkIn, checkOut } = searchParams;
+            console.log("checkIn, checkOut",checkIn, checkOut)
+            if (checkIn && !checkOut) {
+                const checkInDate = formatDate(checkIn);
+                setCheckInDate(checkInDate);
+                setCheckOutDate(null); // Reset check-out date
+            } else if (!checkIn && checkOut) {
+                const checkOutDate = formatDate(checkOut);
+                setCheckOutDate(checkOutDate);
+                setCheckInDate(null); // Reset check-in date
+            } else if (checkIn && checkOut) {
+                const checkInDate = formatDate(checkIn);
+                const checkOutDate = formatDate(checkOut);
+                setCheckInDate(checkInDate);
+                setCheckOutDate(checkOutDate);
             }
         }
-        return ()=> ignore = true 
-    }, [])
 
+        return () => { ignore = true; };
+    }, [searchParams]);
+    // Fetch service rates (tax and service fee)
+    const fetchServiceRates = async () => {
+        try {
+            const response = await axiosInstance.get("https://backend.bedbd.com/api/service-rate");
+            setTax(response.data.taxRate * 100);
+            setServiceFee(response.data.serviceFee * 100);
+        } catch (error) {
+            console.error("Failed to fetch service rates:", error);
+        }
+    };
+
+    // Fetch booking details to get the booked date intervals
+    const fetchBookingDetails = async () => {
+        setLoading(true);
+        try {
+            const response = await axiosInstance.get(`/property-book-list/${id}`);
+            const bookedRanges = response.data.bookings.map((booking) => ({
+                start: new Date(booking.checkinDate),
+                end: new Date(booking.checkoutDate),
+            }));
+            setBookedDates(bookedRanges);
+        } catch (error) {
+            setError("Failed to load booking details.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Format a date string (DD-MM-YYYY) to Date object
+    const formatDate = (dateString) => {
+        const dateParts = dateString.split('-');
+        return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+    };
+
+    // Handle change for check-in date
+    const handleCheckInChange = (date) => {
+        setCheckInDate(date); // Update check-in date
+        setCheckOutDate(null); // Reset check-out date when check-in changes
+        setTimeout(() => checkOutPickerRef.current?.setFocus(), 100); // Focus check-out picker
+    };
+
+    // Handle change for check-out date
+    const handleCheckOutChange = (date) => {
+        setCheckOutDate(date);
+    };
+
+    // Handle reservation submission
+    const handleSubmitReserve = async () => {
+        if (!token) {
+            router.push("/login/email");
+            return;
+        }
+        if (!user?.varificationId) {
+            alert("Please Verify your Identity");
+            router.push("/registration/start");
+            return;
+        }
+        if (!checkInDate || !checkOutDate) {
+            setError("Please select both Check-In and Check-Out dates.");
+            return;
+        }
+
+        const reservationData = {
+            propertyId: id,
+            checkinDate: checkInDate.toISOString().split("T")[0],
+            checkoutDate: checkOutDate.toISOString().split("T")[0],
+            guestCount,
+        };
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            await axiosInstance.post(`/book-property/${id}`, reservationData);
+            setLoading(false);
+        } catch (error) {
+            setError("Failed to make the reservation. Please try again.");
+            setLoading(false);
+        }
+    };
+
+    // Calculate the total number of nights between check-in and check-out
     const calculateDays = () => {
         if (checkInDate && checkOutDate) {
             const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
@@ -68,154 +146,65 @@ const BookingBox = ({data, searchParams} ) => {
         }
         return 1;
     };
-    
-    const handleCounterChange = (name, newValue) => {
-        setGuestCount(newValue);
-    };
 
     const totalNights = calculateDays();
     const totalserviceFee = (serviceFee * totalNights).toFixed(2);
     const totalGroundPrice = (GroundPrice * totalNights).toFixed(2);
     const totalTax = (tax * totalNights).toFixed(2);
     const totalPrice = (
-      parseFloat(totalGroundPrice) +
-      parseFloat(totalserviceFee) +
-      parseFloat(totalTax)
+        parseFloat(totalGroundPrice) +
+        parseFloat(totalserviceFee) +
+        parseFloat(totalTax)
     ).toFixed(2);
-    useEffect(() => {
-        fetchBooking();
-    }, [id, totalPrice, totalNights, token]);
 
-    const fetchBooking = async () => {
-        setLoading(true);
-        try {
-            const response = await axiosInstance.get(`/property-book-list/${id}`);
-            setBookingDetails(response.data.bookings);
-
-            const bookedRanges = response.data.bookings.map(booking => ({
-                start: new Date(booking.checkinDate),
-                end: new Date(booking.checkoutDate),
-            }));
-            setBookedDates(bookedRanges);
-
-            setLoading(false);
-        } catch (error) {
-            setError("Failed to load booking details");
-            setLoading(false);
-        }
+    const handleCounterChange = (name, newValue) => {
+        setGuestCount(newValue);
     };
 
-    const handleDateChange = (dates) => {
-        setDateRange(dates);
-    };
+    // Memoized excluded date intervals for the date picker
+    const excludedDateIntervals = useMemo(() => bookedDates, [bookedDates]);
 
-    const handleSubmitReserve = async () => {
-        if (!token) {
-            router.push("/login/email");
-            return;
-        }
-        if(! user?.varificationId && !user.varificationId){
-            alert("please Verify your Identity")
-            router.push("/registration/start")
-          }
-        if (!checkInDate || !checkOutDate) {
-            setError("Please select both Check-In and Check-Out dates");
-            return;
-        }
-
-        const reservationData = {
-            propertyId: id,
-            checkinDate: checkInDate,
-            checkoutDate: checkOutDate,
-            guestCount,
-            totalCost: totalPrice,
-            totalNights,
-        };
-
-        setLoading(true);
-        setError(null);
-
-        try {
-            const response = await axiosInstance.post(`/book-property/${id}`, reservationData);
-               setLoading(false);
-               alert(" Your booking has been Requested.");
-               window.location.href = "/user/bookinglist";
-
-        } catch (error) {
-            setError("Failed to make the reservation. Please try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
+    // Effect to set default date range from searchParams (if available)
+    
 
     return (
         <div className="top-12 sticky rounded-lg drop-shadow-booking-box bg-white">
             <div className="relative p-6 custom-underline-primary-400">
                 <h3 className="text-neutral-700 font-semibold text-3xl">
                     ${GroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
-                    {/* <span className="text-green-300 text-sm ml-3"> (Available)</span> */}
                 </h3>
             </div>
+
             <div className="mt-8 mx-6 border border-neutral-400 rounded-lg overflow-hidden">
                 <div className="py-4 px-8">
-                <div className="flex justify-between">
-            <label className="block text-neutral-600 text-sm font-semibold">Check In  
-            Check Out</label>
-        </div>
+                    <label className="block text-neutral-600 text-sm font-semibold">
+                        Check-In Date
+                    </label>
                     <DatePicker
                         selected={checkInDate}
-                        onChange={handleDateChange}
-                        startDate={checkInDate}
-                        endDate={checkOutDate}
-                        selectsRange
-                        monthsShown={2} 
+                        onChange={handleCheckInChange}
                         minDate={new Date()}
-                        excludeDateIntervals={bookedDates} 
-                        placeholderText="Add Check-In and Check-Out Dates"
+                        excludeDateIntervals={excludedDateIntervals}
+                        placeholderText="Select Check-In Date"
                         className="text-neutral-300 font-medium"
-                        showPopperArrow={false}
                     />
                 </div>
-                <div className="py-4 px-8 border-t border-neutral-400">
-                    <label className="block text-neutral-600 text-sm font-semibold">Guest</label>
-                    <BookingCounter
-                        name="Guest"
-                        value={guestCount}
-                        onCountChange={handleCounterChange}
+                <div className="py-4 px-8">
+                    <label className="block text-neutral-600 text-sm font-semibold">
+                        Check-Out Date
+                    </label>
+                    <DatePicker
+                        selected={checkOutDate}
+                        onChange={handleCheckOutChange}
+                        minDate={checkInDate || new Date()}
+                        excludeDateIntervals={excludedDateIntervals}
+                        placeholderText="Select Check-Out Date"
+                        className="text-neutral-300 font-medium"
+                        ref={checkOutPickerRef}
                     />
-                    <Icon name="chevron-down" size={24} className="icon absolute-y-center right-4" />
                 </div>
             </div>
 
-            {/* Calculation Section */}
-            <div className="border-b-2">
-                <ul className="mx-14 py-6 space-y-8">
-                    <li className="text-neutral-400 font-semibold text-lg">
-                        ${GroundPrice} x {totalNights} night(s)
-                        <span className="text-neutral-500 float-right">${GroundPrice * totalNights}</span>
-                    </li>
-                    
-                   
-                    <li className="text-neutral-400 font-semibold text-lg">
-                            Platform fee (instead of bedbd fee)
-                        <span className="text-neutral-500 float-right">$ {totalserviceFee}</span>
-                    </li>
-                    <li className="text-neutral-400 font-semibold text-lg">
-                    Tax/VAT
-                        <span className="text-neutral-500 float-right">$ {totalTax}</span>
-                    </li>
-                </ul>
-            </div>
-
-            {/* Total Price Display */}
-            <div>
-                <div className="text-neutral-600 font-semibold text-lg py-6 mx-14">
-                    Total
-                    <span className="text-neutral-700 float-right">${totalPrice}</span>
-                </div>
-            </div>
-
-            {/* Reserve Button */}
             <button
                 className="mt-4 mb-8 btn btn-primary rounded-full max-w-96 relative-x-center"
                 onClick={handleSubmitReserve}
@@ -224,8 +213,6 @@ const BookingBox = ({data, searchParams} ) => {
                 {loading ? "Processing..." : "Reserve Now"}
             </button>
 
-            {/* Loading and Error Messages */}
-            {loading && <p className="text-center text-neutral-500">Loading booking details...</p>}
             {error && <p className="text-center text-red-500">{error}</p>}
         </div>
     );
