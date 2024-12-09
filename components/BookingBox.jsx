@@ -1,11 +1,12 @@
 "use client";
+import Icon from "/components/Icon";
 import { useState, useEffect, useRef, useMemo } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/redux/services/axiosInstance";
-
+import BookingCounter from "./BookingCounter";
 const BookingBox = ({ data, searchParams }) => {
     const { GroundPrice, _id } = data;
     const id = _id;
@@ -60,7 +61,7 @@ const BookingBox = ({ data, searchParams }) => {
     // Fetch service rates (tax and service fee)
     const fetchServiceRates = async () => {
         try {
-            const response = await axiosInstance.get("https://backend.bedbd.com/api/service-rate");
+            const response = await axiosInstance.get("/service-rate");
             setTax(response.data.taxRate );
             setServiceFee(response.data.serviceFee);
             console.log(tax,serviceFee)
@@ -105,39 +106,7 @@ const BookingBox = ({ data, searchParams }) => {
     };
 
     // Handle reservation submission
-    const handleSubmitReserve = async () => {
-        if (!token) {
-            router.push("/login/email");
-            return;
-        }
-        if (!user?.varificationId) {
-            alert("Please Verify your Identity");
-            router.push("/registration/start");
-            return;
-        }
-        if (!checkInDate || !checkOutDate) {
-            setError("Please select both Check-In and Check-Out dates.");
-            return;
-        }
-
-        const reservationData = {
-            propertyId: id,
-            checkinDate: checkInDate.toISOString().split("T")[0],
-            checkoutDate: checkOutDate.toISOString().split("T")[0],
-            guestCount,
-        };
-
-        setLoading(true);
-        setError(null);
-
-        try {
-            await axiosInstance.post(`/book-property/${id}`, reservationData);
-            setLoading(false);
-        } catch (error) {
-            setError("Failed to make the reservation. Please try again.");
-            setLoading(false);
-        }
-    };
+ 
 
     // Calculate the total number of nights between check-in and check-out
     const calculateDays = () => {
@@ -162,12 +131,54 @@ const BookingBox = ({ data, searchParams }) => {
     const handleCounterChange = (name, newValue) => {
         setGuestCount(newValue);
     };
-
+    const formatDateForSubmission = (date) => {
+        if (!date) return null; // Handle null or undefined
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+  
     // Memoized excluded date intervals for the date picker
     const excludedDateIntervals = useMemo(() => bookedDates, [bookedDates]);
 
     // Effect to set default date range from searchParams (if available)
-    
+    const handleSubmitReserve = async () => {
+        if (!token) {
+            router.push("/login/email");
+            return;
+        }
+        if (!user?.varificationId) {
+            alert("Please Verify your Identity");
+            router.push("/registration/start");
+            return;
+        }
+        if (!checkInDate || !checkOutDate) {
+            setError("Please select both Check-In and Check-Out dates.");
+            return;
+        }
+
+        const reservationData = {
+            propertyId: id,
+            // checkinDate: checkInDate.toISOString().split("T")[0],
+            // checkoutDate: checkOutDate.toISOString().split("T")[0],
+            checkinDate: formatDateForSubmission(checkInDate),
+            checkoutDate: formatDateForSubmission(checkOutDate),
+            guestCount,
+            totalNights:totalNights
+        };
+        console.log(reservationData)
+        setLoading(true);
+        setError(null);
+
+        try {
+            await axiosInstance.post(`/book-property/${id}`, reservationData);
+            setLoading(false);
+        } catch (error) {
+            setError("Failed to make the reservation. Please try again.");
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="top-12 sticky rounded-lg drop-shadow-booking-box bg-white">
@@ -204,6 +215,15 @@ const BookingBox = ({ data, searchParams }) => {
                         className="text-neutral-300 font-medium"
                         ref={checkOutPickerRef}
                     />
+                </div>
+                <div className="py-4 px-8 border-t border-neutral-400">
+                    <label className="block text-neutral-600 text-sm font-semibold">Guest</label>
+                    <BookingCounter
+                        name="Guest"
+                        value={guestCount}
+                        onCountChange={handleCounterChange}
+                    />
+                    <Icon name="chevron-down" size={24} className="icon absolute-y-center right-4" />
                 </div>
             </div>
 {/* Calculation Section */}
