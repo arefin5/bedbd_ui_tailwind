@@ -5,8 +5,8 @@ import Link from 'next/link';
 import io from 'socket.io-client';
 import { useSelector } from "react-redux";
 
-// const SOCKET_URL = "https://backend.bedbd.com";
-const SOCKET_URL = "http://localhost:5001";
+const SOCKET_URL = "https://backend.bedbd.com";
+// const SOCKET_URL = "http://localhost:5001";
 
 export default function PendingRequestNotification() {
   const [paymentBookings, setPaymentBookings] = useState([]);
