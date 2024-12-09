@@ -6,7 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { updateFormData } from "@/redux/list/editListSlice";
+import { removeImageFromList, updateFormData } from "@/redux/list/editListSlice";
 
 export default function Page() {
   const [images, setImages] = useState([]);
@@ -22,18 +22,28 @@ export default function Page() {
     setImages(formattedImages);
   }, [existingImages]);
 
+  // const handleRemoveImage = (index) => {
+  //   const isExistingImage = !images[index]?.file; // Determine if it's an existing image
+  
+  //   if (isExistingImage) {
+  //     // Remove the existing image from the images array directly
+  //     setImages((prevImages) => prevImages.filter((_, imgIndex) => imgIndex !== index));
+  //   } else {
+  //     // Remove the new image from the local state
+  //     setImages((prevImages) => prevImages.filter((_, imgIndex) => imgIndex !== index));
+  //   }
+  // };
   const handleRemoveImage = (index) => {
     const isExistingImage = !images[index]?.file; // Determine if it's an existing image
-  
+    
     if (isExistingImage) {
-      // Remove the existing image from the images array directly
-      setImages((prevImages) => prevImages.filter((_, imgIndex) => imgIndex !== index));
+      // For existing images, we might want to update the Redux state (remove the image URL)
+      dispatch(removeImageFromList({ index }));
     } else {
-      // Remove the new image from the local state
+      // For new images, just remove it from the local state
       setImages((prevImages) => prevImages.filter((_, imgIndex) => imgIndex !== index));
     }
   };
-  
   const handleSubmitImage = async (e) => {
     e.preventDefault();
     try {

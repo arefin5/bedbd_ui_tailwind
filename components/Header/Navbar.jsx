@@ -18,7 +18,7 @@ export default function Navbar() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (user && token!==null|| undefined) {
+        if (user && token !== null || undefined) {
             setLoggedIn(true)
 
             if (user.profilePic) {
@@ -81,22 +81,22 @@ export default function Navbar() {
         localStorage.clear();
         setLoggedIn(false);
         window.location.href = "/";
-        }
-        const changeRuleAsHostToUser = async () => {
-            setIsLoading(true); // Show loading indicator
-            try {
-              const response = await axiosInstance.put("/change-role-user");
-              if (response.data) {
+    }
+    const changeRuleAsHostToUser = async () => {
+        setIsLoading(true); // Show loading indicator
+        try {
+            const response = await axiosInstance.put("/change-role-user");
+            if (response.data) {
                 const updatedUser = response.data.user; // Assuming updated user data is returned
                 localStorage.setItem("user", JSON.stringify(updatedUser)); // Update local storage
                 setIsLoading(false); // Stop loading indicator
                 window.location.href = "/"; // Redirect to homepage
-              }
-            } catch (error) {
-              console.error("Error updating role:", error);
-              setIsLoading(false); // Stop loading indicator even on error
             }
-          };
+        } catch (error) {
+            console.error("Error updating role:", error);
+            setIsLoading(false); // Stop loading indicator even on error
+        }
+    };
     return (
         <div className="relative z-20">
             {
@@ -128,12 +128,24 @@ export default function Navbar() {
                             </Link>
                         </>
                 }
+                {user && user.role === "host" ? (
+                    <Link href="/add-listing/property-type">
+                        <button className="btn btn-secondary rounded-full px-6 font-semibold"
 
-                <li className=" w-max min-w-full md:min-w-max py-4 px-6 md:p-0">
+                        >Add New Property </button>
+                    </Link>
+                ) : (<>
+                    <li className=" w-max min-w-full md:min-w-max py-4 px-6 md:p-0">
+                        <button className="btn btn-secondary rounded-full px-6 font-semibold"
+                            onClick={changeRule}
+                        >Become A Host </button>
+                    </li>
+                </>)}
+                {/* <li className=" w-max min-w-full md:min-w-max py-4 px-6 md:p-0">
                     <button className="btn btn-secondary rounded-full px-6 font-semibold"
                         onClick={changeRule}
                     >Become A Host </button>
-                </li>
+                </li> */}
 
                 <li>
                     <ul className="md:flex md:space-x-10">
@@ -177,21 +189,21 @@ export default function Navbar() {
                                 </li>
 
                             </Link>
-                            {user && user.role==="user"?(<>
+                            {user && user.role === "user" ? (<>
                                 <li
-                                 onClick={changeRule}
-                                 className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                    onClick={changeRule}
+                                    className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
 
-                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">
-                                    Become A Host 
-                                </span>
-                            </li>
-                            </>):(
+                                    <span className="inline-block max-w-full text-center md:hover:scale-110 ">
+                                        Become A Host
+                                    </span>
+                                </li>
+                            </>) : (
                                 <li
-                                 onClick={changeRuleAsHostToUser}
-                                 className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
-                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">Become A User</span>
-                            </li>
+                                    onClick={changeRuleAsHostToUser}
+                                    className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                    <span className="inline-block max-w-full text-center md:hover:scale-110 ">Become A User</span>
+                                </li>
                             )}
                             {/* <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                 <span className="inline-block max-w-full text-center md:hover:scale-110 ">Switch to User</span>
