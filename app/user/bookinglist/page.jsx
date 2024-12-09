@@ -13,7 +13,7 @@ export default function Page() {
   const fetchSuccess = async () => {
     try {
       const response = await axiosInstance.get("/user-booking-list");
-      console.log("API Response:", response.data.bookings);
+      // console.log("API Response:", response.data.bookings);
       setBookingList(response.data.bookings);
     } catch (error) {
       console.error("Error fetching pending list:", error);

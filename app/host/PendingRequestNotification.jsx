@@ -5,8 +5,8 @@ import Link from 'next/link';
 import io from 'socket.io-client';
 import { useSelector } from "react-redux";
 
-const SOCKET_URL = "https://backend.bedbd.com";
-// const SOCKET_URL = "http://localhost:5001";
+// const SOCKET_URL = "https://backend.bedbd.com";
+const SOCKET_URL = "http://localhost:5001";
 
 export default function PendingRequestNotification() {
   const [paymentBookings, setPaymentBookings] = useState([]);
@@ -15,7 +15,7 @@ export default function PendingRequestNotification() {
   
   useEffect(() => {
   if (!token) return;  // Prevent socket connection if no token
-  console.log(paymentBookings)
+  console.log("paymentBookings",paymentBookings)
 
   // Connect to the Socket.IO server
   const socketInstance = io(SOCKET_URL, {
@@ -41,8 +41,10 @@ export default function PendingRequestNotification() {
 
   // Listen for payment success bookings in real-time
   socketInstance.on('paymentSuccessBookings', (bookings) => {
+    console.log("pendingrequest",bookings);
+
     setPaymentBookings(bookings);  // Update the state with payment success bookings
-    console.log(paymentBookings)
+    // console.log(paymentBookings)
   });
 
   // Cleanup on component unmount

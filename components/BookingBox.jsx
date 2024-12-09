@@ -71,14 +71,37 @@ const BookingBox = ({ data, searchParams }) => {
     };
 
     // Fetch booking details to get the booked date intervals
+    // const fetchBookingDetails = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await axiosInstance.get(`/property-book-list/${id}`);
+    //         const bookedRanges = response.data.bookings.map((booking) => ({
+    //             start: new Date(booking.checkinDate),
+    //             end: new Date(booking.checkinDate),
+                
+    //         }));
+    //         console.log(bookedRanges)
+    //         setBookedDates(bookedRanges);
+    //     } catch (error) {
+    //         setError("Failed to load booking details.");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
     const fetchBookingDetails = async () => {
         setLoading(true);
         try {
             const response = await axiosInstance.get(`/property-book-list/${id}`);
-            const bookedRanges = response.data.bookings.map((booking) => ({
-                start: new Date(booking.checkinDate),
-                end: new Date(booking.checkoutDate),
-            }));
+            const bookedRanges = response.data.bookings.map((booking) => {
+                const start = new Date(booking.checkinDate);
+                const end = new Date(booking.checkinDate);
+    
+                // Normalize dates to remove time zone impact
+                start.setHours(0, 0, 0, 0);
+                end.setHours(0, 0, 0, 0);
+    
+                return { start, end };
+            });
             setBookedDates(bookedRanges);
         } catch (error) {
             setError("Failed to load booking details.");
@@ -86,7 +109,6 @@ const BookingBox = ({ data, searchParams }) => {
             setLoading(false);
         }
     };
-
     // Format a date string (DD-MM-YYYY) to Date object
     const formatDate = (dateString) => {
         const dateParts = dateString.split('-');
@@ -167,13 +189,17 @@ const BookingBox = ({ data, searchParams }) => {
             guestCount,
             totalNights:totalNights
         };
-        console.log(reservationData)
+        // console.log(reservationData)
         setLoading(true);
         setError(null);
 
         try {
-            await axiosInstance.post(`/book-property/${id}`, reservationData);
+           const response= await axiosInstance.post(`/book-property/${id}`, reservationData);
+           if(response.data){
+           router.push("/user/bookinglist")
+           }
             setLoading(false);
+
         } catch (error) {
             setError("Failed to make the reservation. Please try again.");
             setLoading(false);
