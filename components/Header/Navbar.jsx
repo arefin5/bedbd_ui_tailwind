@@ -12,9 +12,10 @@ export default function Navbar() {
     const [loggedIn, setLoggedIn] = useState(false)
     const [open, setOpen] = useState(false)
     const [subMenuOpen, setSubMenuOpen] = useState(false);
-    const { user, isLoading, error, token } = useSelector((state) => state.auth);
+    const { user, error, token } = useSelector((state) => state.auth);
     const [images, setProfile] = useState()
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (user && token!==null|| undefined) {
@@ -81,6 +82,21 @@ export default function Navbar() {
         setLoggedIn(false);
         window.location.href = "/";
         }
+        const changeRuleAsHostToUser = async () => {
+            setIsLoading(true); // Show loading indicator
+            try {
+              const response = await axiosInstance.put("/change-role-user");
+              if (response.data) {
+                const updatedUser = response.data.user; // Assuming updated user data is returned
+                localStorage.setItem("user", JSON.stringify(updatedUser)); // Update local storage
+                setIsLoading(false); // Stop loading indicator
+                window.location.href = "/"; // Redirect to homepage
+              }
+            } catch (error) {
+              console.error("Error updating role:", error);
+              setIsLoading(false); // Stop loading indicator even on error
+            }
+          };
     return (
         <div className="relative z-20">
             {
@@ -161,10 +177,25 @@ export default function Navbar() {
                                 </li>
 
                             </Link>
-                            
-                            <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
-                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">Switch to User</span>
+                            {user && user.role==="user"?(<>
+                                <li
+                                 onClick={changeRule}
+                                 className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+
+                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">
+                                    Become A Host 
+                                </span>
                             </li>
+                            </>):(
+                                <li
+                                 onClick={changeRuleAsHostToUser}
+                                 className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">Become A User</span>
+                            </li>
+                            )}
+                            {/* <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                <span className="inline-block max-w-full text-center md:hover:scale-110 ">Switch to User</span>
+                            </li> */}
                             <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                 <span className="inline-block max-w-full text-center md:hover:scale-110 ">Support</span>
                             </li>

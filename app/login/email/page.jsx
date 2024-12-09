@@ -182,6 +182,7 @@ import { useState ,useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation'; 
 import Link from 'next/link';
+import axios from 'axios';
 
 
 export default function EmailLogin() {
