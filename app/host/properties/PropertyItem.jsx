@@ -23,7 +23,7 @@ const dispatch = useDispatch();
  await localStorage.setItem("data", JSON.stringify(data));
   await  dispatch(editList(data)); // Set the ID in Redux
     router.push("/edit-listing/property-type"); // Navigate to the target page
-
+// router.push("/edit-listing/upload-images")
   };
   return (<div key={id} className={`${listView 
                 ? 'grid grid-cols-host-property h-12' 

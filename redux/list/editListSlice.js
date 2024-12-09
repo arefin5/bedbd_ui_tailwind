@@ -133,9 +133,95 @@ removeHomeRule(state, action) {
   } else {
     console.error("editlist or homerule is not an object or is undefined!");
   }
-}
+},
+  removePropertyDetails(state, action) {
+    const { key } = action.payload; // Extract the key from the payload
+
+    if (state.editlist && state.editlist.propertyFeature && typeof state.editlist.propertyFeature === 'object') {
+      const features = state.editlist.propertyFeature.features;
+          console.log(state.editlist)
+      // Check if homesRoules exists and the key exists inside it
+      if (features && features.hasOwnProperty(key)) {
+        // Remove the home rule by deleting the specified key
+        delete features[key];
+        console.log("Updated homesRoules:", features); // Debugging log
+      } else {
+        console.error("Key does not exist in features!");
+      }
+    } else {
+      console.error("editlist or features is not an object or is undefined!");
+    }
   },
- 
+  removeImageFromList: (state, action) => {
+      const { index } = action.payload;
+      // Remove image from the images array
+      state.editlist.images = state.editlist.images.filter((_, imgIndex) => imgIndex !== index);
+    },
+  
+  //  addPropertyDetails(state, action) {
+  //   const { key } = action.payload; // Extract the key from the payload
+
+  //   if (state.editlist && state.editlist.propertyFeature && typeof state.editlist.propertyFeature === 'object') {
+  //     const features = state.editlist.propertyFeature.features;
+  //         console.log(state.editlist)
+  //     // Check if homesRoules exists and the key exists inside it
+  //     if (features && features.hasOwnProperty(key)) {
+  //       // Remove the home rule by deleting the specified key
+  //        features[key];
+  //       console.log("Updated homesRoules:", features); // Debugging log
+  //     } else {
+  //       console.error("Key does not exist in features!");
+  //     }
+  //   } else {
+  //     console.error("editlist or features is not an object or is undefined!");
+  //   }
+  // },
+//   addPropertyDetails(state, action) {
+//   const { key, value } = action.payload; // Extract key and value from payload
+
+//   if (state.editlist && state.editlist.propertyFeature && typeof state.editlist.propertyFeature === 'object') {
+//     const features = state.editlist.propertyFeature.features;
+
+//     if (features && typeof features === 'object') {
+//       // Add or update the key with the new value
+//       features[key] = value;
+
+//       console.log("Updated features:", features); // Debugging log
+//     } else {
+//       console.error("Features is not an object or is undefined!");
+//     }
+//   } else {
+//     console.error("editlist or propertyFeature is not an object or is undefined!");
+//   }
+// },
+addPropertyDetails(state, action) {
+  const { key, value } = action.payload; // Extract key and value from payload
+
+  // Validate the structure of state and propertyFeature
+  if (
+    state.editlist &&
+    state.editlist.propertyFeature &&
+    typeof state.editlist.propertyFeature === "object"
+  ) {
+    const features = state.editlist.propertyFeature.features;
+
+    // Validate the features object
+    if (features && typeof features === "object") {
+      // Add or update the key with the new value
+      features[key] = value;
+
+      console.log("Feature added/updated:", { key, value });
+      console.log("Updated features:", features); // Debugging log
+    } else {
+      console.error("Features is not an object or is undefined!");
+    }
+  } else {
+    console.error("editlist or propertyFeature is not an object or is undefined!");
+  }
+},
+
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(submitList.pending, (state) => {
@@ -154,6 +240,6 @@ removeHomeRule(state, action) {
 });
 
 // Export actions and reducer
-export const { setId, updateFormData, clearFormData, editList, removeHomeRule } = formSliceEdit.actions;
+export const { setId, updateFormData, clearFormData, editList, removeHomeRule,removePropertyDetails ,removeImageFromList,addPropertyDetails} = formSliceEdit.actions;
 
 export default formSliceEdit.reducer;
