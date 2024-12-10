@@ -219,6 +219,11 @@ export default function EmailLogin() {
     useEffect(() => {
       getUser()
     }, [])
+    const closeModel=(e)=>{
+    e.preventDefault();
+    router.push("/");
+
+}
     return (
         <div className='modal-background'>
             <div className='pt-20 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
@@ -279,6 +284,7 @@ export default function EmailLogin() {
                 {/* <SocialLogin />
 
                 <X className='text-neutral-600 cursor-pointer absolute top-6 right-6' /> */}
+                <X className='text-neutral-600 cursor-pointer absolute top-6 right-6' onClick={closeModel}/> 
             </div>
         </div>
 

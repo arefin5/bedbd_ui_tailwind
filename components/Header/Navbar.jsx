@@ -32,7 +32,9 @@ export default function Navbar() {
 
     const changeRule = async (e) => {
         e.preventDefault();
-
+         if(!user){
+            router.push("/login/email")
+         }
         if (user && user.role === "host") {
             router.push("/host/");
         } else {
@@ -83,6 +85,10 @@ export default function Navbar() {
         window.location.href = "/";
     }
     const changeRuleAsHostToUser = async () => {
+        if(!user){
+            router.push("/login/email");
+            
+        }
         setIsLoading(true); // Show loading indicator
         try {
             const response = await axiosInstance.put("/change-role-user");
