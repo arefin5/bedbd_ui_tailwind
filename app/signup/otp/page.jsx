@@ -41,10 +41,12 @@ export default function Page() {
         e.preventDefault();
         const otpCode = otp.join("");
         dispatch(verifyOtpEmail({ email, otp: otpCode }));
+        setOtp(" ")
     };
 
     const resendOtp = (e) => {
         e.preventDefault();
+        alart("re send opt")
         axiosInstance.post("/generate-otp", { email });
     };
 
@@ -72,10 +74,10 @@ export default function Page() {
                     </div>
                     <button className="btn max-w-48 btn-primary" onClick={handleLoginEmail}>Submit</button>
                     <div className="text-sm font-normal text-center">
-                        Didn't receive your code? <span className="text-primary-400 font-medium" onClick={resendOtp}>Resend</span>
-                        <div className="border border-primary-400 w-8 h-8 mt-2 rounded-full m-auto py-2 text-center text-xs font-medium">
+                        Didn't receive your code? <span  className="text-primary-400 font-medium cursor-pointer" onClick={resendOtp}>Resend</span>
+                        {/* <div className="border border-primary-400 w-8 h-8 mt-2 rounded-full m-auto py-2 text-center text-xs font-medium">
                             1:59
-                        </div>
+                        </div> */}
                         {loading && <p>Loading...</p>}
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                     </div>

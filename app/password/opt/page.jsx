@@ -13,7 +13,7 @@ export default function Page() {
     const dispatch = useDispatch();
     const router = useRouter();
     const { token, loading, error } = useSelector((state) => state.auth);
-
+    const [message,setMessage]=useState(false)
     const handleOtpChange = (e, index) => {
         const value = e.target.value;
         if (/^\d?$/.test(value)) {
@@ -30,9 +30,14 @@ export default function Page() {
 
     const handleLoginPhone = async (e) => {
         e.preventDefault();
+        if(!otp){
+            alert("please provide otp")
+        }
         const email = localStorage.getItem("useemail").replace(/"/g, '');
         const otpCode = otp.join("");
         dispatch(verifyOtpEmail({ email, otp: otpCode }));
+        setOtp("");
+        setMessage(false);
     };
 
     useEffect(() => {
@@ -42,9 +47,12 @@ export default function Page() {
     }, [router, token]);
 
     const resendOtp = (e) => {
+        
         e.preventDefault();
+        alert("")
         const email = localStorage.getItem("useemail").replace(/"/g, '');
         axiosInstance.post("/generate-otp", { email });
+        setMessage(true);
     };
 
     return (
@@ -71,11 +79,11 @@ export default function Page() {
                         ))}
                     </div>
 
-                    <button className="btn max-w-48 btn-primary" onClick={handleLoginPhone}>Submit</button>
+                    <button className="btn max-w-48 btn-primary" onClick={handleLoginPhone} disabled={!otp}>Submit</button>
                     {loading && <p>Loading...</p>}
                     {error && <p style={{ color: 'red' }}>{error}</p>}
 
-                    <div className="text-sm font-normal text-center">
+                    {/* <div className="text-sm font-normal text-center">
                         {`Didn't receive your code? `}
                         <span className="text-primary-400 font-medium" onClick={resendOtp}>
                             Resend
@@ -83,6 +91,15 @@ export default function Page() {
                         <div className="border border-primary-400 w-8 h-8 mt-2 rounded-full m-auto py-2 text-center text-xs font-medium">
                             1:59
                         </div>
+                    </div> */}
+                    <div className="text-sm font-normal text-center">
+                        {`Didn't receive your code? `}<span className="text-primary-400 font-medium cursor-pointer"
+                        onClick={resendOtp}
+                        >resend</span>
+                        {message && <p>otp resent</p>}
+                        {/* <div className="border border-primary-400 w-8 h-8 mt-2 rounded-full m-auto py-2 text-center text-xs font-medium">
+                            1:59
+                        </div> */}
                     </div>
                 </div>
             </div>

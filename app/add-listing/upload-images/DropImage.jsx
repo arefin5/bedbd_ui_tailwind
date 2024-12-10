@@ -34,34 +34,55 @@ export default function DropImage({ setImages }) {
     return true;
   };
 
+  // const handleFiles = async (files) => {
+  //   const newImages = [];
+  //   const fileObjects = [];
+
+  //   for (const file of files) {
+  //     if (validateFile(file)) {
+  //       const previewUrl = URL.createObjectURL(file);
+  //       newImages.push(previewUrl);
+  //       fileObjects.push({ file, preview: previewUrl });
+  //     } else {
+  //       // Optional: Convert unsupported formats
+  //       try {
+  //         const options = { maxSizeMB: 5, fileType: "image/jpeg" };
+  //         const compressedFile = await imageCompression(file, options);
+  //         const previewUrl = URL.createObjectURL(compressedFile);
+  //         newImages.push(previewUrl);
+  //         fileObjects.push({ file: compressedFile, preview: previewUrl });
+  //       } catch (error) {
+  //         console.error(`Failed to process ${file.name}:`, error);
+  //       }
+  //     }
+  //   }
+
+  //   if (newImages.length > 0) {
+  //     setPreviewImages((prevImages) => [...prevImages, ...newImages]);
+  //     setImages((prev) => [...prev, ...fileObjects]);
+  //   }
+  // };
   const handleFiles = async (files) => {
-    const newImages = [];
-    const fileObjects = [];
+  const validImages = [];
+  const validFileObjects = [];
 
-    for (const file of files) {
-      if (validateFile(file)) {
-        const previewUrl = URL.createObjectURL(file);
-        newImages.push(previewUrl);
-        fileObjects.push({ file, preview: previewUrl });
-      } else {
-        // Optional: Convert unsupported formats
-        try {
-          const options = { maxSizeMB: 5, fileType: "image/jpeg" };
-          const compressedFile = await imageCompression(file, options);
-          const previewUrl = URL.createObjectURL(compressedFile);
-          newImages.push(previewUrl);
-          fileObjects.push({ file: compressedFile, preview: previewUrl });
-        } catch (error) {
-          console.error(`Failed to process ${file.name}:`, error);
-        }
-      }
+  for (const file of files) {
+    if (validateFile(file)) {
+      // Process only valid files
+      const previewUrl = URL.createObjectURL(file);
+      validImages.push(previewUrl);
+      validFileObjects.push({ file, preview: previewUrl });
+    } else {
+      alert(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
     }
+  }
 
-    if (newImages.length > 0) {
-      setPreviewImages((prevImages) => [...prevImages, ...newImages]);
-      setImages((prev) => [...prev, ...fileObjects]);
-    }
-  };
+  // Update state only with valid files
+  if (validImages.length > 0) {
+    setPreviewImages((prevImages) => [...prevImages, ...validImages]);
+    setImages((prev) => [...prev, ...validFileObjects]);
+  }
+};
 
   const handleDragOver = (event) => {
     event.preventDefault();

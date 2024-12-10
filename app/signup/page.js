@@ -11,7 +11,11 @@ export default function page() {
     const [password, setPassword] = useState("");
     const [conPass, setConPass] = useState("")
     const { user, loading, error, token } = useSelector((state) => state.auth);
+    const [showPassword, setShowPassword] = useState(false);
 
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev);
+    };
     const dispatch = useDispatch();
     const router=useRouter()
     useEffect(()=>{
@@ -30,10 +34,15 @@ export default function page() {
         }
     }
     console.log(error)
+const closeModel=(e)=>{
+    e.preventDefault();
+    router.push("/");
 
+}
     return (
         <div className='modal-background'>
-            <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
+            <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md |
+             absolute-center rounded-10px'>
 
                 <h3 className='signin-up-form-title'>Sign up</h3>
                 <form className='w-full max-w-lg mb-5 grid gap-y-8 | relative-x-center' onSubmit={hadleRegister}>
@@ -48,14 +57,32 @@ export default function page() {
                         <Icon name='rotate-ccw' className='icon absolute-y-center right-6' />
                     </div>
 
-                    <input
+                    {/* <input
                         className='form-input'
-                        type='password' name='password'
+                        type={showPassword ? 'text' : 'password'}
+                        // type='password'
+                         name='password'
                         placeholder='Enter password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                    />
-
+                    /> */}
+                    <div className="relative">
+            <input
+                className="form-input"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+                type="button"
+                className="absolute-y-center right-6 text-neutral-500"
+                onClick={togglePasswordVisibility}
+            >
+                <Icon name={showPassword ? 'eye-off' : 'eye'} className="icon" />
+            </button>
+        </div>
                     <div className='relative'>
                         <input
                             className='form-input'
@@ -65,7 +92,13 @@ export default function page() {
                             value={conPass}
                             onChange={(e) => setConPass(e.target.value)}
                         />
-                        <Icon name='check' className='icon absolute-y-center right-6' />
+                        {password&& conPass===password?(
+                            <Icon name='check' className='icon absolute-y-center right-6' />
+                        ):(
+                            <Icon name='x' className='icon absolute-y-center right-6' />
+
+                        )}
+                      
                     </div>
                     <button className='btn btn-primary'>Continue</button>
                 </form >
@@ -78,7 +111,9 @@ export default function page() {
 
                 </Link>
 
-                <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6' />
+                <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6' 
+                    onClick={closeModel}
+                />
             </div>
         </div>
 
