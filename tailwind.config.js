@@ -41,6 +41,7 @@ module.exports = {
         
       },
       dropShadow: {
+        'white': '0 4px 6px rgba(255, 255, 255, 0.5)',
         'booking-box': '0px 0px 20px rgba(0, 0, 0, 0.08)',
         'secondary-400': '0 1px 10px rgba(110, 122, 247, 0.3)',
       },
