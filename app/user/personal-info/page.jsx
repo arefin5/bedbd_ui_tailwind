@@ -28,6 +28,10 @@ export default function Page() {
     const [birth, setBirth] = useState("");
     const [ageWarning, setAgeWarning] = useState(""); // Warning message
     let age = 0;
+    const [customeError,setError]=useState(false);
+
+    const [loadings,setLoadings]=useState(false);
+    const [message,setMessage]=useState("")
 
     //   const handleDateChange = (e) => {
     //     const inputDate = e.target.value;
@@ -105,6 +109,8 @@ export default function Page() {
 
     const userUpdate = async (e) => {
         e.preventDefault();
+        setMessage(false);
+        setLoadings(true);
         const birthDate = new Date(birth);
         const today = new Date();
 
@@ -115,19 +121,61 @@ export default function Page() {
         if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
             computedAge--;
         }
+        if(computedAge<18){
+            return  setAgeWarning(true)
+            } 
+            const sanitizedPhone = handlePhoneChange(phone);
+        
+            if (!sanitizedPhone) {
+              console.error("Invalid phone number");
+              // alert("Please enter a valid phone number!"); // Notify the user
+              setError(true);
+              
+              return;
+            }
+
         const payload = {
             fname: fname || undefined,
             lname: lname || undefined,
             email: email || undefined,
-            phone: phone || undefined,
+            phone: sanitizedPhone || undefined,
             parmanentAddress: parmanentAddress || undefined,
             profilePic: image,
             birth,
             age: computedAge,
         };
-        dispatch(userEdit(payload));
-    };
+        // dispatch(userEdit(payload));
+        const resultAction =  await   dispatch(userEdit(payload));
+     
+        if (userEdit.fulfilled.match(resultAction)) {
+            setError(false);
 
+          setMessage("profile Update Success")
+        setLoadings(false);
+        } else {
+          console.error("Error during user edit:", resultAction.payload);
+        }
+    };
+    const handlePhoneChange = (phone) => {
+        let input = phone.trim(); // Trim whitespace
+      
+        // Remove "+88" or "88" from the beginning
+        if (input.startsWith("+88")) {
+          input = input.slice(3);
+        } else if (input.startsWith("88")) {
+          input = input.slice(2);
+        }
+      
+        // Check if the phone number is valid (starts with "01" and has 11 digits)
+        const phoneRegex = /^01\d{9}$/;
+        if (phoneRegex.test(input)) {
+          return input; // Return the sanitized phone number
+        } else {
+          setError(true)
+         
+          return ""; // Return empty if invalid
+        }
+      };
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         const formData = new FormData();
@@ -208,6 +256,9 @@ export default function Page() {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
+                      {customeError && <div className='error-message text-red-500'>
+                please provide valid Phone number
+              </div>}
                 </div>
 
                 <div className='border w-1/2 rounded-lg relative py-3 px-4'>
@@ -237,9 +288,14 @@ export default function Page() {
                     )}
                 </div>
                 {error && <div className='error-message text-red-500'>{error}</div>}
-                <button disabled={!!ageWarning}
-                    className="btn btn-primary relative-x-center max-w-72" type="submit">Save</button>
-                {/* <button className='btn btn-primary' type="submit">Save</button> */}
+                {message && <div className='success-message text-green'>{message}
+          </div>}
+          <button disabled={ageWarning}
+            className="btn btn-primary relative-x-center max-w-72" type="submit">
+             { loadings  ?(
+              "Saveing"
+             ):"save "}
+            </button>
             </form>
         </div>
     );

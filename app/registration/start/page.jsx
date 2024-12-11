@@ -17,6 +17,10 @@ export default function Page() {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [name, setName] = useState("");
+    const [customeError,setError]=useState(false);
+
+    const [loadings,setLoadings]=useState(false);
+    const [message,setMessage]=useState("")
 
     useEffect(() => {
         if( !user || !user.isEmailVerified || !user.isPhoneVerified && !token ){
@@ -50,21 +54,52 @@ export default function Page() {
     }
     const handleContinue=async(e)=>{
         e.preventDefault();
+        const sanitizedPhone = handlePhoneChange(phone);
+        
+        if (!sanitizedPhone) {
+          console.error("Invalid phone number");
+          // alert("Please enter a valid phone number!"); // Notify the user
+          setError(true);
+          return;
+        }
         const payload = {
             fname: fname || undefined,
             lname: lname || undefined,
             email: email || undefined,
-            phone: phone || undefined,
+            phone: sanitizedPhone || undefined,
             name:name
         };
+       
         const resultAction = await dispatch(userEdit(payload));
         if (userEdit.fulfilled.match(resultAction)) {
+            setMessage("profile Update Success")
+            setError(false);
+            
         router.push("/registration/terms-conditions");
         } else {
         console.log("Error during phone login:", resultAction.payload);
         }
     }
-
+    const handlePhoneChange = (phone) => {
+        let input = phone.trim(); // Trim whitespace
+      
+        // Remove "+88" or "88" from the beginning
+        if (input.startsWith("+88")) {
+          input = input.slice(3);
+        } else if (input.startsWith("88")) {
+          input = input.slice(2);
+        }
+      
+        // Check if the phone number is valid (starts with "01" and has 11 digits)
+        const phoneRegex = /^01\d{9}$/;
+        if (phoneRegex.test(input)) {
+          return input; // Return the sanitized phone number
+        } else {
+          setError(true)
+         
+          return ""; // Return empty if invalid
+        }
+      };
 
     return (
         <div className='modal-background'>
@@ -89,6 +124,10 @@ export default function Page() {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}  
                     />
+                     {customeError && <div className='error-message text-red-500'>
+                please provide valid Phone number
+              </div>}
+              
                     <input 
                         className='form-input mt-6'
                         name='email'
@@ -97,6 +136,9 @@ export default function Page() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}   
                     />
+                     {error && <div className='error-message text-red-500'>{error}</div>}
+                {message && <div className='success-message text-green'>{message}
+          </div>}
                     <button className='btn btn-primary mt-12' onClick={handleContinue}>Continue</button>
                 </form>
 

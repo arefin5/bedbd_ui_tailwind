@@ -6,6 +6,7 @@ import PropertyLoadingSkeleton from "./PropertyLoadingSkeleton";
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import Link from 'next/link';
+import AddFavorite from "../AddFavorite";
 
 export default function PropertyGalleryItem({ data }) {
   const [images, setImages] = useState(data.images || []); // Use dynamic images from props
@@ -89,13 +90,8 @@ export default function PropertyGalleryItem({ data }) {
     pathname: '/new-page',
     query: { value1: 10, value2: 20 },
   }} */}
-
-          <Link href={targetUrl}
-            // href={`/listing/${data._id}?checkIn=10&value2=20`}
-            // href={{pathname:`/listing/${data._id}`, query: { value1: 10, value2: 20 }}} 
-            target="_blank" rel="noopener noreferrer">
-              <Image alt="property image" src={image.url} fill className="object-cover" />
-          </Link>
+  <Image alt="property image" src={image.url} fill className="object-cover" />
+         
         </div>
         {buttonVisibility.showLeftButton &&
           <button onClick={leftButtonClick} className="z-20 rounded bg-gray-900 group absolute-y-center p-1 left-3 bg-opacity-30 hover:bg-opacity-50">
@@ -108,9 +104,16 @@ export default function PropertyGalleryItem({ data }) {
           </button>
         }
         <button className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
-          <Heart className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" />
+          {/* <Heart className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" /> */}
+          <AddFavorite data={data}/>
         </button>
       </div>
+      <Link href={targetUrl}
+            // href={`/listing/${data._id}?checkIn=10&value2=20`}
+            // href={{pathname:`/listing/${data._id}`, query: { value1: 10, value2: 20 }}} 
+            target="_blank" rel="noopener noreferrer">
+             
+         
       <div className="mt-2">
         <Link href={targetUrl} target="_blank" rel="noopener noreferrer">
           <div className="inline-block float-left h-fit mt-auto text-xl text-neutral-500 font-semibold ">
@@ -129,6 +132,7 @@ export default function PropertyGalleryItem({ data }) {
           <span className="mt-auto text-neutral-500">({totalReviews})</span>
         </div>
       </div>
+      </Link>
     </div>
   );
 }
