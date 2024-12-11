@@ -24,7 +24,11 @@ const dispatch = useDispatch();
             router.push('/password/opt'); 
         }
     }, [useemail, router]);
-
+    const closeModel=(e)=>{
+        e.preventDefault();
+        router.push("/");
+    
+    }
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
@@ -50,7 +54,7 @@ const dispatch = useDispatch();
 
                 <p className='text-sm font-normal text-center text-neutral-500'>Already have an account? <span className='text-primary-400 font-medium'>Login</span></p>
 </Link>
-                <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>
+                <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6' onClick={closeModel}/>
             </div>
         </div>
         

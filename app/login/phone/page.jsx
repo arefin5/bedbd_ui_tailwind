@@ -13,13 +13,26 @@ export default function Login() {
      const [countryCode, setCountryCode] = useState("+880");
      const dispatch = useDispatch();
      const { token, loading ,error,user} = useSelector((state) => state.auth); // Access auth state from Redux
+     const [customeError,setError]=useState(false)
+     
      const router = useRouter();
+
         const handleLogin = async(e) => {
             try{
             e.preventDefault();
             //  let phone = `${countryCode} ${phonee}`;
              let phone = `${phonee}`;
-              const resultAction = await dispatch(loginUserPhone({ phone }));
+             const sanitizedPhone = handlePhoneChange(phone);
+        
+             if (!sanitizedPhone) {
+               console.error("Invalid phone number");
+               // alert("Please enter a valid phone number!"); // Notify the user
+               setError(true);
+               
+               return;
+             }
+             console.log(sanitizedPhone)
+              const resultAction = await dispatch(loginUserPhone({ sanitizedPhone }));
           if (loginUserPhone.fulfilled.match(resultAction)) {
             router.push("/login/phone/otp");
           } else {
@@ -31,7 +44,26 @@ export default function Login() {
             }
            
         };
-
+        const handlePhoneChange = (phone) => {
+            let input = phone.trim(); // Trim whitespace
+          
+            // Remove "+88" or "88" from the beginning
+            if (input.startsWith("+88")) {
+              input = input.slice(3);
+            } else if (input.startsWith("88")) {
+              input = input.slice(2);
+            }
+          
+            // Check if the phone number is valid (starts with "01" and has 11 digits)
+            const phoneRegex = /^01\d{9}$/;
+            if (phoneRegex.test(input)) {
+              return input; // Return the sanitized phone number
+            } else {
+              setError(true)
+             
+              return ""; // Return empty if invalid
+            }
+          };
    useEffect(() => {
         if (token) {
             router.push('/'); 
@@ -52,7 +84,12 @@ export default function Login() {
     }
     useEffect(() => {
       getUser()
-    }, [])
+    }, []);
+    const closeModel=(e)=>{
+        e.preventDefault();
+        router.push("/");
+    
+    }
     return (
         <div className='modal-background'>
             <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
@@ -89,6 +126,9 @@ export default function Login() {
                                 onChange={(e) => setPhone(e.target.value)}
                                 className='w-full bg-transparent text-sm text-left pl-0 font-semibold placeholder-semibold placeholder-neutral-500 text-neutral-500'/>
                         </div>
+                        {customeError && <div className='error-message text-red-500'>
+                please provide valid Phone number
+              </div>}
                     </div>
                     {error && <p style={{ color: 'red' }}>{error.message || "Something went wrong"}</p>}
                      {loading && <p>Loading...</p>}
@@ -108,7 +148,7 @@ export default function Login() {
                 <button className='login-with-google-btn' onClick={loginwithgoogle}>
                      Sign In With Google
                  </button>
-                <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6'/>
+                <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6' onClick={closeModel} />
             </div>
         </div>
         

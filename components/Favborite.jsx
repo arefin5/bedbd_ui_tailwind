@@ -80,9 +80,9 @@ const AddFavorite = ({ data }) => {
     return (
         <div className="flex cursor-pointer">
             {isFavorite ? (
-                <Icon className="mr-4" color="red" name="share-2" height={24} width={24} onClick={handleUnFavorite} />
+                <Icon className="mr-4" name="heart" color="red" height={24} width={24}  onClick={handleUnFavorite} />
             ) : (
-                <Icon className="mr-4" color="#ffffff" name="heart" height={24} width={24} onClick={handleFavorite} />
+                <Icon className="mr-4" name="heart" color="red" height={24} width={24} onClick={handleFavorite} />
             )}
         </div>
     );

@@ -28,65 +28,15 @@ export default function profile() {
   const [hanlarotpPhone, sethanlarotpPhone] = useState(false)
   const [otp, setOtp] = useState("");
   const [birth, setBirth] = useState("");
-  const [ageWarning, setAgeWarning] = useState(""); // Warning message
-   let age=0;
+  const [ageWarning, setAgeWarning] = useState(false); // Warning message
+  let age = 0;
+  const [customeError,setError]=useState(false);
 
-  // const handleDateChange = (e) => {
-  //   const inputDate = e.target.value;
-  //   setBirth(inputDate);
+  const [loadings,setLoadings]=useState(false);
+  const [message,setMessage]=useState("")
 
-  //   // Check if the date format is valid (dd/mm/yyyy)
-  //   const [day, month, year] = inputDate.split("/").map(Number);
-
-  //   if (day && month && year) {
-  //     const birthDate = new Date(year, month - 1, day); // Convert to a Date object
-  //     const today = new Date();
-
-  //     // Calculate age
-  //      age = today.getFullYear() - birthDate.getFullYear();
-  //     const monthDiff = today.getMonth() - birthDate.getMonth();
-  //     const dayDiff = today.getDate() - birthDate.getDate();
-
-  //     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-  //       age--; // Adjust age if the birthdate hasn't occurred yet this year
-  //     }
-
-  //     // Check if the user is under 18
-  //     if (age < 18) {
-  //       setAgeWarning("You are under age.");
-  //     } else {
-  //       setAgeWarning(""); // Clear the warning if age is 18 or older
-  //     }
-  //   } else {
-  //     setAgeWarning("Invalid date format. Please use dd/mm/yyyy.");
-  //   }
-  // };
-  const handleDateChange = (e) => {
-    const inputDate = e.target.value; // Format: yyyy-mm-dd
-    setBirth(inputDate);
-  
-    const birthDate = new Date(inputDate);
-    const today = new Date();
-  
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    const dayDiff = today.getDate() - birthDate.getDate();
-  
-    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-      age--;
-    }
-  
-    // Show warning if age is under 18
-    if (age < 18) {
-      setAgeWarning("You are under age.");
-    } else {
-      setAgeWarning("");
-    }
-  };
-  
   const dispatch = useDispatch();
   const { user, isLoading, error, token } = useSelector((state) => state.auth);
-
   useEffect(() => {
     setfName(user.fname || "");
     setlName(user.lname || "");
@@ -98,8 +48,8 @@ export default function profile() {
     setImage(user.profilePic || {});
     setAbout(user.about || "");
     setUserId(user._id);
-    setBirth(user?.birth)
-  }, [user, token, hanlarotp, hanlarotpPhone])
+    setBirth(user?.birth);
+    }, [user, token, hanlarotp, hanlarotpPhone])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(id).then(() => {
@@ -110,35 +60,81 @@ export default function profile() {
   };
   const userUpdate = async (e) => {
     e.preventDefault();
+    setMessage(false)
     const birthDate = new Date(birth);
     const today = new Date();
-  
+    setLoadings(true);
+
     let computedAge = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
     const dayDiff = today.getDate() - birthDate.getDate();
-  
+
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
       computedAge--;
+    }
+    if(computedAge<18){
+    return  setAgeWarning(true)
+    } 
+    const sanitizedPhone = handlePhoneChange(phone);
+
+    if (!sanitizedPhone) {
+      console.error("Invalid phone number");
+      // alert("Please enter a valid phone number!"); // Notify the user
+      setError(true);
+      
+      return;
     }
     const payload = {
       fname: fname || undefined,
       lname: lname || undefined,
       email: email || undefined,
-      phone: phone || undefined,
+      phone: sanitizedPhone || undefined,
       parmanentAddress: parmanentAddress || undefined,
       presentAddress: presentAddress || user.presentAddress || undefined,
       about: about || undefined,
       profilePic: image,
       cover: cover || undefined,
       birth,
-    age: computedAge,
+      age: computedAge,
     };
     console.log(payload)
     // profilePic
-    dispatch(userEdit(payload));
+    // if(ageWarning)
+    // dispatch(userEdit(payload));
+    const resultAction =  await   dispatch(userEdit(payload));
+     
+        if (userEdit.fulfilled.match(resultAction)) {
+          setError(false);
+          
+          setMessage("profile Update Success")
+        setLoadings(false);
+        } else {
+          console.error("Error during user edit:", resultAction.payload);
+        }
     // console.log(image);
     // console.log(payload.profilePic)
   };
+  const handlePhoneChange = (phone) => {
+    let input = phone.trim(); // Trim whitespace
+  
+    // Remove "+88" or "88" from the beginning
+    if (input.startsWith("+88")) {
+      input = input.slice(3);
+    } else if (input.startsWith("88")) {
+      input = input.slice(2);
+    }
+  
+    // Check if the phone number is valid (starts with "01" and has 11 digits)
+    const phoneRegex = /^01\d{9}$/;
+    if (phoneRegex.test(input)) {
+      return input; // Return the sanitized phone number
+    } else {
+      setError(true)
+     
+      return ""; // Return empty if invalid
+    }
+  };
+  
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     let formData = new FormData();
@@ -200,10 +196,10 @@ export default function profile() {
   };
   const VerifyedEmail = (e) => {
     e.preventDefault();
-     dispatch(verifyOtpEmail({ email, otp }));
-     setOptSubmite(false);
-     sethanlarotpPhone(false);
-     setOtp("")
+    dispatch(verifyOtpEmail({ email, otp }));
+    setOptSubmite(false);
+    sethanlarotpPhone(false);
+    setOtp("")
   };
 
   // phone 
@@ -324,8 +320,12 @@ export default function profile() {
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Phone"
               value={phone}
+              
               onChange={(e) => setPhone(e.target.value)}
             />
+              {customeError && <div className='error-message text-red-500'>
+                please provide valid Phone number
+              </div>}
             {user && user.isPhoneVerified ? (
               <p>verified </p>
             ) : (
@@ -359,9 +359,9 @@ export default function profile() {
               <p>verified </p>
             ) : (
               <button onClick={otpGenerateEmail} className="btn btn-secondary mt-2">
-                   Please  Verifiy
-                </button>
-             
+                Please  Verifiy
+              </button>
+
             )
             }
             {hanlarotp && (
@@ -397,34 +397,29 @@ export default function profile() {
               onChange={(e) => setParmanent(e.target.value)}
 
             />
-         
-            </div>
-            <div className="">
-            {/* <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
-              placeholder="dd/mm/yyyy"
-              value={birth}
-              onChange={(e) => setBirth(e.target.setBirth)}
 
-<input
-  type="date"
-  value={birth}
-  onChange={(e) => setBirth(e.target.value)}
-  className="w-full border border-neutral-300 py-3 px-4 rounded-md"
-/>
-            /> */}
+          </div>
+          <div className="">
+
             <input
-  type="date"
-  value={birth}
-  onChange={(e) => setBirth(e.target.value)}
-  className="w-full border border-neutral-300 py-3 px-4 rounded-md"
-/>
-               {ageWarning && (
-        <p className="text-red-500 mt-2">{ageWarning}</p>
-      )}
+              type="date"
+              value={birth}
+              onChange={(e) => setBirth(e.target.value)}
+              className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+            />
+            {ageWarning && (
+              <p className="text-red-500 mt-2">You are under Age</p>
+            )}
           </div>
           {error && <div className='error-message text-red-500'>{error}</div>}
-          <button  disabled={!!ageWarning}
-           className="btn btn-primary relative-x-center max-w-72" type="submit">Save</button>
+          {message && <div className='success-message text-green'>{message}
+          </div>}
+          <button disabled={ageWarning}
+            className="btn btn-primary relative-x-center max-w-72" type="submit">
+             { loadings  ?(
+              "Saveing"
+             ):"save "}
+            </button>
         </form>
       </div>
 
