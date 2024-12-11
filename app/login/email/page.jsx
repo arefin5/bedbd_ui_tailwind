@@ -2,13 +2,14 @@
 "use client"
 import { loginUser } from '@/redux/features/auth/authSlice';
 import SocialLogin from '../SocialLogin'
-import { Phone, X } from 'lucide-react';
+import {  Phone, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 
+import Icon from '/components/Icon'
 
 export default function EmailLogin() {
 
