@@ -97,6 +97,10 @@ export default function Hero() {
     useEffect(() => {
         console.log("Updated lists:", lists);
     }, [lists]);
+    const backHome = () => {
+        window.location.href = "/";
+    };
+    
     return (
         <>
             <div className=" relative w-100 md:bg-hero z-10 ">
@@ -126,7 +130,7 @@ export default function Hero() {
                                         Advance Search
                                     </div>
                                     <button className="rounded-full bg-primary-400 h-min p-2.5">
-                                        <ArrowLeft className="icon text-white" size={24} />
+                                        <ArrowLeft className="icon text-white" size={24}  onClick={backHome}/>
                                     </button>
                                 </div>
                         }
