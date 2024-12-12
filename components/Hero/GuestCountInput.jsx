@@ -236,7 +236,7 @@ export default function GuestCountInput({ gust, setGust }) {
         ? "block md:px-2 md:py-1.5 md:border md:border-neutral-300 md:rounded-md text-center"
         : "block bg-transparent text-center"
     }`}
-    style={{ maxWidth: "1rem" }}
+    style={{ maxWidth: "10rem" }}
     placeholder={isMapOpen ? "0" : "Adult, infant 1"}
     value={gust}
     readOnly
