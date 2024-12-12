@@ -35,6 +35,18 @@ export default function Page() {
         }
     }, [token, router]);
 
+//   useEffect(() => {
+//         const phone = localStorage.getItem("userPhone");
+          
+//         if (phone) {
+//             const timeoutId = setTimeout(() => {
+//                 localStorage.removeItem("userPhone");
+//                 console.log("userPhone removed from localStorage");
+//             }, 10 * 60 * 6000); // 10 minutes in milliseconds
+
+//             return () => clearTimeout(timeoutId); // Clear timeout on unmount
+//         }
+//     }, []);
     const handleOtpChange = (e, index) => {
         const { value } = e.target;
         if (/^\d$/.test(value)) {

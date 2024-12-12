@@ -74,10 +74,12 @@ export default function EmailLogin() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        {/* 
-                        <div className='grid sm:w-1/2 pl-7.5 pr-4 py-3.5 overflow-hidden border border-neutral-200 rounded-30px marker-class' >
-                            <label className='text-neutral-300 font-medium text-xs leading-none '>Password</label>
-                            <input className='w-full bg-transparent text-sm text-left pl-0 font-semibold placeholder-semibold placeholder-neutral-500 text-neutral-500' 
+                        
+                        {/* <div className='grid sm:w-1/2 pl-7.5 pr-4 py-3.5 overflow-hidden border border-neutral-200 rounded-30px marker-class' >
+                          
+                           <label className='text-neutral-300 font-medium text-xs leading-none '>Password</label>
+                           <div>
+                           <input className='w-full bg-transparent text-sm text-left pl-0 font-semibold placeholder-semibold placeholder-neutral-500 text-neutral-500' 
                             placeholder='Enter Your password'
                             type={showPassword ? 'text' : 'password'}
                                 name='password'
@@ -85,40 +87,47 @@ export default function EmailLogin() {
                                 onChange={(e) => setPass(e.target.value)}
                                 
                             />
-                        </div> */}
-                        <div className='grid sm:w-1/2 pl-7.5 pr-4 py-3.5 overflow-hidden border border-neutral-200 rounded-30px marker-class relative' >
-                            <label className='text-neutral-300 font-medium text-xs leading-none '>Password</label>
-                            {/* <input 
-        className='w-full bg-transparent text-sm text-left pl-0 font-semibold placeholder-semibold placeholder-neutral-500 text-neutral-500' 
-        placeholder='Enter Your password'
-        type={showPassword ? 'text' : 'password'}
-        name='password'
-        value={password}
-        onChange={(e) => setPass(e.target.value)}
-    />
-    <button 
-        type="button" 
-        onClick={togglePasswordVisibility}
-        className='absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-400 cursor-pointer'
-    >
-        {showPassword ? 'Hide' : 'Show'}
-    </button> */}
-                            <input
-                                className="form-input"
-                                type={showPassword ? 'text' : 'password'}
-                                name="password"
-                                placeholder="Enter password"
-                                value={password}
-                                onChange={(e) => setPass(e.target.value)}
-                            />
                             <button
                                 type="button"
                                 className="absolute-y-center right-6 text-neutral-500"
                                 onClick={togglePasswordVisibility}
                             >
-                                <Icon name={showPassword ? 'eye-off' : 'eye'} className="icon" />
+                                <Icon  name={showPassword ? 'eye-off' : 'eye'} className="icon" />
                             </button>
-                        </div>
+                           </div>
+                           </div> */}
+
+{/* show hiddn */}
+
+{/*  */}
+
+        <div className="grid sm:w-1/2 px-4 py-3.5 overflow-hidden border border-neutral-200 rounded-[30px]">
+            <label className="text-neutral-300 font-medium text-xs leading-none mb-2">
+                Password :
+            </label>
+            <div className="relative">
+                <input
+                    className="w-full bg-transparent text-sm font-semibold placeholder-neutral-500 text-neutral-500 border-none focus:outline-none pr-12"
+                    placeholder="Enter Your password"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPass(e.target.value)}
+                />
+                <button
+                    type="button"
+                    className="absolute inset-y-0 right-4 flex items-center text-neutral-500"
+                    onClick={togglePasswordVisibility}
+                >
+                    <Icon name={showPassword ? 'eye-off' : 'eye'} className="h-5 w-5" />
+                </button>
+            </div>
+        </div> 
+{/*  */}
+{/* <div>
+                        </div> */}
+                     
+                      
                     </div>
 
                     <div className='text-xs leading-none text-neutral-400 font-medium  mt-3 mb-5 flex flex-wrap gap-2 sm:justify-between'>
@@ -137,12 +146,12 @@ export default function EmailLogin() {
                         >
                             {loading ? 'Logging in...' : 'Continue'}
                         </button>
-                        <Link href="/login/phone">
+                        {/* <Link href="/login/phone">
                             <a className='flex-auto flex  gap-2.5 items-center text-neutral-500 cursor-pointer text-sm font-medium'>
                                 <Phone className='icon' size={24} />
                                 Continue with Phone Number
                             </a>
-                        </Link>
+                        </Link> */}
 
                     </div>
                 </form >

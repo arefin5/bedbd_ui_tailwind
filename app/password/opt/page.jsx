@@ -39,7 +39,18 @@ export default function Page() {
         setOtp("");
         setMessage(false);
     };
+    // useEffect(() => {
+    //     const phone = localStorage.getItem("useemail");
 
+    //     if (phone) {
+    //         const timeoutId = setTimeout(() => {
+    //             localStorage.removeItem("useemail");
+    //             console.log("userPhone removed from localStorage");
+    //         }, 10 * 60 * 6000); // 10 minutes in milliseconds
+
+    //         return () => clearTimeout(timeoutId); // Clear timeout on unmount
+    //     }
+    // }, []);
     useEffect(() => {
         if (token) {
             router.push('/password/reset');
