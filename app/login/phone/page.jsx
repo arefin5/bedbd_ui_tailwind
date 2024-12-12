@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SocialLogin from '../SocialLogin'
 import { useState,useEffect } from 'react';
-import { loginUserPhone } from '@/redux/features/auth/authSlice';
+import { loginUserPhone ,clearError} from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation'; 
 import Link from 'next/link';
 
@@ -14,29 +14,36 @@ export default function Login() {
      const dispatch = useDispatch();
      const { token, loading ,error,user} = useSelector((state) => state.auth); // Access auth state from Redux
      const [customeError,setError]=useState(false)
-     
+     const [message,setMessage]=useState(false)
      const router = useRouter();
-
         const handleLogin = async(e) => {
             try{
             e.preventDefault();
+            dispatch(clearError())
+            setError(false)
             //  let phone = `${countryCode} ${phonee}`;
              let phone = `${phonee}`;
              const sanitizedPhone = handlePhoneChange(phone);
         
              if (!sanitizedPhone) {
-               console.error("Invalid phone number");
+              //  console.error("Invalid phone number");
                // alert("Please enter a valid phone number!"); // Notify the user
                setError(true);
                
                return;
              }
              console.log(sanitizedPhone)
-              const resultAction = await dispatch(loginUserPhone({ sanitizedPhone }));
+             
+              const resultAction = await dispatch(loginUserPhone({ phone:sanitizedPhone }));
           if (loginUserPhone.fulfilled.match(resultAction)) {
-            router.push("/login/phone/otp");
+            setMessage(false)
+            router.push(`/login/phone/otp?phone=${encodeURIComponent(sanitizedPhone)}`);
+            // router.push("/login/phone/otp");
+            
           } else {
             console.log("Error during phone login:", resultAction.payload);
+            dispatch(clearError())
+
           }
 
             }catch(error){
@@ -67,6 +74,7 @@ export default function Login() {
    useEffect(() => {
         if (token) {
             router.push('/'); 
+            
         }
     }, [token, router,user]);
     const loginwithgoogle = ()=>{
@@ -100,6 +108,9 @@ export default function Login() {
                   onSubmit={handleLogin}
 
                   >
+                   {error && <div className='error-message text-red-500'>{error}</div>}
+          {message && <div className='success-message text-green'>"sent otp on your phone"
+          </div>}
                     <div className='flex gap-y-2.5 sm:gap-0 flex-col sm:flex-row  overflow-hidden | sm:border sm:border-neutral-200 rounded-30px '>
                         <div className='grid hover:bg-gray-50 flex-auto sm:w-2/5 sm:max-w-48 pl-7.5 pr-4 py-3.5   border border-neutral-200 sm:border-none rounded-30px'>
                             <label className='text-neutral-300 font-medium text-xs leading-none '>country</label>
