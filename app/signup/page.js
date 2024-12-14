@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Icon from '/components/Icon'
 import { useDispatch, useSelector } from 'react-redux';
-import { signupUser } from '@/redux/features/auth/authSlice';
+import { clearError, signupUser } from '@/redux/features/auth/authSlice';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -19,10 +19,11 @@ export default function page() {
     const dispatch = useDispatch();
     const router=useRouter()
     useEffect(()=>{
+        dispatch(clearError())
          if(user){
                router.push("/signup/otp")
          }
-    },[user]);
+    },[user,error]);
     const hadleRegister = async (e) => {
         try {
             e.preventDefault();

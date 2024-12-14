@@ -189,7 +189,7 @@ export default function Navbar() {
                                 </li>
 
                             </Link>
-                            <Link href="/user/bookinglist">
+                            <Link href="/user/booking-history">
                                 <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                     <span className="inline-block max-w-full text-center md:hover:scale-110 ">Booking History</span>
                                 </li>

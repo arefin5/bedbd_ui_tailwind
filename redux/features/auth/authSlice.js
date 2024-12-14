@@ -308,6 +308,9 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+        setTimeout(() => {
+          state.error = null;
+        }, 5000);
       })
       // .addCase(loginUser.fulfilled, (state, action) => {
       //   state.loading = false;
@@ -336,6 +339,9 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(loginwithGoogle.pending, (state) => {
         state.loading = true;
@@ -352,14 +358,23 @@ const authSlice = createSlice({
       .addCase(loginwithGoogle.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(loginUserPhone.pending, (state) => {
         state.loading = true;
         state.error = null;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(loginUserPhone.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payloadl;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(loginUserPhone.fulfilled, (state, action) => {
         state.loading = false;
@@ -386,6 +401,9 @@ const authSlice = createSlice({
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       }).addCase(forgetpass.pending, (state) => {
         state.loading = true;
         state.error = false;
@@ -407,6 +425,9 @@ const authSlice = createSlice({
       .addCase(forgetpass.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(verifyOtp.pending, (state) => {
         state.loading = true;
@@ -426,6 +447,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         console.error("OTP verification failed:", action.payload); // Log the actual error
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(verifyOtpEmail.pending, (state) => {
         state.loading = true;
@@ -445,6 +469,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         console.error("OTP verification failed:", action.payload); // Log the actual error
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(userEdit.pending, (state) => {
         state.loading = true;
@@ -460,6 +487,9 @@ const authSlice = createSlice({
       .addCase(userEdit.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
       .addCase(resetPasseord.pending, (state) => {
         state.loading = true;
@@ -481,10 +511,20 @@ const authSlice = createSlice({
       .addCase(resetPasseord.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        setTimeout(() => {
+          state.error = null;
+        }, 500);
       })
   },
 });
 
 export const { logout, clearError } = authSlice.actions;
+// export const setErrorWithAutoClear = (errorMessage) => (dispatch) => {
+//   dispatch(setError(errorMessage));
 
+//   // Automatically clear the error after 1 second
+//   setTimeout(() => {
+//     dispatch(clearError());
+//   }, 500);
+// };
 export default authSlice.reducer;
