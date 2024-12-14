@@ -76,6 +76,8 @@ export default function Login() {
             router.push('/'); 
             
         }
+        dispatch(clearError())
+        
     }, [token, router,user]);
     const loginwithgoogle = ()=>{
         window.open("https://backend.bedbd.com/auth/google/callback","_self")

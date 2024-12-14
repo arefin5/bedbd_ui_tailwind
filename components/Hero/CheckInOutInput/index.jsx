@@ -14,7 +14,7 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
     const { isMapOpen } = useSelector(state => state.search.location);
 
     const {  selectedDate } = useSelector(state => state.search);
-    console.log(selectedDate)
+    // console.log(selectedDate)
     
 
     // const [isCalenderOpen, setIsCalenderOpen] = useState(false)

@@ -20,7 +20,7 @@ export default function page() {
 
 </Link>
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
-       <Link href="/user/security">
+       <Link href="/user">
         <Icon name="shield-check" className="icon mb-[10px]"/>
         <h3 className="text-neutral-600 font-semibold mb-[10px] text-xl ">Login & Security</h3>
         <p className="font-medium text-base text-neutral-600">Update your password and secure your account</p>
@@ -40,7 +40,7 @@ export default function page() {
         <Link href="/user/privacy/data">
         <h3 className="text-neutral-600 font-semibold mb-[10px] text-xl ">Privacy & Sharing</h3>
         </Link>
-        <Link href="/user/privacy/sharing">
+        <Link href="/user/request-personal-data">
         <p className="font-medium text-base text-neutral-600">Manage your personal data, connected service, and data sharing settings</p>
      </Link>
       </div>

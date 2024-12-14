@@ -1,6 +1,6 @@
 
 "use client"
-import { loginUser } from '@/redux/features/auth/authSlice';
+import { clearError, loginUser } from '@/redux/features/auth/authSlice';
 import SocialLogin from '../SocialLogin'
 import {  Phone, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -34,6 +34,7 @@ export default function EmailLogin() {
         if (token) {
             router.push('/');
         }
+        dispatch(clearError())        
     }, [token, router, user]);
     const loginwithgoogle = () => {
         window.open("https://backend.bedbd.com/auth/google/callback", "_self");
