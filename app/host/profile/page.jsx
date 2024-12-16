@@ -226,70 +226,85 @@ export default function profile() {
   };
 
   return (
-    <div className="w-full">
-      <div className="w-full bg-secondary-50 rounded-lg h-64 relative ">
-        {cover.url ? (
-          <Image
-            src={cover.url}
-            height={120} width={120}
-            alt="User Cover photo Image"
-            onClick={triggerFileInputCover} />
-        ) : uploading ? (
-          <p>Uploading...</p>
-        ) : (
-          <Image src={SVGCercle} height={120} width={120} alt="Placeholder"
-            onClick={triggerFileInputCover} />
-        )}
-
-        {/* cover */}
-        <input
-          ref={fileInputRefCover}
-          onChange={handleImageCoverChange}
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-        />
-
+    <div className="relative w-full">
+    {/*  */}
+    <div className="w-full bg-secondary-50 h-64 rounded-lg relative overflow-hidden">
+    {cover.url ? (
+      <img
+        src={cover.url}
+        alt="Cover"
+        className="w-full h-full object-cover cursor-pointer"
+        onClick={triggerFileInputCover}
+      />
+    ) : (
+      <div
+        className="w-full h-full bg-gray-200 flex items-center justify-center cursor-pointer"
+        onClick={triggerFileInputCover}
+      >
+        <p>Upload Cover Image</p>
       </div>
-      <div className="flex">
-        <div className=" bg-secondary-50  w-80 relative rounded-lg pt-32 px-6"  >
-          <div className="absolute min-w-64 h-64 rounded-full overflow-hidden absolute-x-center -top-40">
+    )}
+    <input
+      ref={fileInputRefCover}
+      type="file"
+      accept="image/*"
+      onChange={handleImageCoverChange}
+      style={{ display: 'none' }}
+    />
+  </div>
 
-
-          </div>
-
-          {/* profile  */}
-          {image.url ? (
-            <Image
-              src={image.url}
-              height={120} width={120}
-              alt="User Profile Image"
-              onClick={triggerFileInput} />
-          ) : uploading ? (
-            <p>Uploading...</p>
-          ) : (
-            <Image src={SVGCercle} height={120} width={120} alt="Placeholder"
-              onClick={triggerFileInput} />
-          )}
-
-          {/* Hidden file input */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}  // Hide the input
-          />
-          {/*  */}
+  {/* Profile Image */}
+  <div className="absolute top-48 left-8 w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100">
+    {image.url ? (
+      <img
+        src={image.url}
+        alt="Profile"
+        className="w-full h-full object-cover cursor-pointer"
+        onClick={triggerFileInput}
+      />
+    ) : (
+      <div
+        className="flex items-center justify-center w-full h-full cursor-pointer"
+        onClick={triggerFileInput}
+      >
+        <p>Upload Profile</p>
+      </div>
+    )}
+    <input
+      ref={fileInputRef}
+      type="file"
+      accept="image/*"
+      onChange={handleImageChange}
+      style={{ display: 'none' }}
+    />
+ <div className=" bg-secondary-50  w-80 relative rounded-lg pt-32 px-6"  >
+          {/* <textarea id="about-text"
+            className="py-6 px-4 h-80 w-72 max-w-full mt-4 bg-white rounded-lg "
+            placeholder="say something about yourself"
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+          ></textarea>
+          <button className=" cursor-pointer mt-4 relative-x-center hover:underline text-red-500"> Delete Account 
+          </button> */}
+        </div>
+  </div>
+ 
+ 
+  {/* User Info Form */}
+    {/*  */}
+      <div className='flex mt-10  '>
+      <div className=" bg-secondary-50  w-30  rounded-lg pt-32 px-6"  >
           <textarea id="about-text"
             className="py-6 px-4 h-80 w-72 max-w-full mt-4 bg-white rounded-lg "
             placeholder="say something about yourself"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
           ></textarea>
-          <button className=" cursor-pointer mt-4 relative-x-center hover:underline text-red-500"> Delete Account </button>
+          <button className=" cursor-pointer mt-4  hover:underline text-red-500"> Delete Account 
+          </button>
         </div>
-        <form className=" bg-secondary-50 w-full max-w-3xl  rounded-lg py-10 px-6 " onSubmit={userUpdate}>
+       <div className=" bg-secondary-50 w-full max-w-3xl  rounded-lg py-10 px-6 ">
+       <form className="" onSubmit={userUpdate}>
           {/* <div className="">
             <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
@@ -382,13 +397,6 @@ export default function profile() {
             {/* <input className="w-full border border-neutral-300 py-3 px-4 rounded-md" placeholder="ID No." /> */}
           </div>
 
-          {/* <div className="">
-            <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
-              placeholder="Present Address"
-              value={presentAddress}
-              onChange={(e) => setPresentAddress(e.target.value)}
-            />
-          </div> */}
 
           <div className="">
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
@@ -399,13 +407,13 @@ export default function profile() {
             />
 
           </div>
-          <div className="">
+          <div className="w-full border border-neutral-300 py-3 px-4 rounded-md">
 
             <input
               type="date"
               value={birth}
               onChange={(e) => setBirth(e.target.value)}
-              className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+              // className="w-full  py-3 px-4 rounded-md"
             />
             {ageWarning && (
               <p className="text-red-500 mt-2">You are under Age</p>
@@ -421,6 +429,7 @@ export default function profile() {
              ):"save "}
             </button>
         </form>
+       </div>
       </div>
 
     </div>
