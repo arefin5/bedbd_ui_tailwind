@@ -33,7 +33,7 @@ const BookingBox = ({ data, searchParams }) => {
             
         }
     }, [id]);
-    console.log(searchParams)
+    // console.log(searchParams)
     useEffect(() => {
         let ignore = false;
 

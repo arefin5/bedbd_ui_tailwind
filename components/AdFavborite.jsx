@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import axiosInstance from '@/redux/services/axiosInstance';
 
-const AddFavorite = ({ data }) => {
+const Favorite = ({ data }) => {
     const id = data._id;
     const [isFavorite, setIsFavorite] = useState(false);
-
+    const [loading,setLoading]=useState(false)
     const user = useSelector((state) => state.auth.user);
     const router = useRouter();
 
@@ -18,7 +18,7 @@ const AddFavorite = ({ data }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
         const currentUser = storedUser || user;
-
+        // setLoading(false);
         if (currentUser?.favoriteList?.includes(id)) {
             setIsFavorite(true);
         }
@@ -26,36 +26,38 @@ const AddFavorite = ({ data }) => {
 
     const handleFavorite = async (e) => {
         e.preventDefault();
-
+        setLoading(true)
+          console.log("favoriite ...")
         if (!user) {
-            return router.push('/login');
+            return router.push('/login/email');
         }
 
         try {
             
         if (!user) {
-            return router.push('/login');
+            return router.push('/login/email');
         }
             const response = await axiosInstance.put(`/favoriteslist-list/${id}`);
             setIsFavorite(true);
-
+      
             // Ensure favoriteList is an array and update localStorage
             const updatedUser = { 
                 ...user, 
                 favoriteList: user.favoriteList ? [...user.favoriteList, id] : [id] 
             };
             localStorage.setItem('user', JSON.stringify(updatedUser));
-
+               setLoading(false);
             console.log(response);
         } catch (error) {
             console.error("Error adding to favorites:", error);
+            setLoading(false)
         }
     };
 // favoriteList
 // favoritelist
     const handleUnFavorite = async (e) => {
         e.preventDefault();
-
+        setLoading(true)
         if (!user) {
             return router.push('/login');
         }
@@ -71,7 +73,7 @@ const AddFavorite = ({ data }) => {
             };
             console.log (response)
             localStorage.setItem('user', JSON.stringify(updatedUser));
-
+            setLoading(false)
         } catch (error) {
             console.error("Error removing from favorites:", error);
         }
@@ -79,13 +81,18 @@ const AddFavorite = ({ data }) => {
 
     return (
         <div className="flex cursor-pointer">
-            {isFavorite ? (
-                <Icon className="mr-4" name="heart" color="red" height={24} width={24}  onClick={handleUnFavorite} />
-            ) : (
-                <Icon className="mr-4" name="heart" color="red" height={24} width={24} onClick={handleFavorite} />
-            )}
+       
+            {loading ? (
+    <p>Loading...</p>
+) : (
+    isFavorite ? (
+        <Icon  className="mr-4" color="red" name="heart" height={24} width={24} onClick={handleUnFavorite} />
+    ) : (
+        <Icon   className="mr-4" name="heart" height={24} width={24} onClick={handleFavorite} />
+    )
+)}
         </div>
     );
 };
 
-export default AddFavorite;
+export default Favorite;
