@@ -226,7 +226,7 @@ export default function profile() {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="ml-5 relative w-full">
     {/*  */}
     <div className="w-full bg-secondary-50 h-64 rounded-lg relative overflow-hidden">
     {cover.url ? (
