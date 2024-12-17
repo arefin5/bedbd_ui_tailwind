@@ -18,12 +18,12 @@ export default function LocationPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const currentFormData = useSelector((state) => state.form); 
-  const {error,formData} = useSelector((state) => state.form); 
+  const {error, formData} = useSelector((state) => state.form); 
   const [isClient, setIsClient] = useState(false);
   const coordinates = [] 
   useEffect(() => {
     setIsClient(true);
-  }, [currentFormData,coordinates]);
+  }, [currentFormData, coordinates]);
 
   // const submitLocation = async (e) => {
   //   e.preventDefault();
@@ -105,31 +105,21 @@ export default function LocationPage() {
   //     console.error('Error updating form data:', error);
   //   }
   // };
+
+  
   const submitLocation = async (e) => {
     e.preventDefault();
   
     // Use the provided coordinates from the map, or default to specified values
-     // Use the provided coordinates from the map, or default to specified values
-     if (coordinates.length === 0) {
-      alert("Please select your property location.");
-  }
-  
-  
-    try {
-      // const payload = {
-      //   ...formData,
-      //   location: {
-      //     ...formData.location,
-      //     type: "Point",
-      //     coordinates, // Either the selected or default coordinates
-      //   },
-      // };
-  
-      // await dispatch(updateFormData(payload));
-      router.push('/add-listing/accommodation-details');
-    } catch (error) {
-      console.error('Error updating form data:', error);
-    }
+     if (!formData.hasOwnProperty('location') || formData?.location?.length < 2  ) {
+          alert("Please select your property location.");
+          return
+      }else{
+
+
+        // use network request heare 
+        router.push('/add-listing/accommodation-details');
+      }
   };
   
   const goBack = (e) => {
