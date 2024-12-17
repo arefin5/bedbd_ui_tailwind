@@ -7,7 +7,8 @@ import { updateFormData } from '@/redux/list/createListSlice';
 import { useSearchBoxCore, useSearchSession } from "@mapbox/search-js-react"
 import debounce from '@/app/lib/debounce';
 import { setOpenSuggestionsMenu , clearSuggestionsMenu, setMapOpen} from '@/redux/features/search/searchSlice';
-import SuggestionMenu from '@/components/Hero/LocationInput/SuggestionMenu';
+// import SuggestionMenu from '@/components/Hero/LocationInput/SuggestionMenu';
+import SuggestionMenu from './SuggestionMenu';
 import { useSelector } from 'react-redux';
 import convertToString from '@/app/lib/convertToString';
 
@@ -28,25 +29,65 @@ export default function LocationMap() {
 
 
 
-    const [mapInfo, setMapInfo] = useState({
-                                        center:{
-                                          latitude:23.794716682329422,
-                                          longitude:90.41353033484006,
-                                        },
-                                        zoom:13,
-                                        marker:{
-                                          latitude:23.794716682329422,
-                                          longitude:90.41353033484006,
-                                        },
-                                        locationName:'',
-                                        setMapPosition: false
-                                      })
+    const [mapInfo, setMapInfo] = useState({  center:{  latitude:23.794716682329422,
+                                                        longitude:90.41353033484006 },
+                                              zoom:13,
+                                              marker:{  latitude:23.794716682329422,
+                                                        longitude:90.41353033484006 },
+                                              isMarkerSet:false,
+                                              locationName:'',
+                                              setMapPosition: false
+                                            })
     // const [suggestionsInfo, setSuggestionsInfo] = useState({
     //                                                 isSuggestionsMenuOpen: true, 
     //                                                           suggestions: [],
     //                                                   selectedSuggestions: {}
     //                                                       })
 
+    useEffect(()=>{
+      if("geolocation" in navigator){
+        console.log('has geolocaiton')
+           // Geolocation is available
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            setMapInfo({...mapInfo, 
+                          center:{
+                            latitude:latitude,
+                            longitude:longitude,
+                          },
+                          zoom:13,
+                          marker:{
+                            latitude:latitude,
+                            longitude:longitude,
+                          },
+                          isMarkerSet:true,
+                      })
+            if(mapRef.current){
+              mapRef.current.flyTo({ center: [longitude, latitude], 
+                                        essential: true ,
+                                        zoom: 13 
+                                    })
+            }
+              const payload = {
+                ...formData,
+                  location: {
+                              ...formData.location,
+                              type: "Point",
+                              coordinates: [longitude, latitude],
+                            },
+                            };
+                  
+            dispatch(updateFormData(payload));
+            // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        },
+        (error) => {
+            console.alert("location not suppport", error.message);
+        }
+  );
+      }
+    }, [])
   
     useEffect(()=>{
       if(selectedLocation.latitude && selectedLocation.longitude){
@@ -145,10 +186,10 @@ export default function LocationMap() {
     const feature = data.features[0];
     const { latitude, longitude } = feature.properties.coordinates;
     setMapInfo({
-      center: { latitude, longitude },
-      marker: { latitude, longitude },
-      locationName: feature.properties.full_address,
-    });
+                  center: { latitude, longitude },
+                  marker: { latitude, longitude },
+                  locationName: feature.properties.full_address,
+              });
     mapRef.current?.flyTo({
       center: [longitude, latitude],
       zoom: 15,
@@ -156,6 +197,39 @@ export default function LocationMap() {
       essential: true,
     });
   };
+
+  function handleOnMapClick(event){
+    const latitude = event.lngLat.lat
+    const longitude = event.lngLat.lng
+    setMapInfo({...mapInfo, 
+                    marker:{
+                      latitude,
+                      longitude
+                    },
+                    isMarkerSet:true,
+                })
+    const payload = { ...formData,
+                        location: {
+                                    ...formData.location,
+                                    type: "Point",
+                                    coordinates: [longitude, latitude],
+                                  }};
+    dispatch(updateFormData(payload));
+// setMapInfo
+// center:{
+        //   latitude:23.794716682329422,
+        //   longitude:90.41353033484006,
+        // },
+        // zoom:13,
+        // marker:{
+        //   latitude:23.794716682329422,
+        //   longitude:90.41353033484006,
+        // },
+        // isMarkerSet:false,
+        // locationName:'',
+        // setMapPosition: false
+    // console.log(`Longitude: ${lng}, Latitude: ${lat}`);
+  }
 
   return (
     <>
@@ -195,6 +269,7 @@ export default function LocationMap() {
             latitude: mapInfo.center.latitude,
             zoom: mapInfo.zoom,
           }}
+          onClick={handleOnMapClick}
           mapStyle="mapbox://styles/mapbox/streets-v9"
           mapboxAccessToken="pk.eyJ1IjoibWQtYWwtbWFtdW4iLCJhIjoiY2x1ZHk1dDZlMWkxdTJqbmlkN2JmZWljaiJ9.YTqqaus6tdGIdJPx5sqlew"
         >
@@ -205,13 +280,15 @@ export default function LocationMap() {
             showAccuracyCircle={false}
             onGeolocate={handleGeolocate}
           />
-          <Marker
-            longitude={mapInfo.marker.longitude}
-            latitude={mapInfo.marker.latitude}
-            draggable
-            onDragEnd={handleMarkerDrag}
-            color="red"
-          />
+          {
+            mapInfo ['isMarkerSet'] 
+            && <Marker  longitude={mapInfo.marker.longitude}
+                        latitude={mapInfo.marker.latitude}
+                        draggable
+                        onDragEnd={handleMarkerDrag}
+                        color="red" />
+          }
+          
         </Map>
           {/* <Map 
             ref={mapRef}
