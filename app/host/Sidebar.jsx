@@ -83,10 +83,10 @@ export default function Sidebar() {
             <span className="hidden xl:block">Profile</span>
           </li>
         </Link>
-        <Link href="/host/pending">
+        <Link href="/host/manage-booking">
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
-            <Icon name="user-cog" className="icon" />
-            <span className="hidden xl:block">Pending Bookings</span>
+          <Icon name="history" className="icon" />
+            <span className="hidden xl:block">Manage Bookings</span>
           </li>
         </Link>
         {/* Unread Messages */}

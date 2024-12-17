@@ -26,11 +26,12 @@ import { store } from "@/redux/store";
 import { apiSlice } from "@/redux/features/api/apiSlice";
 import Amenities from "./Amenities";
 import ImagesDetailsGallery from "./ImageGallery/ImagesDetailsGallery";
-import AddFavorite from "@/components/AddFavorite";
+// import Favorite from "@/components/Favorite";
 import WriteReview from "@/components/WriteReview";
 import BookingBox from "@/components/BookingBox";
 import SendMessage from "@/components/SendMessage";
 import HomeRules from "@/components/HomeRules";
+import Favorite from "@/components/AdFavborite";
 // import { useRouter } from "next/router";
 
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
@@ -87,7 +88,7 @@ export default async function page({searchParams, params}) {
                             <Icon className="mr-4" name='share-2' height={24} width={24} />
                             Share
                         </div>
-                        <AddFavorite data={data} />
+                        <Favorite data={data} />
                     </div>
                 </div>
 

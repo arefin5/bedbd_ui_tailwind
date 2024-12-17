@@ -32,9 +32,9 @@ export default function Navbar() {
 
     const changeRule = async (e) => {
         e.preventDefault();
-         if(!user){
+        if (!user) {
             router.push("/login/email")
-         }
+        }
         if (user && user.role === "host") {
             router.push("/host/");
         } else {
@@ -85,9 +85,9 @@ export default function Navbar() {
         window.location.href = "/";
     }
     const changeRuleAsHostToUser = async () => {
-        if(!user){
+        if (!user) {
             router.push("/login/email");
-            
+
         }
         setIsLoading(true); // Show loading indicator
         try {
@@ -176,25 +176,7 @@ export default function Navbar() {
                             <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                 <span className="inline-block max-w-full text-center md:hover:scale-110 ">Message</span>
                             </li>
-                            <Link
-                                href="/user/profile"
-                            >
-                                <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
-                                    <span className="inline-block max-w-full text-center md:hover:scale-110 ">Profile</span>
-                                </li>
-                            </Link>
-                            <Link href="/user/wishlist">
-                                <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
-                                    <span className="inline-block max-w-full text-center md:hover:scale-110 ">Favorite List</span>
-                                </li>
 
-                            </Link>
-                            <Link href="/user/booking-history">
-                                <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
-                                    <span className="inline-block max-w-full text-center md:hover:scale-110 ">Booking History</span>
-                                </li>
-
-                            </Link>
                             {user && user.role === "user" ? (<>
                                 <li
                                     onClick={changeRule}
@@ -204,12 +186,54 @@ export default function Navbar() {
                                         Become A Host
                                     </span>
                                 </li>
+                                <Link
+                                    href="/user/profile"
+                                >
+                                    <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                        <span className="inline-block max-w-full text-center md:hover:scale-110 ">Profile</span>
+                                    </li>
+                                </Link>
+                                <Link href="/user/wishlist">
+                                    <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                        <span className="inline-block max-w-full text-center md:hover:scale-110 ">Favorite List</span>
+                                    </li>
+
+                                </Link>
+                                <Link href="/user/booking-history">
+                                    <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                        <span className="inline-block max-w-full text-center md:hover:scale-110 ">Booking History</span>
+                                    </li>
+
+                                </Link>
                             </>) : (
+                                <>
                                 <li
                                     onClick={changeRuleAsHostToUser}
                                     className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                     <span className="inline-block max-w-full text-center md:hover:scale-110 ">Become A User</span>
                                 </li>
+                                <Link
+                                    href="/host/profile"
+                                >
+                                    <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                        <span className="inline-block max-w-full text-center md:hover:scale-110 ">Profile</span>
+                                    </li>
+                                </Link>
+                                <Link
+                                    href="/host/messages"
+                                >
+                                    <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                        <span className="inline-block max-w-full text-center md:hover:scale-110 ">Message</span>
+                                    </li>
+                                </Link>
+                                <Link
+                                    href="/host/properties"
+                                >
+                                    <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
+                                        <span className="inline-block max-w-full text-center md:hover:scale-110 ">Properties</span>
+                                    </li>
+                                </Link>
+                                </>
                             )}
                             {/* <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                 <span className="inline-block max-w-full text-center md:hover:scale-110 ">Switch to User</span>

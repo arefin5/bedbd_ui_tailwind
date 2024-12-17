@@ -281,7 +281,7 @@ export default function Page() {
                         type="date"
                         value={birth}
                         onChange={(e) => setBirth(e.target.value)}
-                        className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+                        className="w-full py-3 px-4 rounded-md"
                     />
                     {ageWarning && (
                         <p className="text-red-500 mt-2">{ageWarning}</p>
