@@ -60,7 +60,7 @@ export default function PendingRequestNotification() {
       {paymentBookings.length > 0 ? (
         <div className='w-full h-fit text-center py-3 border-secondary-400 bg-secondary-50 rounded-lg text-neutral-400 font-semibold text-lg'>
           You have {paymentBookings.length} new payment success bookings.
-          <Link href="/host/pending">
+          <Link href="/host/manage-booking">
             <span className='text-secondary-400 cursor-pointer'>
               click here
             </span>
@@ -71,7 +71,7 @@ export default function PendingRequestNotification() {
         <div className='w-full h-fit text-center py-3
          border-secondary-400 bg-secondary-50 rounded-lg text-neutral-400 font-semibold text-lg'>
           A booking request is pending,
-          <Link href="/host/pending">
+          <Link href="/host/manage-booking">
             <span className='text-secondary-400 cursor-pointer'>
               click here
             </span>

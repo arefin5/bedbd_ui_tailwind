@@ -531,7 +531,7 @@ const handleRejected=async(bookingId)=>{
   return (
     <div className="ml-10">
       {/* Navigation Tabs */}
-      <div className="flex space-x-4 border-b pb-2">
+      <div className="flex space-x-4 border-b pb-2 ml-10">
         {["pending", "upcoming", "rejected", "completed"].map((state) => (
           <button
             key={state}
@@ -563,7 +563,7 @@ const handleRejected=async(bookingId)=>{
           listMap[pageState].map((item) => (
             <ul
               key={item._id}
-              className="text-base text-neutral-600 font-medium grid grid-cols-[174px_240px_110px_110px_100px_190px] place-items-center bg-white rounded-lg py-3"
+              className="ml-10 text-base text-neutral-600 font-medium grid grid-cols-[174px_240px_110px_110px_100px_190px] place-items-center bg-white rounded-lg py-3"
             >
               <li>{item.property.propertyTitle}</li>
               <li>
