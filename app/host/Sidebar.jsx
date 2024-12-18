@@ -113,11 +113,12 @@ export default function Sidebar() {
           <Icon name="settings" className="icon" />
           <span className="hidden xl:block">Setting</span>
         </li>
-
+        <Link href="/host/history">
         <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
           <Icon name="history" className="icon" />
           <span className="hidden xl:block">History</span>
         </li>
+        </Link>
       </ul>
 
       <span className="rounded-lg ml-auto mr-auto bg-white bg-opacity-20 h-fit w-full text-center py-4">
