@@ -7,7 +7,7 @@ import SuggestionMenu from './SuggestionMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { openSuggestionsMenu , clearSuggestionsMenu, setOpenSuggestionsMenu, closeSuggestionsMenu} from '@/redux/features/search/searchSlice'
 
-const LocationInput = ({ mapSearchBox, searchSession, mapRef }) => {
+const LocationInput = ({ mapSearchBox, searchSession, isCalenderOpen, mapRef }) => {
     const dispatch = useDispatch()
     const {     
                         isMapOpen,
@@ -80,8 +80,8 @@ const LocationInput = ({ mapSearchBox, searchSession, mapRef }) => {
   return (
     <div ref={searchBoxGroupRef} className={`w-full  
             ${isMapOpen
-                ? 'md:shadow-none md:px-0 md:py-0 md:rounded-none md:static md:h-max md:max-w-52 md:min-w-full' 
-                : 'w-64 '
+                ? 'md:shadow-none md:px-0 md:py-0 md:rounded-none md:static md:h-max md:max-w-52 md:min-w-full'
+                : `w-64 md:transition-all md:ease-in-out md:delay-300 md:duration-800 ${ isCalenderOpen && 'md:opacity-30 md:blur-sm '}`
                 }   
             relative px-6 py-2.5 block rounded-full shadow-search-input | md:shadow-none md:px-0 md:py-0 md:rounded-none md:static md:h-max md:max-w-52 
         `}>

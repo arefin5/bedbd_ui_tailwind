@@ -1,8 +1,14 @@
 import PropertyTypeSelectClientOperation from './PropertyTypeSelectClientOperation'
 
-export default function PropertyTypeSelect() {
+export default function PropertyTypeSelect({isCalenderOpen, isMapOpen}) {
   return (
-    <div className=" hidden md:inline-flex md:space-x-2 md:absolute-x-center md:-top-16 md:w-max">
+    <div className={` hidden md:inline-flex md:space-x-2 md:absolute-x-center md:-top-16 md:w-max relative
+                          md:rounded-full md:p-auto md:transition-all md:ease-in-out md:delay-300 md:duration-800
+                          ${
+                            (!isMapOpen && isCalenderOpen)
+                                  && 'md:opacity-30 md:blur-sm'                          
+                            }
+                  `}>
         <h3 className='uppercase text-primary-400 text-4xl font-bold '>find</h3>
         <div className="text-neutral-600 font-semibold space-x-7 mt-auto select-none" id="property_type_select">
             
