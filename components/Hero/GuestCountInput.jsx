@@ -127,7 +127,7 @@
 import { Minus, Plus } from "lucide-react";
 import { useSelector } from "react-redux";
 
-export default function GuestCountInput({ gust, setGust }) {
+export default function GuestCountInput({ gust, setGust, isCalenderOpen,  }) {
   const { isMapOpen } = useSelector((state) => state.search.location);
 
   // Increment guest count
@@ -224,7 +224,9 @@ export default function GuestCountInput({ gust, setGust }) {
 //     onClick={handleIncrement}
 //   />
 // </div>
-<div className="flex items-center justify-center w-full">
+<div className={` flex items-center justify-center w-full md:transition-all md:ease-in-out md:delay-300 md:duration-800 
+                  ${ !isMapOpen && isCalenderOpen && 'md:opacity-30 md:blur-sm '}
+                `}>
   <Minus
     className="cursor-pointer mr-2"
     size={24}
