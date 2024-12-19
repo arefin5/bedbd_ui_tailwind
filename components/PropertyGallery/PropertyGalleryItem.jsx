@@ -435,9 +435,9 @@ const  PropertyGalleryItem=({ data })=> {
   }, [data.reviews]);
 
   const availableDate = useMemo(() => {
-    return data.availablecheck.checkInStart === "asap"
+    return data.availablecheck?.checkInStart === "asap"
       ? data.createdAt
-      : data.availablecheck.checkInStart;
+      : data.availablecheck?.checkInStart;
   }, [data.availablecheck, data.createdAt]);
 
   const formatDate = (dateStr) => {
