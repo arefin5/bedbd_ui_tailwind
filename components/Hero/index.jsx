@@ -94,9 +94,9 @@ export default function Hero() {
         
     ]);
 
-    useEffect(() => {
-        console.log("Updated lists:", lists);
-    }, [lists]);
+    // useEffect(() => {
+    //     console.log("Updated lists:", lists);
+    // }, []);
     const backHome = () => {
         window.location.href = "/";
     };

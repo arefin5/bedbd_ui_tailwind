@@ -88,7 +88,7 @@ const Page = () => {
             <div className="grid grid-cols-2 ">
                 {/* Left Half: Title */}
                 <div>
-                    <h2 className="text-2xl font-bold">All History</h2>
+                    <h2 className="text-2xl font-bold">Last week</h2>
                 </div>
 
                 {/* Right Half: List */}
