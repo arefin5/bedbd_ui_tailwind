@@ -109,7 +109,7 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
                     ${isMapOpen 
                         ? 'grid gap-y-6'
                         : calenderInfo['isCalenderOpen'] 
-                            ? 'absolute md:transition-all md:duration-500 md:-translate-y-64 scale-x-125 drop-shadow-white scale-y-110'
+                            ? 'absolute md:transition-all md:duration-500 md:-translate-y-64 drop-shadow-white z-50'
                             : 'md:transition-transform md:duration-500 md:custom-left-line-150 '
                     }
         `}>
@@ -227,7 +227,7 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
 
                 <div  className={`bg-white 
                         ${calenderInfo.isCalenderOpen 
-                            ? 'opacity-100 delay-500 ease-in duration-1500' 
+                            ? 'opacity-100 delay-500 ease-in duration-1500 z-[999] ' 
                             : 'opacity-0 delay-50 ease-out duration-100'
                         } transition 
                     ${isMapOpen 

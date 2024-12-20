@@ -8,8 +8,8 @@ import Blogs from '/components/Blogs'
 import GuideInformation from '/components/GuideInformation'
 import Footer from '/components/Footer'
 import TopRatedListing from '/components/TopRatedListings'
-// import dynamic from "next/dynamic";
-// const Hero = dynamic(() => import('/components/Hero'), { ssr: false });
+import dynamic from "next/dynamic";
+const Hero = dynamic(() => import('/components/Hero'), { ssr: false });
 
 export default function Home() {
 
