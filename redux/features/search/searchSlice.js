@@ -35,11 +35,19 @@ const searchSlice = createSlice({
         };
       },
     closeSuggestionsMenu : (state, action) => {
-    return {
-        ...state,
-        location:{ ...state['location'], 
-        isSuggestionsMenuOpen: false  },
-    };
+    
+    if(state?.location?.isSuggestionsMenuOpen){
+        return {
+          ...state,
+          location: { 
+                      ...state['location'], 
+                      isSuggestionsMenuOpen: false  
+                    },
+      };
+    }else{
+      return state
+    }
+    
     },
     clearSuggestionsMenu : (state, action) => {
       return {
@@ -80,7 +88,7 @@ const searchSlice = createSlice({
       };
       },
     setCheckInOutDate: (state, action) => {
-      localStorage.setItem('selectedDate', JSON.stringify(action.payload));
+      // localStorage.setItem('selectedDate', JSON.stringify(action.payload));
       // localStorage.setItem("selectedDate", JSON.stringify(selectedDate));
       return {
         ...state,
