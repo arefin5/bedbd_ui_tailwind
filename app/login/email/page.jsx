@@ -3,14 +3,40 @@
 import { clearError, loginUser } from '@/redux/features/auth/authSlice';
 import SocialLogin from '../SocialLogin'
 import {  Phone, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 
 import Icon from '/components/Icon'
+// const MemoizedIcon = memo(({ name, className }) => (
+//     <MemoizedIcon name={showPassword ? 'eye-off' : 'eye'} className="h-5 w-5" />
+//     // <Icon name={name} className={className} />
+// ));
+// const ShowHideButton = memo(({ showPassword, togglePasswordVisibility }) => (
+//     <button
+//         type="button"
+//         className="absolute inset-y-0 right-4 flex items-center text-neutral-500"
+//         onClick={togglePasswordVisibility}
+//     >
+//         <Icon name={showPassword ? 'eye-off' : 'eye'} className="h-5 w-5" />
+//     </button>
+// ));
+const MemoizedIcon = memo(({ name, className }) => (
+    <Icon name={name} className={className} />
+));
 
+const ShowHideButton = memo(({ showPassword, togglePasswordVisibility }) => (
+    <button
+        type="button"
+        className="absolute inset-y-0 right-4 flex items-center text-neutral-500"
+        onClick={togglePasswordVisibility}
+    >
+        <MemoizedIcon name={showPassword ? 'eye-off' : 'eye'}
+         className="h-5 w-5" />
+    </button>
+));
 export default function EmailLogin() {
 
     const dispatch = useDispatch();
@@ -20,9 +46,16 @@ export default function EmailLogin() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
 
-    const togglePasswordVisibility = () => {
-        setShowPassword((prev) => !prev);
-    };
+    // const togglePasswordVisibility = () => {
+    //     setShowPassword((prev) => !prev);
+    // };
+    // const togglePasswordVisibility = useCallback(() => {
+    //     setShowPassword(prevShowPassword => !prevShowPassword);
+    // }, []);
+    const togglePasswordVisibility = useCallback(() => {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+    }, []);
+
     const handleLogin = async (e) => {
         e.preventDefault();
         dispatch(loginUser({ email, password }));
@@ -103,7 +136,7 @@ export default function EmailLogin() {
 {/*  */}
 
         <div className="grid sm:w-1/2 px-4 py-3.5 overflow-hidden border border-neutral-200 rounded-[30px]">
-            <label className="text-neutral-300 font-medium text-xs leading-none mb-2">
+            {/* <label className="text-neutral-300 font-medium text-xs leading-none mb-2">
                 Password :
             </label>
             <div className="relative">
@@ -122,6 +155,27 @@ export default function EmailLogin() {
                 >
                     <Icon name={showPassword ? 'eye-off' : 'eye'} className="h-5 w-5" />
                 </button>
+            </div> */}
+            <label className="text-neutral-300 font-medium text-xs leading-none mb-2">
+                Password :
+            </label>
+            <div className="relative">
+                <input
+                    className="w-full bg-transparent text-sm font-semibold placeholder-neutral-500 text-neutral-500 border-none focus:outline-none pr-12"
+                    placeholder="Enter Your password"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPass(e.target.value)}
+                />
+                 <ShowHideButton
+                    showPassword={showPassword}
+                    togglePasswordVisibility={togglePasswordVisibility}
+                />
+                <ShowHideButton
+                    showPassword={showPassword}
+                    togglePasswordVisibility={togglePasswordVisibility}
+                />
             </div>
         </div> 
 {/*  */}

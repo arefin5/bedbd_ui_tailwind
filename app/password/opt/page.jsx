@@ -154,6 +154,7 @@ export default function Page() {
     if (typeof window !== "undefined" && window.location.search) {
       const params = new URLSearchParams(window.location.search);
       setEmail(params.get("email") || "");
+
     }
   }, []);
   useEffect(() => {
@@ -173,7 +174,7 @@ export default function Page() {
               setMessage(false);
               setOtp(["", "", "", "", "", ""]);
               otpRefs.current[0].focus();
-              router.push("/registration/end");
+              router.push("/password/recover");
               dispatch(clearError())
               // console.log("success");
             } else {
@@ -188,7 +189,7 @@ export default function Page() {
 
   useEffect(() => {
     if (token) {
-      router.push("/");
+      router.push("/password/reset");
     }
   }, [token, router]);
 
