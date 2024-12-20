@@ -35,14 +35,9 @@ export default function SuggestionMenu({ mapSearchBox, searchBoxRef, mapRef, sea
         //         selectedSuggestion: 
         //         {...suggestion, coordinates: features[0]['geometry']['coordinates'] }}))
         if(features && features.length > 0 ){
-            console.log(mapRef.current)
-            console.log(features[0]['geometry']['coordinates'])
-            const center = mapRef.current.getCenter()
-            console.log(center)
-            if(isMapOpen){
-                console.log(isMapOpen)
+            if(mapRef.current && isMapOpen){
+                const center = mapRef.current.getCenter()
                 if(mapRef.current){
-
                     mapRef?.current.flyTo({ center: features[0]['geometry']['coordinates'], 
                                             essential: true ,
                                             zoom: 13 

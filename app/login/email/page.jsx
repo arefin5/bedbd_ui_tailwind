@@ -148,10 +148,10 @@ export default function EmailLogin() {
                             {loading ? 'Logging in...' : 'Continue'}
                         </button>
                         <Link href="/login/phone">
-                            <a className='flex-auto flex  gap-2.5 items-center text-neutral-500 cursor-pointer text-sm font-medium'>
+                            <div className='flex-auto flex  gap-2.5 items-center text-neutral-500 cursor-pointer text-sm font-medium'>
                                 <Phone className='icon' size={24} />
                                 Continue with Phone Number
-                            </a>
+                            </div>
                         </Link>
 
                     </div>

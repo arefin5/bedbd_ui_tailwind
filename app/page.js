@@ -26,7 +26,6 @@ export default function Home() {
       <Banner/>
       <Blogs/>
       <GuideInformation/>
-      
       <Footer/>
     </main>
   );

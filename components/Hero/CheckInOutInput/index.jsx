@@ -88,11 +88,15 @@ export default function CheckInOutInput({calenderInfo, setCalenderInfo}) {
 }
     
     useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutsideCheckInOut);
+        let ignore = false 
+        if(!ignore && calenderInfo['isCalenderOpen']){
+            document.addEventListener('mousedown', handleClickOutsideCheckInOut);
+        }
         return () => {
+            ignore = true
           document.removeEventListener('mousedown', handleClickOutsideCheckInOut);
         };
-      }, []);
+      }, [calenderInfo['isCalenderOpen']]);
 
     //   ${
     //     (calenderInfo['isCalenderOpen'] && calenderInfo['calenderType'] ==="checkIn")

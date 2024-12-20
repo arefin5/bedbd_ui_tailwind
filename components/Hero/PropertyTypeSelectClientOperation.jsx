@@ -21,7 +21,7 @@ export default function PropertyTypeInput() {
         input.addEventListener('change', handler);
     });
 
-    document.getElementById('all').click();
+    // document.getElementById('all').click();
 
     // Cleanup function to remove event listeners when component unmounts
     return () => {

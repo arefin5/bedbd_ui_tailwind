@@ -90,9 +90,7 @@ export default function Hero() {
         // console.log("Selected date:", selectedDate);
         // console.log("Show Data:", showData);
         // console.log("Lists in useEffect:", lists);
-    }, [selectedDate, showData, lists,guestCount
-        
-    ]);
+    }, [selectedDate, showData, lists, guestCount ]);
 
     // useEffect(() => {
     //     console.log("Updated lists:", lists);
