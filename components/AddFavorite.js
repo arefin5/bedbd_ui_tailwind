@@ -2,7 +2,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Icon from "/components/Icon"; // Assuming Icon is imported correctly
+// import Icon from "/components/Icon"; // Assuming Icon is imported correctly
+import { Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import axiosInstance from '@/redux/services/axiosInstance';
@@ -102,9 +103,9 @@ const AddFavorite = ({ data }) => {
     <p>Loading...</p>
 ) : (
     isFavorite ? (
-        <Icon color="red" name="heart" height={24} width={24} onClick={handleUnFavorite} />
+        <Heart color="red" height={24} width={24} onClick={handleUnFavorite}/>
     ) : (
-        <Icon  color="#ffffff" name="heart" height={24} width={24} onClick={handleFavorite} />
+        <Heart color="#ffffff" height={24} width={24} onClick={handleFavorite}/>
     )
 )}
         </div>

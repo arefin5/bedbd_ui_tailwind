@@ -120,7 +120,7 @@ export default function Hero() {
                     className={`hidden md:block transition-all object-contain absolute top-[42px] left-[calc(50%+20px)]
                                 ${(!isMapOpen && !calenderInfo['isCalenderOpen']) 
                                     ? 'md:opacity-100 ease-in delay-300 duration-800 ' 
-                                    : 'opacity-30 ease-out delay-150 duration-500 blur-sm' } `}  height={136} width={280} />
+                                    : 'opacity-30 ease-out delay-150 duration-500 md:blur-sm' } `}  height={136} width={280} />
 
                     
                     <form className={`${isMapOpen

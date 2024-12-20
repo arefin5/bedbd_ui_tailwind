@@ -62,9 +62,7 @@ const LocationInput = ({ mapSearchBox, searchSession, isCalenderOpen, mapRef }) 
 
     function handleClickOutsideSearchBoxGroup(event){
         console.log('close')
-        if (searchBoxGroupRef.current && !searchBoxGroupRef.current.contains(event.target)) {
-            // setMapData(state => ({ ...state, isSuggestionMenuOpen: false}));
-
+        if (searchBoxGroupRef.current && !searchBoxGroupRef.current.contains(event.target) &&  isSuggestionsMenuOpen) {
             dispatch(closeSuggestionsMenu())
           }
     }
