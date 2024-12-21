@@ -101,13 +101,18 @@ const AddFavorite = ({ data }) => {
             } */}
             {loading ? (
     <p>Loading...</p>
-) : (
-    isFavorite ? (
-        <Heart color="red" height={24} width={24} onClick={handleUnFavorite}/>
-    ) : (
-        <Heart color="#ffffff" height={24} width={24} onClick={handleFavorite}/>
-    )
-)}
+) : isFavorite 
+        ?   <button onClick={handleUnFavorite}  className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
+                <Heart color="red" height={24} width={24} />
+            </button>
+            
+        :   <button onClick={handleFavorite} className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
+                <Heart color="#ffffff" height={24} width={24} />
+            </button>
+        
+        
+
+    }
         </div>
     );
 };

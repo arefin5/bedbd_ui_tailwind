@@ -68,11 +68,17 @@ const LocationInput = ({ mapSearchBox, searchSession, isCalenderOpen, mapRef }) 
     }
     
     useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutsideSearchBoxGroup);
+        let ignore  = false 
+        if(!ignore){
+            if(isSuggestionsMenuOpen){
+                document.addEventListener('mousedown', handleClickOutsideSearchBoxGroup);
+            }else return ()=> { document.removeEventListener('mousedown', handleClickOutsideSearchBoxGroup); }
+        }
         return () => {
+            ignore = true
           document.removeEventListener('mousedown', handleClickOutsideSearchBoxGroup);
         };
-      }, []);
+      }, [isSuggestionsMenuOpen]);
 
 
   return (
