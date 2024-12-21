@@ -3,6 +3,7 @@
 import axiosInstance from '@/redux/services/axiosInstance';
 import PropertyGalleryItem from '/components/PropertyGallery/PropertyGalleryItem';
 import { useEffect, useState } from 'react';
+import WishListHandlar from '@/components/PropertyGallery/wishListHandlar';
 
 export default function Wishlist() {
   const [list, setList] = useState([]);
@@ -22,17 +23,12 @@ export default function Wishlist() {
   }, [list]);
 
   return (
-    <div className="relative">
-      <h3 className="text-3xl text-primary-400 font-medium mt-10 ml-6">Wishlist</h3>
-      <div className="grid grid-cols-3 gap-6 pl-14 mt-6">
-        {list && list.length !== 0 ? (
-          list.map((listing) => (
-            <PropertyGalleryItem key={listing.id} data={listing}/> // Pass item props to component
-          ))
-        ) : (
-          <p className="col-span-3 text-center">No items in your wishlist.</p> // Display message if empty
-        )}
-      </div>
-    </div>
+    // <div className="relative">
+    //   <h3 className="text-3xl text-primary-400 font-medium mt-10 ml-6">Wishlist</h3>
+    //   <div className="grid grid-cols-3 gap-6 pl-14 mt-6">
+        
+    //   </div>
+    // </div>
+    <WishListHandlar  listings={list} />
   );
 }
