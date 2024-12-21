@@ -27,7 +27,7 @@ const Favorite = ({ data }) => {
     const handleFavorite = async (e) => {
         e.preventDefault();
         setLoading(true)
-          console.log("favoriite ...")
+        //   console.log("favoriite ...")
         if (!user) {
             return router.push('/login/email');
         }
@@ -71,7 +71,7 @@ const Favorite = ({ data }) => {
                 ...user,
                 favoriteList: user.favoriteList ? user.favoriteList.filter(favId => favId !== id) : []
             };
-            console.log (response)
+            // console.log (response)
             localStorage.setItem('user', JSON.stringify(updatedUser));
             setLoading(false)
         } catch (error) {
