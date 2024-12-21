@@ -458,9 +458,13 @@ const  PropertyGalleryItem=({ data })=> {
   return (
     <div className="min-w-290px max-w-395px">
       <div ref={imageContainerRef} className="relative z-10 flex transition-transform duration-500 ease-in-out overflow-x-auto rounded-lg no-horizontal-scrollbar">
-        <div className="z-0 relative flex-none w-full h-auto aspect-[145/89] min-h-178px max-h-242px max-w-395px object-cover items-center">
-          <Image alt="property image" src={image.url} fill className="object-cover" />
-        </div>
+        
+          <div className="z-0 relative flex-none w-full h-auto aspect-[145/89] min-h-178px max-h-242px max-w-395px object-cover items-center">
+            <Link href={targetUrl} target="_blank" rel="noopener noreferrer">
+              <Image alt="property image" src={image.url} fill className="object-cover" />
+            </Link>
+          </div>
+        
         {buttonVisibility.showLeftButton &&
           <button onClick={leftButtonClick} className="z-20 rounded bg-gray-900 group absolute-y-center p-1 left-3 bg-opacity-30 hover:bg-opacity-50">
             <ChevronLeft className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" />
@@ -471,9 +475,9 @@ const  PropertyGalleryItem=({ data })=> {
             <ChevronRight className="shadow-xl drop-shadow-xl opacity-50 group-hover:opacity-80" color="#ffffff" />
           </button>
         }
-        <button className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
-          <AddFavorite data={data} />
-        </button>
+        
+        <AddFavorite data={data} />
+        
       </div>
       <Link href={targetUrl} target="_blank" rel="noopener noreferrer">
         <div className="mt-2">
