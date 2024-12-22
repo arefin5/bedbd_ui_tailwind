@@ -288,3 +288,8 @@
   @apply grid grid-cols-[100px_230px_200px_170px_140px_160px] place-items-center rounded-lg py-2
 }
 
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the spacing between checkbox and label text */
+}
