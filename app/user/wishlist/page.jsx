@@ -1,10 +1,9 @@
 
 "use client";
 import axiosInstance from '@/redux/services/axiosInstance';
-import PropertyGalleryItem from '/components/PropertyGallery/PropertyGalleryItem';
+// import PropertyGalleryItem from '/components/PropertyGallery/PropertyGalleryItem';
 import { useEffect, useState } from 'react';
-import WishListHandlar from '@/components/PropertyGallery/wishListHandlar';
-
+import WishListHandlar from '@/components/PropertyGallery/WishListHandlar';
 export default function Wishlist() {
   const [list, setList] = useState([]);
 
