@@ -279,7 +279,41 @@ export const loginwithGoogle = createAsyncThunk(
     }
   }
 )
+export const addFavorite = createAsyncThunk(
+  'auth/addFavorite',
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const response = await axiosInstance.put(`/favoriteslist-list/${id}`);
+      const updatedUser = {
+        ...auth.user,
+        favoritelist: auth.user.favoritelist ? [...auth.user.favoritelist, id] : [id]
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
+export const removeFavorite = createAsyncThunk(
+  'auth/removeFavorite',
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const response = await axiosInstance.put(`/unfavoriteslist-list/${id}`);
+      const updatedUser = {
+        ...auth.user,
+        favoritelist: auth.user.favoritelist ? auth.user.favoritelist.filter(favId => favId !== id) : []
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -515,6 +549,12 @@ const authSlice = createSlice({
           state.error = null;
         }, 500);
       })
+      .addCase(addFavorite.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(removeFavorite.fulfilled, (state, action) => {
+        state.user = action.payload;
+      });
   },
 });
 

@@ -97,7 +97,7 @@ export default function profile() {
       birth,
       age: computedAge,
     };
-    console.log(payload)
+    // console.log(payload)
     // profilePic
     // if(ageWarning)
     // dispatch(userEdit(payload));

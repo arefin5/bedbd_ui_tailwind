@@ -24,15 +24,15 @@ export default function Page() {
     }));
   };
   useEffect(() => {
-    console.log('Approving Method changed:', formValues.approvingMethod);
-    console.log('Gender Preference changed:', formValues.genderPreference);
+    // console.log('Approving Method changed:', formValues.approvingMethod);
+    // console.log('Gender Preference changed:', formValues.genderPreference);
   }, [formValues.approvingMethod, formValues.genderPreference]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { approvingMethod, genderPreference } = formValues;
-      console.log(genderPreference)
+      // console.log(genderPreference)
       const payload = {
         ...formData,
         aprovingmethod: approvingMethod,
