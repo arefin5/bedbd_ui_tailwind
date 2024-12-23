@@ -90,7 +90,7 @@ export default function Sidebar() {
           </li>
         </Link>
         {/* Unread Messages */}
-        <Link href="/host/messages">
+        <Link href="/host/message">
           <li className="flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg">
             <Icon name="mail" className="icon" />
             <span className="hidden xl:block">Message ({unreadMessagesCount})</span>

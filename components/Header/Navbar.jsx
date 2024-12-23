@@ -26,7 +26,8 @@ export default function Navbar() {
             }
         } else {
             setLoggedIn(false);
-            setProfile('/dummy/sample-profile-photo.jpg')
+            // setLoggedIn(false);public/circle.svg
+            setProfile('/circle.svg');
         }
     }, [user, token]);
 
@@ -155,9 +156,11 @@ export default function Navbar() {
 
                 <li>
                     <ul className="md:flex md:space-x-10">
+                    <Link href="/search">
                         <li className="w-max min-w-full md:min-w-max py-4 md:p-0 px-10 font-medium md:hover:font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                             <span className="inline-block max-w-full text-center md:hover:scale-110 ">Find a Property</span>
                         </li>
+                        </Link>
                         <li className="w-max min-w-full md:min-w-max py-4 md:p-0 px-10 font-medium md:hover:font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                             <span className="inline-block max-w-full text-center md:hover:scale-110 ">Tour Package</span>
                         </li>
@@ -213,14 +216,14 @@ export default function Navbar() {
                                     <span className="inline-block max-w-full text-center md:hover:scale-110 ">Become A User</span>
                                 </li>
                                 <Link
-                                    href="/host/profile"
+                                    href="/host"
                                 >
                                     <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                         <span className="inline-block max-w-full text-center md:hover:scale-110 ">Profile</span>
                                     </li>
                                 </Link>
                                 <Link
-                                    href="/host/messages"
+                                    href="/host/message"
                                 >
                                     <li className="w-max min-w-full py-4 px-10 font-medium text-neutral-500 cursor-pointer hover:shadow hover:shadow-neutral-600-inner hover:font-bold md:hover:shadow-none">
                                         <span className="inline-block max-w-full text-center md:hover:scale-110 ">Message</span>

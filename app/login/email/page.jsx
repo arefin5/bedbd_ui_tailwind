@@ -86,14 +86,17 @@ export default function EmailLogin() {
     useEffect(() => {
         getUser()
     }, [])
-    const closeModel = (e) => {
+      const closeModel = useCallback((e) => {
         e.preventDefault();
         router.push("/");
-
-    }
+    }, [router]);
+    const stopPropagation = (e) => {
+        e.stopPropagation();
+    };
     return (
-        <div className='modal-background'>
-            <div className='pt-20 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
+        <div className='modal-background' onClick={closeModel}>
+            <div onClick={stopPropagation}
+             className='pt-20 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
 
                 <h3 className='signin-up-form-title'>Login</h3>
                 {error && <div className='error-message text-red-500'>{error}</div>}

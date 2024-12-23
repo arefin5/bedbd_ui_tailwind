@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import Link from 'next/link';
 import AddFavorite from "../AddFavorite";
 const   PropertyListWhiteList=({ data })=> {
-    // console.log("data White List",data);
+    console.log("data White List",data);
   const images = useMemo(() => data.images || [], [data.images]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageContainerRef = useRef(null);

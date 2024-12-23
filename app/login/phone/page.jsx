@@ -3,7 +3,7 @@ import Icon from '/components/Icon'
 import { useDispatch, useSelector } from 'react-redux';
 
 import SocialLogin from '../SocialLogin'
-import { useState,useEffect } from 'react';
+import { useState,useEffect ,useCallback} from 'react';
 import { loginUserPhone ,clearError} from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation'; 
 import Link from 'next/link';
@@ -95,14 +95,18 @@ export default function Login() {
     useEffect(() => {
       getUser()
     }, []);
-    const closeModel=(e)=>{
+      const closeModel = useCallback((e) => {
         e.preventDefault();
         router.push("/");
-    
-    }
+    }, [router]);
+    const stopPropagation = (e) => {
+        e.stopPropagation();
+    };
+
     return (
-        <div className='modal-background'>
-            <div className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
+        <div className='modal-background' onClick={closeModel}>
+            <div onClick={stopPropagation} 
+            className='pt-19 pb-20 sm:pb-24 px-14 sm:px-24 bg-white w-screen max-w-screen-md | absolute-center rounded-10px'>
 
                 <h3 className='signin-up-form-title'>Login</h3> 
                 <form
