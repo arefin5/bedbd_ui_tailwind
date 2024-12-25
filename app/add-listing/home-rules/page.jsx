@@ -34,7 +34,7 @@ export default function Page() {
     const [checkOutTime, setCheckOutTime] = useState('');
 
     useEffect(() => {
-        console.log(homerule);
+        // console.log(homerule);
     }, [homerule, data]);
 
     const handleContinue = async (e) => {
