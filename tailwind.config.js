@@ -130,6 +130,8 @@ module.exports = {
     plugin(function ({ addVariant }) {
       addVariant('child', '& > *');
       addVariant('child-hover', '& > *:hover');
+      addVariant('nth-child-3', '&:nth-child(3)');
+      addVariant('last-child', '&:last-child');
   }),
     plugin(function({ addUtilities }) {
       addUtilities({

@@ -10,7 +10,7 @@ export default function page() {
     <Header />
     <div className="container mx-auto my-10  ">
         {/* Images  */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[340px_340px_510px] w-fit mx-auto ">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[340px_340px_510px] w-fit mx-auto nth-child-3:marker-class ">
             <div className=' aspect-[1.4/1] h-[245px] w-full max-w-[340px] relative'>
                 <Image className='object-cover rounded-lg'
                     src="https://s3-alpha-sig.figma.com/img/1e99/4fc1/edd4ba000bdfa85be11654df3de4ccf3?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLtfSxmRY4HEakjHzmQ4M3k2-E2Px1DnyczDc9mRGzj7HFYIalxOTP4YPWJ0skNVb73roLJV5e65Z5dgS928QcBjl8RjDURGOYss7dfkGfpkbvJF2nuarwL1NOWzOzp2FHB1D0VDqlAiYN2oeJwMPkPIk7aFgV-Do6V6Q2eR0rg0nuXWeg4fPZfLBOCYT-pAegO1s5iv6jByvCHdaH7T-Qkfaby45BSF9SDKFQGmajZakkN3ng21TsrBTERY7eG3u6YMJ-lWEbasJ9AlP9q6qG-rJdl11rCc8GCJmGWclBwCnua9DSSLBPQ9YFW8cy9KzyiYB3anH0RUAyJKUGlFyw__"
@@ -21,7 +21,7 @@ export default function page() {
                     src="https://s3-alpha-sig.figma.com/img/fa82/04ba/aa7ce09cc4e2e086c0a441a2bc6c3a41?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jQBiRZdDGFsHbmk9OAmEhAJadM1mEPAbfflmATA9cpsh0ItYWWYd5Vqk0-dbE7R6b6CedNYid8KNERmFCCWaB176zXxPWODAjdqQTVGbnEmeqNxnCPPnGXYCt1qPV9N9ck~R7BIbufU35duL0K3Mhkz-Pc5jmNXfwJov9vru2bTOHnrkIdO~IaCkksAWP8BTYOEy5tr2Py0YVJT2LBO6GGWTihgGJxelgtKSyp1~GsUgSzckPoCOnWG0rgQruFcqqqZGqZLTMq5pUd3BswbCY81FWZh5nF2~mYslPR9U01IZLVeSGD0gIs38K1VLtdLkjpfBATJkFd6nQpekj-pSdw__"
                     fill />
             </div>
-            <div className=' aspect-[1.4/1] xl:aspect-square lg:h-[514px] lg:row-span-2  h-[245px]  w-full max-w-[340px] xl:max-w-[510px]  relative'>
+            <div className='aspect-[1.4/1] h-[245px]  w-full max-w-[340px] xl:max-w-[510px] relative xl:aspect-square lg:h-[514px] lg:row-span-2 '>
                 <Image className='object-cover rounded-lg'
                     src="https://s3-alpha-sig.figma.com/img/8c39/1934/dab98b8e77b48c65d7c3e2032f00af6c?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WLYuTSve6cDUmfKQ4GPmdWvW7fgutYWjmkUlnIkUHZOdbhK-0NQ4Hh4aWHLi4bDWXPgpNabd9~1GXADE1ohoFhyUsIOYiCKA4rDEp4FV7bdQhoILb8ezAn6W7EVY7Oqg15YPId3EX~xr5eMq7WCcYEdlYiCUSBUDKysP32Up6ePlvRyEYt14NSi9cZDpTyW33-beS9HrwdT1RUKZe1dOVvkfMVCR5IBfaAOT~5Q8abK84ETYIo9DxvBvC-ZLXrsUgtIym7jI7AByhxTRqZgJy1RJvjD5lH2E4q2u-uND~0wsHaAv1ZEYE6J7K8dyY7bvA6SAyTyU60QS7I3w-Q966w__"
                     fill />
@@ -31,7 +31,7 @@ export default function page() {
                     src="https://s3-alpha-sig.figma.com/img/8c39/1934/dab98b8e77b48c65d7c3e2032f00af6c?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WLYuTSve6cDUmfKQ4GPmdWvW7fgutYWjmkUlnIkUHZOdbhK-0NQ4Hh4aWHLi4bDWXPgpNabd9~1GXADE1ohoFhyUsIOYiCKA4rDEp4FV7bdQhoILb8ezAn6W7EVY7Oqg15YPId3EX~xr5eMq7WCcYEdlYiCUSBUDKysP32Up6ePlvRyEYt14NSi9cZDpTyW33-beS9HrwdT1RUKZe1dOVvkfMVCR5IBfaAOT~5Q8abK84ETYIo9DxvBvC-ZLXrsUgtIym7jI7AByhxTRqZgJy1RJvjD5lH2E4q2u-uND~0wsHaAv1ZEYE6J7K8dyY7bvA6SAyTyU60QS7I3w-Q966w__"
                     fill />
             </div>
-            <div className=' aspect-[1.4/1] h-[245px] sm:col-span-2 sm:max-w-[704px] sm:h-[514px] lg:col-span-1 lg:max-w-[340px] lg:h-[245px] w-full max-w-[340px] relative'>
+            <div className=' aspect-[1.4/1] h-[245px] w-full max-w-[340px] relative sm:col-span-2 sm:max-w-[704px] sm:h-[514px] lg:col-span-1 lg:max-w-[340px] lg:h-[245px]'>
                 <Image className='object-cover rounded-lg'
                     src="https://s3-alpha-sig.figma.com/img/1e99/4fc1/edd4ba000bdfa85be11654df3de4ccf3?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jLtfSxmRY4HEakjHzmQ4M3k2-E2Px1DnyczDc9mRGzj7HFYIalxOTP4YPWJ0skNVb73roLJV5e65Z5dgS928QcBjl8RjDURGOYss7dfkGfpkbvJF2nuarwL1NOWzOzp2FHB1D0VDqlAiYN2oeJwMPkPIk7aFgV-Do6V6Q2eR0rg0nuXWeg4fPZfLBOCYT-pAegO1s5iv6jByvCHdaH7T-Qkfaby45BSF9SDKFQGmajZakkN3ng21TsrBTERY7eG3u6YMJ-lWEbasJ9AlP9q6qG-rJdl11rCc8GCJmGWclBwCnua9DSSLBPQ9YFW8cy9KzyiYB3anH0RUAyJKUGlFyw__"
                     fill />
