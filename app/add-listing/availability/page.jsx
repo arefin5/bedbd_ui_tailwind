@@ -1,8 +1,7 @@
-
 "use client";
 import Icon from '/components/Icon';
 import InputRadioButton from './InputRadioButton';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { updateFormData } from '@/redux/list/createListSlice';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
@@ -13,12 +12,20 @@ export default function Page() {
         checkInStart: '',
         allowExtend: '',
         bookingExtend: '',
-       
-      
-      
     });
     const router = useRouter();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const storedFormValues = localStorage.getItem('formValues');
+        if (storedFormValues) {
+            setFormValues(JSON.parse(storedFormValues));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('formValues', JSON.stringify(formValues));
+    }, [formValues]);
 
     const handleInputChange = (name, value) => {
         setFormValues((prev) => ({
@@ -30,16 +37,15 @@ export default function Page() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { checkInStart, allowExtend, bookingExtend   } = formValues;
+            const { checkInStart, allowExtend, bookingExtend } = formValues;
             const payload = { 
-                availablecheck:{
+                availablecheck: {
                     checkInStart, 
                     allowExtend,
                     bookingExtend 
                 }
-                };
+            };
             await dispatch(updateFormData(payload));
-          
             router.push('/add-listing/approving');
         } catch (error) {
             console.log("Error: ", error);
@@ -55,7 +61,7 @@ export default function Page() {
     return (
         <div className="min-h-screen py-20">
             <div>
-                <h2 className="text-primary-400 text-4xl text-center font-medium mb-2">Set Price</h2>
+                <h2 className="text-primary-400 text-4xl text-center font-medium mb-2">Availability</h2>
                 <h3 className='text-sm font-normal text-neutral-500 text-center'>
                     From your profile dashboard, you also will be able to change all availability.
                 </h3>
@@ -92,6 +98,7 @@ export default function Page() {
                                 type='text'
                                 name='specific'
                                 placeholder='Set Date'
+                                value={formValues.checkInStart}
                                 onChange={(e) => handleInputChange('checkInStart', e.target.value)}
                             />
                         )}
@@ -129,6 +136,7 @@ export default function Page() {
                                 type='text'
                                 name='allowExtend'
                                  placeholder='Set Maximum night'
+                                value={formValues.allowExtend}
                                 onChange={(e) => handleInputChange('allowExtend', e.target.value)}
                             />
                         )}
@@ -166,6 +174,7 @@ export default function Page() {
                             type='name'
                             name='allow-night'
                             placeholder='Set date'
+                            value={formValues.bookingExtend}
                             onChange={(e) => handleInputChange('bookingExtend', e.target.value)}
                             />
                         )}

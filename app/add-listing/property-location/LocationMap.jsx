@@ -78,7 +78,7 @@ export default function LocationMap() {
                               coordinates: [longitude, latitude],
                             },
                             };
-                  
+            
             dispatch(updateFormData(payload));
             // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
         },

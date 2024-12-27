@@ -14,10 +14,17 @@ export default function Page() {
 
 
   const { isLoading, error, lists } = useSelector((state) => state.form);
-  useEffect(() => {
+  // useEffect(() => {
     
+  // }, [lists]);
+  useEffect(() => {
+    // Keep only 'user' and 'token' in localStorage
+    Object.keys(localStorage).forEach((key) => {
+      if (key !== "user" && key !== "token") {
+        localStorage.removeItem(key);
+      }
+    });
   }, [lists]);
- 
   const goProperty = (e) => {
     e.preventDefault();
     if (lists && lists._id) {

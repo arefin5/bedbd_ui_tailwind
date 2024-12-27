@@ -6,6 +6,13 @@ export default function InputRadioButton({ inputId, inputName, value, isChecked,
   const [checked, setChecked] = useState(isChecked);
   const inputRef = useRef(null);
 
+  useEffect(() => {
+    const storedChecked = localStorage.getItem(inputId);
+    if (storedChecked) {
+      setChecked(storedChecked === 'true');
+    }
+  }, [inputId]);
+
   const onIconClickHandler = () => {
     setChecked(true); // Only check this radio button
     inputRef.current.click();
@@ -14,6 +21,10 @@ export default function InputRadioButton({ inputId, inputName, value, isChecked,
   useEffect(() => {
     setChecked(isChecked); // Sync checked state with props
   }, [isChecked]);
+
+  useEffect(() => {
+    localStorage.setItem(inputId, checked);
+  }, [checked, inputId]);
 
   return (
     <>

@@ -3,7 +3,7 @@
 "use client"
 import Icon from '/components/Icon';
 import Counter from './Counter';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { updateFormData } from '@/redux/list/createListSlice';
@@ -18,17 +18,33 @@ export default function Page() {
     singleBed: 0,
     doubleBed: 0,
     extraBed: 0,
-    adultGuest: 0,
+    adultGuest: 4,
     childrenGuest: 0
   });
   const router = useRouter();
   const dispatch = useDispatch();
   // Handle change function to update specific counter
+  // const handleCounterChange = (name, value) => {
+  //   setRoomCounts(prev => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
+  useEffect(() => {
+    const savedCounts = JSON.parse(localStorage.getItem('roomCounts'));
+    if (savedCounts) {
+      setRoomCounts(savedCounts);
+    }
+  }, []);
   const handleCounterChange = (name, value) => {
-    setRoomCounts(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    setRoomCounts(prev => {
+      const updatedCounts = {
+        ...prev,
+        [name]: value,
+      };
+      localStorage.setItem('roomCounts', JSON.stringify(updatedCounts));
+      return updatedCounts;
+    });
   };
 
   // Handle submit

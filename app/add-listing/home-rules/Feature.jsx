@@ -1,8 +1,10 @@
 
+
+
 'use client';
 import { Square, SquareCheckBig } from 'lucide-react';
 
-export default function BookingType({ data, isChecked, toggleCheck }) {
+export default function Feature({ data, isChecked, toggleCheck }) {
   function handleClick() {
     toggleCheck(data._id);
   }
@@ -21,7 +23,6 @@ export default function BookingType({ data, isChecked, toggleCheck }) {
         <Square className="icon absolute top-4 left-4" />
       )}
       <h4 className="font-semibold text-xl text-neutral-500 mb-2">{data.title}</h4>
-      <p className="text-neutral-500 font-medium text-base">{data.description}</p>
     </div>
   );
 }

@@ -64,6 +64,7 @@ export default function Page() {
         <h3 className="text-sm font-normal text-neutral-500 text-center">
           From your profile dashboard, you will also be able to change all availability.
         </h3>
+        {error && <div className='text-center error-message text-red-500'>Please Set Property Title</div>}
 
         <form className="w-full max-w-3xl ml-auto mr-auto mt-8 px-8" onSubmit={handleSubmit}>
           <div className="text-neutral-600 text-xl font-medium">Approving method</div>
