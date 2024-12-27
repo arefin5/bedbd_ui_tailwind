@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import Icon from '/components/Icon';
@@ -48,22 +46,32 @@ export default function Page() {
   useEffect(() => {
     const storedBookingTypes = localStorage.getItem('propertyFeature');
     const storedCheckedItems = localStorage.getItem('checkedItems');
+    const storedTitle = localStorage.getItem('propertyTitle');
+    const storedDescription = localStorage.getItem('description');
+    
     if (storedBookingTypes) {
       setpropertyFeature(JSON.parse(storedBookingTypes));
     }
     if (storedCheckedItems) {
       setCheckedItems(JSON.parse(storedCheckedItems));
     }
-    const storedTitle = localStorage.getItem('propertyTitle');
-    const storedDescription = localStorage.getItem('description');
-
+    if (storedTitle) {
+      setTitle(storedTitle);
+    }
+    if (storedDescription) {
+      setdescription(storedDescription);
+    }
   }, []);
   useEffect(() => {
-    localStorage.setItem('propertyTitle', propertyTitle);
+    if (propertyTitle) {
+      localStorage.setItem('propertyTitle', propertyTitle);
+    }
   }, [propertyTitle]);
 
   useEffect(() => {
-    localStorage.setItem('description', description);
+    if (description) {
+      localStorage.setItem('description', description);
+    }
   }, [description]);
 
 
@@ -108,20 +116,23 @@ export default function Page() {
   const handleContinue = async (e) => {
     e.preventDefault();
     if (!propertyTitle || propertyTitle.trim() === "") {
-    setError(true);
-    return; // Prevent further execution if propertyTitle is empty
-  }
+      setError(true);
+      return; // Prevent further execution if propertyTitle is empty
+    }
 
-  setError(false); 
+    setError(false);
     try {
+      const selectedFeatures = propertyFeature.filter((feature) =>
+        checkedItems.includes(feature._id)
+      );
       const payload = {
-        propertyFeature,
+        propertyFeature: selectedFeatures,
         propertyTitle: propertyTitle,
-        description: description
+        description: description,
       };
       await dispatch(updateFormData(payload));
       setError(false);
-      router.push('/add-listing/location-confirmation');
+      router.push('/add-listing/property-location');
     } catch (error) {
       console.error('Error saving booking types:', error);
     }
@@ -145,11 +156,11 @@ export default function Page() {
                       value={propertyTitle}
                       onChange={(e) => setTitle(e.target.value)}
                   />
-                             {error && <div className='error-message text-red-500'>{error}</div>}
+                            
 
           <p className='font-normal text-sm text-neutral-500 ml-5 mb-9'>Choose a catchy title in 40 characters</p>
+          {error && <div className='error-message text-red-500'>Please Set Property Title</div>}
           <h3 className="text-neutral-500 font-medium text-xl mb-6">What can guests book?</h3>
-           {error && <div className='error-message text-red-500'>{error}</div>}
           <div className="space-y-4" id="property_booking_types">
             {propertyFeature.map((item) => (
               <Feature

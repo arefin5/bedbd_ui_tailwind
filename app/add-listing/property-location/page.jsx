@@ -115,16 +115,14 @@ export default function LocationPage() {
           alert("Please select your property location.");
           return
       }else{
-
-
         // use network request heare 
-        router.push('/add-listing/accommodation-details');
+        router.push('/add-listing/location-confirmation');
       }
   };
   
   const goBack = (e) => {
     e.preventDefault();
-    router.push("/add-listing/location-confirmation");
+    router.push("/add-listing/property-details");
   };
 
   if (!isClient) return null; // Prevent SSR-related issues

@@ -10,9 +10,21 @@ import { updateFormData } from '@/redux/list/createListSlice';
 
 export default function Page() {
   const [images, setImages] = useState([]);
+  const [error,setErrors]=useState(false)
   useEffect(() => {
-    // console.log(images);
+    // if images from localStorage exist, set them to state
+ 
   }, [images]);
+
+   useEffect(() => {
+    // console.log(images);
+    // if images from localStorage exist, set them to state
+    const uploadedImages = JSON.parse(localStorage.getItem("uploadedImages"));
+    if (uploadedImages) {
+     console.log('uploadedImages', uploadedImages);
+      setImages(uploadedImages);
+    }
+  }, []);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleSubmitImage = async (e) => {
@@ -34,10 +46,13 @@ export default function Page() {
      const payload = { 
        image:response.data
 };  
-            await dispatch(updateFormData(payload));
+localStorage.setItem("uploadedImages", JSON.stringify(response.data));
+setErro(false)
+await dispatch(updateFormData(payload));
             router.push('/add-listing/price'); // Navigate to the next pag
               // console.log('Uploaded images:', response.data);
     } catch (error) {
+      setError(true)
       console.error("Error uploading images:", error);
     }
   };
@@ -51,7 +66,10 @@ export default function Page() {
       <div>
         <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Upload Images</h2>
         <form className="w-full max-w-4xl ml-auto mr-auto mt-28 px-8" onSubmit={handleSubmitImage}>
-          <DropImage setImages={setImages} />
+        {error && <div className="text-center error-message text-red-500">
+          please Add 5 Images 
+        </div>}
+          <DropImage setImages={setImages}  />
           <div className="flex gap-x-8 mt-14 max-w-3xl ml-auto mr-auto">
             <button className="btn btn-secondary max-w-36 relative" onClick={back}>
               <Icon name="chevron-left" className="icon absolute-y-center left-4" />

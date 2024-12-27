@@ -1,4 +1,3 @@
-
 'use client';
 
 import Icon from '/components/Icon';
@@ -91,8 +90,11 @@ export default function Page() {
     e.preventDefault();
     console.log('Success in property-booking-types');
     try {
+      const selectedBookingTypes = bookingTypes.filter((type) =>
+        checkedItems.includes(type._id)
+      );
       const payload = {
-        bookingTypes,
+        bookingTypes: selectedBookingTypes,
       };
       await dispatch(updateFormData(payload));
       router.push('/add-listing/property-details');

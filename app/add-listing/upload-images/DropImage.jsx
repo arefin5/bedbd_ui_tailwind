@@ -14,14 +14,17 @@ export default function DropImage({ setImages }) {
   const SUPPORTED_FORMATS = ["image/jpeg", "image/png"];
 
   useEffect(() => {
-    console.log(previewImages);
-
     return () => {
       // Cleanup object URLs to prevent memory leaks
       previewImages.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [previewImages]);
-
+  useEffect(() => {
+    const storedImages = JSON.parse(localStorage.getItem("uploadedImages"));
+    if (storedImages) {
+      setPreviewImages(storedImages.map(img => img.url));
+    }
+  }, []);
   const validateFile = (file) => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
       alert(`${file.name} is not a supported format. Please upload JPG or PNG files.`);

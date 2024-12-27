@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Icon from '/components/Icon'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFormData } from '@/redux/list/createListSlice';
 
 export default function Page() {
@@ -21,9 +21,25 @@ export default function Page() {
   //
   const router = useRouter();
   const dispatch = useDispatch();
-  useEffect(() => {
+  // useEffect(() => {
           
-  }, [])
+  // }, []);
+  const { formData } = useSelector((state) => state.form); 
+
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem('locationData'));
+   
+    if (savedData) {
+      setCountry(savedData.country || "");
+      setFloor(savedData.floor || "");
+      setStreetAddress(savedData.streetAddress || "");
+      setAddress(savedData.address || "");
+      setThana(savedData.thana || "");
+      setDistrict(savedData.district || "");
+      setPostcode(savedData.postcode || "");
+      setGoogleMap(savedData.googleMap || "");
+    }
+  }, []);
   const handleContinue = async (e) => {
     // null
     try {
@@ -32,10 +48,11 @@ export default function Page() {
         alert("please Select your City");
         return
       }
-
+     
       const payload = {
        location: 
           {
+            ...formData.location,
             country: country,
             floor: floor,
             streetAddress: streetAddress,
@@ -47,8 +64,9 @@ export default function Page() {
           }
         
       };
+      localStorage.setItem('locationData', JSON.stringify(payload.location));
       await dispatch(updateFormData(payload));
-      router.push('/add-listing/property-location');
+      router.push('/add-listing/accommodation-details');
     } catch (error) {
       console.log(error)
     }
@@ -56,7 +74,7 @@ export default function Page() {
   }
   const back = (e) => {
     e.preventDefault();
-    router.push("/add-listing/property-details");
+    router.push("/add-listing/property-location");
   };
   return (
     <div className="min-h-screen py-20">
