@@ -21,14 +21,15 @@ export default function Page() {
   //
   const router = useRouter();
   const dispatch = useDispatch();
+  const [errors,setErrors]=useState(false)
   // useEffect(() => {
           
   // }, []);
   const { formData } = useSelector((state) => state.form); 
-
+   
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem('locationData'));
-   
+     
     if (savedData) {
       setCountry(savedData.country || "");
       setFloor(savedData.floor || "");
@@ -45,7 +46,8 @@ export default function Page() {
     try {
       e.preventDefault();
       if(!thana){
-        alert("please Select your City");
+        // alert("please Select your City");
+        setErrors(true)
         return
       }
      
@@ -66,6 +68,7 @@ export default function Page() {
       };
       localStorage.setItem('locationData', JSON.stringify(payload.location));
       await dispatch(updateFormData(payload));
+      setErrors(false)
       router.push('/add-listing/accommodation-details');
     } catch (error) {
       console.log(error)
@@ -82,7 +85,7 @@ export default function Page() {
         <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Location confirmation</h2>
         <form className="w-full max-w-2xl ml-auto mr-auto mt-28 px-8" >
           <h3 className="text-neutral-500 font-medium text-xl mb-4">Add details about your location</h3>
-
+          
           <input
             name='country'
             type='text'
@@ -134,6 +137,7 @@ export default function Page() {
               value={thana}
               onChange={(e) => setThana(e.target.value)}
             />
+            {errors && <div className='text-center error-message text-red-500'>Please select your city</div>}
             <input
               type='text'
               name='district'

@@ -81,7 +81,9 @@ export default function Navbar() {
     };
     const LogOut = async (e) => {
         e.preventDefault();
-        localStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        // localStorage.clear();
         setLoggedIn(false);
         window.location.href = "/";
     }

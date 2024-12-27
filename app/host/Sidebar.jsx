@@ -53,7 +53,8 @@ export default function Sidebar() {
   
   const LogOut = async (e) => {
     e.preventDefault();
-    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     window.location.href = "/";
   };
 

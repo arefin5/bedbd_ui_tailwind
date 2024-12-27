@@ -10,52 +10,131 @@ import { updateFormData } from '@/redux/list/createListSlice';
 
 export default function Page() {
   const [images, setImages] = useState([]);
-  const [error,setErrors]=useState(false)
+  const [error, setErrors] = useState(false)
   useEffect(() => {
     // if images from localStorage exist, set them to state
- 
+
   }, [images]);
 
-   useEffect(() => {
+  useEffect(() => {
     // console.log(images);
     // if images from localStorage exist, set them to state
     const uploadedImages = JSON.parse(localStorage.getItem("uploadedImages"));
     if (uploadedImages) {
-     console.log('uploadedImages', uploadedImages);
+      console.log('uploadedImages', uploadedImages);
       setImages(uploadedImages);
     }
   }, []);
   const router = useRouter();
   const dispatch = useDispatch();
+  // const handleSubmitImage = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const formData = new FormData();
+  //     images.forEach((image) => {
+  //       formData.append('image', image.file);
+  //     });
+  //     for (let pair of formData.entries()) {
+  //       console.log(pair[0] + ', ' + pair[1]);
+  //     }
+  //     const localImages = JSON.parse(localStorage.getItem("uploadedImages"));
+
+  //       switch (localImages.length<3) {
+              
+
+  //       }
+      
+  //     // const response = await axios.post("https://backend.bedbd.com/api/images/upload-image-file", formData, {
+  //     //   headers: {
+  //     //     'Content-Type': 'multipart/form-data',
+  //     //   },
+  //     // });
+  //     const response = await axios.post("http://localhost:5001/api/images/upload-image-file", formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+     
+  //     const existingImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
+  //     const combinedImages = [...existingImages, ...response.data];
+    
+  //     // Update localStorage
+  //     localStorage.setItem("uploadedImages", JSON.stringify(combinedImages));
+
+  //     // Update state
+  //     setImages(combinedImages);
+
+  //     if (combinedImages.length >= 3) {
+  //       const payload = { images: combinedImages };
+  //       await dispatch(updateFormData(payload));
+  //       router.push('/add-listing/price'); 
+  //     } else {
+  //       setErrors(true);
+  //     }
+  //   } catch (error) {
+  //     setErrors(true)
+  //     console.error("Error uploading images:", error);
+  //   }
+  // };
   const handleSubmitImage = async (e) => {
     e.preventDefault();
+
+    // Get images from localStorage
+    const localImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
     try {
       const formData = new FormData();
       images.forEach((image) => {
-        formData.append('image', image.file);  // Use the 'file' property
+        formData.append('image', image.file);
       });
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+
+    // If there are already 3 or more images, skip the upload and go to the next page
+    if (localImages.length >= 3 && formData.length === 0) {
+      const payload={
+        images:localImages
+      }
+      await dispatch(updateFormData(payload));
+      router.push('/add-listing/price');
+      return; // Skip the rest of the process
+    };
+
+    
+      // Create FormData and append selected images
+    
+      // Debug: Log the formData
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+
+      // Call API to upload images
       const response = await axios.post("https://backend.bedbd.com/api/images/upload-image-file", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-     
-     const payload = { 
-       image:response.data
-};  
-localStorage.setItem("uploadedImages", JSON.stringify(response.data));
-setErro(false)
-await dispatch(updateFormData(payload));
-            router.push('/add-listing/price'); // Navigate to the next pag
-              // console.log('Uploaded images:', response.data);
+
+      // Combine the new uploaded images with the existing ones from localStorage
+      const combinedImages = [...localImages, ...response.data];
+
+      // Update localStorage with the combined images
+      localStorage.setItem("uploadedImages", JSON.stringify(combinedImages));
+
+      // Update the images state
+      setImages(combinedImages);
+
+      // If we now have 3 or more images, dispatch the action and move to the next step
+      if (combinedImages.length >= 3) {
+        const payload = { images: combinedImages };
+        await dispatch(updateFormData(payload));
+        router.push('/add-listing/price');
+      } else {
+        setErrors(true);
+      }
     } catch (error) {
-      setError(true)
+      setErrors(true);
       console.error("Error uploading images:", error);
     }
   };
+  
   const back = (e) => {
     e.preventDefault();
     router.push('/add-listing/home-rules');
@@ -66,10 +145,10 @@ await dispatch(updateFormData(payload));
       <div>
         <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Upload Images</h2>
         <form className="w-full max-w-4xl ml-auto mr-auto mt-28 px-8" onSubmit={handleSubmitImage}>
-        {error && <div className="text-center error-message text-red-500">
-          please Add 5 Images 
-        </div>}
-          <DropImage setImages={setImages}  />
+          {error && <div className="text-center error-message text-red-500">
+            please Add 3 Images
+          </div>}
+          <DropImage setImages={setImages} />
           <div className="flex gap-x-8 mt-14 max-w-3xl ml-auto mr-auto">
             <button className="btn btn-secondary max-w-36 relative" onClick={back}>
               <Icon name="chevron-left" className="icon absolute-y-center left-4" />

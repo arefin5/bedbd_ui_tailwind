@@ -18,8 +18,9 @@ export default function LocationPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const currentFormData = useSelector((state) => state.form); 
-  const {error, formData} = useSelector((state) => state.form); 
+  const { formData} = useSelector((state) => state.form); 
   const [isClient, setIsClient] = useState(false);
+  const [error,setErrors]=useState(false)
   const coordinates = [] 
   useEffect(() => {
     setIsClient(true);
@@ -112,11 +113,13 @@ export default function LocationPage() {
   
     // Use the provided coordinates from the map, or default to specified values
      if (!formData.hasOwnProperty('location') || formData?.location?.length < 2  ) {
-          alert("Please select your property location.");
+          // alert("Please select your property location.");
+          setErrors(true)
           return
       }else{
         // use network request heare 
         router.push('/add-listing/location-confirmation');
+        setErrors(false)
       }
   };
   
@@ -145,6 +148,7 @@ export default function LocationPage() {
               <Icon name="chevron-left" className="icon absolute-y-center left-4" />
               Back
             </button>
+           { error && <div className='text-center error-message text-red-500'>Please select your property location.</div>}
             <button className="btn btn-primary" onClick={submitLocation}>
               Continue
             </button>

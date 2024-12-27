@@ -22,8 +22,8 @@ export default function Page() {
     const timeSegments = getAllTimeSegments();
     const router = useRouter();
     const dispatch = useDispatch();
-    const [checkInTime, setCheckInTime] = useState('');
-    const [checkOutTime, setCheckOutTime] = useState('');
+    const [checkInTime, setCheckInTime] = useState('12:00 AM');
+    const [checkOutTime, setCheckOutTime] = useState('12:00 AM');
 
     const initialData = getHomeRules();
     const [homeTitle, setHomeTitle] = useState(initialData);
@@ -31,7 +31,7 @@ export default function Page() {
     const [checkedItems, setCheckedItems] = useState([]);
     const [newTitle, setNewTitle] = useState('');
     const [isAdding, setIsAdding] = useState(false); // New state for toggling input visibility
-
+    const [error, setErrors] = useState(false);
     // Load data from localStorage on component mount
     useEffect(() => {
         const storedHomeTitle = localStorage.getItem('homeTitle');
@@ -105,7 +105,8 @@ export default function Page() {
         e.preventDefault();
         try {
             if (!checkInTime || !checkOutTime) {
-                alert('Please select both check-in and check-out times before continuing.');
+                // alert('Please select both check-in and check-out times before continuing.');
+            setErrors(true)
                 return; // Stop further execution
             }
             const selectedItems = homeTitle.filter(item => checkedItems.includes(item._id));
@@ -118,6 +119,7 @@ export default function Page() {
             await dispatch(updateFormData(payload)); 
             router.push('/add-listing/upload-images'); 
         } catch (error) {
+            setErrors(true)
             console.error(error);
         }
     };
@@ -131,6 +133,9 @@ export default function Page() {
         <div className="min-h-screen py-20">
             <div>
                 <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Home Rules</h2>
+                {error && <div className="text-center error-message text-red-500">
+          please Select Home Rules   
+        </div>}
                 <form className="w-full max-w-3xl ml-auto mr-auto mt-28 px-8 ">
                     <div className="space-y-4" id="property_booking_types">
                         {homeTitle.map((item) => (
