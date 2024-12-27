@@ -57,7 +57,7 @@ export default function Page() {
   const router = useRouter();
   const [selectedType, setSelectedType] = useState("");
   const currentFormData = useSelector((state) => state.form);
-
+   const [error,setErrors]=useState(false)
   // Load `typeOfproperty` from localStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,14 +82,15 @@ export default function Page() {
   const handleContinue = async (e) => {
     e.preventDefault();
     if (!selectedType) {
-      alert("Please select a property type before continuing.");
+      // alert("Please select a property type before continuing.");
+      setErrors(true)
       return;
     }
 
     // Only update `typeOfproperty` in the Redux store
     const payload = { typeOfproperty: selectedType };
     await dispatch(updateFormData(payload));
-
+   setErrors(false)
     // Navigate to the next page
     router.push("/add-listing/property-state");
   };
@@ -103,7 +104,7 @@ export default function Page() {
         <h3 className="text-neutral-500 text-2xl text-center font-medium mb-16 max-w-4xl ml-auto mr-auto">
           List your property on bedbd.com and welcome guests in a matter of moments!
         </h3>
-
+        {error && <div className='text-center error-message text-red-500'>Please select a property type before continuing.</div>}
         <div className="w-full max-w-4xl ml-auto mr-auto">
           <h4 className="font-medium text-xl text-neutral-600 mb-4">{`To begin, choose the type of property you'd like to list on bedbd.com.`}</h4>
           <form className="max-w-fit relative-x-center">

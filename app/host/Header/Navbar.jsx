@@ -48,7 +48,9 @@ const changeRuleAsUser = async () => {
 
 const LogOut = async (e) => {
   e.preventDefault();
-  localStorage.clear();
+  // localStorage.clear();
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
   setLoggedIn(false);
   window.location.href = "/";
   }

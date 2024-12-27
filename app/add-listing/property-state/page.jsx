@@ -32,7 +32,7 @@ export default function Page() {
   const [propertyCondition, setPropertyCondition] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const [error,setErrors]=useState(false)
   useEffect(() => {
     const storedCondition = localStorage.getItem('propertyCondition');
     if (storedCondition) {
@@ -49,12 +49,14 @@ export default function Page() {
   const handleContinue = async (e) => {
     e.preventDefault();
     if (!propertyCondition) {
-      alert('Please select a property condition before continuing.');
+      setErrors(ture)
+      // alert('Please select a property condition before continuing.');
       return;
     }
 
     const payload = { propertyCondition };
     await dispatch(updateFormData(payload));
+    setErrors(false)
     router.push('/add-listing/property-booking-types');
   };
 
@@ -69,6 +71,8 @@ export default function Page() {
         <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Property State</h2>
         <form className="w-full max-w-2xl ml-auto mr-auto mt-28 px-8" onSubmit={handleContinue}>
           <h3 className="text-neutral-500 font-medium text-xl mb-6">Property Condition</h3>
+          {error && <div className='text-center error-message text-red-500'>Please select a property condition before continuing.</div>}
+
           <div className="space-y-4" id="property_states">
             {data.map(item => (
               <State

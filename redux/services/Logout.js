@@ -7,7 +7,8 @@ const Logout = () => {
     console.log("Logging out...");
 
     // Clear all items from localStorage
-    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     console.log("All items in localStorage cleared.");
   };
 
