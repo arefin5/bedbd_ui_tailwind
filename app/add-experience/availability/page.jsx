@@ -72,7 +72,6 @@ export default function page() {
                     <button className='btn btn-secondary flex gap-4 max-w-[140px] items-center justify-center'> 
                         {/* <Icon name="chevron-left" size={24} /> */}
                         <ChevronLeft name="chevron-left" size={24} />
-
                         Back
                     </button>
 
