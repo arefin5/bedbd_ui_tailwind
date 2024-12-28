@@ -16,14 +16,14 @@ const dispatch = useDispatch();
 
   const handleEditClick =async (data, e) => {
     e.preventDefault(); 
+    
      // Store the data in localStorage as a string
      localStorage.removeItem("data");
 
   // Store the new data in localStorage as a string
  await localStorage.setItem("data", JSON.stringify(data));
   await  dispatch(editList(data)); // Set the ID in Redux
-    router.push("/edit-listing/property-type"); // Navigate to the target page
-// router.push("/edit-listing/upload-images")
+    router.push("/edit-listing/property-type");
   };
   return (<div key={id} className={`${listView 
                 ? 'grid grid-cols-host-property h-12' 
