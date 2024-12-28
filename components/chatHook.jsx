@@ -56,6 +56,7 @@ const ChatComponentHooks = ({ userId, otherUserId, socket, loadingMessages ,setL
             setLoadingMessages(false);
             if (response.status === 'success') {
                 setMessages(response.messages || []);
+                console.log("message hook",response.messages);
             } else {
                 console.error("Error fetching messages:", response.message);
             }
@@ -79,36 +80,79 @@ const ChatComponentHooks = ({ userId, otherUserId, socket, loadingMessages ,setL
             "0"
         )}/${String(date.getUTCDate()).padStart(2, "0")} ${formattedHours}:${formattedMinutes} ${ampm}`;
     };
+    const localStorageUserId = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))._id : null;
+
+// return (
+//     <div className="w-full flex flex-col gap-4 max-w-md self-start">
+//         {loadingMessages ? (
+//             <p>Loading messages...</p>
+//         ) : messages.length > 0 ? (
+//             messages.map((msg, index) => (
+//                 <div key={index} className="flex items-start gap-4">
+//                     <div className="relative h-8 w-8 min-w-8 rounded-full overflow-hidden">
+//                         <Image src="/dummy/sample-profile-photo.jpg" fill />
+//                     </div>
+//                     <div className="relative bg-white p-4 rounded-lg text-neutral-500 font-medium shadow-inner text-base">
+//                         <p>{msg.sender}</p>
+//                         <p><strong>Message:</strong> {msg.message}</p>
+//                         <span className="absolute top-[calc(100%+4px)] text-sm">Sent {formatDateWithTime(msg.createdAt)}</span>
+//                     </div>
+//                 </div>
+//             ))
+//         ) : (
+//             <p>No messages to display.</p>
+//         )}
+//     </div>
+// );
+// };
+// export default ChatComponentHooks;
+
+
+
 
 return (
     <div className="w-full flex flex-col gap-4 max-w-md self-start">
-        {loadingMessages ? (
-            <p>Loading messages...</p>
-        ) : messages.length > 0 ? (
-            messages.map((msg, index) => (
-                <div key={index} className="flex items-start gap-4">
-                    <div className="relative h-8 w-8 min-w-8 rounded-full overflow-hidden">
-                        <Image src="/dummy/sample-profile-photo.jpg" fill />
-                    </div>
-                    <div className="relative bg-white p-4 rounded-lg text-neutral-500 font-medium shadow-inner text-base">
-                        <p>{msg.sender}</p>
-                        <p><strong>Message:</strong> {msg.message}</p>
-                        <span className="absolute top-[calc(100%+4px)] text-sm">Sent {formatDateWithTime(msg.timestamp)}</span>
-                    </div>
-                </div>
-            ))
-        ) : (
-            <p>No messages to display.</p>
-        )}
+      {loadingMessages ? (
+        <p>Loading messages...</p>
+      ) : messages.length > 0 ? (
+        messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`flex items-start gap-4 ${msg.sender === localStorageUserId ? 'bg-blue-500' : 'bg-white'}`}
+          >
+          {
+            msg.sender === localStorageUserId ? (
+<>
+              <div className="relative p-4 rounded-lg text-neutral-500 font-medium shadow-inner text-base">
+              <p><strong>Message:</strong> {msg.message}</p>
+              <p><strong>Time:</strong> {formatDateWithTime(msg.createdAt)}</p>
+            </div>
+</>
+            ):(
+              <>
+              <div className="relative h-8 w-8 min-w-8 rounded-full overflow-hidden">
+                <Image src="/dummy/sample-profile-photo.jpg" fill />
+              </div>
+              <div className="relative p-4 rounded-lg text-neutral-500 font-medium shadow-inner text-base">
+              <p>{msg.sender}</p>
+              <p><strong>Message:</strong> {msg.message}</p>
+              <p><strong>Time:</strong> {formatDateWithTime(msg.createdAt)}</p>
+            </div>
+              </>
+            )
+          }
+            
+            
+          </div>
+        ))
+      ) : (
+        <p>No messages</p>
+      )}
     </div>
-);
+  );
 };
+
 export default ChatComponentHooks;
-
-
-
-
-
 
 
 

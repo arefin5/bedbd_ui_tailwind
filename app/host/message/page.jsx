@@ -48,7 +48,7 @@ export default function Page() {
         return () => {
             socket.disconnect();
         };
-    }, [token, selectedUser]);
+    }, [token, selectedUser,newMessage]);
 
     const fetchConversations = (userId) => {
         socket.emit("getConversations", userId, (response) => {
