@@ -23,7 +23,7 @@ export default function Page() {
       [name]: value,
     }));
   };
-  const id=useSelector((state) => state.editForm.editlist?._id);
+  // const id=useSelector((state) => state.editForm.editlist?._id);
 
   useEffect(() => {
     console.log('Approving Method changed:', formValues.approvingMethod);
@@ -35,17 +35,19 @@ export default function Page() {
     e.preventDefault();
     try {
       const { approvingMethod, genderPreference } = formValues;
-      console.log(genderPreference)
+      console.log(genderPreference);
+      const storedData = JSON.parse(localStorage.getItem('data')) || {};
+      
       const payload = {
-        ...formData,
+        ...storedData,
         aprovingmethod: approvingMethod,
         gender: genderPreference,
-        id:id
+        id:storedData._id,
       };
       const resultAction = await  dispatch(submitList(payload));
       if (submitList.fulfilled.match(resultAction)) {
-        console.log(payload)
-        router.push('/add-listing/congratulation');
+        console.log(payload);
+        router.push('/edit-listing/congratulation');
       } else {
         console.error("Error during user edit:", resultAction.payload);
       }
@@ -58,7 +60,7 @@ export default function Page() {
 
   const back = (e) => {
     e.preventDefault();
-    router.push('/add-listing/availability');
+    router.push('/edit-listing/availability');
   };
 
   return (

@@ -58,10 +58,10 @@ export default async function page({searchParams, params}) {
         totalroom,
         Postedby,
         Guest,
-        homerule,
+        homeRule,
         propertyFeature
     } = data
-    console.log("",homerule);
+    console.log("single property  details id ", data);
 
     // console.log(Postedby.fname, Postedby.lname)
     return (
@@ -163,7 +163,7 @@ export default async function page({searchParams, params}) {
                         <Amenities data={propertyFeature.features} />
 
                         {/* Home rules */}
-                       <HomeRules homerules={homerule?.homesRoules}/>
+                       <HomeRules homerules={homeRule}/>
 
                         {/* Cancellation Policy */}
                         <div className="my-14">

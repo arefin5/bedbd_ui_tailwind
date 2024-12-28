@@ -7,7 +7,7 @@ const initialState = {
   editlist: [],        
   formData: {},
   isLoading: false,
-  lists: [],
+  updateLists: [],
   error: null,
 };
 
@@ -26,37 +26,56 @@ export const optionalSubmit = (data, id) => async (dispatch) => {
     console.error('Error submitting data:', error);
   }
 };
-
-// Async action for submitting a list
 export const submitList = createAsyncThunk(
-  "form/submitList", 
+  'form/submitList',
   async (listData, { rejectWithValue }) => {
-    console.log("submit ", listData);
     try {
       const payload = Object.fromEntries(
         Object.entries(listData).filter(([_, value]) => value !== undefined && value !== null)
       );
-      // Make the API call with the dynamic payload
+      // const response = await axiosInstance.post('/create-list', payload);
+      // return response.data;
       const response = await axiosInstance.put(`/update-list/${listData.id}`, payload);
       return response.data;
 
     } catch (error) {
-      console.error(error.response?.data?.message);
-
-      if (error.response?.data?.error) {
-        return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
-      }
-
       if (error.response?.data?.message) {
-        // Specific error handling like "email already exists"
         return rejectWithValue(error.response.data.message);
       }
-
-      // Fallback for other unexpected errors
       return rejectWithValue('An unexpected error occurred.');
     }
   }
 );
+// Async action for submitting a list
+// export const submitList = createAsyncThunk(
+//   "form/submitList", 
+//   async (listData, { rejectWithValue }) => {
+//     console.log("submit ", listData);
+//     try {
+//       const payload = Object.fromEntries(
+//         Object.entries(listData).filter(([_, value]) => value !== undefined && value !== null)
+//       );
+//       // Make the API call with the dynamic payload
+//       const response = await axiosInstance.put(`/update-list/${listData.id}`, payload);
+//       return response.data;
+
+//     } catch (error) {
+//       console.error(error.response?.data?.message);
+
+//       if (error.response?.data?.error) {
+//         return rejectWithValue(error.response.data.message || error.response.data.error); // Return actual error message
+//       }
+
+//       if (error.response?.data?.message) {
+//         // Specific error handling like "email already exists"
+//         return rejectWithValue(error.response.data.message);
+//       }
+
+//       // Fallback for other unexpected errors
+//       return rejectWithValue('An unexpected error occurred.');
+//     }
+//   }
+// );
 
 // Redux slice
 const formSliceEdit = createSlice({
@@ -230,7 +249,7 @@ addPropertyDetails(state, action) {
       })
       .addCase(submitList.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.lists = action.payload;
+        state.updateLists = action.payload;
       })
       .addCase(submitList.rejected, (state, action) => {
         state.isLoading = false;
@@ -240,6 +259,6 @@ addPropertyDetails(state, action) {
 });
 
 // Export actions and reducer
-export const { setId, updateFormData, clearFormData, editList, removeHomeRule,removePropertyDetails ,removeImageFromList,addPropertyDetails} = formSliceEdit.actions;
+export const { setId,updateLists, updateFormData, clearFormData, editList, removeHomeRule,removePropertyDetails ,removeImageFromList,addPropertyDetails} = formSliceEdit.actions;
 
 export default formSliceEdit.reducer;

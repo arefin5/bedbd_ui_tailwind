@@ -1,6 +1,5 @@
 
 
-
 "use client";
 import Icon from "/components/Icon";
 import CopyButton from "./CopyButton";
@@ -12,18 +11,31 @@ import Link from "next/link";
 export default function Page() {
   const router = useRouter();
 
+  // const id=useSelector((state) => state.editForm.editlist?._id);
 
-  const { isLoading, error, lists } = useSelector((state) => state.form);
-  useEffect(() => {
+  const { isLoading, error, updateLists } = useSelector((state) => state.editForm);
+  // useEffect(() => {
     
-  }, [lists]);
- 
+  // }, [lists]);
+  useEffect(() => {
+    // Keep only 'user' and 'token' in localStorage
+    Object.keys(localStorage).forEach((key) => {
+      if (key !== "user" && key !== "token") {
+        localStorage.removeItem(key);
+      }
+    });
+  }, [updateLists]);
   const goProperty = (e) => {
     e.preventDefault();
-    if (lists && lists._id) {
-      router.push(`/listing/${lists._id}`);
+    // if (updateLists && updateLists._id) {
+    //   router.push(`/listing/${updateLists._id}`);
+    // } else {
+    //   console.error("Invalid list ID");
+    // }
+    if (updateLists?._id) {
+      window.location.href = `/listing/${updateLists._id}?param=value`;
     } else {
-      console.error("Invalid list ID");
+      console.error("Invalid or missing updateLists._id");
     }
   };
 
@@ -40,7 +52,7 @@ export default function Page() {
           Congratulations
         </h2>
         <h3 className="text-2xl font-normal text-neutral-500 text-center max-w-md ml-auto mr-auto">
-          Your property has been listed successfully.
+          Your property has been Updated  successfully.
         </h3>
 
         <form className="w-full max-w-3xl ml-auto mr-auto mt-8 px-8 select-none">
@@ -50,7 +62,7 @@ export default function Page() {
               className="form-input"
               type="text"
               id="property-url-input"
-              value={`www.bedbd.com/listing/${lists?._id}`}
+              value={`www.bedbd.com/listing/${updateLists?._id}`}
               readOnly
             />
             <CopyButton inputId="property-url-input" />
