@@ -14,14 +14,21 @@ export default function DropImage({ setImages }) {
   const SUPPORTED_FORMATS = ["image/jpeg", "image/png"];
 
   useEffect(() => {
-    console.log(previewImages);
-
     return () => {
       // Cleanup object URLs to prevent memory leaks
       previewImages.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [previewImages]);
-
+  useEffect(() => {
+    const data=JSON.parse(localStorage.getItem("data"));
+    const storedImages = data.images;
+    if (storedImages) {
+      // setPreviewImages(storedImages.map(img => img.url));
+      const imageUrls = storedImages.map(img => img.url);
+      setPreviewImages(imageUrls);
+      setImages(storedImages);
+    }
+  }, [setImages]);
   const validateFile = (file) => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
       alert(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
@@ -34,55 +41,28 @@ export default function DropImage({ setImages }) {
     return true;
   };
 
-  // const handleFiles = async (files) => {
-  //   const newImages = [];
-  //   const fileObjects = [];
-
-  //   for (const file of files) {
-  //     if (validateFile(file)) {
-  //       const previewUrl = URL.createObjectURL(file);
-  //       newImages.push(previewUrl);
-  //       fileObjects.push({ file, preview: previewUrl });
-  //     } else {
-  //       // Optional: Convert unsupported formats
-  //       try {
-  //         const options = { maxSizeMB: 5, fileType: "image/jpeg" };
-  //         const compressedFile = await imageCompression(file, options);
-  //         const previewUrl = URL.createObjectURL(compressedFile);
-  //         newImages.push(previewUrl);
-  //         fileObjects.push({ file: compressedFile, preview: previewUrl });
-  //       } catch (error) {
-  //         console.error(`Failed to process ${file.name}:`, error);
-  //       }
-  //     }
-  //   }
-
-  //   if (newImages.length > 0) {
-  //     setPreviewImages((prevImages) => [...prevImages, ...newImages]);
-  //     setImages((prev) => [...prev, ...fileObjects]);
-  //   }
-  // };
+  
   const handleFiles = async (files) => {
-  const validImages = [];
-  const validFileObjects = [];
+    const validImages = [];
+    const validFileObjects = [];
 
-  for (const file of files) {
-    if (validateFile(file)) {
-      // Process only valid files
-      const previewUrl = URL.createObjectURL(file);
-      validImages.push(previewUrl);
-      validFileObjects.push({ file, preview: previewUrl });
-    } else {
-      alert(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
+    for (const file of files) {
+      if (validateFile(file)) {
+        // Process only valid files
+        const previewUrl = URL.createObjectURL(file);
+        validImages.push(previewUrl);
+        validFileObjects.push({ file, preview: previewUrl });
+      } else {
+        alert(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
+      }
     }
-  }
 
-  // Update state only with valid files
-  if (validImages.length > 0) {
-    setPreviewImages((prevImages) => [...prevImages, ...validImages]);
-    setImages((prev) => [...prev, ...validFileObjects]);
-  }
-};
+    // Update state only with valid files
+    if (validImages.length > 0) {
+      setPreviewImages((prevImages) => [...prevImages, ...validImages]);
+      setImages((prev) => [...prev, ...validFileObjects]);
+    }
+  };
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -118,9 +98,8 @@ export default function DropImage({ setImages }) {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleClick}
-        className={`cursor-pointer w-full max-w-4xl bg-neutral-100 border border-neutral-400 border-dashed rounded-10px py-10 ${
-          dragActive ? "bg-neutral-200" : ""
-        }`}
+        className={`cursor-pointer w-full max-w-4xl bg-neutral-100 border border-neutral-400 border-dashed rounded-10px py-10 ${dragActive ? "bg-neutral-200" : ""
+          }`}
       >
         <input
           type="file"
@@ -149,12 +128,42 @@ export default function DropImage({ setImages }) {
               className="relative w-full min-h-72 aspect-[3/2] border rounded-lg overflow-hidden"
             >
               <Image src={image} alt={`image-${index}`} layout="fill" className="object-cover" />
+            
               <div
-                onClick={() =>
-                  setPreviewImages((prev) =>
-                    prev.filter((_, imgIndex) => imgIndex !== index)
-                  )
-                }
+                onClick={() => {
+                  // Ensure index is valid
+                  if (!previewImages || !previewImages[index]) {
+                    console.error("Invalid index or image structure in previewImages");
+                    return;
+                  }
+
+                  
+                  const imageToRemove = previewImages[index];
+
+                  // Remove the image from the preview state using splice
+                  setPreviewImages((prev) => {
+                    const updatedPreviewImages = [...prev];
+                    updatedPreviewImages.splice(index, 1); // Removes 1 element at the specified index
+                    return updatedPreviewImages;
+                  });
+
+                  // Get current uploaded images from localStorage
+                  const datas=JSON.parse(localStorage.getItem("data")) || [];
+                  const uploadedImages =datas.images;
+
+                  // Use splice to remove the image from the uploaded images array
+                  const updatedImages = [...uploadedImages];
+                  updatedImages.splice(
+                    updatedImages.findIndex((image) => image.url === imageToRemove.url),
+                    1
+                  ); // Find the index and remove the image
+
+                  // Update the localStorage with the remaining images
+                  localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
+                  const updatedData=JSON.parse(localStorage.getItem("data")) || [];
+                   updatedData.images=updatedImages;
+                   localStorage.setItem("data",JSON.stringify(updatedData));
+                }}
                 className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
               >
                 <X className="icon" />

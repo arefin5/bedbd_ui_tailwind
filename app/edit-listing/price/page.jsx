@@ -16,13 +16,20 @@ export default function Page() {
 
   const dispatch = useDispatch();
   const router = useRouter();
-  const existPrice = useSelector((state) => state.editForm.editlist?.GroundPrice);
+  const [existPrice, setExistPrice] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const datas = JSON.parse(localStorage.getItem("data")) || {};
+      setExistPrice(datas.GroundPrice);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchService = async () => {
       try {
-        setGroundPrice(existPrice)
-       const response = await axios.get("https://backend.bedbd.com/api/service-rate");
+        setGroundPrice(existPrice);
+        const response = await axios.get("https://backend.bedbd.com/api/service-rate");
         setData((prevData) => ({
           ...response.data,
           minPrice: existPrice || 0, // Fallback to minPrice if existPrice is undefined
@@ -37,12 +44,15 @@ export default function Page() {
   const handleSubmitImage = async (e) => {
     e.preventDefault();
     try {
-      const payload = { price, serviceFee, tax,
-         groundPrice};
-         
+      const payload = { price, serviceFee, tax, GroundPrice: groundPrice };
       await dispatch(updateFormData(payload));
-      console.log("Form Data Submitted:", payload);
-      router.push("/edit-listing/availability");
+      if (typeof window !== "undefined") {
+        const update = JSON.parse(localStorage.getItem("data")) || {};
+        update.GroundPrice = groundPrice;
+        localStorage.setItem("data", JSON.stringify(update));
+        router.push("/edit-listing/availability");
+      }
+     
     } catch (error) {
       console.error("Error submitting form data:", error);
     }

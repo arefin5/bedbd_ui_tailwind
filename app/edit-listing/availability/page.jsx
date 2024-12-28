@@ -2,10 +2,9 @@
 "use client";
 import Icon from '/components/Icon';
 import InputRadioButton from './InputRadioButton';
-import {  useEffect, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { updateFormData } from '@/redux/list/editListSlice';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
 export default function Page() {
@@ -14,23 +13,26 @@ export default function Page() {
         checkInStart: '',
         allowExtend: '',
         bookingExtend: '',
-      
     });
     const router = useRouter();
     const dispatch = useDispatch();
-const existAvailAble=useSelector((state) => state.editForm.editlist?.availablecheck);
 
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('data')) || {};
 
-useEffect(() => {
-    // console.log(existAvailAble)
-    if (existAvailAble) {
-        setFormValues({
-            checkInStart: existAvailAble.checkInStart || '',
-            allowExtend: existAvailAble.allowExtend || '',
-            bookingExtend: existAvailAble.bookingExtend || '',
-        });
-    }
-}, [existAvailAble])
+        const storedFormValues = storedData.availablecheck
+        if (storedFormValues) {
+            setFormValues(storedFormValues);
+        }
+    }, []);
+
+    useEffect(() => {
+     const storedData = JSON.parse(localStorage.getItem('data')) || {};
+       
+       storedData.availablecheck=formValues;
+         localStorage.setItem("data", JSON.stringify(storedData));
+    }, [formValues]);
+
     const handleInputChange = (name, value) => {
         setFormValues((prev) => ({
             ...prev,
@@ -41,16 +43,15 @@ useEffect(() => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { checkInStart, allowExtend, bookingExtend   } = formValues;
+            const { checkInStart, allowExtend, bookingExtend } = formValues;
             const payload = { 
-                      availablecheck:{
-                      checkInStart, 
-                       allowExtend,
-                      bookingExtend 
+                availablecheck: {
+                    checkInStart, 
+                    allowExtend,
+                    bookingExtend 
                 }
-                };
+            };
             await dispatch(updateFormData(payload));
-          
             router.push('/edit-listing/approving');
         } catch (error) {
             console.log("Error: ", error);
@@ -59,7 +60,7 @@ useEffect(() => {
 
     const back = (e) => {
         e.preventDefault();
-        // console.log('Navigating to /add-listing/price');
+        console.log('Navigating to /add-listing/price');
         router.push('/edit-listing/price');
     };
 
@@ -103,6 +104,7 @@ useEffect(() => {
                                 type='text'
                                 name='specific'
                                 placeholder='Set Date'
+                                value={formValues.checkInStart}
                                 onChange={(e) => handleInputChange('checkInStart', e.target.value)}
                             />
                         )}
@@ -140,6 +142,7 @@ useEffect(() => {
                                 type='text'
                                 name='allowExtend'
                                  placeholder='Set Maximum night'
+                                value={formValues.allowExtend}
                                 onChange={(e) => handleInputChange('allowExtend', e.target.value)}
                             />
                         )}
@@ -177,6 +180,7 @@ useEffect(() => {
                             type='name'
                             name='allow-night'
                             placeholder='Set date'
+                            value={formValues.bookingExtend}
                             onChange={(e) => handleInputChange('bookingExtend', e.target.value)}
                             />
                         )}
