@@ -11,7 +11,7 @@ import { updateFormData } from '@/redux/list/createListSlice';
 export default function Page() {
   // State to store counter values
   const [roomCounts, setRoomCounts] = useState({
-    bedRoom: 0,
+    bedRoom: 1,
     diningRoom: 0,
     washRoom: 0,
     others: 0,

@@ -1,201 +1,418 @@
 
-"use client"
-import Icon from '/components/Icon'
-import Feature from './Feature'
+// "use client"
+// import Icon from '/components/Icon'
+// import Feature from './Feature'
 
-import { Plus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useDispatch, useSelector } from 'react-redux'
+// import { Plus } from 'lucide-react'
+// import { useRouter } from 'next/navigation'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { updateFormData } from '@/redux/list/editListSlice';
+
+// import getAllTimeSegments from './getAllTimeSegments'
+// import OptionIcon from './OptionIcon'
+// import { useEffect, useState } from 'react'
+
+
+
+// function getHomeRules() {
+//     return [
+//         { "_id": "663a0b374ec144ec33e4f103", "title": "In House Smoking allowed" },
+//         { "_id": "663a0b6b4ec144ec33e4f104", "title": "Parties/events allowed" },
+//         { "_id": "663a0b8b4ec144ec33e4f105", "title": "Pet allowed" }
+//     ];
+// }
+
+// export default function Page() {
+//     const timeSegments = getAllTimeSegments();
+//     const router = useRouter();
+//     const dispatch = useDispatch();
+//     const [checkInTime, setCheckInTime] = useState('12:00 AM');
+//     const [checkOutTime, setCheckOutTime] = useState('12:00 AM');
+
+//     const initialData = getHomeRules();
+//     const [homeTitle, setHomeTitle] = useState(initialData);
+
+//     const [checkedItems, setCheckedItems] = useState([]);
+//     const [newTitle, setNewTitle] = useState('');
+//     const [isAdding, setIsAdding] = useState(false); // New state for toggling input visibility
+//     const [error, setErrors] = useState(false);
+//     // Load data from localStorage on component mount
+//     useEffect(() => {
+//         const storedHomeTitle = localStorage.getItem('homeTitle');
+//         const storedCheckedItems = localStorage.getItem('checkedItems');
+//         const storedCheckInTime = localStorage.getItem('checkInTime');
+//         const storedCheckOutTime = localStorage.getItem('checkOutTime');
+        
+//         if (storedHomeTitle) {
+//             setHomeTitle(JSON.parse(storedHomeTitle));
+//         }
+//         if (storedCheckedItems) {
+//             setCheckedItems(JSON.parse(storedCheckedItems));
+//         }
+//         if (storedCheckInTime) {
+//             setCheckInTime(storedCheckInTime);
+//         }
+//         if (storedCheckOutTime) {
+//             setCheckOutTime(storedCheckOutTime);
+//         }
+//     }, []);
+
+//     // Update localStorage whenever homeTitle, checkedItems, checkInTime, or checkOutTime change
+//     useEffect(() => {
+//         localStorage.setItem('homeTitle', JSON.stringify(homeTitle));
+//     }, [homeTitle]);
+
+//     useEffect(() => {
+//         localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+//     }, [checkedItems]);
+
+//     useEffect(() => {
+//         if (checkInTime) {
+//             localStorage.setItem('checkInTime', checkInTime);
+//         }
+//     }, [checkInTime]);
+
+//     useEffect(() => {
+//         if (checkOutTime) {
+//             localStorage.setItem('checkOutTime', checkOutTime);
+//         }
+//     }, [checkOutTime]);
+
+//     function toggleCheck(id) {
+//         setCheckedItems((prev) => {
+//             if (prev.includes(id)) {
+//                 return prev.filter((item) => item !== id);
+//             }
+//             return [...prev, id];
+//         });
+//     }
+
+//     function startAddingOption() {
+//         setIsAdding(true);
+//     }
+
+//     function saveNewOption() {
+//         if (!newTitle.trim()) {
+//             alert('Please fill in the title.');
+//             return;
+//         }
+//         const newOption = {
+//             _id: Math.random().toString(36).substr(2, 9), // Unique ID
+//             title: newTitle
+//         };
+//         setHomeTitle((prev) => [...prev, newOption]);
+//         setNewTitle('');
+//         setIsAdding(false); // Hide inputs after saving
+//     }
+
+//     const handleContinue = async (e) => {
+//         e.preventDefault();
+//         try {
+//             if (!checkInTime || !checkOutTime) {
+//                 // alert('Please select both check-in and check-out times before continuing.');
+//             setErrors(true)
+//                 return; // Stop further execution
+//             }
+//             const selectedItems = homeTitle.filter(item => checkedItems.includes(item._id));
+//             const payload = {
+//                 homeRule: selectedItems, // Store full details of selected items
+//                 checkInTime,
+//                 checkOutTime
+//             };
+
+//             await dispatch(updateFormData(payload)); 
+//             router.push('/edit-listing/upload-images'); 
+//         } catch (error) {
+//             setErrors(true)
+//             console.error(error);
+//         }
+//     };
+
+//     const back = (e) => {
+//         e.preventDefault();
+//         router.push('/edit-listing/amenities');
+//     };
+
+//     return (
+//         <div className="min-h-screen py-20">
+//             <div>
+//                 <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Home Rules</h2>
+//                 {error && <div className="text-center error-message text-red-500">
+//           please Select Home Rules   
+//         </div>}
+//                 <form className="w-full max-w-3xl ml-auto mr-auto mt-28 px-8 ">
+//                     <div className="space-y-4" id="property_booking_types">
+//                         {homeTitle.map((item) => (
+//                             <Feature
+//                                 key={item._id}
+//                                 data={item}
+//                                 isChecked={checkedItems.includes(item._id)}
+//                                 toggleCheck={toggleCheck}
+//                             />
+//                         ))}
+//                     </div>
+//                     {!isAdding && (
+//                         <button
+//                             type="button"
+//                             onClick={startAddingOption}
+//                             className="flex gap-x-2 mt-3 text-neutral-600 text-base font-medium"
+//                         >
+//                             <Plus className="icon" />
+//                             Add more option
+//                         </button>
+//                     )}
+//                     {isAdding && (
+//                         <div className="mt-6">
+//                             <input
+//                                 type="text"
+//                                 value={newTitle}
+//                                 placeholder="Home Rules.."
+//                                 onChange={(e) => setNewTitle(e.target.value)}
+//                                 className="form-input"
+//                             />
+//                             <button
+//                                 type="button"
+//                                 onClick={saveNewOption}
+//                                 className="btn btn-primary"
+//                             >
+//                                 Save
+//                             </button>
+//                         </div>
+//                     )}
+
+//                     <div className='mt-10 flex gap-x-10 justify-between'>
+//                         <div className='w-full max-w-80'>
+//                             <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-out (GMT +6)</h3>
+//                             <div className='relative'>
+//                                 <select 
+//                                     name='check-out-time'
+//                                     id='select_check_out'
+//                                     value={checkOutTime}
+//                                     onChange={(e) => setCheckOutTime(e.target.value)}
+//                                     className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
+//                                 >
+//                                     {timeSegments.map(item => (
+//                                         <option key={item.hour + item.minute} 
+//                                             value={`${item['hour']}:${item['minute']} ${parseInt(item['hour']) < 12 ? 'AM' : 'PM'}`}>
+//                                             {`${item['hour']}:${item['minute']} ${item['meridiem']}`}
+//                                         </option>
+//                                     ))}
+//                                 </select>
+//                                 <Icon name='chevron-down' className="icon absolute-y-center right-4 -z-10" />
+//                             </div>
+//                         </div>
+//                         <div className='w-full max-w-80'>
+//                             <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-in (GMT +6)</h3>
+//                             <div className='relative'>
+//                                 <select
+//                                     name='check-in-time'
+//                                     id='select_check_in'
+//                                     value={checkInTime}
+//                                     className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
+//                                     onChange={(e) => setCheckInTime(e.target.value)}
+//                                 >
+//                                     {timeSegments.map(item => (
+//                                         <option key={item.hour + item.minute} 
+//                                             value={`${item['hour']}:${item['minute']} ${parseInt(item['hour']) < 12 ? 'AM' : 'PM'}`}>
+//                                             {`${item['hour']}:${item['minute']} ${item['meridiem']}`}
+//                                         </option>
+//                                     ))}
+//                                 </select>
+//                                 <Icon name='chevron-down' className="icon absolute-y-center right-4 -z-10" />
+//                             </div>
+//                         </div>
+//                     </div>
+
+//                     <div className="flex gap-x-8 mt-14">
+//                         <button className="btn btn-secondary max-w-36 relative" onClick={back}>
+//                             <Icon name='chevron-left' className="icon absolute-y-center left-4" /> 
+//                             Back
+//                         </button>
+//                         <button className="btn btn-primary" onClick={handleContinue}>
+//                             Continue
+//                         </button>
+//                     </div>
+//                 </form>
+//             </div>
+//         </div>
+//     );
+// }
+"use client";
+import Icon from '/components/Icon';
+import Feature from './Feature';
+import { Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFormData } from '@/redux/list/editListSlice';
+import getAllTimeSegments from './getAllTimeSegments';
+import { useEffect, useState } from 'react';
 
-import getAllTimeSegments from './getAllTimeSegments'
-import OptionIcon from './OptionIcon'
-import { useEffect, useState } from 'react'
-
-
+function getHomeRules() {
+    return [
+        { "_id": "663a0b374ec144ec33e4f103", "title": "In House Smoking allowed" },
+        { "_id": "663a0b6b4ec144ec33e4f104", "title": "Parties/events allowed" },
+        { "_id": "663a0b8b4ec144ec33e4f105", "title": "Pet allowed" }
+    ];
+}
 
 export default function Page() {
-  const [propertyTitle, setTitle] = useState("");
-  const [description, setdescription] = useState('');
-  const [propertyFeature, setpropertyFeature] = useState({});
-  const [submiteProperty,setSubmiteProperty]=useState({})
-  const currentFormData = useSelector((state) => state.editForm);
-  const currentFormDataProperty = useSelector((state) => state.editForm.editlist?.homerule || {});
-  const [features, setFeatures] = useState([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [newFeatureTitle, setNewFeatureTitle] = useState('');
-  const [newFeatureDescription, setNewFeatureDescription] = useState('');
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const [checkInTime, setCheckInTime] = useState('');
-  const [checkOutTime, setCheckOutTime] = useState('');
-  const timeSegments = getAllTimeSegments();
-  const checkInTimeOrCheckOut=useSelector((state) => state.editForm.editlist);
-  const [loading, setLoading] = useState(true); // Loading state
+    const timeSegments = getAllTimeSegments();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const [checkInTime, setCheckInTime] = useState('12:00 AM');
+    const [checkOutTime, setCheckOutTime] = useState('12:00 AM');
 
-  useEffect(() => {
-    setCheckInTime(checkInTimeOrCheckOut?.checkInTime);
-    setCheckOutTime(checkInTimeOrCheckOut?.checkOutTime);
-    console.log(currentFormDataProperty)
-     setFeatures(currentFormDataProperty?.homesRoules);
-     console.log("home rule",features)
-  }, [checkInTimeOrCheckOut,currentFormDataProperty]);
+    const initialData = getHomeRules();
+    const [homeTitle, setHomeTitle] = useState(initialData);
 
+    const [checkedItems, setCheckedItems] = useState([]);
+    const [newTitle, setNewTitle] = useState('');
+    const [isAdding, setIsAdding] = useState(false); // New state for toggling input visibility
+    const [error, setErrors] = useState(false);
 
-  const handleContinue = async (e) => {
-    console.log("test console from home rule ")
-      e.preventDefault();
-   
+    // Load data from localStorage on component mount
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('data')) || {};
+        const storedHomeTitle = storedData.homeRule || [];
+        const storedCheckedItems = storedHomeTitle.map(item => item._id);
+        const storedCheckInTime = storedData.checkInTime || '12:00 AM';
+        const storedCheckOutTime = storedData.checkOutTime || '12:00 AM';
 
-//    console.log("propertyFeature",propertyFeature);
-// console.log("features",features);
+        setHomeTitle(storedHomeTitle.length ? storedHomeTitle : initialData);
+        setCheckedItems(storedCheckedItems);
+        setCheckInTime(storedCheckInTime);
+        setCheckOutTime(storedCheckOutTime);
+    }, []);
 
-console.log("submiteProperty in Page",submiteProperty)
+    // Update localStorage whenever homeTitle, checkedItems, checkInTime, or checkOutTime change
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('data')) || {};
+        storedData.homeRule = homeTitle;
+        storedData.checkInTime = checkInTime;
+        storedData.checkOutTime = checkOutTime;
+        localStorage.setItem('data', JSON.stringify(storedData));
+    }, [homeTitle, checkInTime, checkOutTime]);
 
-const combinedFeatures = [
-    ...Object.values(submiteProperty),
-    ...Object.values(features),
-];
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('data')) || {};
+        storedData.checkedItems = checkedItems;
+        localStorage.setItem('data', JSON.stringify(storedData));
+    }, [checkedItems]);
 
-// Construct homesRules
-const homesRules = combinedFeatures.reduce((acc, feature) => {
-    acc[feature.name] = { name: feature.name, value: feature.value };
-    return acc;
-}, {});
+    function toggleCheck(id) {
+        setCheckedItems((prev) => {
+            if (prev.includes(id)) {
+                return prev.filter((item) => item !== id);
+            }
+            return [...prev, id];
+        });
+    }
 
-const payload = {
-    homesRules:homesRules, 
-    checkInTime, 
-    checkOutTime,
-};
-  
+    function startAddingOption() {
+        setIsAdding(true);
+    }
 
-    console.log(payload);
-    //   console.log(payload)
+    function saveNewOption() {
+        if (!newTitle.trim()) {
+            alert('Please fill in the title.');
+            return;
+        }
+        const newOption = {
+            _id: Math.random().toString(36).substr(2, 9), // Unique ID
+            title: newTitle
+        };
+        setHomeTitle((prev) => [...prev, newOption]);
+        setNewTitle('');
+        setIsAdding(false); // Hide inputs after saving
+    }
 
-      await dispatch(updateFormData(payload));
-      console.log(payload)
-       router.push('/edit-listing/upload-images');
-  };
+    const handleContinue = async (e) => {
+        e.preventDefault();
+        try {
+            if (!checkInTime || !checkOutTime) {
+                setErrors(true);
+                return; // Stop further execution
+            }
+            const selectedItems = homeTitle.filter(item => checkedItems.includes(item._id));
+            const payload = {
+                homeRule: selectedItems, // Store full details of selected items
+                checkInTime,
+                checkOutTime
+            };
 
-  const back = (e) => {
-      e.preventDefault();
-      router.push("/edit-listing/property-booking-types");
-  };
-const handleSaveNewFeature = (e) => {
-  e.preventDefault();
-  if (newFeatureTitle) {
-      const newFeature = {
-          name: newFeatureTitle, // Use name as the key
-        //   description: newFeatureDescription,
-          value: false, // Default unchecked value
-      };
+            await dispatch(updateFormData(payload));
+            router.push('/edit-listing/upload-images');
+        } catch (error) {
+            setErrors(true);
+            console.error(error);
+        }
+    };
 
-      // Use name as the key in propertyFeature
-      setpropertyFeature((prevPropertyFeature) => ({
-          ...prevPropertyFeature,
-          [newFeature.name]: newFeature,
-      }));
-      setFeatures((prevPropertyFeature) => ({
-        ...prevPropertyFeature,
-        [newFeature.name]: newFeature,
-    }));
-      // Reset the form
-      setNewFeatureTitle('');
-    //   setNewFeatureDescription('');
-      setShowAddForm(false);
-  } else {
-      alert("Please fill in both the feature title and description.");
-  }
-};
-const handleAddMore = () => {
-  setShowAddForm(true);
-};
+    const back = (e) => {
+        e.preventDefault();
+        router.push('/edit-listing/amenities');
+    };
 
-  return (
-      <div className="min-h-screen py-20">
-          <div className="">
-              <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Home Rule</h2>
-              <form className="w-full max-w-2xl ml-auto mr-auto mt-28 px-8">
-                  <p className='mb-4 text-neutral-500 font-normal text-sm'>Lorem ipsum dolor sit amet consectetur. Gravida faucibus massa dignissim malesuada felis.</p>
-                 
-                
-            { features ? (
-  Object.entries(features).map(([key, value]) => (
-    <Feature
-      key={key}
-      id={key}
-      data={value}
-      setpropertyFeature={setpropertyFeature}
-      propertyFeature={propertyFeature}
-      submiteProperty={submiteProperty}
-      setSubmiteProperty={setSubmiteProperty}
-    />
-  ))
-) : (
-  <p className="text-center text-neutral-500">You have not yet any homeRule.</p>
-)}
-                 
-                  {/* "Add More Option" button */}
-                  {!showAddForm && (
-                      <button
-                          className='flex gap-x-2 mt-3 text-neutral-600 text-base font-medium'
-                          onClick={handleAddMore}
-                      >
-                          <Plus className='icon' />
-                          Add more option
-                      </button>
-                  )}
+    return (
+        <div className="min-h-screen py-20">
+            <div>
+                <h2 className="text-primary-400 text-4xl text-center font-medium mb-12">Home Rules</h2>
+                {error && <div className="text-center error-message text-red-500">
+                    Please select Home Rules
+                </div>}
+                <form className="w-full max-w-3xl ml-auto mr-auto mt-28 px-8 ">
+                    <div className="space-y-4" id="property_booking_types">
+                        {homeTitle.map((item) => (
+                            <Feature
+                                key={item._id}
+                                data={item}
+                                isChecked={checkedItems.includes(item._id)}
+                                toggleCheck={toggleCheck}
+                            />
+                        ))}
+                    </div>
+                    {!isAdding && (
+                        <button
+                            type="button"
+                            onClick={startAddingOption}
+                            className="flex gap-x-2 mt-3 text-neutral-600 text-base font-medium"
+                        >
+                            <Plus className="icon" />
+                            Add more option
+                        </button>
+                    )}
+                    {isAdding && (
+                        <div className="mt-6">
+                            <input
+                                type="text"
+                                value={newTitle}
+                                placeholder="Home Rules.."
+                                onChange={(e) => setNewTitle(e.target.value)}
+                                className="form-input"
+                            />
+                            <button
+                                type="button"
+                                onClick={saveNewOption}
+                                className="btn btn-primary"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    )}
 
-                  {/* Form for adding a new feature, hidden initially */}
-                  {showAddForm && (
-                      <div className='mt-6'>
-                          <h3 className="text-neutral-500 font-medium text-xl mb-4">Home Rules</h3>
-                          <input
-                              name='new_feature_title'
-                              type='text'
-                              className='form-input'
-                              placeholder='Enter new Home Rule'
-                              value={newFeatureTitle}
-                              onChange={(e) => setNewFeatureTitle(e.target.value)}
-                          />
-                          {/* <h3 className="text-neutral-500 font-medium text-xl mt-4 mb-4">Feature Description</h3>
-                          <textarea
-                              rows="2"
-                              name='new_feature_description'
-                              className='form-input'
-                              placeholder='Enter new feature description'
-                              value={newFeatureDescription}
-                              onChange={(e) => setNewFeatureDescription(e.target.value)}
-                          /> */}
-
-                          {/* Button to save the new feature */}
-                          <button
-                              className='btn btn-primary mt-4'
-                              onClick={handleSaveNewFeature}
-                          >
-                              Save HomeRule
-                          </button>
-                      </div>
-                  )}
-
-
-                  <div className='mt-10 flex gap-x-10 justify-between'>
-                        
-
+                    <div className='mt-10 flex gap-x-10 justify-between'>
                         <div className='w-full max-w-80'>
                             <h3 className='text-neutral-600 text-xl mb-2 font-medium'>Check-out (GMT +6)</h3>
                             <div className='relative'>
-                                <select 
+                                <select
                                     name='check-out-time'
                                     id='select_check_out'
                                     value={checkOutTime}
                                     onChange={(e) => setCheckOutTime(e.target.value)}
-                                    className=
-                                    "outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
+                                    className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
                                 >
                                     {timeSegments.map(item => (
-                                        <option key={item.hour + item.minute} 
+                                        <option key={item.hour + item.minute}
                                             value={`${item['hour']}:${item['minute']} ${parseInt(item['hour']) < 12 ? 'AM' : 'PM'}`}>
                                             {`${item['hour']}:${item['minute']} ${item['meridiem']}`}
                                         </option>
@@ -210,12 +427,12 @@ const handleAddMore = () => {
                                 <select
                                     name='check-in-time'
                                     id='select_check_in'
+                                    value={checkInTime}
                                     className="outline-none w-full bg-transparent text-sm text-left py-3.5 px-6 font-semibold text-neutral-500 border border-neutral-400 rounded-md"
                                     onChange={(e) => setCheckInTime(e.target.value)}
-                                value={checkInTime}
                                 >
                                     {timeSegments.map(item => (
-                                        <option key={item.hour + item.minute} 
+                                        <option key={item.hour + item.minute}
                                             value={`${item['hour']}:${item['minute']} ${parseInt(item['hour']) < 12 ? 'AM' : 'PM'}`}>
                                             {`${item['hour']}:${item['minute']} ${item['meridiem']}`}
                                         </option>
@@ -225,17 +442,18 @@ const handleAddMore = () => {
                             </div>
                         </div>
                     </div>
-                  <div className="flex gap-x-8 mt-14">
-                      <button className="btn btn-secondary max-w-36 relative" onClick={back}>
-                          Back
-                      </button>
-                      <button className="btn btn-primary" onClick={handleContinue}>
-                          Continue
-                      </button>
-                  </div>
-              </form>
-          </div>
-      </div>
-  );
-}
 
+                    <div className="flex gap-x-8 mt-14">
+                        <button className="btn btn-secondary max-w-36 relative" onClick={back}>
+                            <Icon name='chevron-left' className="icon absolute-y-center left-4" />
+                            Back
+                        </button>
+                        <button className="btn btn-primary" onClick={handleContinue}>
+                            Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
