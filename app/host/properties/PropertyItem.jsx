@@ -64,7 +64,7 @@ const dispatch = useDispatch();
                     rounded-lg text-base w-full border-primary-400 py-2">Preview
                         <Link href={`/listing/${id}`}></Link>
                     </buttom>}
-                    <div className={`${listView && 'mx-auto'}w-40 flex gap-4  text-neutral-800`}>
+                    <div className={`${listView && 'mx-auto'} w-40 flex gap-4  text-neutral-800`}>
                         <div className="p-2 rounded-xl hover:bg-green-50" onClick={(event) => handleEditClick(data, event)}  >
                             <FilePen className="icon" size={24}/>
                         </div>
