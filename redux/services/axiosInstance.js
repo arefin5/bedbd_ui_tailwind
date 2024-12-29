@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  crossOrigin: 'anonymous',
 });
 
 const { handleLogout } = Logout();
