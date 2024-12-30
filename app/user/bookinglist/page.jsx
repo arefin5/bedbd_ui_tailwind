@@ -1,15 +1,13 @@
-
-
 "use client";
 import { useState, useEffect } from "react";
 import axiosInstance from "@/redux/services/axiosInstance";
 import { useRouter } from "next/navigation";
 
-export default function Page() {
+export default function page() {
   const [fetchFlag, setFetchFlag] = useState(false);
   const [bookingList, setBookingList] = useState([]);
   const router = useRouter();
-
+   const [errorMsg,setError]=useState("")
   const fetchSuccess = async () => {
     try {
       const response = await axiosInstance.get("/user-booking-list");
@@ -38,79 +36,91 @@ export default function Page() {
       }
     } catch (error) {
       console.error("Error approving booking:", error);
-      alert("Failed to approve the booking.");
+      setError("Failed to approve the booking.");
     }
   };
 
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return `${date.getUTCFullYear()}/${String(date.getUTCMonth() + 1).padStart(
-      2,
-      "0"
-    )}/${String(date.getUTCDate()).padStart(2, "0")}`;
+  
+  const formatDate = (isoDateStr) => {
+    const date = new Date(isoDateStr);
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    const year = date.getUTCFullYear();
+    const month = monthNames[date.getUTCMonth()]; // Get month name
+    const day = String(date.getUTCDate()).padStart(2, "0"); // Format day to 2 digits
+
+    return `${month} ${day}, ${year}`;
   };
 
   return (
-    <div className="w-full">
-      <h1>Book-list</h1>
+    <div className='w-full h-full min-h-screen py-10 px-6 '>
+      <h2 className='text-primary-400 text-3xl font-medium'>Booking History</h2>
+      <div className='text-neutral-600 font-medium text-base'>
+      {
+                        errorMsg && <div className='error-message text-red-500'>
+                        {errorMsg}
+                        </div>
+                    }
+        <ul className='grid grid-cols-[192px_180px_256px_128px_136px_146px_192px] rounded-lg border border-neutral-100 py-4 mt-6 text-center text-neutral-600 text-base font-medium'>
+          <li className=''>Name</li>
+          <li className=''>Booking Date</li>
+          <li className=''>Check-In-Out</li>
+          <li className=''>txn Id</li>
+          <li className=''>Total</li>
+          <li className=''>Status</li>
+          <li className=''>cancle</li>
+        </ul>
+        {bookingList.length > 0 ? (
 
-      <h2>Bookings</h2>
-      {bookingList.length > 0 ? (
-        <table className="min-w-full table-auto mb-8">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border">Title</th>
-              <th className="px-4 py-2 border">Price</th>
-              <th className="px-4 py-2 border">Check In</th>
-              <th className="px-4 py-2 border">Check Out</th>
-              <th className="px-4 py-2 border">Status</th>
-              <th className="px-4 py-2 border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+
+          <>
             {bookingList.map((item) => (
-              <tr key={item._id}>
-                <td className="px-4 py-2 border">{item.property.propertyTitle}</td>
-                <td className="px-4 py-2 border">{item.price}</td>
-                <td className="px-4 py-2 border">{formatDate(item.checkinDate)}</td>
-                <td className="px-4 py-2 border">{formatDate(item.checkoutDate)}</td>
-                <td className="px-4 py-2 border">{item.status}</td>
-                <td className="px-4 py-2 border">
-                  {/* <button
-                    onClick={() => claimPayment(item._id)}
-                    className={`px-4 py-2 rounded ${item.status === "hostApproved"
-                        ? "bg-green-500 text-white"
-                        : "bg-red-400 text-white cursor-not-allowed"
-                      }`}
-
-                    disabled={!(item.status === "hostApproved")}
-                  >
-                    Pay
-                  </button> */}
-                  <button
-                    onClick={() => claimPayment(item._id)}
-                    className={`px-4 py-2 rounded ${item.status === "hostApproved"
-                        ? "bg-green-500 text-white"
-                        : item.status === "pending"
-                          ? "bg-gray-400 text-white cursor-not-allowed"
-                          : "bg-blue-500 text-white"
-                      }`}
-                    disabled={item.status === "pending"}
-                  >
-                    {item.status === "hostApproved"
-                      ? "Pay"
-                      : item.status === "pending"
-                        ? "Waiting"
-                        : "Cancel"}
-                  </button>
-                </td>
-              </tr>
+              <div className='text-neutral-400 text-base font-medium mt-3 space-y-4'>
+                {/* Booking Item  1*/}
+                <ul className='grid grid-cols-[192px_180px_256px_128px_136px_146px_192px] py-3 border-b'>
+                  <li className='pl-6'>{item.property.propertyTitle}</li>
+                  <li className='pl-6'>{formatDate(item.createdAt)}</li>
+                  <li className='pl-10'>{formatDate(item.checkinDate)} {formatDate(item.checkoutDate)} </li>
+                  <li className='pl-8 text-secondary-400'>22456</li>
+                  <li className='pl-8'>{item.price} tk</li>
+                  <li className='pl-8'>{item.status}</li>
+                  {/*  */}
+                  {
+                    item.status === "paymentsuccess" ? (<>
+                      <li className='pl-8 text-secondary-400'>cancell</li>
+                    </>) : (
+                      <>
+                        <li
+                          onClick={() => claimPayment(item._id)}
+                          className={` className='pl-8  ml-2 text-secondary-400' ${item.status === "hostApproved"
+                            ? "text-secondary-400"
+                            : item.status === "pending"
+                              ? " text-secondary-400 cursor-not-allowed"
+                              : "text-secondary"
+                            }`}
+                          disabled={item.status === "pending"}
+                        >
+                          {item.status === "hostApproved"
+                            ? "Pay"
+                            : item.status === "pending" ?
+                              "pending"
+                              : "pay"
+                          }
+                        </li>
+                      </>
+                    )
+                  }
+                </ul>
+              </div>
             ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No bookings available.</p>
-      )}
+          </>
+        )
+          : (<>
+
+          </>)}
+      </div>
     </div>
-  );
+  )
 }

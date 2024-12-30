@@ -1,17 +1,27 @@
-
+"use client"
 import SVGCercle from '../../../public/circle.svg'
 import Image from 'next/image'
 import Icon from '/components/Icon'
 import ToggleButton from '/components/ToggleButton'
 
+import Link from 'next/link';
+
 export default function page() {
+const router=useRouter();
+const GoBack=()=>{
+    router.push("/user/profile")
+}
   return (
     <div className='w-full h-full pt-16 pl-20 pr-4 '>
         <div className='relative'>
-            <h3 className='text-primary-400 text-2xl font-semibold'>Privacy & Sharing</h3>
-            <button className='absolute-y-center -left-10'>
+        <Link href="/user/privacy-sharing/data">
+        <h3 className='text-primary-400 text-2xl font-semibold'>Privacy & Sharing</h3>
+            
+          
+            <button className='absolute-y-center -left-10' onClick={GoBack}>
                 <Icon className='icon' name='arrow-left' size={24} />
             </button>
+            </Link>
         </div>
 
         {/* Switching Button */}
@@ -32,17 +42,22 @@ export default function page() {
                     <p className='text-sm pr-12 text-neutral-500'>You can make a request to download or delete your data from bedbd.</p>
                 </div>
                 <div className=' relative'>
-                    <h3 className='text-neutral-500 font-semibold text-lg'>Request your data</h3>
+                   <Link href="/user/request-personal-data">
+                   <h3 className='text-neutral-500 font-semibold text-lg'>Request your data</h3>
                     <button className='absolute top-1 right-12 '><Icon name='arrow-right' className='icon '  size={24}/></button>
 
                     <p className='text-sm pr-12  mt-4'>We’ll create a file for you to download your personal data</p>
-                </div>
+                
+                   </Link>
+                   </div>
 
                 <div className='relative'>
+                <Link href="/user/privacy-sharing/delete-account">
                     <button className='absolute top-1 right-12 '><Icon name='arrow-right' className='icon '  size={24}/></button>
 
                     <h3 className='text-neutral-500 font-semibold text-lg'>Delete your account</h3>
                     <p className='text-sm pr-12 mt-4'>Ths will permanently delete your account & your data.</p>
+                    </Link>
                 </div>
             </div>
 

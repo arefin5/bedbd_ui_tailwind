@@ -1,14 +1,16 @@
 import Icon from "/components/Icon"
-
+import Link from "next/link"
 
 export default function page() {
   return (
     <div className='w-full h-full pt-16 pl-20 pr-4 '>
       <div className='relative'>
+          <Link href="/user/privacy-sharing/data">
           <h3 className='text-primary-400 text-2xl font-semibold'>Privacy & Sharing</h3>
           <button className='absolute-y-center -left-10'>
               <Icon className='icon' name='arrow-left' size={24} />
           </button>
+          </Link>
       </div>
 
         

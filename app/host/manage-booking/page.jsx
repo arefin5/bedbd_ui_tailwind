@@ -10,6 +10,9 @@ const BookingList = () => {
   const [upComing,setUpComing]=useState([]);
   const [complete,setComplete]=useState([]);
   const [fetchFlag, setFetchFlag] = useState(false);
+  const [customError,setCustomError]=useState(false);
+  const [success,setSuccess]=useState(true);
+
   const fetchSuccess = async () => {
     try {
         const response = await axiosInstance.get("/host-pending-booking-list");
@@ -70,8 +73,8 @@ useEffect(() => {
         if (response.status === 200) {
             // Remove the approved booking from the list immediately
             setPendingList(pendingList.filter(item => item._id !== bookingId));
-            alert("Booking approved!");
-
+            // alert("Booking approved!");
+              setSuccess(true);
             setFetchFlag(prev => !prev);
         }
     } catch (error) {
@@ -80,15 +83,15 @@ useEffect(() => {
     }
 };
 const handleRejected=async(bookingId)=>{
-  console.log("rejected list ");
+  // console.log("rejected list ");
 
   try {
     const response = await axiosInstance.post(`/reject-booking/${bookingId}`);
     if (response.status === 200) {
         // Remove the approved booking from the list immediately
         setPendingList(pendingList.filter(item => item._id !== bookingId));
-        alert("Booking decline!");
-
+        // alert("Booking decline!");
+           
         setFetchFlag(prev => !prev);
     }
 } catch (error) {

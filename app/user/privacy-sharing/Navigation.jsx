@@ -11,13 +11,13 @@ export default function Navigation() {
         <li className='inline text-neutral-800 '>
             <button 
                 type="button" 
-                onClick={() => router.push('/data')} 
+                onClick={() => router.push('/user/privacy-sharing/data')} 
                 className='pr-2.5'>Data</button>
         </li>
         <li className='inline text-neutral-400'>
             <button 
                 type="button" 
-                onClick={() => router.push('/sharing')} 
+                onClick={() => router.push('/user/privacy-sharing/sharing')} 
                 className='pr-2.5'>Sharing</button></li>
     </ul>
   )

@@ -16,10 +16,11 @@ export default function Page() {
     const [image, setImage] = useState({});
     const varificationId=null;
     const varificationIdType=null;
+    const [errorMsg, seterrorMsg] = useState("");
     
     useEffect(() => {
       if (!user || !user.isEmailVerified || !user.isPhoneVerified || !token) {
-        alert("Please verify your email and phone number.");
+        seterrorMsg("Please verify your email and phone number.");
         router.push("/user/profile");
       } 
       // console.log(user)
@@ -40,7 +41,7 @@ export default function Page() {
         const { data } = await axios.post("https://backend.bedbd.com/api/images/single-image-upload", formData);
         setImage({ url: data.url, public_id: data.public_id });
       } catch (err) {
-        console.error("Image upload error:", err);
+        seterrorMsg("Image upload error:");
       } finally {
         setUploading(false);
       }
@@ -78,6 +79,11 @@ export default function Page() {
             <div className="pt-14 pb-24 sm:px-24 px-16 bg-secondary-50 w-screen
              max-w-3.5xl absolute-center rounded-2xl">
                 <h3 className="registration-form-title mb-12">Upload Document</h3>
+                {
+                        errorMsg && <div className='error-message text-red-500'>
+                        {errorMsg}
+                        </div>
+                    }
                 <form onSubmit={handleSubmit} className="w-96 relative-x-center rounded">
                     <select
                         name="doc-type"

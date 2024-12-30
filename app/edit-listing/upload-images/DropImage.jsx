@@ -9,7 +9,7 @@ export default function DropImage({ setImages }) {
   const [previewImages, setPreviewImages] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const [isDropEvent, setIsDropEvent] = useState(false);
-
+   const [errors,setErrors]=useState("")
   const MAX_FILE_SIZE_MB = 5;
   const SUPPORTED_FORMATS = ["image/jpeg", "image/png"];
 
@@ -31,11 +31,11 @@ export default function DropImage({ setImages }) {
   }, [setImages]);
   const validateFile = (file) => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
-      alert(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
+      setErrors(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
       return false;
     }
     if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-      alert(`${file.name} exceeds the maximum size of ${MAX_FILE_SIZE_MB}MB.`);
+      setErrors(`${file.name} exceeds the maximum size of ${MAX_FILE_SIZE_MB}MB.`);
       return false;
     }
     return true;
@@ -53,7 +53,7 @@ export default function DropImage({ setImages }) {
         validImages.push(previewUrl);
         validFileObjects.push({ file, preview: previewUrl });
       } else {
-        alert(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
+        setErrors(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
       }
     }
 
@@ -109,6 +109,11 @@ export default function DropImage({ setImages }) {
           onChange={handleChange}
           className="hidden"
         />
+        {
+  errors && <div className='error-message text-red-500'>
+                        {errors}
+                        </div>
+                    }
         <h3 className="text-center text-neutral-700 text-sm font-medium">Drag and drop or</h3>
         <div className="py-3 px-6 mt-6 mb-2.5 ml-auto mr-auto flex gap-x-4 w-fit text-neutral-600 text-base font-medium border rounded-lg border-neutral-200">
           <Plus className="icon" />
