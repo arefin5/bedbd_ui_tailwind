@@ -9,7 +9,7 @@ export default function DropImage({ setImages }) {
   const [previewImages, setPreviewImages] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const [isDropEvent, setIsDropEvent] = useState(false);
-
+   const [errors,setErrors]=useState("")
   const MAX_FILE_SIZE_MB = 5;
   const SUPPORTED_FORMATS = ["image/jpeg", "image/png"];
 
@@ -30,11 +30,12 @@ export default function DropImage({ setImages }) {
   }, [setImages]);
   const validateFile = (file) => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
-      alert(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
+
+      setErrors(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
       return false;
     }
     if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-      alert(`${file.name} exceeds the maximum size of ${MAX_FILE_SIZE_MB}MB.`);
+      setErrors(`${file.name} exceeds the maximum size of ${MAX_FILE_SIZE_MB}MB.`);
       return false;
     }
     return true;
@@ -79,7 +80,7 @@ export default function DropImage({ setImages }) {
         validImages.push(previewUrl);
         validFileObjects.push({ file, preview: previewUrl });
       } else {
-        alert(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
+        setErrors(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
       }
     }
 
@@ -145,6 +146,11 @@ export default function DropImage({ setImages }) {
         </h2>
       </div>
 
+{
+  errors && <div className='error-message text-red-500'>
+                        {errors}
+                        </div>
+                    }
       <div className="pt-10">
         <p>Arrange the photos in the desired order by clicking and dragging them for guests to view.</p>
         <div className="grid md:grid-cols-2 gap-4 mt-4">

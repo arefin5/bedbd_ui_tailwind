@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 import { userEdit } from '@/redux/features/auth/authSlice';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
+import Link from "next/link"
 export default function Page() {
     const dispatch = useDispatch();
     const router = useRouter();
@@ -32,7 +32,7 @@ export default function Page() {
 
     const [loadings,setLoadings]=useState(false);
     const [message,setMessage]=useState("")
-
+    const [customerr,setCustomError]=useState("")
     //   const handleDateChange = (e) => {
     //     const inputDate = e.target.value;
     //     setBirth(inputDate);
@@ -101,7 +101,7 @@ export default function Page() {
 
     const handleCopy = () => {
         navigator.clipboard.writeText(id).then(() => {
-            alert("User ID copied to clipboard!");
+            // alert("User ID copied to clipboard!");
         }).catch((error) => {
             console.error("Failed to copy text:", error);
         });
@@ -199,18 +199,24 @@ export default function Page() {
     return (
         <div className='w-full h-full pt-16 pl-20 pr-40'>
             <div className='relative'>
+                <Link href="/user/profile">
                 <h3 className='text-primary-400 text-2xl font-semibold'>Personal Info</h3>
                 <button className='absolute-y-center -left-10' onClick={() => router.back()}>
                     <Icon className='icon' name='arrow-left' size={24} />
                 </button>
+                </Link>
             </div>
 
             {image.url ? (
-                <Image src={image.url} height={120} width={120} alt="User Profile Image" onClick={triggerFileInput} />
+                <Image
+                className="top-48 left-8 w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100" 
+                src={image.url} height={120} width={120} alt="User Profile Image" onClick={triggerFileInput} />
             ) : uploading ? (
                 <p>Uploading...</p>
             ) : (
-                <Image src={SVGCercle} height={120} width={120} alt="Placeholder" onClick={triggerFileInput} />
+                <Image 
+                className="top-48 left-8 w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100"
+                src={SVGCercle} height={120} width={120} alt="Placeholder" onClick={triggerFileInput} />
             )}
 
             {/* Hidden file input */}
@@ -234,6 +240,7 @@ export default function Page() {
                     </button>
                 </div> */}
 
+                <div className="flex gap-3">
                 <div className='border w-1/2 rounded-lg relative py-3 px-4'>
                     <input
                         placeholder='First Name'
@@ -249,8 +256,11 @@ export default function Page() {
                         onChange={(e) => setlName(e.target.value)}
                     />
                 </div>
+                {/*  */}
+                </div>
 
-                <div className='border w-1/2 rounded-lg relative py-3 px-4'>
+               <div className='flex gap-2'>
+               <div className='border w-1/2 rounded-lg relative py-3 px-4'>
                     <input
                         placeholder='Phone'
                         value={phone}
@@ -268,6 +278,7 @@ export default function Page() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
+               </div>
 
                 <div className='border w-full rounded-lg relative py-3 px-4'>
                     <input

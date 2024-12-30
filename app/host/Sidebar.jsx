@@ -76,12 +76,12 @@ export default function Sidebar() {
             <span className="hidden xl:block">Dashboard</span>
           </li>
         </Link>
-        <Link href="/host/booklist">
+        {/* <Link href="/host/booklist">
           <li className={`flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg ${isActive("/host/booklist")}`}>
             <Icon name="layout-dashboard" className="icon" />
             <span className="hidden xl:block">Book List </span>
           </li>
-        </Link>
+        </Link> */}
         {/* booklist */}
         <Link href="/host/profile">
           <li className={`flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg ${isActive("/host/profile")}`}>

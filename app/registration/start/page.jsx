@@ -21,22 +21,23 @@ export default function Page() {
 
     const [loadings,setLoadings]=useState(false);
     const [message,setMessage]=useState("")
-
+    const [errorMsg,setErrorMsg]=useState("")
     useEffect(() => {
         if( !user || !user.isEmailVerified || !user.isPhoneVerified && !token ){
-            alert("please Verify your Email and Phone number ")
+            
+            setErrorMsg("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
         if(  !user.isEmailVerified){
-            alert("please Verify your Email and Phone number ")
+            setErrorMsg("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
         if(  !user.isPhoneVerified){
-            alert("please Verify your Email and Phone number ")
+            setErrorMsg("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
         if( !token ){
-            alert("please Verify your Email and Phone number ")
+            setErrorMsg("please Verify your Email and Phone number ")
             return router.push("/user/profile")
         }
         if (user.fname) setfName(user.fname);
@@ -105,6 +106,11 @@ export default function Page() {
         <div className='modal-background'>
             <div className='pt-14 pb-24 sm:px-24 px-16 bg-secondary-50 w-screen max-w-3.5xl | absolute-center rounded-2xl'>
                 <h3 className='registration-form-title mb-12'>Get Started</h3>
+                {
+                        errorMsg && <div className='error-message text-red-500'>
+                        {errorMsg}
+                        </div>
+                    }
                 <form>
                     <input 
                         className='form-input'
@@ -124,6 +130,7 @@ export default function Page() {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}  
                     />
+                    
                      {customeError && <div className='error-message text-red-500'>
                 please provide valid Phone number
               </div>}

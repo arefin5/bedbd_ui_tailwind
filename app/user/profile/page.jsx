@@ -20,7 +20,7 @@ export default function page() {
 
 </Link>
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
-       <Link href="/user">
+       <Link href="/user/security">
         <Icon name="shield-check" className="icon mb-[10px]"/>
         <h3 className="text-neutral-600 font-semibold mb-[10px] text-xl ">Login & Security</h3>
         <p className="font-medium text-base text-neutral-600">Update your password and secure your account</p>
@@ -37,7 +37,7 @@ export default function page() {
 
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
         <Icon name="shield-check" className="icon mb-[10px]"/>
-        <Link href="/user/privacy/data">
+        <Link href="/user/privacy-sharing/data">
         <h3 className="text-neutral-600 font-semibold mb-[10px] text-xl ">Privacy & Sharing</h3>
         </Link>
         <Link href="/user/request-personal-data">
@@ -45,12 +45,13 @@ export default function page() {
      </Link>
       </div>
 
-
+     <Link href="/user/payment-payout">
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
         <Icon name="shield-check" className="icon mb-[10px]"/>
         <h3 className="text-neutral-600 font-semibold mb-[10px] text-xl ">Payment & Payouts</h3>
         <p className="font-medium text-base text-neutral-600">Review payments, payouts, coupons and gift cards</p>
       </div>
+      </Link>
 
       <div className="bg-secondary-50 p-6 rounded-xl drop-shadow-sm shadow-sm hover:drop-shadow-md">
         <Icon name="shield-check" className="icon mb-[10px]"/>
