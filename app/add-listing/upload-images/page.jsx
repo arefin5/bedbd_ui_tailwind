@@ -86,15 +86,15 @@ export default function Page() {
     e.preventDefault();
   
     try {
-   
+      const formData = new FormData();
       images.filter((image) => image.file !== undefined) // Skip undefined values
       .forEach((image) => {
           formData.append('image', image.file);
       });
       const formDataLength = formData.getAll('image').length;
       const localImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
-      console.log("img length", localImages.length);
-      console.log("form data length", formDataLength);
+      // console.log("img length", localImages.length);
+      // console.log("form data length", formDataLength);
   
       switch (true) {
         case localImages.length >= 3 && formDataLength === 0:
