@@ -39,7 +39,7 @@ const   PropertyListWhiteList=({ data })=> {
   }, [data.reviews]);
 
   const availableDate = useMemo(() => {
-    return data.availablecheck?.checkInStart === "asap"
+    return data.availablecheck.checkInStart === "asap"
       ? data.createdAt
       : data.availablecheck?.checkInStart;
   }, [data.availablecheck, data.createdAt]);
@@ -86,7 +86,7 @@ const   PropertyListWhiteList=({ data })=> {
       <Link href={targetUrl} target="_blank" rel="noopener noreferrer">
         <div className="mt-2">
           <div className="inline-block float-left h-fit mt-auto text-xl text-neutral-500 font-semibold ">
-            {/* {data.location.streetAddress.replace(/^(.{10}).*$/, '$1...') + ', ' + data.location.country} */}
+            {data.?location.?streetAddress.replace(/^(.{10}).*$/, '$1...') + ', ' + data.location?.country}
           </div>
           <div className="pl-auto text-end text-2xl text-primary-400 font-semibold">${data.GroundPrice}</div>
           <div className="inline-block float-left text-neutral-400 text-base font-medium">

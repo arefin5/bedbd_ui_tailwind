@@ -682,12 +682,13 @@ const AdFavorite = ({ data }) => {
              {loading ? (
                  <p>Loading...</p>
              ) : isFavorite ? (
-                 <button onClick={handleUnFavorite} className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
-                     <Heart color="red" height={24} width={24} />
+                 <button className="mr-4"  onClick={handleUnFavorite}>
+                     <Heart className="mr-4" color="red" height={24} width={24} />
                  </button>
              ) : (
-                 <button onClick={handleFavorite} className="z-20 rounded bg-gray-900 group p-1 absolute top-3 right-3 bg-opacity-30 hover:bg-opacity-50">
+                 <button onClick={handleFavorite}>
                      <Icon  className="mr-4" name="heart" height={24} width={24} />
+                     <Heart  className="mr-4" color="#grey" height={24} width={24} />
                  </button>
              )}
          </div>
