@@ -21,9 +21,11 @@ export default function DropImage({ setImages }) {
   }, [previewImages]);
   useEffect(() => {
     const storedImages = JSON.parse(localStorage.getItem("uploadedImages"));
+    console.log("storedImages",storedImages)
     if (storedImages) {
       // setPreviewImages(storedImages.map(img => img.url));
-      const imageUrls = storedImages.map(img => img.url);
+      const imageUrls = storedImages?.map(img => img.url);
+      console.log("imageUrls",imageUrls)
       setPreviewImages(imageUrls);
       setImages(storedImages);
     }
@@ -41,34 +43,7 @@ export default function DropImage({ setImages }) {
     return true;
   };
 
-  // const handleFiles = async (files) => {
-  //   const newImages = [];
-  //   const fileObjects = [];
-
-  //   for (const file of files) {
-  //     if (validateFile(file)) {
-  //       const previewUrl = URL.createObjectURL(file);
-  //       newImages.push(previewUrl);
-  //       fileObjects.push({ file, preview: previewUrl });
-  //     } else {
-  //       // Optional: Convert unsupported formats
-  //       try {
-  //         const options = { maxSizeMB: 5, fileType: "image/jpeg" };
-  //         const compressedFile = await imageCompression(file, options);
-  //         const previewUrl = URL.createObjectURL(compressedFile);
-  //         newImages.push(previewUrl);
-  //         fileObjects.push({ file: compressedFile, preview: previewUrl });
-  //       } catch (error) {
-  //         console.error(`Failed to process ${file.name}:`, error);
-  //       }
-  //     }
-  //   }
-
-  //   if (newImages.length > 0) {
-  //     setPreviewImages((prevImages) => [...prevImages, ...newImages]);
-  //     setImages((prev) => [...prev, ...fileObjects]);
-  //   }
-  // };
+ 
   const handleFiles = async (files) => {
     const validImages = [];
     const validFileObjects = [];
@@ -154,69 +129,13 @@ export default function DropImage({ setImages }) {
       <div className="pt-10">
         <p>Arrange the photos in the desired order by clicking and dragging them for guests to view.</p>
         <div className="grid md:grid-cols-2 gap-4 mt-4">
-          {previewImages.map((image, index) => (
+          {previewImages?.map((image, index) => (
             <div
               key={index}
               className="relative w-full min-h-72 aspect-[3/2] border rounded-lg overflow-hidden"
             >
               <Image src={image} alt={`image-${index}`} layout="fill" className="object-cover" />
-              {/* <div
-                onClick={() =>
-                  setPreviewImages((prev) =>
-                    prev.filter((_, imgIndex) => imgIndex !== index)
-                  )
-                }
-                className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
-              >
-                <X className="icon" />
-              </div> */}
-              {/* <div
-                onClick={() => {
-                  // Remove the image from preview state
-                  setPreviewImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
 
-                  // Remove the specific image from localStorage
-                  const uploadedImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
-                  const imageToRemove = previewImages[index]; // Get the specific image to remove
-
-                  const updatedImages = uploadedImages.filter(
-                    (image) => image.fileName !== imageToRemove.fileName // Match by unique identifier
-                  );
-
-                  localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
-                }}
-                className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
-              >
-                <X className="icon" />
-              </div> */}
-              {/* <div
-  onClick={() => {
-    // Safeguard against invalid index
-    if (!previewImages || !previewImages[index]) {
-      console.error("Invalid index or image structure in previewImages");
-      return;
-    }
-
-    const imageToRemove = previewImages[index]; // Get the specific image to remove
-
-    // Remove the image from preview state
-    setPreviewImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
-
-    // Get uploaded images from localStorage
-    const uploadedImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
-
-    // Safeguard against missing properties
-    const updatedImages = uploadedImages.filter(
-      (image) => image.fileName !== imageToRemove.fileName // Match by unique identifier
-    );
-
-    // Update localStorage
-    localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
-  }}
-  className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
->
-  <X className="icon" />
-</div> */}
 <div
   onClick={() => {
     // Ensure index is valid
@@ -225,31 +144,7 @@ export default function DropImage({ setImages }) {
       return;
     }
 
-    // Get the image to remove (using the `url` property)
-//     const imageToRemove = previewImages[index];
-
-//     // Remove the image from the preview state
-//     setPreviewImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
-
-//     // Get current uploaded images from localStorage
-//     const uploadedImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
-
-//     // Remove the specific image by matching the `url`
-//     const updatedImages = uploadedImages.filter((image) => {
-//       return image.url !== imageToRemove.url; // Match by URL
-//     });
-
-//     // Update the localStorage with the remaining images
-//     localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
-
-//     // Debugging (optional)
-//     console.log("Image removed:", imageToRemove);
-//     console.log("Updated uploadedImages:", updatedImages);
-//   }}
-//   className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
-// >
-//   <X className="icon" />
-// </div>
+   
 const imageToRemove = previewImages[index];
 
 // Remove the image from the preview state using splice
