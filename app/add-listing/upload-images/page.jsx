@@ -86,11 +86,11 @@ export default function Page() {
     e.preventDefault();
   
     try {
-      const formData = new FormData();
-      images.forEach((image) => {
-        formData.append('image', image.file);
+   
+      images.filter((image) => image.file !== undefined) // Skip undefined values
+      .forEach((image) => {
+          formData.append('image', image.file);
       });
-  
       const formDataLength = formData.getAll('image').length;
       const localImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
       console.log("img length", localImages.length);
@@ -100,7 +100,7 @@ export default function Page() {
         case localImages.length >= 3 && formDataLength === 0:
           const payload = { images: localImages };
           await dispatch(updateFormData(payload));
-          router.push('/edit-listing/price');
+          router.push('/add-listing/price');
           return; // Skip the rest of the process
   
         case formDataLength === 0:
@@ -115,7 +115,7 @@ export default function Page() {
             }
           });
           // Handle the response as needed
-          console.log(response.data);
+          // console.log(response.data);
                    // Combine the new uploaded images with the existing ones from localStorage
           const combinedImages = [...localImages, ...response.data];
 
@@ -124,7 +124,7 @@ export default function Page() {
                    if (combinedImages?.length >= 3) {
             const payload = { images: combinedImages };
             await dispatch(updateFormData(payload));
-            router.push('/edit-listing/price');
+            router.push('/add-listing/price');
           } else {
             setErrors(true);
           }
