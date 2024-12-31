@@ -164,7 +164,7 @@ export default function DropImage({ setImages }) {
                   ); // Find the index and remove the image
 
                   // Update the localStorage with the remaining images
-                  localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
+                  // localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
                   const updatedData=JSON.parse(localStorage.getItem("data")) || [];
                    updatedData.images=updatedImages;
                    localStorage.setItem("data",JSON.stringify(updatedData));
