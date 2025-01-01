@@ -32,7 +32,9 @@ const BookingList = () => {
 
   const fetchListed = async () => {
     try {
-      const response = await axiosInstance.get("/host-booking-upcoming");
+      // const response = await axiosInstance.get("/host-booking-upcoming");
+      const response = await axiosInstance.get("/host-inactive-booking-list");
+
       setListedList(response.data || []);
     } catch (error) {
       console.error("Error fetching listed list:", error);
@@ -41,7 +43,9 @@ const BookingList = () => {
 
   const fetchRejected = async () => {
     try {
-      const response = await axiosInstance.get("/host-reject-booking-list");
+      const response = await axiosInstance.get("/host-inactive-booking-list");
+
+      // const response = await axiosInstance.get("/host-reject-booking-list");
       setRejectedList(response.data || []);
     } catch (error) {
       console.error("Error fetching rejected list:", error);
