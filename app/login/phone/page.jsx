@@ -7,6 +7,10 @@ import { useState,useEffect ,useCallback} from 'react';
 import { loginUserPhone ,clearError} from '@/redux/features/auth/authSlice';
 import { useRouter } from 'next/navigation'; 
 import Link from 'next/link';
+import googleIcon from '/public/icons/google.png';
+import facebookIcon from '/public/icons/facebook.png';
+import Image from "next/image";
+import FacebookLogin from '@/components/FacebookLogin';
 
 export default function Login() {
      const [phonee, setPhone] = useState("");
@@ -14,7 +18,8 @@ export default function Login() {
      const dispatch = useDispatch();
      const { token, loading ,error,user} = useSelector((state) => state.auth); // Access auth state from Redux
      const [customeError,setError]=useState(false)
-     const [message,setMessage]=useState(false)
+     const [message,setMessage]=useState(false);
+     const [openFb, seTopenFb] = useState(false);
      const router = useRouter();
         const handleLogin = async(e) => {
             try{
@@ -102,7 +107,12 @@ export default function Login() {
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
+    const openSing = (e) => {
+      e.preventDefault();
+      seTopenFb(true);
 
+
+  }
     return (
         <div className='modal-background' onClick={closeModel}>
             <div onClick={stopPropagation} 
@@ -162,9 +172,38 @@ export default function Login() {
                 </form >
          
                 {/* <SocialLogin/> */}
-                <button className='login-with-google-btn' onClick={loginwithgoogle}>
-                     Sign In With Google
-                 </button>
+                <div className='w-full max-w-lg mt-5 | relative-x-center '>
+                    <div className='w-full relative  custom-bg-line-300 '>
+                        <h3 className='text-neutral-300 bg-white text-xs font-semibold px-4 ml-8 w-fit '>Or Continue With</h3>
+                    </div>
+                    <div className='flex flex-wrap  gap-4 mt-7' >
+                        <div className="bg-primary-100 rounded-30px gap-3 py-4 px-8 text-neutral-400 text-sm font-semibold w-40">
+                            <button
+                                onClick={loginwithgoogle}
+                                disabled={loading}
+                            >
+                                <Image src={googleIcon} height={24} width={24} alt="Google Icon" />
+
+                            </button>
+                        </div>
+                        {/*  */}
+                        <div className="bg-primary-100 rounded-30px gap-3 py-4 px-8 text-neutral-400 text-sm font-semibold w-40">
+                            <button
+                                onClick={openSing}
+                            >
+                                <Image src={facebookIcon} height={24} width={24} />
+                            </button>
+                            {openFb && <FacebookLogin />}
+                        </div>
+                        {/*  */}
+                        <div className=' rounded-30px gap-3 py-4 px-8 text-neutral-400 text-sm font-semibold w-40'>
+                        </div>
+                        {/*  */}
+                    </div>
+
+
+                </div>
+                 {/*  */}
                 <Icon name='x' className='text-neutral-600 cursor-pointer absolute top-6 right-6' onClick={closeModel} />
             </div>
         </div>

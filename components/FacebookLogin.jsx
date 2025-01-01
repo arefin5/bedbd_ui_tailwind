@@ -154,8 +154,6 @@ export default function FacebookLogin() {
 
   return (
     <div>
-      <h1>Facebook</h1>
-      {/* Facebook Login Button */}
       <div
         className="fb-login-button"
         data-width=""
@@ -166,7 +164,7 @@ export default function FacebookLogin() {
         data-use-continue-as="true"
         data-scope="public_profile,email"
         data-onlogin="checkLoginState();"
-      >login Fb</div>
+      ></div>
 
       {/* Status Message */}
       <div id="status">
