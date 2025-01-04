@@ -33,6 +33,7 @@ import SendMessage from "@/components/SendMessage";
 import HomeRules from "@/components/HomeRules";
 import Favorite from "@/components/AdFavborite";
 // import { useRouter } from "next/router";
+import Vector from '/public/icons/Vector.png'
 
 const Map = dynamic(() => import('./PropertyMap'), { ssr: false });
 
@@ -61,7 +62,7 @@ export default async function page({searchParams, params}) {
         homeRule,
         propertyFeature
     } = data
-    console.log("single property  details id ", data);
+    // console.log("single property  details id ", data);
 
     // console.log(Postedby.fname, Postedby.lname)
     return (
@@ -106,9 +107,10 @@ export default async function page({searchParams, params}) {
                                 }
                             </h4>
                         </div>
-
+{/*  */}
+                          
                         {/* Facilities */}
-                        <div className='flex flex-wrap justify-center mt-6 gap-6 text-neutral-600 text-lg font-semibold '>
+                        <div className='flex flex-wrap mt-6 gap-6 text-neutral-600 text-lg font-semibold '>
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={bedIcon} height={42} width={42} />
                                 <span className='absolute-x-center w-max bottom-7'>{totalroom.bedRoom} Bedrooms </span>
@@ -121,7 +123,7 @@ export default async function page({searchParams, params}) {
 
                             <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
                                 <Image alt="icon" className='object-contain absolute-x-center bottom-16' src={guestsIcon} height={42} width={42} />
-                                <span className='absolute-x-center w-max bottom-7 '> {Guest.adultGuest} + {Guest.childrenGuest} Guests</span>
+                                <span className='absolute-x-center w-max bottom-7 '> {Guest.adultGuest} Guests</span>
                             </div>
                            
                             {/* <div className="w-40 h-36 bg-primary-100 rounded-lg text-center pt-10 relative">
@@ -134,33 +136,35 @@ export default async function page({searchParams, params}) {
                                 <span className='absolute-x-center w-max bottom-7 '>6/8 Guests</span>
                             </div> */}
                         </div>
-
-                        {/* About */}
-                        {/* <div className="mt-14">
+{/*  */}
+<div className="mt-14">
                             <h3 className="text-2xl font-semibold text-neutral-700">About the Apartment</h3>
                             <div className="mt-6 space-y-4">
                                 <div className="relative pl-12">
-                                    <Icon name="plus" className="icon absolute-y-center left-0 " />
+                                    <Icon name="school" className="icon absolute-y-center left-0 " />
                                     <h4 className="mb-2 text-xl font-semibold text-neutral-500">Room in a rental unit</h4>
                                     <p className="text-neutral-700 text-lg font-normal">Your own room in a home, plus access to share space.</p>
                                 </div>
 
                                 <div className="relative pl-12">
-                                    <Icon name="plus" className="icon absolute-y-center left-0 " />
+                                <Image alt="icon" className='object-contain absolute-y-center left-0 ' src={Vector} height={24} width={24} />
+                                    <Icon name="toilet" className="icon absolute-y-center left-0 " />
                                     <h4 className="mb-2 text-xl font-semibold text-neutral-500">Shared bathroom</h4>
                                     <p className="text-neutral-700 text-lg font-normal">You’ll share the bathroom with others.</p>
                                 </div>
 
                                 <div className="relative pl-12">
-                                    <Icon name="plus" className="icon absolute-y-center left-0 " />
+                                    <Icon name="lamp-desk" className="icon absolute-y-center left-0 " />
                                     <h4 className="mb-2 text-xl font-semibold text-neutral-500">Dedicated Workspace</h4>
                                     <p className="text-neutral-700 text-lg font-normal">A room with wifiIcon that’s well-suited for working</p>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
+                        {/* About */}
+                       
 
                         {/* Amenities */}
-                        <Amenities data={propertyFeature.features} />
+                        <Amenities data={amenities} />
 
                         {/* Home rules */}
                        <HomeRules homerules={homeRule}/>

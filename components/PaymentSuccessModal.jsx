@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PaymentSuccess() {
     return (
       <div className='z-[9999] fixed top-0 left-0 w-full h-screen bg-white h-screen overscroll-y-none bg-opacity-50 bg-black backdrop-blur-sm'>
@@ -12,8 +14,9 @@ export default function PaymentSuccess() {
                   <h3 className='text-secondary-400 text-4xl font-semibold mt-6 text-center w-max'> Payment Successful</h3>
                   <p className='text-neutral-500 text-base font-medium mt-2 max-w-[348px] text-center '>Your payment of $283 was successful. Thank you for booking with us.</p>
                   <p className='text-neutral-500 text-base font-medium mt-4 max-w-[348px] text-center '>We sent you a mail with detials.</p>
-
+                   <Link href="/">
                   <button className='relative btn btn-secondary w-[290px] ml-[30px] mt-6'>Back to Home </button>
+                  </Link>
               </div>
           </div>
       </div>
