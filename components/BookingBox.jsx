@@ -20,7 +20,7 @@ const BookingBox = ({ data, searchParams }) => {
     const [bookedDates, setBookedDates] = useState([]);
     const [tax, setTax] = useState(0);
     const [serviceFee, setServiceFee] = useState(0);
-
+    const [customs, setCustoms] = useState("");
     const router = useRouter();
     const checkOutPickerRef = useRef();
     const { selectedDate } = useSelector((state) => state.search);
@@ -39,7 +39,7 @@ const BookingBox = ({ data, searchParams }) => {
 
         if (!ignore && Object.keys(searchParams).length > 0) {
             const { checkIn, checkOut } = searchParams;
-            console.log("checkIn, checkOut",checkIn, checkOut)
+            // console.log("checkIn, checkOut",checkIn, checkOut)
             if (checkIn && !checkOut) {
                 const checkInDate = formatDate(checkIn);
                 setCheckInDate(checkInDate);
@@ -167,11 +167,13 @@ const BookingBox = ({ data, searchParams }) => {
     // Effect to set default date range from searchParams (if available)
     const handleSubmitReserve = async () => {
         if (!token) {
+            setCustoms ("Please Login  Your Account");
             router.push("/login/email");
             return;
         }
         if (!user?.varificationId) {
-            alert("Please Verify your Identity");
+            setCustoms("Please Verify your Identity");
+            // alert("Please Verify your Identity");
             router.push("/registration/start");
             return;
         }
@@ -208,6 +210,8 @@ const BookingBox = ({ data, searchParams }) => {
 
     return (
         <div className="top-12 sticky rounded-lg drop-shadow-booking-box bg-white">
+        {customs && <p className="text-center text-red-500">{customs}</p>}
+
             <div className="relative p-6 custom-underline-primary-400">
                 <h3 className="text-neutral-700 font-semibold text-3xl">
                     ${GroundPrice} <span className="text-neutral-500 text-lg"> /Night</span>
@@ -288,7 +292,6 @@ const BookingBox = ({ data, searchParams }) => {
             >
                 {loading ? "Processing..." : "Reserve Now"}
             </button>
-
             {error && <p className="text-center text-red-500">{error}</p>}
         </div>
     );

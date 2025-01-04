@@ -5,10 +5,14 @@ import SVGCercle from '../../../public/circle.svg'
 import Image from 'next/image'
 import Icon from '/components/Icon'
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef ,memo,useCallback} from 'react'
 import { userEdit, verifyOtpEmail, verifyOtp } from '@/redux/features/auth/authSlice';
 import axiosInstance from '@/redux/services/axiosInstance';
 import axios from 'axios';
+
+const MemoizedIcon = memo(({ name, className }) => (
+  <Icon name={name} className={className} />
+));
 
 export default function profile() {
   const [id, setUserId] = useState("")
@@ -31,12 +35,20 @@ export default function profile() {
   const [ageWarning, setAgeWarning] = useState(false); // Warning message
   let age = 0;
   const [customeError,setError]=useState(false);
-
+  
   const [loadings,setLoadings]=useState(false);
   const [message,setMessage]=useState("")
 
   const dispatch = useDispatch();
   const { user, isLoading, error, token } = useSelector((state) => state.auth);
+  const [showPassword, setShowPassword] = useState(false);
+   const [otpErro,setOptError]=useState("")
+   const [otpMsg,setOtpMsg]=useState("")
+//  <Icon name="badge-check" className="icon inline" />
+
+
+
+
   useEffect(() => {
     setfName(user.fname || "");
     setlName(user.lname || "");
@@ -188,7 +200,7 @@ export default function profile() {
 
       if (response.status === 200) {
         setOptSubmite(true);
-        alert("OTP sent successfully!");
+        setOtpMsg("OTP sent successfully!");
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
@@ -199,7 +211,8 @@ export default function profile() {
     dispatch(verifyOtpEmail({ email, otp }));
     setOptSubmite(false);
     sethanlarotpPhone(false);
-    setOtp("")
+    setOtp("");
+    window.location.href = "/host/profile";
   };
 
   // phone 
@@ -207,11 +220,11 @@ export default function profile() {
     e.preventDefault();
     try {
       const response = await axiosInstance.post("/generate-otp-phone", { phone });
-      console.log(response);
+      // console.log(response);
 
       if (response.status === 200) {
         sethanlarotpPhone(true)
-        alert("OTP sent successfully!");
+        setOtpMsg("OTP sent successfully!");
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
@@ -222,7 +235,8 @@ export default function profile() {
     dispatch(verifyOtp({ phone, otp }));
     sethanlarotpPhone(false)
     setOptSubmite(false);
-    setOtp("")
+    setOtp("");
+    window.location.href = "/host/profile";
   };
 
   return (
@@ -313,7 +327,8 @@ export default function profile() {
               readOnly />
           </div> */}
 
-          <div className="w-1/2 inline-block ">
+             <div className="flex py-4">
+             <div className="w-1/2 inline-block ">
             <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="First Name"
@@ -330,8 +345,11 @@ export default function profile() {
               onChange={(e) => setlName(e.target.value)}
             />
           </div>
-
-          <div className="w-1/2">
+             </div>
+          {otpMsg && <div className='success-message text-green'>{otpMsg}
+          </div>}
+          {/* <div className="w-1/2">
+            <div className='relative'>
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Phone"
               value={phone}
@@ -342,12 +360,37 @@ export default function profile() {
                 please provide valid Phone number
               </div>}
             {user && user.isPhoneVerified ? (
-              <p>verified </p>
+              <p>
+              <Icon name="badge-check" className="icon inline" /> </p>
             ) : (
               <button className='
               btn btn-secondary mt-2' onClick={otpGeneratePhone}>Please Verified Your Phone Number </button>
             )
             }
+            </div> */}
+            {/* <div className="w-1/2">
+  <div className='relative'>
+    <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+      placeholder="Phone"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+    />
+    <div className="mt-2">
+      {customeError && <div className='error-message text-red-500'>
+        please provide valid Phone number
+      </div>}
+      {user && user.isPhoneVerified ? (
+        <p>
+          <Icon name="badge-check" className="icon inline" />
+        </p>
+      ) : (
+        <button className='btn btn-secondary mt-2' onClick={otpGeneratePhone}>
+          Please Verify Your Phone Number
+        </button>
+      )}
+    </div>
+  </div>
+
             {hanlarotpPhone && (
               <>
                 <input
@@ -361,24 +404,118 @@ export default function profile() {
                 </button>
               </>
             )}
-          </div>
+          </div> */}
+          {/* <div className="w-1/2">
+  <div className='relative flex items-center'>
+    <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+      placeholder="Phone"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+    />
+    <div className="ml-4">
+      {customeError && <div className='error-message text-red-500'>
+        please provide valid Phone number
+      </div>}
+      {user && user.isPhoneVerified ? (
+        <Icon name="badge-check" className="icon inline" />
+      ) : (
+        <button className='btn btn-secondary' onClick={otpGeneratePhone}>
+          Verify Now 
+        </button>
+      )}
+    </div>
+  </div>
 
-          <div className="w-1/2">
-            <input
+  {hanlarotpPhone && (
+    <div className='relative flex items-center mt-4'>
+      <input
+        className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+        placeholder="OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+      />
+      <button onClick={VerifyedPhone} className="btn btn-primary ml-4">
+        Submit OTP
+      </button>
+    </div>
+  )}
+</div> */}
+
+<div className="w-1/2 py-4">
+  {/* Phone Input Field */}
+  <div className="relative flex items-center">
+    <input
+      className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+      placeholder="Phone"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+    />
+    <div className="absolute right-4 flex items-center">
+      {customeError && (
+        <span className="text-red-500 text-sm mr-2">
+          Please provide a valid phone number
+        </span>
+      )}
+      {user && user.isPhoneVerified ? (
+        <MemoizedIcon name="badge-check" className="text-blue-500"/>
+       
+      ) : (
+        <p
+          className="bg-orange-500 hover:bg-orange-600 text-white  rounded-md"
+          onClick={otpGeneratePhone}
+        >
+          Verify Now
+        </p>
+      )}
+    </div>
+  </div>
+
+  {/* OTP Input Field */}
+  {hanlarotpPhone && (
+    <div className="relative flex items-center mt-4">
+      <input
+        className="w-full border border-neutral-300 py-3 px-4 rounded-md"
+        placeholder="Enter OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+      />
+      <button
+        onClick={VerifyedPhone}
+        className="ml-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+      >
+        Submit OTP
+      </button>
+    </div>
+  )}
+</div>
+
+          <div className="w-full py-4">
+          <div className="relative flex items-center">
+               <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {user && user.isEmailVerified ? (
-              <p>verified </p>
+            <div className="absolute right-4 flex items-center mb-1">
+      {customeError && (
+        <span className="text-red-500 text-sm mr-2">
+          Please provide a valid Email
+        </span>
+      )}
+      {user && user.isEmailVerified ? (
+               <MemoizedIcon name="badge-check" className="text-blue-500"/>
             ) : (
-              <button onClick={otpGenerateEmail} className="btn btn-secondary mt-2">
+              <p onClick={otpGenerateEmail} className="mb-2">
                 Please  Verifiy
-              </button>
+              </p>
 
             )
             }
+            </div>
+          </div>
+           
+            
             {hanlarotp && (
               <>
                 <input
@@ -422,6 +559,7 @@ export default function profile() {
           {error && <div className='error-message text-red-500'>{error}</div>}
           {message && <div className='success-message text-green'>{message}
           </div>}
+          
           <button disabled={ageWarning}
             className="btn btn-primary relative-x-center max-w-72" type="submit">
              { loadings  ?(
