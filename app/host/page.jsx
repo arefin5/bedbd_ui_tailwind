@@ -54,8 +54,8 @@ const fetchSuccess = async () => {
         <PendingRequestNotification />
         <PropertyList />
   
-        <Chart data={[{ value: sPayment, title: 'Booked' },
-         { value: canPayment, title: 'Canceled' }]} title="Booked & Canceled" totalValue={sPayment+canPayment} />
+       {/* <Chart data={[{ value: sPayment, title: 'Booked' },
+         { value: canPayment, title: 'Canceled' }]} title="Booked & Canceled" totalValue={sPayment+canPayment} />*/}
         <RevenueChart bookings={authorBookings} />
       </>
     </div>

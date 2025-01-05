@@ -52,7 +52,15 @@ const dispatch = useDispatch();
             }
 
 
-            <div className={`${!listView && 'text-primary-400 text-xl font-semibold px-4 mt-4'}`}>{propertyTitle}</div>
+           {/* <div className={`${!listView && 'text-primary-400 text-xl font-semibold px-4 mt-4'}`}>
+            {propertyTitle}</div>*/}
+            <div
+        className={`${
+          listView ? "ml-6" : "text-primary-400 text-xl font-semibold px-4 mt-4"
+        }`}
+      >
+        {propertyTitle}
+      </div>
                 {
                     !listView && 
                     <div className="font-medium text-base text-neutral-300 px-4">{location.address}</div>

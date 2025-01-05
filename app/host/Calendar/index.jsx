@@ -76,13 +76,13 @@ export default function Calendar({ listSelect }) {
 
   return (
     <div className='py-6 px-4 w-full max-w-sm bg-secondary-50 rounded-lg'>
-      <div className='text-neutral-500 flex justify-between'>
+      <div className='text-neutral-500 '>
         <div className='font-semibold'>
-          <span className='block'>Booked Date</span>
-          <span>{listSelect ? `(${listSelect.propertyTitle})` : "(Select a property)"}</span>
+          <h1 className='block'>Booked Date <span>{listSelect ? `(${listSelect.propertyTitle})` : "(Select a property)"}</span></h1>
+          
         </div>
         <div className='border-none text-sm font-medium transition ease-in-out delay-150 flex items-center relative mr-4'>
-          <Icon name="calendar" className="mr-2" />
+          {/*<Icon name="calendar" className="mr-2" />*/}
           <DatePicker
             selected={selectedDate}
             onChange={handleDateClick} // Allow direct selection of dates
