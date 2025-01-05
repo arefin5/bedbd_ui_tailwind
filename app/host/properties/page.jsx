@@ -11,7 +11,7 @@ import { FilePen, Trash, EllipsisVertical, List, LayoutGrid } from "lucide-react
 export default function page() {
   const [listView, setListView] = useState(true)
 
-  const [authorBookings, setAuthorBookings] = useState(sampleData);
+  const [authorBookings, setAuthorBookings] = useState();
 
 
   const fetchAuthorListBooking = async () => {
@@ -20,13 +20,13 @@ export default function page() {
       setAuthorBookings(listData.data);
           // console.log(listData.data);
     } catch (error) {
-      console.log("error",error)
-      console.error("Error fetching author bookings:", error);
+      // console.log("error",error)
+      // console.error("Error fetching author bookings:", error);
     }
   };
 useEffect(()=>{
   fetchAuthorListBooking();
-},[authorBookings])
+},[])
 
 // console.log(sampleData)
   return(

@@ -146,7 +146,7 @@ const handleRejected=async(bookingId)=>{
             >
               <li>{item.property.propertyTitle}</li>
               <li>
-                {item.guest}, {nightCount(item.checkinDate, item.checkoutDate)}{" "}
+                {item.guest}Adults, {nightCount(item.checkinDate, item.checkoutDate)}{" "}
                 days
               </li>
               <li>{formatDate(item.checkinDate)}</li>

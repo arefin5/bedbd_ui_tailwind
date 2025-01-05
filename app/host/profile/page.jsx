@@ -327,8 +327,8 @@ export default function profile() {
               readOnly />
           </div> */}
 
-             <div className="flex py-4">
-             <div className="w-1/2 inline-block ">
+             <div className="flex ">
+             <div className="w-1/2 inline-block mr-2  ">
             <input
               className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="First Name"
@@ -535,7 +535,7 @@ export default function profile() {
           </div>
 
 
-          <div className="">
+          <div className="py-4">
             <input className="w-full border border-neutral-300 py-3 px-4 rounded-md"
               placeholder="Address"
               value={parmanentAddress}

@@ -89,6 +89,12 @@ export default function Sidebar() {
             <span className="hidden xl:block">Profile</span>
           </li>
         </Link>
+        <Link href="/host/properties">
+          <li className={`flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg ${isActive("/host/properties")}`}>
+            <Icon name="home" className="icon" />
+            <span className="hidden xl:block"> My Property</span>
+          </li>
+        </Link>
         <Link href="/host/manage-booking">
           <li className={`flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg ${isActive("/host/manage-booking")}`}>
           <Icon name="history" className="icon" />
@@ -102,12 +108,7 @@ export default function Sidebar() {
             <span className="hidden xl:block">Message ({unreadMessagesCount})</span>
           </li>
         </Link>
-        <Link href="/host/properties">
-          <li className={`flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg ${isActive("/host/properties")}`}>
-            <Icon name="home" className="icon" />
-            <span className="hidden xl:block">Property</span>
-          </li>
-        </Link>
+        
         <Link href="/host/transactions">
           <li className={`flex items-center gap-x-2 px-4 py-3 hover:bg-white font-medium hover:font-semibold hover:text-secondary-400 rounded-lg ${isActive("/host/transactions")}`}>
             <Icon name="arrow-right-left" className="icon" />
