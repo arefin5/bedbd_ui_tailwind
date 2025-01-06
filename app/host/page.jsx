@@ -56,7 +56,7 @@ const fetchSuccess = async () => {
   
        {/* <Chart data={[{ value: sPayment, title: 'Booked' },
          { value: canPayment, title: 'Canceled' }]} title="Booked & Canceled" totalValue={sPayment+canPayment} />*/}
-        <RevenueChart bookings={authorBookings} />
+        {/*<RevenueChart bookings={authorBookings} />*/}
       </>
     </div>
   );

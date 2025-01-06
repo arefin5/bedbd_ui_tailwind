@@ -89,7 +89,7 @@ export default function Page() {
 
     function saveNewOption() {
         if (!newTitle.trim()) {
-            alert('Please fill in the title.');
+            setErrors(true)
             return;
         }
         const newOption = {

@@ -16,7 +16,8 @@ export default function HomeRule({data,setHomeRule,homerule}) {
             }));
     }
 
-  return (
+
+ return (
     <div 
       className={`border border-neutral-300 rounded py-4 px-6 relative cursor-pointer select-none
       hover:shadow  hover:border-secondary-400 hover:shadow-secondary-400

@@ -17,12 +17,13 @@ export default function Feature({ data, isChecked, toggleCheck }) {
                   hover:shadow-secondary-400 
                   ${isChecked ? 'shadow border-secondary-400 shadow-secondary-400' : 'border-neutral-300'}`}
     >
+       <h4 className="font-semibold text-xl text-neutral-500 mb-2">{data.title}</h4>
       {isChecked ? (
         <SquareCheckBig className="icon absolute top-4 left-4" />
       ) : (
         <Square className="icon absolute top-4 left-4" />
       )}
-      <h4 className="font-semibold text-xl text-neutral-500 mb-2">{data.title}</h4>
+      
     </div>
   );
 }
