@@ -1,6 +1,6 @@
 
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef, useCallback } from "react";
 import io from "socket.io-client";
 import { X, SendHorizonal, MessageCircleMore } from "lucide-react";
 import ChatComponentHooks from "@/components/chatHook";
@@ -61,6 +61,9 @@ export default function Page() {
             }
         });
     };
+     useEffect(() => {
+        // .log("Test message call .. i wanna call this only selectedUser ")
+     },[selectedUser])
 
     const selectConversation = (contact) => {
         // console.log(contact)
@@ -74,21 +77,48 @@ export default function Page() {
         }
         return email.split("@")[0];
     }
+    // const handleSendMessage = () => {
+    //     const sender = user;
+    //     const receiver = selectedUser.userId;
+    //     const data = { sender, receiver, message: newMessage };
+
+    //     socket.emit("sendMessage", data, (response) => {
+    //         if (response.status === "Message delivered") {
+    //             console.log("Message sent successfully!");
+    //         } else {
+    //             console.error("Message delivery failed:", response.message);
+    //         }
+    //     });
+
+    //     setNewMessage(""); 
+    // };
     const handleSendMessage = () => {
-        const sender = user;
-        const receiver = selectedUser.userId;
-        const data = { sender, receiver, message: newMessage };
+    if (!selectedUser || !newMessage.trim()) return;
 
-        socket.emit("sendMessage", data, (response) => {
-            if (response.status === "Message delivered") {
-                console.log("Message sent successfully!");
-            } else {
-                console.error("Message delivery failed:", response.message);
-            }
-        });
-
-        setNewMessage(""); 
+    const data = {
+        sender: user,
+        receiver: selectedUser.userId,
+        message: newMessage,
     };
+
+    socket.emit("sendMessage", data, (response) => {
+        if (response.status === "Message delivered") {
+            setSelectedUser((prev) => {
+                const updatedUser = {
+                    ...prev,
+                    messages: [...(prev.messages || []), data],
+                };
+                return updatedUser;
+            });
+            setNewMessage(""); // Clear input field
+
+            // Optionally re-trigger if needed
+            setSelectedUser((prev) => ({ ...prev })); // Creates a new reference
+        } else {
+            console.error("Message delivery failed:", response.message);
+        }
+    });
+};
 return(<>
     <div className='w-full h-full p-8 flex gap-8 '>
         {/* Left side */}
@@ -132,7 +162,7 @@ return(<>
 
                     <div className='w-full bg-secondary-50 rounded-lg px-8 py-10'>
             <div className="h-[calc(100%-96px)]">
-                <h3 className="text-neutral-500 text-base font-normal">
+                <h3 className="text-neutral-500 text-base font-normal mb-4">
                 To: <span className="text-neutral-700 text-lg font-medium">{selectedUser._id}</span>
                 </h3>
                 
@@ -176,7 +206,3 @@ return(<>
     </div>
 </>)
 }
-
-
-
-

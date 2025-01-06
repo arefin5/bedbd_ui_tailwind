@@ -56,13 +56,7 @@ export default function PendingRequestNotification() {
 }, [token]);
 
   return (
-    <div className="py-6 px-4 rounded-lg " 
-    style={{
-            border: '1px solid rgba(255, 255, 255, 1)', // 1px solid border with the specified color
-            borderRadius: '8px', // Optional: Add rounded corners if needed
-            padding: '16px', // Optional: Add padding for spacing inside the box
-          }}
-          >
+    <div className="py-6 px-4 rounded-lg">
       {paymentBookings.length > 0 ? (
         <div className='w-full h-fit text-center py-3 border-secondary-400 bg-secondary-50 rounded-lg text-neutral-400 font-semibold text-lg'>
           You have {paymentBookings.length} new payment success bookings.
