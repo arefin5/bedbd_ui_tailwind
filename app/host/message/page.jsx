@@ -5,11 +5,12 @@ import io from "socket.io-client";
 import { X, SendHorizonal, MessageCircleMore } from "lucide-react";
 import ChatComponentHooks from "@/components/chatHook";
 import Image from "next/image"
-import { Send } from "lucide-react"
+// const SOCKET_URL = "http://localhost:5001";
+const SOCKET_URL = "https://backend.bedbd.com";
 
 
-const socket = io("https://backend.bedbd.com", { autoConnect: false });
-// const socket = io("http://localhost:5001", { autoConnect: false });
+const socket = io(SOCKET_URL, { transports: ['websocket'] });
+// const socket = io("http://localhost:5001", { autoConnect: true });
 
 // Page Component
 export default function Page() {
@@ -19,7 +20,8 @@ export default function Page() {
     const [user, setUser] = useState(null); // Actual authenticated user
     const [token, setToken] = useState(null);
     const [loadingMessages, setLoadingMessages] = useState(false); // Loading state
-    const [newMessage, setNewMessage] = useState("");
+        const [newMessage, setNewMessage] = useState("");
+
     useEffect(() => {
         const tokenFromStorage = localStorage.getItem("token");
         setToken(tokenFromStorage);
@@ -48,7 +50,7 @@ export default function Page() {
         return () => {
             socket.disconnect();
         };
-    }, [token, selectedUser,newMessage]);
+    }, [token, selectedUser]);
 
     const fetchConversations = (userId) => {
         socket.emit("getConversations", userId, (response) => {
@@ -77,48 +79,8 @@ export default function Page() {
         }
         return email.split("@")[0];
     }
-    // const handleSendMessage = () => {
-    //     const sender = user;
-    //     const receiver = selectedUser.userId;
-    //     const data = { sender, receiver, message: newMessage };
 
-    //     socket.emit("sendMessage", data, (response) => {
-    //         if (response.status === "Message delivered") {
-    //             console.log("Message sent successfully!");
-    //         } else {
-    //             console.error("Message delivery failed:", response.message);
-    //         }
-    //     });
 
-    //     setNewMessage(""); 
-    // };
-    const handleSendMessage = () => {
-    if (!selectedUser || !newMessage.trim()) return;
-
-    const data = {
-        sender: user,
-        receiver: selectedUser.userId,
-        message: newMessage,
-    };
-
-    socket.emit("sendMessage", data, (response) => {
-        if (response.status === "Message delivered") {
-            setSelectedUser((prev) => {
-                const updatedUser = {
-                    ...prev,
-                    messages: [...(prev.messages || []), data],
-                };
-                return updatedUser;
-            });
-            setNewMessage(""); // Clear input field
-
-            // Optionally re-trigger if needed
-            setSelectedUser((prev) => ({ ...prev })); // Creates a new reference
-        } else {
-            console.error("Message delivery failed:", response.message);
-        }
-    });
-};
 return(<>
     <div className='w-full h-full p-8 flex gap-8 '>
         {/* Left side */}
@@ -153,7 +115,6 @@ return(<>
                            
                         ))}
         
-            {/* chat item 3 (not active) */}
 
            
         </div>
@@ -180,20 +141,7 @@ return(<>
 
                 </div>
 
-                {/* Message Send section */}
-                <div className="mt-8 flex bg-white rounded-lg shadow-inner pr-4">
-                <textarea 
-                    class="bg-transparent shadow-none w-full border-none p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-0 focus:border-gray-300 focus:outline-none active:outline-none"
-                    rows="2"
-                    placeholder="Enter your text here..."
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    />
-                    <button className="p-3 h-fit my-auto rounded-full bg-secondary-400"
-                     onClick={handleSendMessage}>
-                        <Send className="icon text-white "/>
-                    </button>
-                </div>
+                
             </div>
             <div>
                 
