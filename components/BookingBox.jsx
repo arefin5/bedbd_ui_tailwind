@@ -9,7 +9,8 @@ import axiosInstance from "@/redux/services/axiosInstance";
 import BookingCounter from "./BookingCounter";
 const BookingBox = ({ data, searchParams }) => {
     const { GroundPrice, _id } = data;
-    console.log(" booking card ",data.GroundPrice);
+    // console.log(" booking card ",data.GroundPrice);
+
 
 
 

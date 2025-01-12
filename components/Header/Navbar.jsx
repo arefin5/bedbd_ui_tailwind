@@ -27,7 +27,8 @@ export default function Navbar() {
         } else {
             setLoggedIn(false);
             // setLoggedIn(false);public/circle.svg
-            setProfile('/circle.svg');
+            setProfile('/dummy/sample-profile-photo.jpg');
+
         }
     }, [user, token]);
 
@@ -116,13 +117,36 @@ export default function Navbar() {
             <ul className={`absolute  right-0 bg-white shadow-md md:shadow-none rounded-md  md:flex md:flex-row-reverse md:items-center md:static md:gap-x-10 ${!open && 'hidden '}`}  >
                 {
                     loggedIn
-                        ? <li className="w-max min-w-full md:min-w-max py-4 px-10 md:p-0 " onClick={() => setSubMenuOpen(val => !val)}>
-                            <Image alt='User image'
-                                className=' ml-auto mr-auto border-primary-400 padding-0 min-w-12 min-h-12 rounded-full drop-shadow drop-shadow-md shadow-primary-400'
-                                src={images}
-                                height={48}
-                                width={48} />
-                        </li>
+                        ? 
+
+ <li className="w-max min-w-full md:min-w-max py-4 px-10 md:p-0" onClick={() => setSubMenuOpen((val) => !val)}>
+              {/* Profile Picture */}
+              {user && user.profilePic ? (
+                <Image
+                  alt="User image"
+                  className="ml-auto mr-auto border-primary-400 min-w-12 min-h-12 rounded-full shadow-md"
+                  src={user.profilePic.url}
+                  height={48}
+                  width={48}
+                />
+              ) : (
+                <Image
+                  alt="User image"
+                  className="ml-auto mr-auto border-primary-400 min-w-12 min-h-12 rounded-full shadow-md"
+                  src={'/dummy/sample-profile-photo.jpg'}
+                  height={48}
+                  width={48}
+                />
+              )}
+            </li>
+
+                        // <li className="w-max min-w-full md:min-w-max py-4 px-10 md:p-0 " onClick={() => setSubMenuOpen(val => !val)}>
+                        //     <Image alt='User image'
+                        //         className=' ml-auto mr-auto border-primary-400 padding-0 min-w-12 min-h-12 rounded-full drop-shadow drop-shadow-md shadow-primary-400'
+                        //         src={images}
+                        //         height={48}
+                        //         width={48} />
+                        // </li>
                         :
                         <>
                             <Link href="/signup">
