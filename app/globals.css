@@ -293,3 +293,21 @@
   align-items: center;
   gap: 10px; /* Adjust the spacing between checkbox and label text */
 }
+
+.ripple {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  pointer-events: none; /* Prevent interference with button clicks */
+  transform: scale(0);
+  animation: ripple-effect 0.6s linear;
+}
+
+@keyframes ripple-effect {
+  to {
+      transform: scale(4);
+      opacity: 0;
+  }
+}
