@@ -1,7 +1,20 @@
+"use client"
+import { useState,useEffect } from 'react';
+
 import Icon from '@/components/Icon'
 import { ChevronLeft, Plus } from 'lucide-react'
 
 export default function page() {
+    const [id,setId]=useState("")
+      useEffect(() => {
+    if (typeof window !== "undefined" && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      setId(params.get("_id") || "");
+
+    }
+  }, []);
+      console.log(id);
+     
   return (
     <div className='w-full h-full min-h-screen'>
         <div className='w-full max-w-[648px] px-6 pt-14 pb-20 pb absolute-x-center'>
