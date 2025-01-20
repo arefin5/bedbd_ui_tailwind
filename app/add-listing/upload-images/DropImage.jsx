@@ -1,49 +1,44 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
 import Image from "next/image";
-import imageCompression from "browser-image-compression";
 
 export default function DropImage({ setImages }) {
   const [previewImages, setPreviewImages] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const [isDropEvent, setIsDropEvent] = useState(false);
-   const [errors,setErrors]=useState("")
+
   const MAX_FILE_SIZE_MB = 5;
   const SUPPORTED_FORMATS = ["image/jpeg", "image/png"];
 
   useEffect(() => {
+    const storedPreviewImages = localStorage.getItem('previewImages');
+    if (storedPreviewImages) {
+      setPreviewImages(JSON.parse(storedPreviewImages));
+    }
+
     return () => {
       // Cleanup object URLs to prevent memory leaks
       previewImages.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [previewImages]);
+  }, []);
+
   useEffect(() => {
-    const storedImages = JSON.parse(localStorage.getItem("uploadedImages"));
-    console.log("storedImages",storedImages)
-    if (storedImages) {
-      // setPreviewImages(storedImages.map(img => img.url));
-      const imageUrls = storedImages?.map(img => img.url);
-      console.log("imageUrls",imageUrls)
-      setPreviewImages(imageUrls);
-      setImages(storedImages);
-    }
-  }, [setImages]);
+    localStorage.setItem('previewImages', JSON.stringify(previewImages));
+  }, [previewImages]);
+
   const validateFile = (file) => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
-
-      setErrors(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
+      alert(`${file.name} is not a supported format. Please upload JPG or PNG files.`);
       return false;
     }
     if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-      setErrors(`${file.name} exceeds the maximum size of ${MAX_FILE_SIZE_MB}MB.`);
+      alert(`${file.name} exceeds the maximum size of ${MAX_FILE_SIZE_MB}MB.`);
       return false;
     }
     return true;
   };
 
- 
   const handleFiles = async (files) => {
     const validImages = [];
     const validFileObjects = [];
@@ -55,7 +50,7 @@ export default function DropImage({ setImages }) {
         validImages.push(previewUrl);
         validFileObjects.push({ file, preview: previewUrl });
       } else {
-        setErrors(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
+        alert(`${file.name} is not a supported format or exceeds the size limit. Skipping.`);
       }
     }
 
@@ -93,6 +88,11 @@ export default function DropImage({ setImages }) {
     setIsDropEvent(false);
   };
 
+  const handleRemoveImage = (index) => {
+    setPreviewImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
+    setImages((prev) => prev.filter((_, imgIndex) => imgIndex !== index));
+  };
+
   return (
     <>
       <div
@@ -100,8 +100,9 @@ export default function DropImage({ setImages }) {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleClick}
-        className={`cursor-pointer w-full max-w-4xl bg-neutral-100 border border-neutral-400 border-dashed rounded-10px py-10 ${dragActive ? "bg-neutral-200" : ""
-          }`}
+        className={`cursor-pointer w-full max-w-4xl bg-neutral-100 border border-neutral-400 border-dashed rounded-10px py-10 ${
+          dragActive ? "bg-neutral-200" : ""
+        }`}
       >
         <input
           type="file"
@@ -121,60 +122,21 @@ export default function DropImage({ setImages }) {
         </h2>
       </div>
 
-{
-  errors && <div className='error-message text-red-500'>
-                        {errors}
-                        </div>
-                    }
       <div className="pt-10">
         <p>Arrange the photos in the desired order by clicking and dragging them for guests to view.</p>
         <div className="grid md:grid-cols-2 gap-4 mt-4">
-          {previewImages?.map((image, index) => (
+          {previewImages.map((image, index) => (
             <div
               key={index}
               className="relative w-full min-h-72 aspect-[3/2] border rounded-lg overflow-hidden"
             >
               <Image src={image} alt={`image-${index}`} layout="fill" className="object-cover" />
-
-<div
-  onClick={() => {
-    // Ensure index is valid
-    if (!previewImages || !previewImages[index]) {
-      console.error("Invalid index or image structure in previewImages");
-      return;
-    }
-
-   
-const imageToRemove = previewImages[index];
-
-// Remove the image from the preview state using splice
-setPreviewImages((prev) => {
-  const updatedPreviewImages = [...prev];
-  updatedPreviewImages.splice(index, 1); // Removes 1 element at the specified index
-  return updatedPreviewImages;
-});
-
-// Get current uploaded images from localStorage
-const uploadedImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
-
-// Use splice to remove the image from the uploaded images array
-const updatedImages = [...uploadedImages];
-updatedImages.splice(
-  updatedImages.findIndex((image) => image.url === imageToRemove.url), 
-  1
-); // Find the index and remove the image
-
-// Update the localStorage with the remaining images
-localStorage.setItem("uploadedImages", JSON.stringify(updatedImages));
-
-// Debugging (optional)
-console.log("Image removed:", imageToRemove);
-console.log("Updated uploadedImages:", updatedImages);
-}}
-className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
->
-  <X className="icon" />
-            </div>
+              <div
+                onClick={() => handleRemoveImage(index)}
+                className="absolute bg-white rounded-full p-2.5 cursor-pointer right-3 top-6"
+              >
+                <X className="icon" />
+              </div>
             </div>
           ))}
         </div>
