@@ -3,6 +3,7 @@
 
 'use client';
 import { Square, SquareCheckBig } from 'lucide-react';
+import  { useState } from 'react'
 
 export default function Feature({ data, isChecked, toggleCheck }) {
   function handleClick() {
@@ -10,19 +11,23 @@ export default function Feature({ data, isChecked, toggleCheck }) {
   }
 
   return (
-    <div
-      onClick={handleClick}
-      className={`w-full py-4 pr-4 pl-14 rounded-10px cursor-pointer select-none relative border  
-                  hover:shadow hover:border-secondary-400 
-                  hover:shadow-secondary-400 
-                  ${isChecked ? 'shadow border-secondary-400 shadow-secondary-400' : 'border-neutral-300'}`}
-    >
-      {isChecked ? (
-        <SquareCheckBig className="icon absolute top-4 left-4" />
-      ) : (
-        <Square className="icon absolute top-4 left-4" />
-      )}
-      <h4 className="font-semibold text-xl text-neutral-500 mb-2">{data.title}</h4>
+    <div 
+      className={`border border-neutral-300 rounded py-4 px-6 relative cursor-pointer select-none
+      hover:shadow  hover:border-secondary-400 hover:shadow-secondary-400
+      ${
+        isChecked
+            ? 'shadow  border-secondary-400 shadow-secondary-400'
+            : 'border-neutral-300' }
+      `} 
+      onClick={handleClick}>
+        <label className='text-base font-medium cursor-pointer'>{data['title']}</label>
+        <input className='hidden' type='checkbox' name='home-rules' id={data['_id']} value={data['_id']}/>
+        {
+            isChecked
+                ? <SquareCheckBig className='icon absolute-y-center right-6'/>
+                : <Square className='icon absolute-y-center right-6'/>
+        }
     </div>
+   
   );
 }
